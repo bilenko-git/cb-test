@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "https://hotels.cloudbeds.com/login"
+      "url": "http://acessa.loc/auth/login"
     },
     {
       "type": "setElementText",
@@ -13,7 +13,7 @@
         "type": "id",
         "value": "email"
       },
-      "text": "engineering@cloudbeds.com"
+      "text": "selenium@cloudbeds.com"
     },
     {
       "type": "setElementText",
@@ -21,7 +21,7 @@
         "type": "id",
         "value": "password"
       },
-      "text": "cl0udb3ds"
+      "text": "testTime!"
     },
     {
       "type": "clickElement",
@@ -32,7 +32,21 @@
     },
     {
       "type": "verifyTextPresent",
-      "text": "Accounts"
+      "text": "Selenium Test Hostel"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "asettings"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Logout"
+      }
     }
   ],
   "data": {
