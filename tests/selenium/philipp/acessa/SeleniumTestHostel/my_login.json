@@ -51,20 +51,6 @@
     {
       "type": "clickElement",
       "locator": {
-        "type": "css selector",
-        "value": "a[name=\"asettings\"] > span.arrow"
-      }
-    },
-    {
-      "type": "verifyElementPresent",
-      "locator": {
-        "type": "link text",
-        "value": "Logout"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
         "type": "name",
         "value": "asettings"
       }
