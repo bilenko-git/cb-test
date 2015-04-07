@@ -282,6 +282,34 @@
         "type": "css selector",
         "value": "div.span12.legends"
       }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "h3.page-title.fName"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "acalendar"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div[title=\"Eco(1)\"] > div"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div[title=\"Eco(3)\"] > div"
+      }
     }
   ],
   "data": {
