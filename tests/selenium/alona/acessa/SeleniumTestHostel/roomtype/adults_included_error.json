@@ -35,6 +35,10 @@
       "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
     },
     {
+      "type": "waitForPageSource",
+      "source": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
