@@ -1,0 +1,173 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/auth/logout"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "\\undefined"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "body.auth_body"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "css selector",
+        "value": ".page-title"
+      },
+      "text": "Dashboard"
+    },
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "a.pluse > img"
+      }
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "css selector",
+        "value": "li.base.active > a > span"
+      },
+      "text": "New tab"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active .title"
+      },
+      "text": "rrrr"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active [name='room_type_short_title']"
+      },
+      "text": "5"
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active [name='room_type_max_guests']  > option[value=\"11\"]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active [name='room_type_adults_inBasePrice'] > option[value=\"5\"]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active [name='room_type_children_inBasePrice'] > option[value=\"5\"]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active [name='room_type_desc']"
+      },
+      "text": "gfgf"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div.base.active img.myimg"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "click"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "input[type=\"file\"]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='drop_zone_modal']/div[4]/div[2]/a[2]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='drop_zone_modal']//a[.=' Save & Continue']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Saved"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
