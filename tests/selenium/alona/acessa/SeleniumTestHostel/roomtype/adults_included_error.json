@@ -35,8 +35,8 @@
       "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
     },
     {
-      "type": "waitForPageSource",
-      "source": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div"
+      "type": "waitForCurrentUrl",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
     },
     {
       "type": "clickElement",
@@ -69,7 +69,11 @@
       }
     },
     {
-      "type": "verifyTextPresent",
+      "type": "waitForText",
+      "locator": {
+        "type": "id",
+        "value": ""
+      },
       "text": "Persons can not be larger than the maximum occupancy of room"
     },
     {
