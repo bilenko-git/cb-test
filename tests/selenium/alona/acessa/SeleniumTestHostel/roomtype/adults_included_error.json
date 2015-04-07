@@ -1,0 +1,116 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/auth/login"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "asettings"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Room Types"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "room_type_private"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "a.pluse > img"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "room_type_private"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_2 > form > div.row-fluid > div.span12.roomTypePrivate > div.control-group.span6 > div.controls > label.radio.label_radio > #uniform-undefined > span.checked > input[name=\"room_type_private\"]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_8"
+      },
+      "text": "Alona test"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_9"
+      },
+      "text": "AS"
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_2']/form/div[3]/div[1]/div[1]/div/select//option[4]"
+      }
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Save Cloudbeds Support Have Questions? Fill out the form below and a representative will contact you as soon as possible. Selenium Test Hostel 2014 © Cloudbeds Central. All Rights Reserved."
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='layout_container']//button[.='Ok']"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
