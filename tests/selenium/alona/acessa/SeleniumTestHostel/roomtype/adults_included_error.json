@@ -31,45 +31,14 @@
       }
     },
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "name",
-        "value": "asettings"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Room Types"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "name",
-        "value": "room_type_private"
-      }
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "a.pluse > img"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "name",
-        "value": "room_type_private"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#tab_2 > form > div.row-fluid > div.span12.roomTypePrivate > div.control-group.span6 > div.controls > label.radio.label_radio > #uniform-undefined > span.checked > input[name=\"room_type_private\"]"
+        "value": ".pluse > img"
       }
     },
     {
@@ -97,7 +66,7 @@
     },
     {
       "type": "verifyTextPresent",
-      "text": "Save Cloudbeds Support Have Questions? Fill out the form below and a representative will contact you as soon as possible. Selenium Test Hostel 2014 © Cloudbeds Central. All Rights Reserved."
+      "text": "Persons can not be larger than the maximum occupancy of room"
     },
     {
       "type": "clickElement",
