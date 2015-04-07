@@ -71,7 +71,36 @@
       "type": "setElementSelected",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='tab_2']/form/div[3]/div[1]/div[1]/div/select//option[4]"
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[1]/div[2]/div/select/option[5]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[1]/div[1]/div/select/option[2]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[2]/div/div/select/option[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[4]/div/textarea"
+      },
+      "text": "sdlhn i re ihwerhy "
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
       }
     },
     {
@@ -80,14 +109,7 @@
         "type": "id",
         "value": ""
       },
-      "text": "Persons can not be larger than the maximum occupancy of room"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@class='layout_container']//button[.='Ok']"
-      }
+      "text": "Featured Images: Featured Image is required."
     }
   ],
   "data": {
