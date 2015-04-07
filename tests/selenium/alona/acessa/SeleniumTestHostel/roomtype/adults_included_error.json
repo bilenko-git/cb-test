@@ -31,12 +31,18 @@
       }
     },
     {
-      "type": "get",
-      "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#ssettings > a"
+      }
     },
     {
-      "type": "waitForCurrentUrl",
-      "url": "http://wwwdev.ondeficar.com/connect/366#/roomTypes"
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#saccommodations > a"
+      }
     },
     {
       "type": "clickElement",
@@ -48,16 +54,16 @@
     {
       "type": "setElementText",
       "locator": {
-        "type": "id",
-        "value": "label_8"
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[1]/div/div/input"
       },
       "text": "Alona test"
     },
     {
       "type": "setElementText",
       "locator": {
-        "type": "id",
-        "value": "label_9"
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[2]/div/div/input"
       },
       "text": "AS"
     },
