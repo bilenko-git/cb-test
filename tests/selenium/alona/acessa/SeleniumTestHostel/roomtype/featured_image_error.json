@@ -104,12 +104,20 @@
       }
     },
     {
-      "type": "waitForText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": ""
+        "type": "xpath",
+        "value": "//div[@class='layout_container']//button[.='Ok']"
+      }
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": "div.to_upload.error"
       },
-      "text": "Featured Images: Featured Image is required."
+      "attributeName": "class",
+      "value": "to_upload error"
     }
   ],
   "data": {
