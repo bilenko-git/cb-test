@@ -4,12 +4,12 @@
   "formatVersion": 1,
   "scripts": [
     {
-      "where": "github",
+      "where": "local",
       "path": "my_login.json"
     },
     {
-      "where": "github",
-      "path": "newreservation.json"
+      "where": "local",
+      "path": "newreservation1.json"
     }
   ],
   "shareState": false

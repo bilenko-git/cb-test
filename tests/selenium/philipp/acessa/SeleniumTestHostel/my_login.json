@@ -5,25 +5,15 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://hotels.accessa.loc/connect/31"
+      "url": "http://wwwdev.ondeficar.com/auth/logout"
     },
     {
-      "type": "verifyTextPresent",
-      "text": "Login"
-    },
-    {
-      "type": "clickElement",
+      "type": "setElementText",
       "locator": {
         "type": "id",
         "value": "email"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "p"
-      }
+      },
+      "text": "selenium@cloudbeds.com"
     },
     {
       "type": "setElementText",
@@ -31,15 +21,7 @@
         "type": "id",
         "value": "password"
       },
-      "text": "cl0udb3ds"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "email"
-      },
-      "text": "engineering@cloudbeds.com"
+      "text": "testTime!"
     },
     {
       "type": "clickElement",
@@ -47,24 +29,6 @@
         "type": "xpath",
         "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
       }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "name",
-        "value": "asettings"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Logout"
-      }
-    },
-    {
-      "type": "verifyTextPresent",
-      "text": "Login"
     }
   ],
   "data": {
