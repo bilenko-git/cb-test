@@ -65,7 +65,7 @@
         "type": "xpath",
         "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[3]/input"
       },
-      "text": "12"
+      "text": "8"
     },
     {
       "type": "clickElement",
