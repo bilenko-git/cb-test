@@ -1,0 +1,111 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/auth/login"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#ssettings > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#saccommodations > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".pluse > img"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='layout_container']//button[.='Ok']"
+      }
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": "div.to_upload.error"
+      },
+      "attributeName": "class",
+      "value": "to_upload error"
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[1]/div/div/input"
+      },
+      "attributeName": "class",
+      "value": "m-wrap title required span12 error"
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[2]/div/div/input"
+      },
+      "attributeName": "class",
+      "value": "m-wrap title required error"
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[4]/div/textarea"
+      },
+      "attributeName": "class",
+      "value": "m-wrap required inputLim span12 error"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

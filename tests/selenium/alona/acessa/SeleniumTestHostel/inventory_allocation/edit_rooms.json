@@ -47,54 +47,55 @@
     {
       "type": "clickElement",
       "locator": {
+        "type": "link text",
+        "value": "Inventory Allocation"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[2]/input"
+      },
+      "text": "10"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[3]/input"
+      },
+      "text": "8"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
         "type": "css selector",
-        "value": ".pluse > img"
+        "value": "tr.invRoom > td.text-middle > a.edit"
       }
     },
     {
       "type": "setElementText",
       "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[1]/div/div/input"
+        "type": "name",
+        "value": "invRoom_914[0]"
       },
-      "text": "Alona test"
+      "text": "A"
     },
     {
       "type": "setElementText",
       "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[1]/div[2]/div/div/input"
+        "type": "name",
+        "value": "invRoom_914[1]"
       },
-      "text": "AS"
+      "text": "B"
     },
     {
-      "type": "setElementSelected",
+      "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[1]/div[2]/div/select/option[5]"
+        "value": "//tr[@class='invRoom_edit']//a[.='Done']"
       }
-    },
-    {
-      "type": "setElementSelected",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[1]/div[1]/div/select/option[2]"
-      }
-    },
-    {
-      "type": "setElementSelected",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[3]/div[2]/div/div/select/option[2]"
-      }
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/form/div[4]/div/textarea"
-      },
-      "text": "sdlhn i re ihwerhy "
     },
     {
       "type": "clickElement",
@@ -104,20 +105,27 @@
       }
     },
     {
-      "type": "clickElement",
+      "type": "waitForText",
       "locator": {
         "type": "xpath",
-        "value": "//div[@class='layout_container']//button[.='Ok']"
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[3]/div[1]/div/div"
+      },
+      "text": "Saved"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "tr.invRoom > td.text-middle > a.edit"
       }
     },
     {
-      "type": "assertElementAttribute",
+      "type": "verifyText",
       "locator": {
-        "type": "css selector",
-        "value": "div.to_upload.error"
+        "type": "name",
+        "value": "invRoom_914[1]"
       },
-      "attributeName": "class",
-      "value": "to_upload error"
+      "text": "B"
     }
   ],
   "data": {
