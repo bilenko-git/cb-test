@@ -54,16 +54,8 @@
     {
       "type": "setElementText",
       "locator": {
-        "type": "name",
-        "value": "invRoom[914]"
-      },
-      "text": "0"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "name",
-        "value": "invRoom[914]"
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[2]/input"
       },
       "text": "0"
     },
@@ -77,10 +69,18 @@
     {
       "type": "setElementText",
       "locator": {
-        "type": "name",
-        "value": "invMaxRooms[914]"
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[3]/input"
       },
-      "text": "0"
+      "text": "02"
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[3]/span"
+      },
+      "text": "Max Number of Rooms cannot exceed total inventory"
     }
   ],
   "data": {
