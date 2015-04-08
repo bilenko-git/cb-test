@@ -127,6 +127,15 @@
         "type": "xpath",
         "value": "//div[@class='footer-bottom-wrapper']//button[.='Ok']"
       }
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "hotel_name"
+      },
+      "attributeName": "class",
+      "value": "m-wrap span12 account_profile required error"
     }
   ],
   "data": {
