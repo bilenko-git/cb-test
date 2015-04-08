@@ -1,0 +1,104 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/auth/logout"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "\\undefined"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/dashboard"
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "css selector",
+        "value": ".page-title"
+      },
+      "text": "Dashboard"
+    },
+    {
+      "type": "get",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/inventory"
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "css selector",
+        "value": ".page-title"
+      },
+      "text": "Inventory Allocation"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": ".invRoom .sum_rooms"
+      },
+      "text": "1000"
+    },
+    {
+      "type": "verifyElementStyle",
+      "locator": {
+        "type": "css selector",
+        "value": ".validation_error"
+      },
+      "propertyName": "display",
+      "value": "none"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']/a[1]/i"
+      }
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "text": "Saved"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
