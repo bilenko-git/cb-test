@@ -1,0 +1,24 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/login.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/allocation_success.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/edit_rooms.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/max_number_danger.json"
+    }
+  ],
+  "shareState": false
+}
