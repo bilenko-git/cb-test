@@ -5,14 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://acessa.loc/auth/login"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "div.form-actions"
-      }
+      "url": "http://wwwdev.ondeficar.com/auth/login"
     },
     {
       "type": "setElementText",
@@ -20,15 +13,15 @@
         "type": "id",
         "value": "email"
       },
-      "text": "ad"
+      "text": "selenium@cloudbeds.com"
     },
     {
-      "type": "setElementText",
+      "type": "sendKeysToElement",
       "locator": {
         "type": "id",
-        "value": "email"
+        "value": "password"
       },
-      "text": "admin@test.test"
+      "text": "testTime!"
     },
     {
       "type": "clickElement",
@@ -36,50 +29,6 @@
         "type": "xpath",
         "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
       }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "pre"
-      }
-    },
-    {
-      "type": "get",
-      "url": "http://acessa.loc/connect/1#/"
-    },
-    {
-      "type": "verifyTextPresent",
-      "text": ""
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "User Profile"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@id='top_menu']//a[.='Hotel Profile']"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "id",
-        "value": "hotel_about"
-      }
-    },
-    {
-      "type": "verifyElementValue",
-      "locator": {
-        "type": "id",
-        "value": "label_5"
-      },
-      "value": "77"
     }
   ],
   "data": {
