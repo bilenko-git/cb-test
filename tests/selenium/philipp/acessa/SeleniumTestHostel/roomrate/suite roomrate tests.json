@@ -1,0 +1,20 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "local",
+      "path": "my_login.json"
+    },
+    {
+      "where": "local",
+      "path": "Do you charge a clean up fee.json"
+    },
+    {
+      "where": "local",
+      "path": "Do you charge for additional adults and or children.json"
+    }
+  ],
+  "shareState": false
+}

@@ -1,0 +1,75 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "test"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "name",
+        "value": "charge_additional?tab_1"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_7"
+      },
+      "text": "$ 10"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_8"
+      },
+      "text": "$ 99"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_10"
+      },
+      "text": "$ 10"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "label_11"
+      },
+      "text": "$ 98"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']/a[1]/i"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
