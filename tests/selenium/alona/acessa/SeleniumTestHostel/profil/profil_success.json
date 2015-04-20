@@ -1,91 +1,16 @@
 {
-  "type": "script",
+  "type": "suite",
   "seleniumVersion": "2",
-  "formatVersion": 2,
-  "steps": [
+  "formatVersion": 1,
+  "scripts": [
     {
-      "type": "get",
-      "url": "http://wwwdev.ondeficar.com/auth/login"
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/login.json"
     },
     {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "email"
-      },
-      "text": "selenium@cloudbeds.com"
-    },
-    {
-      "type": "sendKeysToElement",
-      "locator": {
-        "type": "id",
-        "value": "password"
-      },
-      "text": "testTime!"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#ssettings > a"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#sprofile1 > a"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Hotel Profile"
-      }
-    },
-    {
-      "type": "setElementSelected",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@id='tab_profile_1']/form/div[1]/div/select//option[3]"
-      }
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "hotel_about"
-      },
-      "text": "This is a photo gallery for your property that is visible on your booking page"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@class='pull-line-right']//a[.=' Save']"
-      }
-    },
-    {
-      "type": "waitForText",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[3]/div[1]/div/div"
-      },
-      "text": "Saved"
+      "where": "github",
+      "path": "profil_success.json"
     }
   ],
-  "data": {
-    "configs": {},
-    "source": "none"
-  },
-  "inputs": [],
-  "timeoutSeconds": 60
+  "shareState": false
 }

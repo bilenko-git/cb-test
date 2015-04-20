@@ -1,65 +1,20 @@
 {
-  "type": "script",
+  "type": "suite",
   "seleniumVersion": "2",
-  "formatVersion": 2,
-  "steps": [
+  "formatVersion": 1,
+  "scripts": [
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#ssettings > a"
-      }
+      "where": "github",
+      "path": "login.json"
     },
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#saccommodations > a"
-      }
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/payment_options/credit_card.json"
     },
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Inventory Allocation"
-      }
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[2]/input"
-      },
-      "text": "10"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/form/div[6]/table/tbody/tr[3]/td[3]/input"
-      },
-      "text": "8"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@class='pull-line-right']//a[.=' Save']"
-      }
-    },
-    {
-      "type": "waitForText",
-      "locator": {
-        "type": "xpath",
-        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[3]/div[1]/div/div"
-      },
-      "text": "Saved"
+      "where": "github",
+      "path": "allocation_success.json"
     }
   ],
-  "data": {
-    "configs": {},
-    "source": "none"
-  },
-  "inputs": [],
-  "timeoutSeconds": 60
+  "shareState": false
 }
