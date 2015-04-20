@@ -1,0 +1,188 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#ssettings > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#sprofile1 > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Food & Beverage"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "name",
+        "value": "has_restaurant"
+      }
+    },
+    {
+      "type": "assertElementStyle",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]"
+      },
+      "propertyName": "display",
+      "value": "block"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/div/div/form/div[1]/div/input"
+      },
+      "text": "Potatoes Restaurante"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/div/div/form/div[2]/div/textarea"
+      },
+      "text": "exemplo"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "restaurant_monday_open"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//ul[@class='ui-timepicker-list']//li[.='01:00 AM']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "restaurant_monday_close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[7]/ul/li[5]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[5]/div/div/div[1]/div[2]/div[1]/div/div[4]/fieldset/label/div/span/input"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[5]/div/div/div[2]/div[2]/div[1]/div/div[4]/fieldset/label/div/span/input"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[5]/div/div/div[2]/div[1]/div[1]/div/div[4]/fieldset/label/div/span/input"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[5]/div/div/div[3]/div/div[1]/div/div[4]/fieldset/label/div/span/input"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[5]/div/div/div[1]/div[3]/div[1]/div/div[4]/fieldset/label/div/span/input"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "restaurant_saturday_open"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[8]/ul/li[6]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "restaurant_saturday_close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[9]/ul/li[10]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[21]/div[2]"
+      },
+      "text": "Featured Images: Featured Image is required."
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']//button[.='Ok']"
+      }
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/div/div/form/div[6]/div[1]/div/div/div[2]/div[1]"
+      },
+      "attributeName": "class",
+      "value": "to_upload error"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
