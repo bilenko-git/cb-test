@@ -14,6 +14,10 @@
     {
       "where": "github",
       "path": "property_address_error.json"
+    },
+    {
+      "where": "github",
+      "path": "property_address_length_error.json"
     }
   ],
   "shareState": false
