@@ -1,0 +1,40 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/inventory_allocation/login.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/profil_success.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_address_error.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_address_length_error.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_name_error.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_phone_error.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_success.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/profil/property_zip_error.json"
+    }
+  ],
+  "shareState": false
+}
