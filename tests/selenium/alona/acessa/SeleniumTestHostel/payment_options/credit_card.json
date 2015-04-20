@@ -1,0 +1,447 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "asettings"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[1]/div/div[1]/div/div/div/ul/li[8]/ul/li[1]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='top_menu']//a[.='Payment Options']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_payment_1']//div[.=' Add Credit Card']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#uniform-undefined > span"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "name",
+        "value": "pay_al_location"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#uniform-undefined > span.checked"
+      }
+    },
+    {
+      "type": "setElementNotSelected",
+      "locator": {
+        "type": "name",
+        "value": "pay_al_location"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='myModalAdd']/div[1]/div/div[2]/div[1]/div[2]/div/div/label[2]/span/div/span"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "name",
+        "value": "pay_online"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Save"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#myModalDelete > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#print_reservations > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#courtesy-hold-modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#block-dates-modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#confirm-send-email-modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#void_transaction > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#send-reservation-confirmation-modal > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modify_fields_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#import_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#house_account_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#void_ha_transaction > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#paymentOptions > #myModalAdd > div.modal-dialog > div.modal-content.modal_paypal_options > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#paymentOptions > #myModalDelete > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div.registration_cards > #modify_fields_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#product_category_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#product_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div.modal-header.alert-danger > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_add_primary_sources > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_edit_primary_sources > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#deactivate_channel > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#deactivate_channel_ota > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_add_new_ota > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_edit_ota > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_add_new_party_source > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#delete_primary_sources > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#delete_third_party_sources > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#modal_edit_party_source > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#report_email_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[2]/div[6]/div[1]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[2]/div[7]/div[1]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#hotel_active_info > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#drop_zone_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#payment_info_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#send-email-modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[2]/div[19]/div[1]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#void-modal > div.modal-dialog > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[2]/div[21]/div[1]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "button.close.white"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "div.modal-dialog.modal-sm > div.modal-content > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[2]/div[24]/div[1]/button"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#create-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#no-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#delete-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#add-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#open-cash-drawer-prepare > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#add-to-open-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#open-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#close-cash-drawer > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#add-transaction-modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#access_open_drawers_email_modal > div.modal-header > button.close"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='footer-bottom-wrapper']/div[2]/div[2]/div/div[2]/div[3]/div[1]"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
