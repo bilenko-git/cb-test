@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://wwwdev.ondeficar.com/auth/logout"
+      "url": "http://wwwdev.ondeficar.com/auth/login"
     },
     {
       "type": "setElementText",

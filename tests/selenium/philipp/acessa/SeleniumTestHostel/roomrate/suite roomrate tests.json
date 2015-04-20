@@ -14,6 +14,10 @@
     {
       "where": "local",
       "path": "Do you charge for additional adults and or children.json"
+    },
+    {
+      "where": "local",
+      "path": "add interval.json"
     }
   ],
   "shareState": false

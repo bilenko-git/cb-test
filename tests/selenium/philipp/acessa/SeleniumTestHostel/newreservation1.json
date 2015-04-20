@@ -36,7 +36,7 @@
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "9"
+        "value": "20"
       }
     },
     {
@@ -50,7 +50,7 @@
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "10"
+        "value": "21"
       }
     },
     {
