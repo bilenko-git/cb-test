@@ -22,6 +22,8 @@
             $this->webDriver->get($this->url);
             $this->closeModals();
             $this->assertContains('Dashboard', $this->webDriver->findElement(WebDriverBy::cssSelector('.page-title'))->getText());
+            $js_BET = $this->getJSObject('BET');
+            print_r($js_BET);
         }
     }
 ?>

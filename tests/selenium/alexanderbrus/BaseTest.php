@@ -25,7 +25,6 @@
         protected $password = 'cl0udb3ds';
 
         public function loginToSite(callable $callback = null){
-            trigger_error('eee');
             $this->webDriver->get($this->login_url);//load url
 
             /*login to site*/
@@ -48,6 +47,18 @@
             $this->webDriver->takeScreenshot( $dir . $filename );
         }
 
+        public function getJSObject($name = ''){
+            if($name){
+                $this->webDriver->wait(30, 2000)->until(
+                    function ($driver) use ($name) {
+                        return !$driver->executeScript('return '.$name);
+                    }
+                );
+            }
+
+            return false;
+        }
+
         public function _exception_handler(Exception $e){
             $this->takeScreenShoot($e->getMessage() . '_' . time() . '.png');
         }
@@ -56,6 +67,7 @@
         }
         public function __destruct(){
             $this->takeScreenShoot('finish_' . time() . '.png');
+            $this->webDriver->close();
         }
     }
 ?>
