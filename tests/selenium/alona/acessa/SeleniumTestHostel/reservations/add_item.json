@@ -1,0 +1,57 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[4]/div/div/div[1]/a"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='reservation-summary']//select[.='Uncategorizedfoodall']//option[2]"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='reservation-summary']//select[.='Choose a productcoca-colalime']//option[2]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "quantity"
+      },
+      "text": "2"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "note"
+      },
+      "text": "cold please"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[4]/div/div/div[2]/div[2]/table/tbody/tr[3]/td/div[2]/div[2]/div/div[1]/a"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
