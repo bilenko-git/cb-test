@@ -18,6 +18,10 @@
     {
       "where": "local",
       "path": "add interval.json"
+    },
+    {
+      "where": "local",
+      "path": "add_interval_date_error.json"
     }
   ],
   "shareState": false
