@@ -1,0 +1,28 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/login.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/reservations/direct_success.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/reservations/add_adjastment.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/reservations/add_payment.json"
+    },
+    {
+      "where": "github",
+      "path": "odyvawko@gmail.com/CloudBeds/cb-test/master/tests/selenium/alona/acessa/SeleniumTestHostel/reservations/add_item.json"
+    }
+  ],
+  "shareState": false
+}
