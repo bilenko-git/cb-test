@@ -1,0 +1,71 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[2]/div/div/div[1]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "adjustEl"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[2]/div/div/div[2]/div[2]/table/tbody/tr[2]/td[2]/div/div/div/div/div/table/tbody/tr/td[1]/div/div[1]/ul/li/ul/li/a/i[1]"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "adjustAmount"
+      },
+      "text": "$ 20"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "adjustNotes"
+      },
+      "text": "adjust"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[2]/div/div/div[2]/div[2]/table/tbody/tr[3]/td/div[2]/div[2]/div/div[1]/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[1]/div/div/div[8]/div[2]/div[2]/div/div/form/div[2]/div/div/table/tbody/tr[2]/td[6]/a/i"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "/html/body/div[3]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[1]/div/div[2]/div/a[1]"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
