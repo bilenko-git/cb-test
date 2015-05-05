@@ -1,0 +1,82 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "waitForCurrentUrl",
+      "url": "http://wwwdev.ondeficar.com/connect/366#/dashboard"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "arates"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Best Available Rate"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "layout"
+      },
+      "attributeName": "data-current_view",
+      "value": "roomRates"
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "radio-33"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "charge_clean_up_room"
+      },
+      "text": "$ 40"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "waitForElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "span.checked input"
+      },
+      "value": "Y"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

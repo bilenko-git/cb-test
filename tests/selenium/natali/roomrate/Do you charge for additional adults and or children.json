@@ -1,0 +1,132 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='layout']//a[.='test']"
+      }
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "css selector",
+        "value": "input[name='charge_additional?tab_1'][value='Y']"
+      }
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": ".charge_additional"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[2]/div[2]/div[1]/div[2]/div/input"
+      },
+      "text": "$ 10"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[2]/div[2]/div[2]/div[3]/div/input"
+      },
+      "text": "$ 99"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[2]/div[2]/div[2]/div[2]/div/input"
+      },
+      "text": "$ 10"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[2]/div[2]/div[1]/div[3]/div/input"
+      },
+      "text": "$ 98"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "layout"
+      },
+      "attributeName": "data-current_view",
+      "value": "roomRates"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='layout']//a[.='test']"
+      }
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "span.checked input[name='charge_additional?tab_1'][value='Y']"
+      },
+      "value": "Y"
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "css selector",
+        "value": "input[name='charge_additional?tab_1'][value='N']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

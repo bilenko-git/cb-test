@@ -1,0 +1,36 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "local",
+      "path": "my_login.json"
+    },
+    {
+      "where": "local",
+      "path": "Do you charge a clean up fee.json"
+    },
+    {
+      "where": "local",
+      "path": "Do you charge for additional adults and or children.json"
+    },
+    {
+      "where": "local",
+      "path": "add interval.json"
+    },
+    {
+      "where": "local",
+      "path": "add_interval_date_error.json"
+    },
+    {
+      "where": "local",
+      "path": "set_endDate_for_start_date.json"
+    },
+    {
+      "where": "local",
+      "path": "add interval_with_1_day.json"
+    }
+  ],
+  "shareState": false
+}

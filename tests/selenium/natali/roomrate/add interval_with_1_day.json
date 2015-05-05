@@ -1,0 +1,115 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "test"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[1]/div/div/div/a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='layout']//button[.='Submit']"
+      }
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Confirmation"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='layout']//button[.='Yes']"
+      }
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Name Start Date End Date"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[1]/span[1]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_1']/form/div[6]/div/div[2]/table/tbody/tr[6]/td[1]/span[1]"
+      }
+    },
+    {
+      "type": "storeText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 span.interval_text"
+      },
+      "variable": "first_interval_name_0"
+    },
+    {
+      "type": "storeText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_1 span.interval_text"
+      },
+      "variable": "first_interval_name_1"
+    },
+    {
+      "type": "storeEval",
+      "script": "return document.querySelectorAll('body div').length",
+      "variable": "num_of_div_element"
+    },
+    {
+      "type": "verifyEval",
+      "script": "return ${num_of_div_elements}",
+      "value": "7"
+    },
+    {
+      "type": "verifyEval",
+      "script": "${result}",
+      "value": ""
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_1 .add_interval"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_1 .new_interval_form:not(.hide)"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_1  .cancel_add_interval"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
