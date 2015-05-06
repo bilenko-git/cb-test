@@ -1,0 +1,546 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://saucelabs.com/test/guinea-pig/"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      }
+    },
+    {
+      "type": "storeTitle",
+      "variable": "title"
+    },
+    {
+      "type": "waitForTitle",
+      "title": "${title}"
+    },
+    {
+      "type": "verifyTitle",
+      "title": "${title}"
+    },
+    {
+      "type": "verifyTitle",
+      "negated": true,
+      "title": "asdf"
+    },
+    {
+      "type": "assertTitle",
+      "title": "${title}"
+    },
+    {
+      "type": "assertTitle",
+      "negated": true,
+      "title": "asdf"
+    },
+    {
+      "type": "storeCurrentUrl",
+      "variable": "url"
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "url": "${url}"
+    },
+    {
+      "type": "verifyCurrentUrl",
+      "url": "${url}"
+    },
+    {
+      "type": "verifyCurrentUrl",
+      "negated": true,
+      "url": "http://google.com"
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "negated": true,
+      "url": "http://google.com"
+    },
+    {
+      "type": "assertCurrentUrl",
+      "url": "${url}"
+    },
+    {
+      "type": "assertCurrentUrl",
+      "negated": true,
+      "url": "http://google.com"
+    },
+    {
+      "type": "storeText",
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "variable": "text"
+    },
+    {
+      "type": "waitForText",
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "${text}"
+    },
+    {
+      "type": "verifyText",
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "${text}"
+    },
+    {
+      "type": "waitForText",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "not ${text}"
+    },
+    {
+      "type": "verifyText",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "not ${text}"
+    },
+    {
+      "type": "assertText",
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "${text}"
+    },
+    {
+      "type": "assertText",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "i_am_an_id"
+      },
+      "text": "not ${text}"
+    },
+    {
+      "type": "storeTextPresent",
+      "text": "I am another div",
+      "variable": "text_is_present"
+    },
+    {
+      "type": "store",
+      "text": "I am another div",
+      "variable": "text_present"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "${text_present}"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "${text_present}"
+    },
+    {
+      "type": "waitForTextPresent",
+      "negated": true,
+      "text": "not ${text_present}"
+    },
+    {
+      "type": "verifyTextPresent",
+      "negated": true,
+      "text": "not ${text_present}"
+    },
+    {
+      "type": "assertTextPresent",
+      "text": "${text_present}"
+    },
+    {
+      "type": "assertTextPresent",
+      "negated": true,
+      "text": "not ${text_present}"
+    },
+    {
+      "type": "storeBodyText",
+      "variable": "body_text"
+    },
+    {
+      "type": "waitForBodyText",
+      "text": "${body_text}"
+    },
+    {
+      "type": "verifyBodyText",
+      "text": "${body_text}"
+    },
+    {
+      "type": "waitForBodyText",
+      "negated": true,
+      "text": "not ${body_text}"
+    },
+    {
+      "type": "verifyBodyText",
+      "negated": true,
+      "text": "not ${body_text}"
+    },
+    {
+      "type": "assertBodyText",
+      "text": "${body_text}"
+    },
+    {
+      "type": "assertBodyText",
+      "negated": true,
+      "text": "not ${body_text}"
+    },
+    {
+      "type": "storePageSource",
+      "variable": "page_source"
+    },
+    {
+      "type": "waitForPageSource",
+      "source": "${page_source}"
+    },
+    {
+      "type": "verifyPageSource",
+      "source": "${page_source}"
+    },
+    {
+      "type": "waitForPageSource",
+      "negated": true,
+      "source": "<!-- --> ${page_source}"
+    },
+    {
+      "type": "verifyPageSource",
+      "negated": true,
+      "source": "<!-- --> ${page_source}"
+    },
+    {
+      "type": "assertPageSource",
+      "source": "${page_source}"
+    },
+    {
+      "type": "assertPageSource",
+      "negated": true,
+      "source": "<!-- --> ${page_source}"
+    },
+    {
+      "type": "addCookie",
+      "name": "test_cookie",
+      "value": "this-is-a-cookie",
+      "options": "path=/,max_age=100000000"
+    },
+    {
+      "type": "storeCookiePresent",
+      "name": "test_cookie",
+      "variable": "cookie_is_present"
+    },
+    {
+      "type": "storeCookieByName",
+      "name": "test_cookie",
+      "variable": "cookie"
+    },
+    {
+      "type": "print",
+      "text": "${cookie};"
+    },
+    {
+      "type": "waitForCookiePresent",
+      "name": "test_cookie"
+    },
+    {
+      "type": "verifyCookiePresent",
+      "name": "test_cookie"
+    },
+    {
+      "type": "assertCookiePresent",
+      "name": "test_cookie"
+    },
+    {
+      "type": "waitForCookieByName",
+      "name": "test_cookie",
+      "value": "${cookie}"
+    },
+    {
+      "type": "verifyCookieByName",
+      "name": "test_cookie",
+      "value": "${cookie}"
+    },
+    {
+      "type": "waitForCookieByName",
+      "negated": true,
+      "name": "test_cookie",
+      "value": "not ${cookie}"
+    },
+    {
+      "type": "verifyCookieByName",
+      "negated": true,
+      "name": "test_cookie",
+      "value": "not ${cookie}"
+    },
+    {
+      "type": "assertCookieByName",
+      "name": "test_cookie",
+      "value": "${cookie}"
+    },
+    {
+      "type": "assertCookieByName",
+      "negated": true,
+      "name": "test_cookie",
+      "value": "not ${cookie}"
+    },
+    {
+      "type": "deleteCookie",
+      "name": "test_cookie"
+    },
+    {
+      "type": "waitForCookiePresent",
+      "negated": true,
+      "name": "test_cookie"
+    },
+    {
+      "type": "verifyCookiePresent",
+      "negated": true,
+      "name": "test_cookie"
+    },
+    {
+      "type": "assertCookiePresent",
+      "negated": true,
+      "name": "test_cookie"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "goBack"
+    },
+    {
+      "type": "goForward"
+    },
+    {
+      "type": "goBack"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "comments"
+    },
+    {
+      "type": "print",
+      "text": "this is some debug text"
+    },
+    {
+      "type": "storeElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      },
+      "variable": "element_is_selected"
+    },
+    {
+      "type": "setElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "waitForElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "verifyElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "assertElementSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "setElementNotSelected",
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "verifyElementSelected",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "assertElementSelected",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "unchecked_checkbox"
+      }
+    },
+    {
+      "type": "storeElementAttribute",
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "variable": "link_href"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "${link_href}"
+    },
+    {
+      "type": "verifyElementAttribute",
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "${link_href}"
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "${link_href}"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "text": "w00t"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "negated": true,
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "not ${link_href}"
+    },
+    {
+      "type": "verifyElementAttribute",
+      "negated": true,
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "not ${link_href}"
+    },
+    {
+      "type": "assertElementAttribute",
+      "negated": true,
+      "locator": {
+        "type": "link text",
+        "value": "i am a link"
+      },
+      "attributeName": "href",
+      "value": "not ${link_href}"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "variable": "comments"
+    },
+    {
+      "type": "waitForElementValue",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "w00t"
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "w00t"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "w00t"
+    },
+    {
+      "type": "waitForElementValue",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "not w00t"
+    },
+    {
+      "type": "verifyElementValue",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "not w00t"
+    },
+    {
+      "type": "assertElementValue",
+      "negated": true,
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      },
+      "value": "not w00t"
+    },
+    {
+      "type": "submitElement",
+      "locator": {
+        "type": "id",
+        "value": "comments"
+      }
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "w00t"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
