@@ -1,0 +1,49 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "store",
+      "text": "http://wwwdev3.ondeficar.com",
+      "variable": "site_name"
+    },
+    {
+      "type": "print",
+      "text": "${site_name}"
+    },
+    {
+      "type": "store",
+      "text": "selenium@cloudbeds.com",
+      "variable": "user_login"
+    },
+    {
+      "type": "print",
+      "text": "${user_login}"
+    },
+    {
+      "type": "store",
+      "text": "testTime!",
+      "variable": "user_pass"
+    },
+    {
+      "type": "print",
+      "text": "${user_pass}"
+    },
+    {
+      "type": "store",
+      "text": "roomRates",
+      "variable": "hash"
+    },
+    {
+      "type": "print",
+      "text": "${hash}"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

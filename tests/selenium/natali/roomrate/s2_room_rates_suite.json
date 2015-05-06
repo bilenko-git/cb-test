@@ -1,0 +1,48 @@
+{
+  "type": "suite",
+  "seleniumVersion": "2",
+  "formatVersion": 1,
+  "scripts": [
+    {
+      "where": "local",
+      "path": "s2_set_variables.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_login.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_open_room_rates.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_add_interval.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_add_interval_date_error.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_set_endDate_for_start_date.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_add_interval_with_1_day.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_edit_interval_rename.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_edit_interval_change_min_max.json"
+    },
+    {
+      "where": "local",
+      "path": "s2_delete_confirm.json"
+    }
+  ],
+  "shareState": false
+}

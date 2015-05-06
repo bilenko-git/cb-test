@@ -4,8 +4,23 @@
   "formatVersion": 2,
   "steps": [
     {
+      "type": "store",
+      "text": "http://wwwdev3.ondeficar.com",
+      "variable": "site_name"
+    },
+    {
+      "type": "store",
+      "text": "selenium@cloudbeds.com",
+      "variable": "user_login"
+    },
+    {
+      "type": "store",
+      "text": "testTime!",
+      "variable": "user_pass"
+    },
+    {
       "type": "get",
-      "url": "http://wwwdev.ondeficar.com/auth/login"
+      "url": "${site_name}/auth/login"
     },
     {
       "type": "setElementText",
@@ -13,7 +28,7 @@
         "type": "id",
         "value": "email"
       },
-      "text": "selenium@cloudbeds.com"
+      "text": "${user_login}"
     },
     {
       "type": "setElementText",
@@ -21,7 +36,7 @@
         "type": "id",
         "value": "password"
       },
-      "text": "testTime!"
+      "text": "${user_pass}"
     },
     {
       "type": "clickElement",
@@ -29,6 +44,10 @@
         "type": "xpath",
         "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
       }
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "url": "${site_name}/connect/366#/dashboard"
     }
   ],
   "data": {

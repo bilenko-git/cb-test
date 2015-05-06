@@ -1,0 +1,48 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "a[href=\"#tab_0\"]"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[2]/i"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "confirm_delete"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#confirm_delete > div.modal-footer > a.btn.btn_cancel"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#confirm_delete.hide"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

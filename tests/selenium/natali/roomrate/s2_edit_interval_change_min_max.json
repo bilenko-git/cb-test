@@ -1,0 +1,252 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "li.base.active > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[1]/i"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form:not(.hide)"
+      }
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "variable": "min_los"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "variable": "max_los"
+    },
+    {
+      "type": "store",
+      "text": "-1",
+      "variable": "min_los_new"
+    },
+    {
+      "type": "store",
+      "text": "-1",
+      "variable": "max_los_new"
+    },
+    {
+      "type": "print",
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "print",
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "setElementText",
+      "step_name": "10.",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "value": "1"
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "value": "1"
+    },
+    {
+      "type": "store",
+      "text": "300",
+      "variable": "max_los_new"
+    },
+    {
+      "type": "store",
+      "text": "20",
+      "variable": "min_los_new"
+    },
+    {
+      "type": "setElementText",
+      "step_name": "10.",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "verifyText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty)  td.interval_min_los"
+      },
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "verifyText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty)  td.interval_max_los"
+      },
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "print",
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "print",
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "verifyText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty)  td.interval_min_los"
+      },
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "verifyText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty)  td.interval_max_los"
+      },
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[1]/i"
+      }
+    },
+    {
+      "type": "print",
+      "text": "${min_los}"
+    },
+    {
+      "type": "print",
+      "text": "${max_los}"
+    },
+    {
+      "type": "setElementText",
+      "step_name": "10.",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "text": "${min_los}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "text": "${max_los}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

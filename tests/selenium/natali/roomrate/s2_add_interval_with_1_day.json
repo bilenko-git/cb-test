@@ -6,15 +6,15 @@
     {
       "type": "clickElement",
       "locator": {
-        "type": "link text",
-        "value": "test"
+        "type": "css selector",
+        "value": "li.base.active > a"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='tab_1']/form/div[1]/div/div/div/a"
+        "value": "//div[@id='tab_0']/form/div[1]/div/div/div/a"
       }
     },
     {
@@ -43,14 +43,14 @@
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='tab_1']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[1]/span[1]"
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[1]/span[1]"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='tab_1']/form/div[6]/div/div[2]/table/tbody/tr[6]/td[1]/span[1]"
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[6]/td[1]/span[1]"
       }
     },
     {
@@ -85,24 +85,10 @@
       "value": ""
     },
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#tab_1 .add_interval"
-      }
-    },
-    {
       "type": "verifyElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_1 .new_interval_form:not(.hide)"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#tab_1  .cancel_add_interval"
       }
     }
   ],

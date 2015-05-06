@@ -1,0 +1,112 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "step_name": "1.",
+      "locator": {
+        "type": "css selector",
+        "value": "li.base.active > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .btn.add_interval"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form:not(.hide)"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "error_modal"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#error_modal > div.modal-footer > .btn"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form .hasDatepicker.error[name='start_date']"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form .hasDatepicker.error[name='end_date']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .cancel_add_interval"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form.hide"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .btn.add_interval"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form .hasDatepicker[name='start_date']:not(.error)"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form .hasDatepicker[name='end_date']:not(.error)"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .cancel_add_interval"
+      }
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

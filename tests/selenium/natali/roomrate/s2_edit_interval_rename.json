@@ -1,0 +1,138 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "li.base.active > a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[1]/i"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form:not(.hide)"
+      }
+    },
+    {
+      "type": "store",
+      "text": "Selenium Interval",
+      "variable": "new_interval_name"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      },
+      "variable": "old_interval_name"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      },
+      "text": "${new_interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "${new_interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "print",
+      "text": "${new_interval_name}"
+    },
+    {
+      "type": "print",
+      "text": "${old_interval_name}"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "${new_interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[1]/i"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      },
+      "text": "${old_interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}

@@ -5,52 +5,60 @@
   "steps": [
     {
       "type": "clickElement",
-      "step_name": "1.",
       "locator": {
-        "type": "xpath",
-        "value": "//div[@id='layout']//a[.='test']"
+        "type": "css selector",
+        "value": "a[href=\"#tab_0\"]"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#tab_1 .add_interval"
+        "value": "#tab_0 .add_interval"
       }
     },
     {
       "type": "verifyElementPresent",
       "locator": {
         "type": "css selector",
-        "value": "#tab_1 .new_interval_form:not(.hide)"
+        "value": "#tab_0 .new_interval_form:not(.hide)"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#tab_1  .save_add_interval"
+        "value": ".new_interval_form i.icon-calendar"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": ".modal.validation_error .btn_ok"
+        "value": "td.ui-datepicker-days-cell-over.ui-datepicker-today a"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "storeElementValue",
       "locator": {
-        "type": "css selector",
-        "value": "#tab_1 .new_interval_form .hasDatepicker.error[name='start_date']"
-      }
+        "type": "name",
+        "value": "start_date"
+      },
+      "variable": "start_date"
     },
     {
-      "type": "verifyElementPresent",
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "name",
+        "value": "end_date"
+      },
+      "value": "${start_date}"
+    },
+    {
+      "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#tab_1 .new_interval_form .hasDatepicker.error[name='end_date']"
+        "value": "a.btn.cancel_add_interval"
       }
     }
   ],
