@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
+<title>Create Event</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Create Event</td></tr>
+</thead><tbody>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(1)').data('date')</td>
+	<td>startDate</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(4)').data('date')</td>
+	<td>endDate</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers:eq(2)').data('room_id')</td>
+	<td>roomId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${startDate}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${endDate}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.new_event .cancel-popover</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

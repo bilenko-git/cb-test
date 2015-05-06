@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
+<title>Common Features</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Common Features</td></tr>
+</thead><tbody>
+<!--Date changing-->
+<tr>
+	<td>click</td>
+	<td>css=#layout .calendar-head .calendar-nav .prev</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .calendar-head .calendar-nav .next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .calendar-head .calendar-nav .next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #current-calendar-date</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//*[@id=&quot;layout&quot;]//*[@id=&quot;current-calendar-date&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout #calendar-datepicker table.ui-datepicker-calendar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>xpath=//*[@id=&quot;layout&quot;]//*[@id=&quot;calendar-datepicker&quot;]//table[@class=&quot;ui-datepicker-calendar&quot;]//tr[4]//td[2]</td>
+	<td>newDate</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//*[@id=&quot;layout&quot;]//*[@id=&quot;calendar-datepicker&quot;]//table[@class=&quot;ui-datepicker-calendar&quot;]//tr[4]//td[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(3) .day_name').text().split(' ').pop()</td>
+	<td>${newDate}</td>
+</tr>
+<!--Assignments panel-->
+<tr>
+	<td>click</td>
+	<td>css=#layout #assignments_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .assignments-wrapper .assignments_close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #assignments_btn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='assignments-datepicker']/button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='calendar_container']/div/div[2]/div/div[2]/div/div/table/thead/tr/th/button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=fbMainContainer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=fbCloseButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=11</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
