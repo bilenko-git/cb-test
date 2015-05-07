@@ -90,7 +90,7 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
@@ -105,7 +105,7 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
 	<td>0</td>
 </tr>
 <tr>
@@ -120,35 +120,94 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=$('#layout .assignments-wrapper:visible').length</td>
+	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1)').hasClass('today')</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1) .day_name').text().split(' ').pop() == window.$('#layout .assignments-wrapper #assignments-datepicker button span').text().split(',').shift().split(' ').pop()</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1) .day_name').text().split(' ').shift() == window.$('#layout .assignments-wrapper #assignments-datepicker button span').text().split(',').shift().split(' ').shift()</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .assignments-wrapper #assignments-datepicker button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .assignments-wrapper #assignments-datepicker .ui-datepicker:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='assignments-datepicker']/button</td>
+	<td>css=#layout .assignments-wrapper #assignments-datepicker button</td>
 	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .assignments-wrapper #assignments-datepicker .ui-datepicker:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='calendar_container']/div/div[2]/div/div[2]/div/div/table/thead/tr/th/button</td>
+	<td>css=#layout .assignments-wrapper #assignments-datepicker button</td>
 	<td></td>
 </tr>
 <tr>
-	<td>selectWindow</td>
-	<td>name=fbMainContainer</td>
-	<td></td>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .assignments-wrapper #assignments-datepicker .ui-datepicker:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>xpath=//*[@id='layout']//*[@class='assignments-wrapper']//*[@id='assignments-datepicker']//table[@class=&quot;ui-datepicker-calendar&quot;]//tr[3]//td[2]</td>
+	<td>newDate</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=fbCloseButton</td>
+	<td>xpath=//*[@id='layout']//*[@class='assignments-wrapper']//*[@id='assignments-datepicker']//table[@class=&quot;ui-datepicker-calendar&quot;]//tr[3]//td[2]</td>
 	<td></td>
 </tr>
 <tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1) .day_name').text().split(' ').pop()</td>
+	<td>${newDate}</td>
+</tr>
+<tr>
 	<td>click</td>
-	<td>link=11</td>
+	<td>css=#layout .assignments-wrapper .assignments_close</td>
 	<td></td>
 </tr>
-
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
+	<td>0</td>
+</tr>
 </tbody></table>
 </body>
 </html>
