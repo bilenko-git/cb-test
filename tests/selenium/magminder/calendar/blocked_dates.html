@@ -4,36 +4,36 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
-<title>Courtesy Hold</title>
+<title>Blocked Dates</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Courtesy Hold</td></tr>
+<tr><td rowspan="1" colspan="3">Blocked Dates</td></tr>
 </thead><tbody>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout table.calendar-head:visible th.today').data('date')</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(4)').data('date')</td>
 	<td>dateStart</td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(2)').data('date')</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(5)').data('date')</td>
 	<td>dateMiddle</td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(5)').data('date')</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(6)').data('date')</td>
 	<td>dateEnd</td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(6)').data('date')</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(1)').data('date')</td>
 	<td>dateNew</td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers:eq(0)').data('room_id')</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers:eq(5)').data('room_id')</td>
 	<td>roomId</td>
 </tr>
 <tr>
@@ -89,63 +89,48 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#layout .popover.new_event .new-courtesy-hold</td>
+	<td>css=#layout .popover.new_event .new-blocked-dates</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>name=first_name</td>
-	<td>First</td>
+	<td>name=reason</td>
+	<td>Test Blocked Dates</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>name=last_name</td>
-	<td>Last</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=hrs</td>
-	<td>4</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=email</td>
-	<td>first@last.com</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=phone</td>
-	<td>+5345324654</td>
+	<td>select</td>
+	<td>name=type</td>
+	<td>value=blocked_dates</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=create-courtesy-hold</td>
+	<td>id=save-blocked-dates</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
 	<td>0</td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart} .marker.courtesy_hold</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart} .marker</td>
 	<td></td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=window.$('#layout tr#${roomId} div.droppable-div.${dateStart} .marker.courtesy_hold').attr('id')</td>
+	<td>js=window.$('#layout tr#${roomId} div.droppable-div.${dateStart} .marker').attr('id')</td>
 	<td>eventId</td>
 </tr>
 <tr>
 	<td>verifyEval</td>
 	<td>js=window.$('#layout #${eventId}').text().trim()</td>
-	<td>First Last</td>
+	<td>Test Blocked Dates</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
@@ -170,12 +155,12 @@
 <!--Moving-->
 <tr>
 	<td>storeEval</td>
-	<td>js=${cellWidth} * 2</td>
+	<td>js=-${cellWidth} * 4</td>
 	<td>moveX</td>
 </tr>
 <tr>
 	<td>storeEval</td>
-	<td>js=${cellHeight} * 4</td>
+	<td>js=-${cellHeight} * 4</td>
 	<td>moveY</td>
 </tr>
 <tr>
@@ -205,17 +190,72 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text()</td>
 	<td>${rtFreeStart}</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()) + 1</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()</td>
 	<td>${rtFreeMiddle}</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()) + 1</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()) + 1</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=${cellWidth} * 1</td>
+	<td>moveX</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=${cellHeight} * 6</td>
+	<td>moveY</td>
+</tr>
+<tr>
+	<td>mouseOver</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseMoveAt</td>
+	<td>css=body</td>
+	<td>${moveX}, ${moveY}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>0, 0</td>
+</tr>
+<tr>
+	<td>mouseUpAt</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>0, 0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text()</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()</td>
 	<td>${rtFreeEnd}</td>
 </tr>
 <tr>
@@ -231,58 +271,43 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#layout .popover.courtesy_hold .courtesy-edit</td>
+	<td>css=#layout .popover.blocked_dates .blocked-edit</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>name=first_name</td>
-	<td>Test</td>
+	<td>name=reason</td>
+	<td>Edit Test Blocked Dates</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>name=last_name</td>
-	<td>Tester</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=hrs</td>
-	<td>30</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=email</td>
-	<td>test@tester.com</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=phone</td>
-	<td>+45612389067</td>
+	<td>select</td>
+	<td>name=type</td>
+	<td>value=out_of_service</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=create-courtesy-hold</td>
+	<td>id=save-blocked-dates</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
 	<td>0</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
 	<td>js=window.$('#layout #${eventId}').text().trim()</td>
-	<td>Test Tester</td>
+	<td>Edit Test Blocked Dates</td>
 </tr>
 <!--Cancel on popup-->
 <tr>
@@ -292,17 +317,17 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#layout .popover.courtesy_hold .cancel-popover</td>
+	<td>css=#layout .popover.blocked_dates .cancel-popover</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
 	<td>0</td>
 </tr>
 <!--Removing-->
@@ -319,17 +344,17 @@
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
 	<td>1</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#layout .popover.courtesy_hold .courtesy-cancel</td>
+	<td>css=#layout .popover.blocked_dates .blocked-clear</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
-	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
 	<td>0</td>
 </tr>
 <tr>
@@ -362,6 +387,7 @@
 	<td>css=#layout #${eventId}</td>
 	<td></td>
 </tr>
+
 </tbody></table>
 </body>
 </html>
