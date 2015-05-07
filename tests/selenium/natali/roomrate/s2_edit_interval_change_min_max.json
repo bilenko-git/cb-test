@@ -60,7 +60,6 @@
     },
     {
       "type": "setElementText",
-      "step_name": "10.",
       "locator": {
         "type": "name",
         "value": "min_los"

@@ -14,14 +14,7 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#tab_0  .cancel_add_interval"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#tab_0 .add_interval"
+        "value": "a.btn.add_interval"
       }
     },
     {
