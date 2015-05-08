@@ -167,6 +167,46 @@
 	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()</td>
 	<td>${rtFreeNew}</td>
 </tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout #${eventId}').text().trim()</td>
+	<td>First Last</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text()) + 1</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()) + 1</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()</td>
+	<td>${rtFreeNew}</td>
+</tr>
 <!--Moving-->
 <tr>
 	<td>storeEval</td>
@@ -202,6 +242,46 @@
 	<td>mouseUpAt</td>
 	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
 	<td>0, 0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()) + 1</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()) + 1</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()) + 1</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
 </tr>
 <tr>
 	<td>waitForEval</td>
@@ -284,6 +364,26 @@
 	<td>js=window.$('#layout #${eventId}').text().trim()</td>
 	<td>Test Tester</td>
 </tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #${eventId}').text().trim()</td>
+	<td>Test Tester</td>
+</tr>
 <!--Cancel on popup-->
 <tr>
 	<td>click</td>
@@ -336,6 +436,41 @@
 	<td>waitForElementNotPresent</td>
 	<td>css=#layout #${eventId}</td>
 	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text()</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text()</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
