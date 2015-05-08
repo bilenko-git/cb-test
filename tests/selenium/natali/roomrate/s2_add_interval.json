@@ -5,6 +5,7 @@
   "steps": [
     {
       "type": "clickElement",
+      "step_name": "Open first room type",
       "locator": {
         "type": "css selector",
         "value": "li.base.active > a"
@@ -12,6 +13,7 @@
     },
     {
       "type": "clickElement",
+      "step_name": "Try to add new interval by clicking to Add Interval button",
       "locator": {
         "type": "css selector",
         "value": "a.btn.add_interval"
@@ -25,10 +27,528 @@
       }
     },
     {
+      "type": "verifyText",
+      "step_name": "Check portlet header",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form h4"
+      },
+      "text": "Add Interval"
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "name",
+        "value": "start_date"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "name",
+        "value": "end_date"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_0\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_0\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_1\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_1\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_2\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_2\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_3\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_3\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_4\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_4\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_5\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_5\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "input.week_days_checkbox[name=\"day_6\"]"
+      }
+    },
+    {
+      "type": "assertElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_6\"]"
+      }
+    },
+    {
+      "type": "store",
+      "text": "Selenium Interval 2017",
+      "variable": "interval_name"
+    },
+    {
+      "type": "store",
+      "text": "05/01/2017",
+      "variable": "start_date"
+    },
+    {
+      "type": "store",
+      "text": "05/07/2017",
+      "variable": "end_date"
+    },
+    {
+      "type": "store",
+      "text": "2",
+      "variable": "min_los"
+    },
+    {
+      "type": "store",
+      "text": "3",
+      "variable": "max_los"
+    },
+    {
+      "type": "store",
+      "text": "50.00",
+      "variable": "day_0"
+    },
+    {
+      "type": "store",
+      "text": "31.00",
+      "variable": "day_1"
+    },
+    {
+      "type": "store",
+      "text": "32.00",
+      "variable": "day_2"
+    },
+    {
+      "type": "store",
+      "text": "33.00",
+      "variable": "day_3"
+    },
+    {
+      "type": "store",
+      "text": "34.00",
+      "variable": "day_4"
+    },
+    {
+      "type": "store",
+      "text": "35.00",
+      "variable": "day_5"
+    },
+    {
+      "type": "store",
+      "text": "60.00",
+      "variable": "day_6"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      },
+      "text": "${interval_name}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "start_date"
+      },
+      "text": "${start_date}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "end_date"
+      },
+      "text": "${end_date}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "text": "${min_los}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "text": "${max_los}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_0\"]"
+      },
+      "text": "${day_0}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_1\"]"
+      },
+      "text": "${day_1}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_2\"]"
+      },
+      "text": "${day_2}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_3\"]"
+      },
+      "text": "${day_3}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_4\"]"
+      },
+      "text": "${day_4}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_5\"]"
+      },
+      "text": "${day_5}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_6\"]"
+      },
+      "text": "${day_6}"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_0\"]"
+      },
+      "variable": "day_0"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_1\"]"
+      },
+      "variable": "day_1"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_2\"]"
+      },
+      "variable": "day_2"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_3\"]"
+      },
+      "variable": "day_3"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_4\"]"
+      },
+      "variable": "day_4"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_5\"]"
+      },
+      "variable": "day_5"
+    },
+    {
+      "type": "storeElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_6\"]"
+      },
+      "variable": "day_6"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#tab_0  .cancel_add_interval"
+        "value": "#tab_0  .save_add_interval"
+      }
+    },
+    {
+      "type": "assertTextPresent",
+      "text": "${interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "step_name": "Try to check saved interval. Click Edit button and verify",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[6]/td[7]/a[1]"
+      }
+    },
+    {
+      "type": "print",
+      "text": "${interval_name}"
+    },
+    {
+      "type": "print",
+      "text": "${min_los}"
+    },
+    {
+      "type": "print",
+      "text": "${max_los}"
+    },
+    {
+      "type": "print",
+      "text": "${day_0}"
+    },
+    {
+      "type": "print",
+      "text": "${day_1}"
+    },
+    {
+      "type": "print",
+      "text": "${day_2}"
+    },
+    {
+      "type": "print",
+      "text": "${day_3}"
+    },
+    {
+      "type": "print",
+      "text": "${day_4}"
+    },
+    {
+      "type": "print",
+      "text": "${day_5}"
+    },
+    {
+      "type": "print",
+      "text": "${day_6}"
+    },
+    {
+      "type": "verifyText",
+      "step_name": "Check portlet header",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .new_interval_form h4"
+      },
+      "text": "Edit Interval"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "name",
+        "value": "interval_name"
+      },
+      "value": "${interval_name}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "name",
+        "value": "start_date"
+      },
+      "value": "${start_date}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "name",
+        "value": "end_date"
+      },
+      "value": "${end_date}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "value": "${min_los}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "value": "${max_los}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_0\"]"
+      },
+      "value": "${day_0}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_1\"]"
+      },
+      "value": "${day_1}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_2\"]"
+      },
+      "value": "${day_2}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_3\"]"
+      },
+      "value": "${day_3}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_4\"]"
+      },
+      "value": "${day_4}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_5\"]"
+      },
+      "value": "${day_5}"
+    },
+    {
+      "type": "assertElementValue",
+      "locator": {
+        "type": "css selector",
+        "value": "td > input.week_days_text[name=\"day_6\"]"
+      },
+      "value": "${day_6}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0  .save_add_interval"
       }
     },
     {
@@ -37,6 +557,75 @@
         "type": "css selector",
         "value": "#tab_0 .new_interval_form.hide"
       }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "assertTextPresent",
+      "text": "${interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "step_name": "Try again to delete last interval.",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[6]/td[7]/a[2]/i"
+      }
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "confirm_delete"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#confirm_delete > div.modal-footer > a.btn.btn_delete"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='pull-line-right']//a[.=' Save']"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".savingMsg"
+      },
+      "attributeName": "data-qe-id",
+      "value": "saved"
+    },
+    {
+      "type": "refresh"
+    },
+    {
+      "type": "assertTextPresent",
+      "negated": true,
+      "text": "${interval_name}"
     }
   ],
   "data": {

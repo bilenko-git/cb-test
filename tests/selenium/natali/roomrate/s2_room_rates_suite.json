@@ -29,10 +29,6 @@
     },
     {
       "where": "local",
-      "path": "s2_add_interval_with_1_day.json"
-    },
-    {
-      "where": "local",
       "path": "s2_edit_interval_rename.json"
     },
     {

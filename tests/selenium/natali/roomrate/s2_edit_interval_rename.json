@@ -57,6 +57,14 @@
       "text": "${new_interval_name}"
     },
     {
+      "type": "assertText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty) .interval_name .interval_text"
+      },
+      "text": "${new_interval_name}"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
@@ -73,7 +81,8 @@
       "value": "saved"
     },
     {
-      "type": "refresh"
+      "type": "refresh",
+      "step_name": "Refresh page and check that we have new interval name"
     },
     {
       "type": "print",
@@ -84,11 +93,16 @@
       "text": "${old_interval_name}"
     },
     {
-      "type": "waitForTextPresent",
+      "type": "assertText",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty) .interval_name .interval_text"
+      },
       "text": "${new_interval_name}"
     },
     {
       "type": "clickElement",
+      "step_name": "Try to restore old interval name",
       "locator": {
         "type": "xpath",
         "value": "//div[@id='tab_0']/form/div[6]/div/div[2]/table/tbody/tr[4]/td[7]/a[1]/i"
@@ -127,6 +141,15 @@
     },
     {
       "type": "refresh"
+    },
+    {
+      "type": "assertText",
+      "step_name": "Verify old interval name after refresh",
+      "locator": {
+        "type": "css selector",
+        "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty) .interval_name .interval_text"
+      },
+      "text": "${old_interval_name}"
     }
   ],
   "data": {

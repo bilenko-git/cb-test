@@ -92,7 +92,8 @@
     },
     {
       "type": "store",
-      "text": "300",
+      "step_name": "Try to set min > max",
+      "text": "3",
       "variable": "max_los_new"
     },
     {
@@ -102,7 +103,43 @@
     },
     {
       "type": "setElementText",
-      "step_name": "10.",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "text": "${max_los_new}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "text": "${min_los_new}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      }
+    },
+    {
+      "type": "verifyElementValue",
+      "step_name": "Check. Need to be zero if min los > max los",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "value": "0"
+    },
+    {
+      "type": "store",
+      "text": "1",
+      "variable": "min_los_new"
+    },
+    {
+      "type": "setElementText",
       "locator": {
         "type": "name",
         "value": "min_los"
@@ -116,6 +153,22 @@
         "value": "max_los"
       },
       "text": "${max_los_new}"
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "name",
+        "value": "min_los"
+      },
+      "value": "${min_los_new}"
+    },
+    {
+      "type": "verifyElementValue",
+      "locator": {
+        "type": "name",
+        "value": "max_los"
+      },
+      "value": "${max_los_new}"
     },
     {
       "type": "clickElement",
