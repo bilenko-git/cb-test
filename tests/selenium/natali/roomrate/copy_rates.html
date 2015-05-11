@@ -13,20 +13,136 @@
 </thead><tbody>
 <tr>
 	<td>storeCssCount</td>
-	<td>'.nav.nav-tabs&gt;li', countRoomRates</td>
-	<td></td>
+	<td>css=#layout .nav-tabs &gt; li.base</td>
+	<td>countRoomRates</td>
 </tr>
 <tr>
 	<td>echo</td>
-	<td>$(countRoomRates)</td>
+	<td>${countRoomRates}</td>
 	<td></td>
 </tr>
 <tr>
-	<td></td>
-	<td></td>
+	<td>storeEval</td>
+	<td>if (${countRoomRates} &gt; 1 &amp;&amp; selenium.isElementPresent('css=#layout #tab_0 .copy_rates') == true) {nextMove = 'openCopyModal'} else {nextMove = 'testingClosed'}</td>
+	<td>nextMove</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${nextMove}</td>
 	<td></td>
 </tr>
-
+<tr>
+	<td>gotolabel</td>
+	<td>${nextMove}</td>
+	<td></td>
+</tr>
+<!--Try to copy rates from first rate to second-->
+<tr>
+	<td>label</td>
+	<td>openCopyModal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[href='#tab_1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tab_1 a.copy_rates</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=.room_rate_copy_modal.in</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=.room_rate_copy_modal.in select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeCssCount</td>
+	<td>css=.room_rate_copy_modal.in select option</td>
+	<td>availableRates</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${availableRates}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>${countRoomRates} - 1</td>
+	<td>${availableRates}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.room_rate_copy_modal .save_changes3</td>
+	<td></td>
+</tr>
+<!--Accept confirm modal-->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=.room_rate_copy_confirm_modal.in</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>css=.room_rate_copy_confirm_modal.in .save_changes3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.room_rate_copy_confirm_modal.in .save_changes3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>window.$('#tab_0 .intervals-table tbody').find('tr[data-temp_id]').length</td>
+	<td>intervalsCount</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${intervalsCount}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[href='#tab_1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>window.$('#tab_1 .intervals-table tbody').find('tr:visible').length</td>
+	<td>currentIntervalsCount</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${currentIntervalsCount}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertExpression</td>
+	<td>${currentIntervalsCount}</td>
+	<td>${intervalsCount}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[href='#tab_0']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>testingClosed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>testingClosed</td>
+	<td></td>
+</tr>
 </tbody></table>
 </body>
 </html>
