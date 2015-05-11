@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
+<title>Change Price</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Change Price</td></tr>
+</thead><tbody>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.today').data('date')</td>
+	<td>dateToday</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(3)').data('date')</td>
+	<td>dateFuture</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_type:eq(1)').data('room_type')</td>
+	<td>roomType</td>
+</tr>
+<!--Change today-->
+<tr>
+	<td>storeEval</td>
+	<td>js='${dateToday}'</td>
+	<td>date</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>price</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=${price} + 12.34</td>
+	<td>newPrice</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${newPrice}</td>
+</tr>
+<!--cancel-->
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .cancel-change-price-popover</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${newPrice}</td>
+</tr>
+<!--accept-->
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .confirm-change-price</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${newPrice}</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .star:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${newPrice}</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .star:visible').length</td>
+	<td>1</td>
+</tr>
+<!--return value-->
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .confirm-change-price</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<!--Change future-->
+<tr>
+	<td>storeEval</td>
+	<td>js='${dateFuture}'</td>
+	<td>date</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>price</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=${price} + 12.34</td>
+	<td>newPrice</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${newPrice}</td>
+</tr>
+<!--cancel-->
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .cancel-change-price-popover</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${newPrice}</td>
+</tr>
+<!--accept-->
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .confirm-change-price</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${newPrice}</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .star:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${newPrice}</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .star:visible').length</td>
+	<td>1</td>
+</tr>
+<!--return value-->
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .day_price input:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#layout tr#rt_${roomType} td[data-date=${date}] .day_price input</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.change_price .confirm-change-price</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.change_price:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType} td[data-date=${date}] .change-price-link').text().split(' ').pop()</td>
+	<td>${price}</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

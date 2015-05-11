@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
+<title>test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">test</td></tr>
+</thead><tbody>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.today').data('date')</td>
+	<td>date1</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(2)').data('date')</td>
+	<td>date2</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(5)').data('date')</td>
+	<td>date3</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout table.calendar-head:visible th.future:eq(8)').data('date')</td>
+	<td>date4</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_type:eq(1)').data('room_type')</td>
+	<td>rt1</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_type:eq(1)').data('room_type')</td>
+	<td>rt2</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt1}]:eq(0)').data('room_id')</td>
+	<td>room1</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt1}]:eq(3)').data('room_id')</td>
+	<td>room2</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt1}]:eq(5)').data('room_id')</td>
+	<td>room3</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt2}]:eq(0)').data('room_id')</td>
+	<td>room4</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt2}]:eq(1)').data('room_id')</td>
+	<td>room5</td>
+</tr>
+<!--Courtesy Hold creation-->
+<tr>
+	<td>store</td>
+	<td>${date1}</td>
+	<td>dateStart</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${date3}</td>
+	<td>dateEnd</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${room1}</td>
+	<td>roomId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateEnd}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.new_event .new-courtesy-hold</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=first_name</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=last_name</td>
+	<td>Tester</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=hrs</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=email</td>
+	<td>test@tester.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=phone</td>
+	<td>+5345324654</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=create-courtesy-hold</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #courtesy-hold-modal:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart} .marker.courtesy_hold</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#${roomId} div.droppable-div.${dateStart} .marker.courtesy_hold').attr('id')</td>
+	<td>cId</td>
+</tr>
+<!--Out of Service creation-->
+<tr>
+	<td>store</td>
+	<td>${date2}</td>
+	<td>dateStart</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${date4}</td>
+	<td>dateEnd</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${room3}</td>
+	<td>roomId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateEnd}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.new_event .new-blocked-dates</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=reason</td>
+	<td>Test Out of Service</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=save-blocked-dates</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart} .marker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#${roomId} div.droppable-div.${dateStart} .marker').attr('id')</td>
+	<td>oId</td>
+</tr>
+<!--Blocked Dates creation-->
+<tr>
+	<td>store</td>
+	<td>${date3}</td>
+	<td>dateStart</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${date4}</td>
+	<td>dateEnd</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>${room2}</td>
+	<td>roomId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateEnd}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout .popover.new_event</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.new_event .new-blocked-dates</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=reason</td>
+	<td>Test Blocked Dates</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=type</td>
+	<td>value=blocked_dates</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=save-blocked-dates</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #block-dates-modal:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout tr#${roomId} div.droppable-div.${dateStart} .marker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#${roomId} div.droppable-div.${dateStart} .marker').attr('id')</td>
+	<td>bId</td>
+</tr>
+<!--Remove Courtesy Hold-->
+<tr>
+	<td>store</td>
+	<td>${cId}</td>
+	<td>eventId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.courtesy_hold .courtesy-cancel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.courtesy_hold:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
+</tr>
+<!--Remove Out of Service-->
+<tr>
+	<td>store</td>
+	<td>${oId}</td>
+	<td>eventId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.blocked_dates .blocked-clear</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
+</tr>
+<!--Remove Blocked Dates-->
+<tr>
+	<td>store</td>
+	<td>${bId}</td>
+	<td>eventId</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout .popover.blocked_dates .blocked-clear</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .popover.blocked_dates:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
+</tr>
+<!--Test-->
+<tr>
+	<td>storeEval</td>
+	<td>js=window.BET.calendar.tests.verify()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('.modal:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('.modal:visible .modal-body').text().indexOf('All green') &gt;= 0</td>
+	<td>true</td>
+</tr>
+</tbody></table>
+</body>
+</html>

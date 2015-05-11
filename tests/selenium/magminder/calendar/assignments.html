@@ -43,6 +43,11 @@
 </tr>
 <tr>
 	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_type:eq(1)').data('room_type')</td>
+	<td>roomType2</td>
+</tr>
+<tr>
+	<td>storeEval</td>
 	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
 	<td>rtFreeStart</td>
 </tr>
@@ -60,6 +65,26 @@
 	<td>storeEval</td>
 	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text())</td>
 	<td>rtFreeNew</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>rt2FreeStart</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateMiddle} .free_rooms').text())</td>
+	<td>rt2FreeMiddle</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>rt2FreeEnd</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>rt2FreeNew</td>
 </tr>
 <tr>
 	<td>storeEval</td>
@@ -110,6 +135,11 @@
 	<td>storeEval</td>
 	<td>js=window.$('#layout tr#${roomId} td[data-date=&quot;${dateMiddle}&quot;]').outerHeight()</td>
 	<td>cellHeight</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr#rt_${roomType}&nbsp;&nbsp;td:first').outerHeight()</td>
+	<td>cellHeadHeight</td>
 </tr>
 <!--Creating of Courtesy Hold-->
 <tr>
@@ -2058,6 +2088,312 @@
 	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_not_assigned').text())</td>
 	<td>${nonAssignedNew}</td>
 </tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text())</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text()) + 1</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text()) + 1</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_per').text())</td>
+	<td>${percentStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_per').text())</td>
+	<td>${percentMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_per').text()) != ${percentEnd}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_per').text()) != ${percentNew}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_not_assignedr').text())</td>
+	<td>${nonAssignedStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_not_assigned').text())</td>
+	<td>${nonAssignedMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_not_assigned').text())</td>
+	<td>${nonAssignedEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_not_assigned').text())</td>
+	<td>${nonAssignedNew}</td>
+</tr>
+<!--Move to another room type-->
+<tr>
+	<td>storeEval</td>
+	<td>js=-${cellWidth} * 4</td>
+	<td>moveX</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=${cellHeight} * (window.$('#layout tr[data-room_type=${roomType}]:not(#rt_${roomType})').length - 1) + ${cellHeadHeight}</td>
+	<td>moveY</td>
+</tr>
+<tr>
+	<td>mouseOver</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>css=#layout #${eventId} .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseMoveAt</td>
+	<td>css=body</td>
+	<td>${moveX}, ${moveY}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>0, 0</td>
+</tr>
+<tr>
+	<td>mouseUpAt</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>0, 0</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout #assign_modal:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#layout #assign_modal .modal-footer button.up-down-charge</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text())</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateStart} .free_rooms').text()) + 1</td>
+	<td>${rt2FreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateMiddle} .free_rooms').text()) + 1</td>
+	<td>${rt2FreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>${rt2FreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>${rt2FreeNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_per').text()) != ${percentStart}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_per').text()) != ${percentMiddle}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_per').text())</td>
+	<td>${percentEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_per').text())</td>
+	<td>${percentNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_not_assignedr').text())</td>
+	<td>${nonAssignedStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_not_assigned').text())</td>
+	<td>${nonAssignedMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_not_assigned').text())</td>
+	<td>${nonAssignedEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_not_assigned').text())</td>
+	<td>${nonAssignedNew}</td>
+</tr>
+<tr>
+	<td>refreshAndWait</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=table.calendar-table</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('#layout .loading:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=#layout #${eventId}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>${rtFreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateMiddle} .free_rooms').text())</td>
+	<td>${rtFreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>${rtFreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>${rtFreeNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateStart} .free_rooms').text()) + 1</td>
+	<td>${rt2FreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateMiddle} .free_rooms').text()) + 1</td>
+	<td>${rt2FreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>${rt2FreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>${rt2FreeNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_per').text()) != ${percentStart}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_per').text()) != ${percentMiddle}</td>
+	<td>true</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_per').text())</td>
+	<td>${percentEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_per').text())</td>
+	<td>${percentNew}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_not_assignedr').text())</td>
+	<td>${nonAssignedStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateMiddle}] .day_not_assigned').text())</td>
+	<td>${nonAssignedMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateEnd}] .day_not_assigned').text())</td>
+	<td>${nonAssignedEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateNew}] .day_not_assigned').text())</td>
+	<td>${nonAssignedNew}</td>
+</tr>
 <!--Cancel on popup-->
 <tr>
 	<td>click</td>
@@ -2174,6 +2510,26 @@
 	<td>waitForEval</td>
 	<td>js=parseInt(window.$('#layout table.calendar-head:visible th[data-date=${dateStart}] .day_per').text())</td>
 	<td>${percentStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateStart} .free_rooms').text())</td>
+	<td>${rt2FreeStart}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateMiddle} .free_rooms').text())</td>
+	<td>${rt2FreeMiddle}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateEnd} .free_rooms').text())</td>
+	<td>${rt2FreeEnd}</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=parseInt(window.$('#layout tr#rt_${roomType2} td.rt_${dateNew} .free_rooms').text())</td>
+	<td>${rt2FreeNew}</td>
 </tr>
 <tr>
 	<td>waitForEval</td>
