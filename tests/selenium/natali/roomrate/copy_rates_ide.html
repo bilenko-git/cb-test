@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://wwwdev.ondeficar.com" />
+<link rel="selenium.base" href="http://wwwdev3.ondeficar.com" />
 <title>copy_rates</title>
 </head>
 <body>
@@ -12,8 +12,8 @@
 <tr><td rowspan="1" colspan="3">copy_rates</td></tr>
 </thead><tbody>
 <tr>
-	<td>storeCssCount</td>
-	<td>css=#layout .nav-tabs &gt; li.base</td>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-content .tab-pane', '#layout').length</td>
 	<td>countRoomRates</td>
 </tr>
 <tr>
@@ -132,6 +132,61 @@
 	<td>click</td>
 	<td>css=a[href='#tab_0']</td>
 	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.btn.saveButton:not(.hide)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
+</tr>
+<tr>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>ja=window.$('.progress-bar-background:visible').length</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>ja=window.$('.progress-bar-background:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>window.$('#tab_0 .intervals-table tbody').find('tr[data-temp_id]').length</td>
+	<td>intervalsCount</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${intervalsCount}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[href='#tab_1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>window.$('#tab_1 .intervals-table tbody').find('tr:visible').length</td>
+	<td>currentIntervalsCount</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${currentIntervalsCount}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertExpression</td>
+	<td>${currentIntervalsCount}</td>
+	<td>${intervalsCount}</td>
 </tr>
 <tr>
 	<td>gotolabel</td>

@@ -66,6 +66,16 @@
 	<td>js=window.$('#layout .calendar-table.calendar-content tr.room_numbers[data-room_type=${rt2}]:eq(1)').data('room_id')</td>
 	<td>room5</td>
 </tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_numbers:eq(0) td[data-date]:eq(0)').outerWidth()</td>
+	<td>cellWidth</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#layout tr.room_numbers:eq(0) td[data-date]:eq(0)').outerHeight()</td>
+	<td>cellHeight</td>
+</tr>
 <!--Courtesy Hold creation-->
 <tr>
 	<td>store</td>
@@ -336,29 +346,29 @@
 	<td>moveY</td>
 </tr>
 <tr>
-	<td>mouseOver</td>
-	<td>css=#layout #${eventId} .body</td>
-	<td></td>
-</tr>
-<tr>
-	<td>mouseDown</td>
+	<td>mouseDownAt</td>
 	<td>css=#layout #${eventId} .body</td>
 	<td></td>
 </tr>
 <tr>
 	<td>mouseMoveAt</td>
-	<td>css=body</td>
+	<td>css=#layout #${eventId} .body</td>
 	<td>${moveX}, ${moveY}</td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=.ui-draggable-dragging</td>
 	<td></td>
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
-	<td>0, 0</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.ui-draggable-dragging</td>
+	<td></td>
 </tr>
 <!--Move 2-->
 <tr>
@@ -407,29 +417,34 @@
 	<td>moveY</td>
 </tr>
 <tr>
-	<td>mouseOver</td>
+	<td>mouseDownAt</td>
 	<td>css=#layout #${eventId} .body</td>
 	<td></td>
 </tr>
 <tr>
-	<td>mouseDown</td>
-	<td>css=#layout #${eventId} .body</td>
+	<td>storeEval</td>
+	<td>js=window.$('#layout #${eventId}').trigger('dragstart')</td>
 	<td></td>
 </tr>
 <tr>
 	<td>mouseMoveAt</td>
-	<td>css=body</td>
+	<td>css=#layout #${eventId} .body</td>
 	<td>${moveX}, ${moveY}</td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td></td>
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
-	<td>0, 0</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.ui-draggable-dragging</td>
+	<td></td>
 </tr>
 <!--Move 3-->
 <tr>
@@ -478,13 +493,8 @@
 	<td>moveY</td>
 </tr>
 <tr>
-	<td>mouseOver</td>
-	<td>css=#layout #${eventId} .body</td>
-	<td></td>
-</tr>
-<tr>
 	<td>mouseDown</td>
-	<td>css=#layout #${eventId} .body</td>
+	<td>css=#layout #${eventId}</td>
 	<td></td>
 </tr>
 <tr>
@@ -498,9 +508,14 @@
 	<td></td>
 </tr>
 <tr>
-	<td>mouseUpAt</td>
+	<td>mouseUp</td>
 	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
-	<td>0, 0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.draggable-dragging</td>
+	<td></td>
 </tr>
 <!--Move 4-->
 <tr>
@@ -570,7 +585,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 5-->
@@ -641,7 +656,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 6-->
@@ -712,7 +727,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 7-->
@@ -783,7 +798,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 8-->
@@ -854,7 +869,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 9-->
@@ -925,7 +940,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 10-->
@@ -996,7 +1011,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 11-->
@@ -1067,7 +1082,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 12-->
@@ -1138,7 +1153,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 13-->
@@ -1209,7 +1224,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Move 14-->
@@ -1280,7 +1295,7 @@
 </tr>
 <tr>
 	<td>mouseUpAt</td>
-	<td>css=#layout #${eventId}.ui-draggable-dragging</td>
+	<td>css=#layout #${eventId}.ui-draggable-dragging .body</td>
 	<td>0, 0</td>
 </tr>
 <!--Remove Courtesy Hold-->

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev3.ondeficar.com" />
+<title>copy_rates</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">copy_rates</td></tr>
+</thead><tbody>
+<tr>
+	<td>click</td>
+	<td>css=a[href=&quot;#/roomTypes&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.base.active &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_adults_inBasePrice]').val()</td>
+	<td>room_type_adults_inBasePrice</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_children_inBasePrice]').val()</td>
+	<td>room_type_children_inBasePrice</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_max_guests]').val()</td>
+	<td>room_type_max_guests</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${room_type_adults_inBasePrice}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${room_type_children_inBasePrice}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>charge_additional</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${charge_additional}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>if ('${charge_additional}' == 'Y') {nextMove = 'checkFields'} else {nextMove = 'changeStateAndCheck'}</td>
+	<td>nextMove</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${nextMove}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>${nextMove}</td>
+	<td></td>
+</tr>
+<!--Change state from No to Yes and then go to next step-->
+<tr>
+	<td>label</td>
+	<td>changeStateAndCheck</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input[name^=&quot;charge_additional&quot;][value=&quot;Y&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>Y</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>checkFields</td>
+	<td></td>
+</tr>
+<!--Check fields for adults and children-->
+<tr>
+	<td>label</td>
+	<td>checkFields</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeCssCount</td>
+	<td>css=#layout .tab-pane.active .adults .control-group:not(.clonable)</td>
+	<td>countAdults</td>
+</tr>
+<tr>
+	<td>storeCssCount</td>
+	<td>css=#layout .tab-pane.active .kids .control-group:not(.clonable)</td>
+	<td>countKids</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${countAdults}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${countKids}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>${room_type_max_guests} - ${room_type_adults_inBasePrice}</td>
+	<td>${countAdults}</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>${room_type_max_guests} - ${room_type_children_inBasePrice}</td>
+	<td>${countKids}</td>
+</tr>
+<tr>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>if ('${nextMove}' == 'changeStateAndCheck') {nextMove = 'checkFieldsAfterSave'} else {nextMove = 'testingClosed'}</td>
+	<td>nextMove</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${nextMove}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>${nextMove}</td>
+	<td></td>
+</tr>
+<!--Check fields after save Yes with zero prices-->
+<tr>
+	<td>label</td>
+	<td>checkFieldsAfterSave</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>N</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>N</td>
+</tr>
+<tr>
+	<td>assertExpression</td>
+	<td>${charge_additional}</td>
+	<td>N</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=#layout .tab-pane.active .charge_additional.hide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#layout .tab-pane.active .adults .control-group:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#layout .tab-pane.active .kids .control-group:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>testingClosed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>testingClosed</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
