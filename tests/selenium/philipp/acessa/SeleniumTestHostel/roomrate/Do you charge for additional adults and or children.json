@@ -4,10 +4,64 @@
   "formatVersion": 2,
   "steps": [
     {
+      "type": "get",
+      "url": "http://wwwdev3.ondeficar.com/auth/login"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='layout']//a[.='test']"
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "url": "http://wwwdev3.ondeficar.com/connect/366#/dashboard"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "arates"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Best Available Rate"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "layout"
+      },
+      "attributeName": "data-current_view",
+      "value": "roomRates"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='layout']//a[.='Lux']"
       }
     },
     {
@@ -92,7 +146,7 @@
       }
     },
     {
-      "type": "verifyElementValue",
+      "type": "assertElementValue",
       "locator": {
         "type": "css selector",
         "value": "span.checked input[name='charge_additional?tab_1'][value='Y']"

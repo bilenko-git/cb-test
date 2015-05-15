@@ -4,8 +4,35 @@
   "formatVersion": 2,
   "steps": [
     {
+      "type": "get",
+      "url": "http://wwwdev3.ondeficar.com/auth/login"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "selenium@cloudbeds.com"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "testTime!"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
       "type": "waitForCurrentUrl",
-      "url": "http://wwwdev.ondeficar.com/connect/366#/dashboard"
+      "url": "http://wwwdev3.ondeficar.com/connect/366#/dashboard"
     },
     {
       "type": "clickElement",
@@ -17,8 +44,8 @@
     {
       "type": "clickElement",
       "locator": {
-        "type": "link text",
-        "value": "Best Available Rate"
+        "type": "css selector",
+        "value": "a[href='#/roomRates']"
       }
     },
     {
