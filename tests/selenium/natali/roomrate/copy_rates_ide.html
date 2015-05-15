@@ -12,6 +12,51 @@
 <tr><td rowspan="1" colspan="3">copy_rates</td></tr>
 </thead><tbody>
 <tr>
+    <td>open</td>
+    <td>/auth/login</td>
+    <td></td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>id=email</td>
+    <td>selenium@cloudbeds.com</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>id=password</td>
+    <td>testTime!</td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>//button[@type='submit']</td>
+    <td></td>
+</tr>
+<tr>
+    <td>waitForEval</td>
+    <td>js=window.BET.globals.currentView</td>
+    <td>dashboard</td>
+</tr>
+<tr>
+    <td>waitForElementPresent</td>
+    <td>css=#main_menu</td>
+    <td></td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>css=a[name=&quot;arates&quot;]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>css=#sroomRates &gt; a</td>
+    <td></td>
+</tr>
+<tr>
+    <td>waitForEval</td>
+    <td>js=window.BET.globals.currentView</td>
+    <td>roomRates</td>
+</tr>
+<tr>
 	<td>storeEval</td>
 	<td>js=window.$('.tab-content .tab-pane', '#layout').length</td>
 	<td>countRoomRates</td>
@@ -197,6 +242,16 @@
 	<td>label</td>
 	<td>testingClosed</td>
 	<td></td>
+</tr>
+<tr>
+    <td>open</td>
+    <td>/auth/logout</td>
+    <td></td>
+</tr>
+<tr>
+    <td>waitForElementPresent</td>
+    <td>css=div.login</td>
+    <td></td>
 </tr>
 </tbody></table>
 </body>
