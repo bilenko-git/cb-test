@@ -3,7 +3,7 @@
   "seleniumVersion": "2",
   "formatVersion": 2,
   "steps": [
-{
+    {
       "type": "get",
       "url": "http://wwwdev3.ondeficar.com/auth/login"
     },
@@ -62,7 +62,7 @@
       "step_name": "1.",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='layout']//a[.='test']"
+        "value": "//div[@id='layout']//a[.='Econom']"
       }
     },
     {
@@ -73,7 +73,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_1 .new_interval_form:not(.hide)"
@@ -90,18 +90,18 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": ".modal.validation_error .btn_ok"
+        "value": "#error_modal button"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_1 .new_interval_form .hasDatepicker.error[name='start_date']"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_1 .new_interval_form .hasDatepicker.error[name='end_date']"
