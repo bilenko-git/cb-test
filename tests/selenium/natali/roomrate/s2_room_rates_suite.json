@@ -5,18 +5,6 @@
   "scripts": [
     {
       "where": "local",
-      "path": "s2_set_variables.json"
-    },
-    {
-      "where": "local",
-      "path": "s2_login.json"
-    },
-    {
-      "where": "local",
-      "path": "s2_open_room_rates.json"
-    },
-    {
-      "where": "local",
       "path": "s2_add_interval.json"
     },
     {
