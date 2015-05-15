@@ -5,6 +5,89 @@
   "steps": [
     {
       "type": "store",
+      "text": "http://wwwdev3.ondeficar.com",
+      "variable": "site_name"
+    },
+    {
+      "type": "store",
+      "text": "selenium@cloudbeds.com",
+      "variable": "user_login"
+    },
+    {
+      "type": "store",
+      "text": "testTime!",
+      "variable": "user_pass"
+    },
+    {
+      "type": "get",
+      "url": "${site_name}/auth/login"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "email"
+      },
+      "text": "${user_login}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "${user_pass}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='form-actions']//button[normalize-space(.)='Login']"
+      }
+    },
+    {
+      "type": "waitForCurrentUrl",
+      "url": "${site_name}/connect/366#/dashboard"
+    },
+    {
+      "type": "store",
+      "text": "roomRates",
+      "variable": "hash"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "arates"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Best Available Rate"
+      }
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "layout"
+      },
+      "attributeName": "data-current_view",
+      "value": "${hash}"
+    },
+    {
+      "type": "assertElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "layout"
+      },
+      "attributeName": "data-current_view",
+      "value": "${hash}"
+    },
+    {
+      "type": "store",
       "text": "roomRates",
       "variable": "hash"
     },
@@ -969,6 +1052,27 @@
         "value": "#tab_0 .intervals-table tr:not(.clonable):not(.empty) .interval_name .interval_text"
       },
       "text": "${interval_name}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "name",
+        "value": "asettings"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "a.logout_link"
+      }
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "div.login"
+      }
     }
   ],
   "data": {
