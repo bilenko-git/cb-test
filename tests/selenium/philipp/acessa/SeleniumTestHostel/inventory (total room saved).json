@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://wwwdev.ondeficar.com/auth/logout"
+      "url": "http://wwwdev3.ondeficar.com/auth/logout"
     },
     {
       "type": "setElementText",
@@ -40,7 +40,7 @@
     },
     {
       "type": "waitForCurrentUrl",
-      "url": "http://wwwdev.ondeficar.com/connect/366#/dashboard"
+      "url": "http://wwwdev3.ondeficar.com/connect/366#/dashboard"
     },
     {
       "type": "waitForText",
@@ -52,7 +52,7 @@
     },
     {
       "type": "get",
-      "url": "http://wwwdev.ondeficar.com/connect/366#/inventory"
+      "url": "http://wwwdev3.ondeficar.com/connect/366#/inventory"
     },
     {
       "type": "waitForText",
@@ -68,16 +68,7 @@
         "type": "css selector",
         "value": ".invRoom .sum_rooms"
       },
-      "text": "1000"
-    },
-    {
-      "type": "verifyElementStyle",
-      "locator": {
-        "type": "css selector",
-        "value": ".validation_error"
-      },
-      "propertyName": "display",
-      "value": "none"
+      "text": "10"
     },
     {
       "type": "clickElement",
@@ -93,6 +84,20 @@
         "value": ".savingMsg"
       },
       "text": "Saved"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "a[name=\"asettings\"] > span.arrow"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Logout"
+      }
     }
   ],
   "data": {

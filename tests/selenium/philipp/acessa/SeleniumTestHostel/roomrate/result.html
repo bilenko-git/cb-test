@@ -54,7 +54,7 @@ a {
 </tr>
 <tr>
 <td>totalTime:</td>
-<td>2</td>
+<td>3</td>
 </tr>
 <tr>
 <td>numTestTotal:</td>
@@ -90,9 +90,9 @@ a {
 </tr>
 <tr>
 <td>
-<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<table id="suiteTable" class="selenium" border="1" cellpadding="1" cellspacing="1"><tbody>
 <tr class="title status_passed"><td><b>Test Suite</b></td></tr>
-<tr class=" status_passed"><td><a href="#testresult0">1</a></td></tr>
+<tr class="  status_passed"><td><a href="#testresult0">1</a></td></tr>
 </tbody></table>
 
 
@@ -101,14 +101,29 @@ a {
 </tr>
 </table><table><tr>
 <td><a name="testresult0">1.html</a><br/><div>
-<table cellpadding="1" cellspacing="1" border="1">
+<table border="1" cellpadding="1" cellspacing="1">
 <thead>
 <tr class="title status_passed"><td rowspan="1" colspan="3">1</td></tr>
 </thead><tbody>
-<tr class=" status_done" style="cursor: pointer;">
-	<td>runScript</td>
-	<td>javascript{alert('')}</td>
+<tr class="  status_done" style="cursor: pointer;">
+	<td>open</td>
+	<td>http://mail.ru/</td>
 	<td></td>
+</tr>
+<tr class="  status_done" style="cursor: pointer;">
+	<td>clickAndWait</td>
+	<td>//span[@id='js-unread']/span</td>
+	<td></td>
+</tr>
+<tr class="  status_done" style="cursor: pointer;">
+	<td>type</td>
+	<td>name=Login</td>
+	<td>fil.jlh</td>
+</tr>
+<tr class="  status_done" style="cursor: pointer;">
+	<td>type</td>
+	<td>css=div.popup__box &gt; div.form__row &gt; div.form__row__widget.form__row__widget_popup &gt; input[name="Password"]</td>
+	<td>1234400BB</td>
 </tr>
 
 </tbody></table>
@@ -118,5 +133,9 @@ a {
 <td>&nbsp;</td>
 </tr></table><pre>
 info: Starting test /selenium-server/tests/1.html
-info: Executing: |runScript | javascript{alert(&apos;&apos;)} |  |
+info: Executing: |open | http://mail.ru/ |  |
+info: Selenium 1.0 (Core, RC, etc) is no longer under active development. Please update to WebDriver ASAP
+info: Executing: |clickAndWait | //span[@id=&apos;js-unread&apos;]/span |  |
+info: Executing: |type | name=Login | fil.jlh |
+info: Executing: |type | css=div.popup__box &gt; div.form__row &gt; div.form__row__widget.form__row__widget_popup &gt; input[name=&quot;Password&quot;] | 1234400BB |
 </pre></body></html>

@@ -107,7 +107,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"
@@ -154,28 +154,12 @@
       "variable": "max_los"
     },
     {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_0\"]"
-      },
-      "variable": "is_checked_day_0"
-    },
-    {
       "type": "storeElementValue",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_0\"]"
       },
       "variable": "day_0"
-    },
-    {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_1\"]"
-      },
-      "variable": "is_checked_day_1"
     },
     {
       "type": "storeElementValue",
@@ -186,28 +170,12 @@
       "variable": "day_1"
     },
     {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_2\"]"
-      },
-      "variable": "is_checked_day_2"
-    },
-    {
       "type": "storeElementValue",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_2\"]"
       },
       "variable": "day_2"
-    },
-    {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_3\"]"
-      },
-      "variable": "is_checked_day_3"
     },
     {
       "type": "storeElementValue",
@@ -218,14 +186,6 @@
       "variable": "day_3"
     },
     {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_4\"]"
-      },
-      "variable": "is_checked_day_4"
-    },
-    {
       "type": "storeElementValue",
       "locator": {
         "type": "css selector",
@@ -234,28 +194,12 @@
       "variable": "day_4"
     },
     {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_5\"]"
-      },
-      "variable": "is_checked_day_5"
-    },
-    {
       "type": "storeElementValue",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_5\"]"
       },
       "variable": "day_5"
-    },
-    {
-      "type": "storeElementSelected",
-      "locator": {
-        "type": "css selector",
-        "value": "input.week_days_checkbox[name=\"day_6\"]"
-      },
-      "variable": "is_checked_day_6"
     },
     {
       "type": "storeElementValue",
@@ -301,7 +245,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form.hide"
@@ -316,7 +260,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"
@@ -427,7 +371,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#rate_interval_overlapped"
@@ -441,14 +385,14 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#rate_interval_overlapped.hide"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "step_name": "Try to check inputs with errors. Used for intervals with full week",
       "locator": {
         "type": "css selector",
@@ -456,42 +400,42 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_1\"].valid"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_2\"].valid"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_3\"].valid"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_4\"].valid"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_5\"].valid"
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "td > input.week_days_text[name=\"day_6\"].valid"
@@ -513,7 +457,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "id",
         "value": "confirm_delete"
@@ -527,7 +471,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#confirm_delete.hide"
@@ -542,7 +486,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "id",
         "value": "confirm_delete"
@@ -646,7 +590,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "id",
         "value": "confirm_delete"
@@ -705,7 +649,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"
@@ -905,7 +849,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"

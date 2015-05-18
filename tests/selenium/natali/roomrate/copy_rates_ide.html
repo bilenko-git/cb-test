@@ -12,49 +12,49 @@
 <tr><td rowspan="1" colspan="3">copy_rates</td></tr>
 </thead><tbody>
 <tr>
-    <td>open</td>
-    <td>/auth/login</td>
-    <td></td>
+	<td>open</td>
+	<td>/auth/login</td>
+	<td></td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>id=email</td>
-    <td>selenium@cloudbeds.com</td>
+	<td>type</td>
+	<td>id=email</td>
+	<td>selenium@cloudbeds.com</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>id=password</td>
-    <td>testTime!</td>
+	<td>type</td>
+	<td>id=password</td>
+	<td>testTime!</td>
 </tr>
 <tr>
-    <td>clickAndWait</td>
-    <td>//button[@type='submit']</td>
-    <td></td>
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>dashboard</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>dashboard</td>
 </tr>
 <tr>
-    <td>waitForElementPresent</td>
-    <td>css=#main_menu</td>
-    <td></td>
+	<td>waitForElementPresent</td>
+	<td>css=#main_menu</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[name=&quot;arates&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=#sroomRates &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomRates</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
 </tr>
 <tr>
 	<td>storeEval</td>
@@ -76,17 +76,7 @@
 	<td>${nextMove}</td>
 	<td></td>
 </tr>
-<tr>
-	<td>gotolabel</td>
-	<td>${nextMove}</td>
-	<td></td>
-</tr>
 <!--Try to copy rates from first rate to second-->
-<tr>
-	<td>label</td>
-	<td>openCopyModal</td>
-	<td></td>
-</tr>
 <tr>
 	<td>click</td>
 	<td>css=a[href='#tab_1']</td>
@@ -108,8 +98,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>storeCssCount</td>
-	<td>css=.room_rate_copy_modal.in select option</td>
+	<td>storeEval</td>
+	<td>window.$('.room_rate_copy_modal.in select option').length</td>
 	<td>availableRates</td>
 </tr>
 <tr>
@@ -234,24 +224,14 @@
 	<td>${intervalsCount}</td>
 </tr>
 <tr>
-	<td>gotolabel</td>
-	<td>testingClosed</td>
+	<td>open</td>
+	<td>/auth/logout</td>
 	<td></td>
 </tr>
 <tr>
-	<td>label</td>
-	<td>testingClosed</td>
+	<td>waitForElementPresent</td>
+	<td>css=div.login</td>
 	<td></td>
-</tr>
-<tr>
-    <td>open</td>
-    <td>/auth/logout</td>
-    <td></td>
-</tr>
-<tr>
-    <td>waitForElementPresent</td>
-    <td>css=div.login</td>
-    <td></td>
 </tr>
 </tbody></table>
 </body>

@@ -103,14 +103,14 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"
       }
     },
     {
-      "type": "verifyText",
+      "type": "assertText",
       "step_name": "Check portlet header",
       "locator": {
         "type": "css selector",
@@ -523,7 +523,7 @@
       "text": "${day_6}"
     },
     {
-      "type": "verifyText",
+      "type": "assertText",
       "step_name": "Check portlet header",
       "locator": {
         "type": "css selector",
@@ -635,7 +635,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form.hide"
@@ -673,7 +673,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "id",
         "value": "confirm_delete"
