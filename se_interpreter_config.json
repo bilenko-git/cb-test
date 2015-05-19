@@ -16,7 +16,7 @@
         }
       ],
       "scripts": [
-        "tests/selenium/*"
+        "tests/selenium/philipp/acessa/SeleniumTestHostel/first suite.json"
       ]
     }
   ]
