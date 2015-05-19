@@ -101,7 +101,7 @@
       }
     },
     {
-      "type": "verifyElementPresent",
+      "type": "assertElementPresent",
       "locator": {
         "type": "css selector",
         "value": "#tab_0 .new_interval_form:not(.hide)"

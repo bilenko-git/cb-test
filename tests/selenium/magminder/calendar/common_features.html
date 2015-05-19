@@ -3,15 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
-<title>Common Features</title>
+<link rel="selenium.base" href="http://wwwdev.ondeficar.com" />
+<title>common_features</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Common Features</td></tr>
+<tr><td rowspan="1" colspan="3">common_features</td></tr>
 </thead><tbody>
-<!--Login-->
 <tr>
 	<td>open</td>
 	<td>/auth/login</td>
@@ -29,7 +28,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//button[@type='submit']</td>
+	<td>xpath=//button[@type='submit']</td>
 	<td></td>
 </tr>
 <tr>
@@ -52,7 +51,6 @@
 	<td>id=main_menu</td>
 	<td></td>
 </tr>
-<!--Open calendar-->
 <tr>
 	<td>click</td>
 	<td>css=#main_menu #scalendar a</td>
@@ -73,7 +71,6 @@
 	<td>css=table.calendar-table</td>
 	<td></td>
 </tr>
-<!--Date changing-->
 <tr>
 	<td>click</td>
 	<td>css=#layout .calendar-head .calendar-nav .prev</td>
@@ -139,7 +136,6 @@
 	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(3) .day_name').text().split(' ').pop()</td>
 	<td>${newDate}</td>
 </tr>
-<!--Assignments panel-->
 <tr>
 	<td>click</td>
 	<td>css=#layout #assignments_btn</td>
@@ -186,17 +182,17 @@
 	<td>1</td>
 </tr>
 <tr>
-	<td>verifyEval</td>
+	<td>assertEval</td>
 	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1)').hasClass('today')</td>
 	<td>true</td>
 </tr>
 <tr>
-	<td>verifyEval</td>
+	<td>assertEval</td>
 	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1) .day_name').text().split(' ').pop() == window.$('#layout .assignments-wrapper #assignments-datepicker button span').text().split(',').shift().split(' ').pop()</td>
 	<td>true</td>
 </tr>
 <tr>
-	<td>verifyEval</td>
+	<td>assertEval</td>
 	<td>js=window.$('#layout .calendar-wrapper .calendar-head th:eq(1) .day_name').text().split(' ').shift() == window.$('#layout .assignments-wrapper #assignments-datepicker button span').text().split(',').shift().split(' ').shift()</td>
 	<td>true</td>
 </tr>
@@ -270,15 +266,14 @@
 	<td>js=window.$('#layout .assignments-wrapper:visible').length</td>
 	<td>0</td>
 </tr>
-<!--Logout-->
 <tr>
 	<td>click</td>
-	<td>//li[@id='ssettings']/a/span</td>
+	<td>xpath=//li[@id='ssettings']/a/span</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//li[@id='slogout']/a</td>
+	<td>xpath=//li[@id='slogout']/a</td>
 	<td></td>
 </tr>
 <tr>
@@ -286,6 +281,7 @@
 	<td>css=body &gt; .autherization</td>
 	<td></td>
 </tr>
+
 </tbody></table>
 </body>
 </html>

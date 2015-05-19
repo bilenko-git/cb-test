@@ -4,13 +4,93 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://wwwdev.ondeficar.com/" />
-<title>upladphoto</title>
+<title>Login</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">upladphoto</td></tr>
+<tr><td rowspan="1" colspan="3">Login</td></tr>
 </thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/auth/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>selenium@cloudbeds.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>testTime!</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=main_menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('body &gt; .progress-bar-background:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout[data-current_view=dashboard]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=main_menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=asettings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sroomTypes &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=room_type_private</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tab_2 &gt; form &gt; div.row-fluid &gt; div.span12.roomTypePrivate &gt; div.control-group.span6 &gt; div.controls &gt; label.radio.label_radio &gt; #uniform-undefined &gt; span.checked &gt; input[name=&quot;room_type_private&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tab_3 &gt; form &gt; div.row-fluid &gt; div.span12.roomTypePrivate &gt; div.control-group.span6 &gt; div.controls &gt; label.radio.label_radio &gt; #uniform-undefined &gt; span.checked &gt; input[name=&quot;room_type_private&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=room_type_private</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tab_2 &gt; form &gt; div.row-fluid &gt; div.span12.roomTypePrivate &gt; div.control-group.span6 &gt; div.controls &gt; label.radio.label_radio &gt; #uniform-undefined &gt; span.checked &gt; input[name=&quot;room_type_private&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#tab_3 &gt; form &gt; div.row-fluid &gt; div.span12.roomTypePrivate &gt; div.control-group.span6 &gt; div.controls &gt; label.radio.label_radio &gt; #uniform-undefined &gt; span.checked &gt; input[name=&quot;room_type_private&quot;]</td>
+	<td></td>
+</tr>
 <tr>
 	<td>click</td>
 	<td>css=body img.myimg</td>
@@ -28,12 +108,27 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>xpath=(//a[contains(text(),'Done')])[3]</td>
+	<td>css=#drop_zone_modal&nbsp;&nbsp;.step_2 .done</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//a[contains(text(),'Save &amp; Continue')]</td>
+	<td>css=.save-uploader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.pull-line-right &gt; .btn.green</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=asettings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
 	<td></td>
 </tr>
 </tbody></table>
