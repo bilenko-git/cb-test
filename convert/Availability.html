@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev3.ondeficar.com" />
+<title>copy_rates</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">copy_rates</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/auth/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>selenium@cloudbeds.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>testTime!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>dashboard</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#main_menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-content .tab-pane', '#layout').length</td>
+	<td>countRoomRates</td>
+</tr>
+</tbody></table>
+</body>
+</html>
