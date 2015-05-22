@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev3.ondeficar.com/" />
+<title>Login</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Login</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/auth/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>selenium@cloudbeds.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>testTime!</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=main_menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForEval</td>
+	<td>js=window.$('body &gt; .progress-bar-background:visible').length</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#layout[data-current_view=dashboard]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=main_menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Reservations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=new_reservation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=find-rooms</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.table-available-rooms .room-types</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>js=window.$('#book-choosed-rooms .room-types:first .selected-rooms').data('max_rooms')</td>
+	<td>max_rooms</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${max_rooms}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>css=#book-choosed-rooms .room-types:first .selected-rooms</td>
+	<td>value=1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=reservation-book</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=simple_r_first_name</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=simple_r_last_name</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=simple_r_email</td>
+	<td>test@bk.ru</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=simple_r_source</td>
+	<td>label=Telefone</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.payment_check_true_radio_label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.save-billing-info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.dont-send-reservation-confirmation-modal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.user_name:contains('test test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.reservation_number</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Reservations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=new_reservation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=find-rooms</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.table-available-rooms .room-types</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#book-choosed-rooms .room-types:first .selected-rooms').data('max_rooms')</td>
+	<td>${max_rooms} - 1</td>
+</tr>
+<tr>
+	<td>goBack</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.user_name:contains('test test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.reservation_number</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a[data-status='no_show']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#confirm-send-email-modal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#confirm-send-email-modal .btn_ok.button-send-email</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Reservations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=new_reservation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=find-rooms</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.table-available-rooms .room-types</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertEval</td>
+	<td>js=window.$('#book-choosed-rooms .room-types:first .selected-rooms').data('max_rooms')</td>
+	<td>${max_rooms} </td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=asettings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

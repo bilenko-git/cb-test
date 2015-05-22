@@ -2,595 +2,596 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="selenium.base" href="http://wwwdev3.ondeficar.com" />
-    <title>New Test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wwwdev3.ondeficar.com" />
+<title>charge_adults_ide</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
-    <thead>
-    <tr><td rowspan="1" colspan="3">New Test</td></tr>
-    </thead><tbody>
+<thead>
+<tr><td rowspan="1" colspan="3">charge_adults_ide</td></tr>
+</thead><tbody>
 <tr>
-    <td>open</td>
-    <td>/auth/login</td>
-    <td></td>
+	<td>open</td>
+	<td>/auth/login</td>
+	<td></td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>id=email</td>
-    <td>selenium@cloudbeds.com</td>
+	<td>type</td>
+	<td>id=email</td>
+	<td>selenium@cloudbeds.com</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>id=password</td>
-    <td>testTime!</td>
+	<td>type</td>
+	<td>id=password</td>
+	<td>testTime!</td>
 </tr>
 <tr>
-    <td>clickAndWait</td>
-    <td>//button[@type='submit']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//button[@type='submit']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>dashboard</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>dashboard</td>
 </tr>
 <tr>
-    <td>waitForElementPresent</td>
-    <td>css=#main_menu</td>
-    <td></td>
+	<td>waitForElementPresent</td>
+	<td>css=#main_menu</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[name=&quot;arates&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=#sroomRates &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomRates</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[href=&quot;#/roomTypes&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[href=&quot;#/roomTypes&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=li.base.active &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=li.base.active &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('select[name=room_type_adults_inBasePrice]').val()</td>
-    <td>room_type_adults_inBasePrice</td>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_adults_inBasePrice]').val()</td>
+	<td>room_type_adults_inBasePrice</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('select[name=room_type_children_inBasePrice]').val()</td>
-    <td>room_type_children_inBasePrice</td>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_children_inBasePrice]').val()</td>
+	<td>room_type_children_inBasePrice</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('select[name=room_type_max_guests]').val()</td>
-    <td>room_type_max_guests</td>
+	<td>storeEval</td>
+	<td>js=window.$('select[name=room_type_max_guests]').val()</td>
+	<td>room_type_max_guests</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${room_type_adults_inBasePrice}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${room_type_adults_inBasePrice}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${room_type_children_inBasePrice}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${room_type_children_inBasePrice}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[name=&quot;arates&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=#sroomRates &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomRates</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>charge_additional</td>
+	<td>storeEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>charge_additional</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${charge_additional}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${charge_additional}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=input[name^=&quot;charge_additional&quot;][value=&quot;N&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=input[name^=&quot;charge_additional&quot;][value=&quot;N&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>N</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>N</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=input[name^=&quot;charge_additional&quot;][value=&quot;Y&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=input[name^=&quot;charge_additional&quot;][value=&quot;Y&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>Y</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>Y</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.savingMsg').attr('data-qe-id')</td>
-    <td>saved</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('#layout .tab-pane.active .adults .control-group:not(.clonable)').length</td>
-    <td>countAdults</td>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .tab-pane.active .adults .control-group:not(.clonable)').length</td>
+	<td>countAdults</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('#layout .tab-pane.active .kids .control-group:not(.clonable)').length</td>
-    <td>countKids</td>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .tab-pane.active .kids .control-group:not(.clonable)').length</td>
+	<td>countKids</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${countAdults}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${countAdults}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${countKids}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${countKids}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>${room_type_max_guests} - ${room_type_adults_inBasePrice}</td>
-    <td>${countAdults}</td>
+	<td>assertEval</td>
+	<td>${room_type_max_guests} - ${room_type_adults_inBasePrice}</td>
+	<td>${countAdults}</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>${room_type_max_guests} - ${room_type_children_inBasePrice}</td>
-    <td>${countKids}</td>
+	<td>assertEval</td>
+	<td>${room_type_max_guests} - ${room_type_children_inBasePrice}</td>
+	<td>${countKids}</td>
 </tr>
 <tr>
-    <td>refresh</td>
-    <td></td>
-    <td></td>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>N</td>
+	<td>waitForEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>N</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>N</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>N</td>
 </tr>
 <tr>
-    <td>verifyElementPresent</td>
-    <td>css=#layout .tab-pane.active .charge_additional.hide</td>
-    <td></td>
+	<td>assertElementPresent</td>
+	<td>css=#layout .tab-pane.active .charge_additional.hide</td>
+	<td></td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('#layout .tab-pane.active .adults .control-group:visible').length</td>
-    <td>0</td>
+	<td>assertEval</td>
+	<td>js=window.$('#layout .tab-pane.active .adults .control-group:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('#layout .tab-pane.active .kids .control-group:visible').length</td>
-    <td>0</td>
+	<td>assertEval</td>
+	<td>js=window.$('#layout .tab-pane.active .kids .control-group:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[href=&quot;#/roomTypes&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[href=&quot;#/roomTypes&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=li.base.active &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=li.base.active &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_max_guests</td>
-    <td>value=3</td>
+	<td>select</td>
+	<td>name=room_type_max_guests</td>
+	<td>value=3</td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_adults_inBasePrice</td>
-    <td>value=1</td>
+	<td>select</td>
+	<td>name=room_type_adults_inBasePrice</td>
+	<td>value=1</td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_children_inBasePrice</td>
-    <td>value=1</td>
+	<td>select</td>
+	<td>name=room_type_children_inBasePrice</td>
+	<td>value=1</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.savingMsg').attr('data-qe-id')</td>
-    <td>saved</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
 </tr>
 <tr>
-    <td>refresh</td>
-    <td></td>
-    <td></td>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>1</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>0</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[name=&quot;arates&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=#sroomRates &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomRates</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=input[name^=&quot;charge_additional&quot;][value=&quot;Y&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=input[name^=&quot;charge_additional&quot;][value=&quot;Y&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>Y</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>Y</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('#layout .tab-pane.active .adults .control-group:not(.clonable)').length</td>
-    <td>countAdults</td>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .tab-pane.active .adults .control-group:not(.clonable)').length</td>
+	<td>countAdults</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('#layout .tab-pane.active .kids .control-group:not(.clonable)').length</td>
-    <td>countKids</td>
+	<td>storeEval</td>
+	<td>js=window.$('#layout .tab-pane.active .kids .control-group:not(.clonable)').length</td>
+	<td>countKids</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${countAdults}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${countAdults}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${countKids}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${countKids}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>assertExpression</td>
-    <td>${countAdults}</td>
-    <td>2</td>
+	<td>assertEval</td>
+	<td></td>
+	<td>2</td>
 </tr>
 <tr>
-    <td>assertExpression</td>
-    <td>${countKids}</td>
-    <td>2</td>
+	<td>assertEval</td>
+	<td></td>
+	<td>2</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.BET.langs.formatCurrency(10)</td>
-    <td>price_adult_1</td>
+	<td>storeEval</td>
+	<td>js=window.BET.langs.formatCurrency(10)</td>
+	<td>price_adult_1</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.BET.langs.formatCurrency(20)</td>
-    <td>price_adult_2</td>
+	<td>storeEval</td>
+	<td>js=window.BET.langs.formatCurrency(20)</td>
+	<td>price_adult_2</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.BET.langs.formatCurrency(2)</td>
-    <td>price_kid_1</td>
+	<td>storeEval</td>
+	<td>js=window.BET.langs.formatCurrency(2)</td>
+	<td>price_kid_1</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.BET.langs.formatCurrency(4)</td>
-    <td>price_kid_2</td>
+	<td>storeEval</td>
+	<td>js=window.BET.langs.formatCurrency(4)</td>
+	<td>price_kid_2</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>css=.tab-pane.active .adults .control-group:not(.clonable):eq(0) input</td>
-    <td>${price_adult_1}</td>
+	<td>type</td>
+	<td>css=.tab-pane.active .adults .control-group:not(.clonable):eq(0) input</td>
+	<td>${price_adult_1}</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(0) input', '#layout').val();</td>
-    <td>adult_1</td>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(0) input', '#layout').val();</td>
+	<td>adult_1</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>css=.tab-pane.active .adults .control-group:not(.clonable):eq(1) input</td>
-    <td>${price_adult_2}</td>
+	<td>type</td>
+	<td>css=.tab-pane.active .adults .control-group:not(.clonable):eq(1) input</td>
+	<td>${price_adult_2}</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(1) input', '#layout').val();</td>
-    <td>adult_2</td>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(1) input', '#layout').val();</td>
+	<td>adult_2</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>css=.tab-pane.active .kids .control-group:not(.clonable):eq(0) input</td>
-    <td>${price_kid_1}</td>
+	<td>type</td>
+	<td>css=.tab-pane.active .kids .control-group:not(.clonable):eq(0) input</td>
+	<td>${price_kid_1}</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(0) input', '#layout').val();</td>
-    <td>kid_1</td>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(0) input', '#layout').val();</td>
+	<td>kid_1</td>
 </tr>
 <tr>
-    <td>type</td>
-    <td>css=.tab-pane.active .kids .control-group:not(.clonable):eq(1) input</td>
-    <td>${price_kid_2}</td>
+	<td>type</td>
+	<td>css=.tab-pane.active .kids .control-group:not(.clonable):eq(1) input</td>
+	<td>${price_kid_2}</td>
 </tr>
 <tr>
-    <td>storeEval</td>
-    <td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(1) input', '#layout').val();</td>
-    <td>kid_2</td>
+	<td>storeEval</td>
+	<td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(1) input', '#layout').val();</td>
+	<td>kid_2</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${adult_1}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${adult_1}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${adult_2}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${adult_2}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${kid_1}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${kid_1}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${kid_2}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${kid_2}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.savingMsg').attr('data-qe-id')</td>
-    <td>saved</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
 </tr>
 <tr>
-    <td>refresh</td>
-    <td></td>
-    <td></td>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>1</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>0</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>Y</td>
+	<td>waitForEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>Y</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>Y</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>Y</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(0) input').val()</td>
-    <td>${adult_1}</td>
+	<td>assertEval</td>
+	<td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(0) input').val()</td>
+	<td>${adult_1}</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(1) input').val()</td>
-    <td>${adult_2}</td>
+	<td>assertEval</td>
+	<td>js=window.$('.tab-pane.active .adults .control-group:not(.clonable):eq(1) input').val()</td>
+	<td>${adult_2}</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(0) input').val()</td>
-    <td>${kid_1}</td>
+	<td>assertEval</td>
+	<td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(0) input').val()</td>
+	<td>${kid_1}</td>
 </tr>
 <tr>
-    <td>assertEval</td>
-    <td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(1) input').val()</td>
-    <td>${kid_2}</td>
+	<td>assertEval</td>
+	<td>js=window.$('.tab-pane.active .kids .control-group:not(.clonable):eq(1) input').val()</td>
+	<td>${kid_2}</td>
 </tr>
 <tr>
-    <td>refresh</td>
-    <td></td>
-    <td></td>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>1</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>0</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[href=&quot;#/roomTypes&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[href=&quot;#/roomTypes&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>waitForEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomTypes</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomTypes</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=li.base.active &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=li.base.active &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_max_guests</td>
-    <td>value=${room_type_max_guests}</td>
+	<td>select</td>
+	<td>name=room_type_max_guests</td>
+	<td>value=${room_type_max_guests}</td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_adults_inBasePrice</td>
-    <td>value=${room_type_adults_inBasePrice}</td>
+	<td>select</td>
+	<td>name=room_type_adults_inBasePrice</td>
+	<td>value=${room_type_adults_inBasePrice}</td>
 </tr>
 <tr>
-    <td>select</td>
-    <td>name=room_type_children_inBasePrice</td>
-    <td>value=${room_type_children_inBasePrice}</td>
+	<td>select</td>
+	<td>name=room_type_children_inBasePrice</td>
+	<td>value=${room_type_children_inBasePrice}</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.savingMsg').attr('data-qe-id')</td>
-    <td>saved</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
 </tr>
 <tr>
-    <td>refresh</td>
-    <td></td>
-    <td></td>
+	<td>refresh</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>1</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.progress-bar-background:visible').length</td>
-    <td>0</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.progress-bar-background:visible').length</td>
+	<td>0</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=a[name=&quot;arates&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=a[name=&quot;arates&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=#sroomRates &gt; a</td>
-    <td></td>
+	<td>click</td>
+	<td>css=#sroomRates &gt; a</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.BET.globals.currentView</td>
-    <td>roomRates</td>
+	<td>assertEval</td>
+	<td>js=window.BET.globals.currentView</td>
+	<td>roomRates</td>
 </tr>
 <tr>
-    <td>echo</td>
-    <td>${charge_additional}</td>
-    <td></td>
+	<td>echo</td>
+	<td>${charge_additional}</td>
+	<td></td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>css=input[name^=&quot;charge_additional&quot;][value=&quot;${charge_additional}&quot;]</td>
-    <td></td>
+	<td>click</td>
+	<td>css=input[name^=&quot;charge_additional&quot;][value=&quot;${charge_additional}&quot;]</td>
+	<td></td>
 </tr>
 <tr>
-    <td>verifyEval</td>
-    <td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
-    <td>${charge_additional}</td>
+	<td>assertEval</td>
+	<td>js=window.$('input[name^=&quot;charge_additional&quot;]:checked', '#layout').val()</td>
+	<td>${charge_additional}</td>
 </tr>
 <tr>
-    <td>click</td>
-    <td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
-    <td></td>
+	<td>click</td>
+	<td>xpath=//div[@class='pull-line-right']//a[.=' Save']</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForEval</td>
-    <td>js=window.$('.savingMsg').attr('data-qe-id')</td>
-    <td>saved</td>
+	<td>waitForEval</td>
+	<td>js=window.$('.savingMsg').attr('data-qe-id')</td>
+	<td>saved</td>
 </tr>
 <tr>
-    <td>open</td>
-    <td>/auth/logout</td>
-    <td></td>
+	<td>open</td>
+	<td>/auth/logout</td>
+	<td></td>
 </tr>
 <tr>
-    <td>waitForElementPresent</td>
-    <td>css=div.login</td>
-    <td></td>
+	<td>waitForElementPresent</td>
+	<td>css=div.login</td>
+	<td></td>
 </tr>
+
 </tbody></table>
 </body>
 </html>
