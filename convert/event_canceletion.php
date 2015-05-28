@@ -111,9 +111,9 @@ class event_canceletion extends WebDriverTestCase {
     // storeEval
     $test->roomId = $test->execute(array('script' => "return window.$('#layout .calendar-table.calendar-content tr.room_numbers:eq(2)').data('room_id')", 'args' => array()));
     // clickElement
-        $this->byXPath('//*[@id="891-2"]/td[6]/div')->click();
+        $this->byXPath('//*[@id="914-2"]/td[6]/div')->click();
     // clickElement
-        $this->byXPath('//*[@id="891-2"]/td[8]/div')->click();;
+        $this->byXPath('//*[@id="914-2"]/td[8]/div')->click();;
     // waitForElementPresent
     $this->waitUntil(function() use ($test) {
       try {
