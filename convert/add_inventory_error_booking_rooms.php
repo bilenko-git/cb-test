@@ -10,14 +10,14 @@ class add_inventory_error_boking_rooms extends WebDriverTestCase {
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
             'version' => '37',
-            'platform' => 'Linux',
+            'platform' => 'Windows 8.1',
             )
         ),
             // run Chrome on Linux on Sauce
         array(
             'browserName' => 'chrome',
             'desiredCapabilities' => array(
-            'platform' => 'Linux',
+            'platform' => 'Windows 8.1',
              )
         ),
     );

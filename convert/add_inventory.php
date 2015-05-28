@@ -11,7 +11,7 @@ class add_inventory extends WebDriverTestCase {
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
                 'version' => '37',
-                'platform' => 'Linux',
+                'platform' => 'Windows 8.1',
                 ''
             )
         ),
@@ -19,7 +19,7 @@ class add_inventory extends WebDriverTestCase {
         array(
             'browserName' => 'chrome',
             'desiredCapabilities' => array(
-                'platform' => 'Linux',
+                'platform' => 'Windows 8.1',
             )
         ),
     );

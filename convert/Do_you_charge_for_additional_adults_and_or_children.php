@@ -11,14 +11,14 @@ class Do_you_charge_for_additional_adults_and_or_children extends WebDriverTestC
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
                 'version' => '37',
-                'platform' => 'Linux',
+                'platform' => 'Windows 8.1',
             )
         ),
         // run Chrome on Linux on Sauce
        /* array(
             'browserName' => 'chrome',
             'desiredCapabilities' => array(
-                'platform' => 'Linux',
+                'platform' => 'Windows 8.1',
             )
         ),*/
     );
