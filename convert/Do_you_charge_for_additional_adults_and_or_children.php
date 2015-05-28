@@ -10,7 +10,7 @@ class Do_you_charge_for_additional_adults_and_or_children extends WebDriverTestC
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
             )
         ),

@@ -10,8 +10,9 @@ class add_inventory extends WebDriverTestCase {
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
+                ''
             )
         ),
         // run Chrome on Linux on Sauce

@@ -10,7 +10,7 @@ class Do_you_charge_a_clean_up_fee extends WebDriverTestCase {
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
             )
         ),

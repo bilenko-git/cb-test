@@ -10,7 +10,7 @@ class s2_check_checkboxes_for_date_range extends WebDriverTestCase {
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
             )
         ),

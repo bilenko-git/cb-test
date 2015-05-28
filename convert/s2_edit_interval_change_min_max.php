@@ -10,7 +10,7 @@ class s2_edit_interval_change_min_max extends WebDriverTestCase {
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
             )
         ),

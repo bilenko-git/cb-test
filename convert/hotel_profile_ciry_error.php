@@ -10,7 +10,7 @@ class hotel_profile_ciry_error extends WebDriverTestCase {
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'Linux',
             )
         ),

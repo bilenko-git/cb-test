@@ -145,7 +145,7 @@ class MyAwesomeTestCase extends Sauce\Sausage\WebDriverTestCase
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '15',
+                'version' => '37',
                 'platform' => 'VISTA'
             )
         ),

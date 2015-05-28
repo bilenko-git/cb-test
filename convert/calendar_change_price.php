@@ -10,7 +10,7 @@ class calendar_change_price extends WebDriverTestCase {
         /*  array(
               'browserName' => 'firefox',
               'desiredCapabilities' => array(
-                  'version' => '15',
+                  'version' => '37',
                   'platform' => 'Linux',
               )
           ),*/
