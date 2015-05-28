@@ -30,7 +30,7 @@ class add_inventory extends WebDriverTestCase {
         $test = $this; // Workaround for anonymous function scopes in PHP < v5.4.
         $session = $this->prepareSession(); // Make the session available.
         // get
-        $this->url("http://wwwdev3.ondeficar.com/auth/login");
+        $this->url("http://wwwdev.ondeficar.com/auth/login");
         // setElementText
         $element = $this->byId("email");
         $element->click();
@@ -79,7 +79,7 @@ class add_inventory extends WebDriverTestCase {
         $test->assertTrue($boolean);
     // waitForText
     // get
-    $this->url("http://wwwdev3.ondeficar.com/connect/366#/inventory");
+    $this->url("http://wwwdev.ondeficar.com/connect/366#/inventory");
     // waitForText
     $this->waitUntil(function() use ($test) {
       try {

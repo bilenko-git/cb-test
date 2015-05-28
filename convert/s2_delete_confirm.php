@@ -29,7 +29,7 @@ class s2_delete_confirm extends WebDriverTestCase {
         $test = $this; // Workaround for anonymous function scopes in PHP < v5.4.
         $session = $this->prepareSession(); // Make the session available.
         // get
-        $this->url("http://wwwdev3.ondeficar.com/auth/login");
+        $this->url("http://wwwdev.ondeficar.com/auth/login");
         // setElementText
         $element = $this->byId("email");
         $element->click();

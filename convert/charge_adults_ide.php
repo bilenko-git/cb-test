@@ -26,7 +26,7 @@ class charge_adults_ide extends WebDriverTestCase {
         $test = $this; // Workaround for anonymous function scopes in PHP < v5.4.
         $session = $this->prepareSession(); // Make the session available.
         // get
-        $this->url("http://wwwdev3.ondeficar.com/auth/login");
+        $this->url("http://wwwdev.ondeficar.com/auth/login");
         // setElementText
         $element = $this->byId("email");
         $element->click();
@@ -482,7 +482,7 @@ class charge_adults_ide extends WebDriverTestCase {
       return true;
     },50000);
     // get
-    $this->url("http://wwwdev3.ondeficar.com/auth/logout");
+    $this->url("http://wwwdev.ondeficar.com/auth/logout");
     // waitForElementPresent
     $this->waitUntil(function() use ($test) {
       try {
