@@ -538,7 +538,7 @@ class calendar_change_price extends WebDriverTestCase {
             }
             return true;
         },50000);
-    // waitForElementPresent
+    // waitForElementPresent3
     $this->waitUntil(function() use ($test) {
       try {
         $boolean = ($test->byCssSelector("table.calendar-table") instanceof \PHPUnit_Extensions_Selenium2TestCase_Element);
