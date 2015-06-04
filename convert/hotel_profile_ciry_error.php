@@ -79,11 +79,11 @@ class hotel_profile_ciry_error extends WebDriverTestCase {
     // clickElement
     $this->byCssSelector("#ssettings > a")->click();
     // clickElement
-    $this->byCssSelector("#sprofile1 > a")->click();
+        $this->url("http://wwwdev.ondeficar.com/connect/366#/profileHotel");
+    //$this->byCssSelector("#sprofile1 > a")->click();
     // clickElement
-    $this->byLinkText("Hotel Profile")->click();
+    $this->byCssSelector("a[data-tutorial='propertyProfile']")->click();
     // clickElement
-    $this->byLinkText("Property Profile")->click();
     // setElementText
     $element = $this->byId("hotel_name");
     $element->click();
