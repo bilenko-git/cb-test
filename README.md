@@ -1,3 +1,3 @@
 # selenium
-CloudBeds functional/selenium test repository
+ CloudBeds functional/selenium test repository
 test 5
