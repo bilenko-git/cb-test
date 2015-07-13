@@ -21,11 +21,13 @@
             return $element;
         }*/
 
-        public function waitForElement($selector, $timeout = 5000){
+        /*
+         * This version can be used when jQ selector needed
+         * 
+         * public function waitForElement($selector, $timeout = 5000){
             $_this = $this;
             $this->waitUntil(function() use ($_this, $selector) {
                 try {
-                    //$boolean = ($_this->byCssSelector($selector) instanceof \PHPUnit_Extensions_Selenium2TestCase_Element);
                     $boolean = $_this->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array()));
                 } catch (\Exception $e) {
                     $boolean = false;
@@ -33,6 +35,18 @@
                 return $boolean === true ?: null;
             }, $timeout);
             return $_this->byCssSelector($selector);
+        }*/
+        
+        public function waitForElement($selector, $timeout = 5000){
+            $element = $this->waitUntil(function($testCase) use ($selector) {
+                try {
+                    $element = $testCase->byCssSelector($selector);
+                    if ($element->displayed()) {
+                        return $element;
+                    }
+                } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {}
+            }, $timeout);
+            return $element;
         }
 
         public function waitForLocation($url, $timeout = 5000){
