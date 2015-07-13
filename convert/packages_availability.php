@@ -4,7 +4,7 @@
 
     class packages_availability extends availability_base_test{
         private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
-        private $packages = array(
+       /* private $packages = array(
             array(
                 'private_title' => 'Pack 1',
                 'rate_plan_name' => 'Pack 001',
@@ -52,7 +52,7 @@
                     )
                 )
             )
-        );
+        );*/
         public function testSteps(){
             $step = $this;
 
@@ -65,7 +65,8 @@
             $this->waitForElement('#main_menu', 50000);
             $this->waitForElement('#layout', 10000);
 
-            $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000);
+            $this->waitForElement('#main_menu', 50000);
+            $add_new_package_btn = $this->waitForElement('#layout .package-list-block a.add-new-package', 15000);
             $add_new_package_btn->click();
 
             $package_edit_wrapper = $this->waitForElement('#layout .package-edit-block', 15000);
