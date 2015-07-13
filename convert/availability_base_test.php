@@ -8,9 +8,7 @@ use Sauce\Sausage\WebDriverTestCase;
 
 class availability_base_test extends WebDriverTestCase
 {
-    use \Waiters, \Manipulations, \Asserts {
-        \Asserts::__construct as protected __asserts_construct;
-    }
+    use \Waiters, \Manipulations;
 
     protected $login_url = 'http://{server}/auth/login';
     protected $logout_url = 'http://{server}/auth/logout';
@@ -41,7 +39,6 @@ class availability_base_test extends WebDriverTestCase
     );
 
     public function __construct(){
-        $this->__asserts_construct();
         parent::__construct();
     }
 
