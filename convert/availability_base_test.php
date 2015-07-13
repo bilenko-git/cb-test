@@ -58,7 +58,6 @@ class availability_base_test extends WebDriverTestCase
     public function loginToSite(callable $success = null, callable $fail = null)
     {
         $this->url($this->_prepareUrl($this->logout_url));//load url
-        $this->waitForLocation($this->login_url);
 
         /*login to site*/
         $this->waitForLocation($this->_prepareUrl($this->login_url));
@@ -84,6 +83,8 @@ class availability_base_test extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
+
+        return $loggedIn;
     }
 
     public function getJSObject($name = ''){
@@ -97,6 +98,31 @@ class availability_base_test extends WebDriverTestCase
         return false;
     }
 
+    /**
+     * @visible true|false|null(all)
+     */
+    public function findModals($visible = null){
+        $result = array();
+        $modals = $this->elements($this->using('css selector')->value('.modal'));
+        foreach($modals as $modal) {
+            if ($modal instanceof PHPUnit_Extensions_Selenium2TestCase_Element) {
+                if (is_null($visible) || $modal->displayed() === $visible) {
+                    $result[] = $modal;
+                }
+            }
+        }
+
+        return $result;
+    }
+    public function closeModals(){
+        $modals = $this->findModals(true);
+        foreach($modals as $modal) {
+            $buttons = $modal->elements($this->using('css selector')->value('.btn.blue'));
+            foreach ($buttons as $btn)
+                $btn->click();
+        }
+    }
+
     public function getAvailability($room_type_id, $package_id, $date_from, $date_to, $force = false){
         if(!$this->availJSON || $force){
             $this->availJSON = $this->_getAvailabilityJSON();
@@ -106,7 +132,10 @@ class availability_base_test extends WebDriverTestCase
     }
 
     function _prepareUrl($url){
-        return str_replace('{server}', $this->server_url, $url);
+        $url = str_replace('{server}', $this->server_url, $url);
+        $url = str_replace('{property_id}', $this->property_id, $url);
+
+        return $url;
     }
     public function _checkLoggedIn(){
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));

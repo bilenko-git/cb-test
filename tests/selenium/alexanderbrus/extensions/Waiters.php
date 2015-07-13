@@ -1,24 +1,17 @@
 <?
     trait Waiters{
-        public function waitForElement($selector, $timeout = 5000, $assert = false, $message = ''){
-            $element = false;
-            $this->waitUntil(function() use($selector, &$element){
-                $elements = $this->elements($this->using('css selector')->value($selector));
-                foreach($elements as $el){
-                    if($el->displayed()){
-                        $element = $el;
-                        break;
-                    }
+        public function waitForElement($selector, $timeout = 5000){
+            $_this = $this;
+            $this->waitUntil(function() use ($_this, $selector) {
+                try {
+                    $boolean = ($_this->byCssSelector($selector) instanceof \PHPUnit_Extensions_Selenium2TestCase_Element);
+                } catch (\Exception $e) {
+                    $boolean = false;
                 }
-                return ($element)?true:false;
+                return $boolean === true ?: null;
             }, $timeout);
 
-            if(!$element && $assert){
-                if(!$message) $message = 'Element '. $selector . ' not found.';
-                $this->fail($message);
-            }
-
-            return $element;
+            return $_this->byCssSelector($selector);
         }
 
         public function waitForLocation($url, $timeout = 5000){
