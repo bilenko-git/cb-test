@@ -76,7 +76,7 @@ class availability_base_test extends WebDriverTestCase
         $loggedIn = false;
         $this->waitUntil(function () use (&$loggedIn) {
             $loggedIn = $this->_checkLoggedIn();
-            return $loggedIn ? true : null;
+            return $loggedIn;
         }, 10000);
 
         if ($loggedIn) {
