@@ -109,7 +109,7 @@ class availability_base_test extends WebDriverTestCase
         return str_replace('{server}', $this->server_url, $url);
     }
     public function _checkLoggedIn(){
-        return $this->getBrowserUrl() !== $this->_prepareUrl($this->login_url);
+        return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
     }
     public function _getAvailabilityJSON(){
         $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query(
