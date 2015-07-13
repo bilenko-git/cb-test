@@ -1,5 +1,26 @@
 <?
     trait Waiters{
+        /*public function waitForElement($selector, $timeout = 5000, $assert = false, $message = ''){
+            $element = false;
+            $this->waitUntil(function() use($selector, &$element){
+                $elements = $this->elements($this->using('css selector')->value($selector));
+                foreach($elements as $el){
+                    if($el->displayed()){
+                        $element = $el;
+                        break;
+                    }
+                }
+                return ($element)?true:false;
+            }, $timeout);
+
+            if(!$element && $assert){
+                if(!$message) $message = 'Element '. $selector . ' not found.';
+                $this->fail($message);
+            }
+
+            return $element;
+        }*/
+
         public function waitForElement($selector, $timeout = 5000){
             $_this = $this;
             $this->waitUntil(function() use ($_this, $selector) {
@@ -10,7 +31,6 @@
                 }
                 return $boolean === true ?: null;
             }, $timeout);
-
             return $_this->byCssSelector($selector);
         }
 

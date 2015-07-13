@@ -62,11 +62,11 @@ class availability_base_test extends WebDriverTestCase
         /*login to site*/
         $this->waitForLocation($this->_prepareUrl($this->login_url));
 
-        if (($emailField = $this->waitForElement('#email'))) {
+        if (($emailField = $this->waitForElement('//*[@id="email"]'))) {
             $emailField->value($this->login);
         }
 
-        if (($passField = $this->waitForElement('#password'))) {
+        if (($passField = $this->waitForElement('//*[@id="password"]'))) {
             $passField->value($this->password);
         }
 

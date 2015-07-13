@@ -3,7 +3,7 @@
     require_once 'availability_base_test.php';
 
     class packages_availability extends availability_base_test{
-        private $packages_list_url = 'http://{server}/connect/{property_id}/#/packages';
+        private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
         private $packages = array(
             array(
                 'private_title' => 'Pack 1',
@@ -68,19 +68,20 @@
             $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000);
             $add_new_package_btn->click();
 
-            $package_edit_wrapper = $this->waitForElement('.package-edit-block', 15000);
-            $this->uploadPackagePhoto();
+            $package_edit_wrapper = $this->waitForElement('#layout .package-edit-block', 15000);
+            //$this->uploadPackagePhoto();
         }
         public function addPackage($package){
 
         }
         public function uploadPackagePhoto() {
-            $upload_button = $this->element($this->using('css selector')->value('.myimg_upload .qq-upload-button'));
+            $upload_button = $this->waitForElement('.package-uploader > .myimg_upload');
             $upload_button->click();
+
             $modals = $this->findModals(true);
             if(!empty($modals)) {
                 $modal = reset($modals);
-                $this->uploadFileToElement('body>input[type=file]', $this->uploadFiles);
+                $this->uploadFileToElement('body>input[type=file]', $this->packages[0]['file']);
 
                 $btns = $modal->elements($this->using('css selector')->value('.btn.done'));
                 foreach($btns as $btn)
@@ -90,7 +91,7 @@
                 foreach($btns as $btn)
                     $btn->click();//click Save & Continue
 
-                $btn = $this->waitForElement('.btn.saveButton', 5000, true);
+                $btn = $this->waitForElement('.btn.saveButton', 5000);
                 if($btn) $btn->click();//click Save
 
                 /*assert [data-qe-iq] to saved*/
