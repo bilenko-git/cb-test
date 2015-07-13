@@ -34,7 +34,12 @@
                     elseif($selType === 'css')
                     {
                         $element = $testCase->byCssSelector($selector);
-                        $boolean = $element->displayed();
+                        $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
+	            }
+                    else
+                    {
+                        $element = $this->byXPath($selector);
+                        $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
                     }
                         
                 } catch (\Exception $e) {

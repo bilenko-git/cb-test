@@ -60,12 +60,10 @@
             $this->setupInfo('', '', '', 31);
 
             $this->loginToSite();
-
             $this->url($this->_prepareUrl($this->packages_list_url));
             $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
-            //$this->url("http://wwwdev3.ondeficar.com/connect/366#/packages");
-            //$this->assert('#main_menu', 50000);
-            $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000);
+            
+            $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000, 'css');
             $add_new_package_btn->click();
 
             $package_edit_wrapper = $this->waitForElement('#layout .package-edit-block', 15000);

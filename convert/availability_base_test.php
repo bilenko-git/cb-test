@@ -25,7 +25,7 @@ class availability_base_test extends WebDriverTestCase
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '37',
+                'version' => '39',
                 'platform' => 'Windows 8.1',
             )
         ),
