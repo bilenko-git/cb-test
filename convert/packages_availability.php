@@ -12,7 +12,8 @@
                 'promotion_code' => false,
                 'package_include' => 'Nothing include. Just test package',
                 'policies' => 'No any policy.',
-                'file' => __DIR__ . '/files/main_clouds_blue.png',
+                'file_dir' => __DIR__,
+                'file' => '/files/main_clouds_blue.png',
                 'ranges' => array(
                     array(
                         'from' => 'now',
@@ -81,7 +82,7 @@
             $modals = $this->findModals(true);
             if(!empty($modals)) {
                 $modal = reset($modals);
-                $this->uploadFileToElement('body>input[type=file]', $this->packages[0]['file']);
+                $this->uploadFileToElement('body>input[type=file]', $this->packages[0]['file_dir'].$this->packages[0]['file']);
 
                 $btns = $modal->elements($this->using('css selector')->value('.btn.done'));
                 foreach($btns as $btn)

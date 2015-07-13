@@ -1,4 +1,4 @@
-<?
+<?php
     trait Waiters{
         /*public function waitForElement($selector, $timeout = 5000, $assert = false, $message = ''){
             $element = false;
@@ -25,7 +25,8 @@
             $_this = $this;
             $this->waitUntil(function() use ($_this, $selector) {
                 try {
-                    $boolean = ($_this->byCssSelector($selector) instanceof \PHPUnit_Extensions_Selenium2TestCase_Element);
+                    //$boolean = ($_this->byCssSelector($selector) instanceof \PHPUnit_Extensions_Selenium2TestCase_Element);
+                    $boolean = $_this->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array()));
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
