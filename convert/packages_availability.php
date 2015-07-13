@@ -4,7 +4,7 @@
 
     class packages_availability extends availability_base_test{
         private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
-        private $packages = array(
+       /* private $packages = array(
             array(
                 'private_title' => 'Pack 1',
                 'rate_plan_name' => 'Pack 001',
@@ -53,19 +53,22 @@
                     )
                 )
             )
-        );
+        );*/
         public function testSteps(){
             $step = $this;
 
-            $this->setupInfo('', '', '', 31);
+            $this->setupInfo('', '', '', 366);
 
             $this->loginToSite();
-            $this->url($this->_prepareUrl($this->packages_list_url));
-            $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
+
 
             $this->waitForElement('#main_menu', 50000);
             $this->waitForElement('#layout', 10000);
 
+             $this->url($this->_prepareUrl($this->packages_list_url));
+             $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
+            //$this->url("http://wwwdev3.ondeficar.com/connect/366#/packages");
+            //$this->assert('#main_menu', 50000);
             $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000);
             $add_new_package_btn->click();
 
