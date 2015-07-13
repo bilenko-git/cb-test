@@ -22,22 +22,33 @@
         }*/
 
         /*
-         * This version can be used when jQ selector needed
-         * 
-         * public function waitForElement($selector, $timeout = 5000){
-            $_this = $this;
-            $this->waitUntil(function() use ($_this, $selector) {
+         * Working ok
+         */
+        public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
+            $this->waitUntil(function($testCase) use ($selector, $selType) {
                 try {
-                    $boolean = $_this->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array()));
+                    if($selType === 'jQ')
+                    {
+                        $boolean = $testCase->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array()));
+                    }
+                    elseif($selType === 'css')
+                    {
+                        $element = $testCase->byCssSelector($selector);
+                        $boolean = $element->displayed();
+                    }
+                        
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
                 return $boolean === true ?: null;
             }, $timeout);
-            return $_this->byCssSelector($selector);
-        }*/
+            return $this->byCssSelector($selector);
+        }
         
-        public function waitForElement($selector, $timeout = 5000){
+        /*
+         * Does not want working...
+         * 
+         * public function waitForElement($selector, $timeout = 5000){
             $element = $this->waitUntil(function($testCase) use ($selector) {
                 try {
                     $element = $testCase->byCssSelector($selector);
@@ -47,7 +58,7 @@
                 } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {}
             }, $timeout);
             return $element;
-        }
+        }*/
 
         public function waitForLocation($url, $timeout = 5000){
             $this->waitUntil(function($testCase) use ($url, $timeout) {return $testCase->getBrowserUrl() == $url;}, $timeout);

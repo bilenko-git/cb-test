@@ -57,16 +57,12 @@
         public function testSteps(){
             $step = $this;
 
-            $this->setupInfo('', '', '', 366);
+            $this->setupInfo('', '', '', 31);
 
             $this->loginToSite();
 
-
-            $this->waitForElement('#main_menu', 50000);
-            $this->waitForElement('#layout', 10000);
-
-             $this->url($this->_prepareUrl($this->packages_list_url));
-             $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
+            $this->url($this->_prepareUrl($this->packages_list_url));
+            $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
             //$this->url("http://wwwdev3.ondeficar.com/connect/366#/packages");
             //$this->assert('#main_menu', 50000);
             $add_new_package_btn = $this->waitForElement('#layout .add-new-package', 15000);

@@ -14,9 +14,9 @@ class availability_base_test extends WebDriverTestCase
     protected $logout_url = 'http://{server}/auth/logout';
     protected $cache_url = 'http://{server}/test/cache/from_cache';
     protected $server_url = 'wwwdev3.ondeficar.com';
-    protected $login = 'selenium@cloudbeds.com';
-    protected $password = 'testTime!';
-    protected $property_id = 366;
+    protected $login = 'engineering@cloudbeds.com';
+    protected $password = 'cl0udb3ds';
+    protected $property_id = 31;
 
     protected $availJSON = false;
 
