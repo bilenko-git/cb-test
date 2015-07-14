@@ -36,7 +36,7 @@
          * @param type $selType (css|xpath|jQ)
          * @return type
          */
-        public function waitForElement($selector, $timeout = 5000, $selType='css', $check_displayed = true){
+        public function waitForElement($selector, $timeout = 15000, $selType='css', $check_displayed = true){
             $element = null;
             echo 'Searching element: '. $selector.PHP_EOL;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {

@@ -1,8 +1,8 @@
 <?php
 namespace MyProject\Tests;
-require_once 'availability_base_test.php';
+require_once 'test_restrict.php';
 
-class packages_availability extends availability_base_test{
+class packages_availability extends test_restrict{
     private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
     private $packages = array(
         array(

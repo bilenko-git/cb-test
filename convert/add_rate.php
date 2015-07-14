@@ -1,9 +1,11 @@
 <?php
 namespace MyProject\Tests;
-require_once 'availability_base_test.php';
+require_once 'test_restrict.php';
 
-class add_rate extends availability_base_test{
+class add_rate extends test_restrict{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
+    private $reservas_url = 'http://{server}/reservas/{property_id}';
+    private $availability_url = 'http://{server}/connect/{property_id}#/availability';
     private $interval = array(
         'name' => 'interval today',
         'value_today' => '99'
@@ -13,7 +15,32 @@ class add_rate extends availability_base_test{
 
         $this->setupInfo('', '', '', 366);
         $this->loginToSite();
+
+        $arr = $this->getAvailability('2015-07-14','2015-07-15','891');
+        $availability = $arr->data[0]->rates->{'640'}->{'2015-07-14'}->avail;
+
+
         $this->addRate($this->interval);
+
+        $room_type_id = $this->execute(array('script' => "return window.$('#tab_0 [name=room_type_id]').val()", 'args' => array()));
+        //echo $room_type_id;
+        $room_type = $this->execute(array('script' => "return window.TAFFY(BET.DB().select('room_types')[0])({room_type_id: String(".$room_type_id.")}).get()[0]", 'args' => array()));
+
+        $booking_room_real = $room_type['room_type_max_rooms']  - ($room_type['room_type_capacity'] - $availability);
+        if ($booking_room_real < 0) {
+            $booking_room_real = 0;
+        }
+        echo 'real= '.$booking_room_real;
+
+        $this->url($this->_prepareUrl($this->reservas_url));
+        $this->waitForLocation($this->_prepareUrl($this->reservas_url));
+        $this->waitForElement('.available_rooms', 15000, 'css');
+        $booking_room = $this->execute(array('script' => "return window.$('.available_rooms [data-room_type_id=".$room_type_id."][data-is_package=0] .roomtype select.rooms_select option').length", 'args' => array()));
+        $booking_room--;
+        echo $booking_room;
+
+        $this->delRate();
+
     }
     public function addRate($interval){
         $this->url($this->_prepareUrl($this->roomRate_url));
@@ -29,7 +56,23 @@ class add_rate extends availability_base_test{
         $el->clear();
         $el->value($interval['value_today']);
 
-        //$this->byCssSelector('')
+        $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
+
+        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
+        $save->click();
+        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+    }
+
+    public function delRate(){
+        $this->url($this->_prepareUrl($this->roomRate_url));
+        $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
+        $this->waitForElement('#tab_0', 15000, 'css')->click();
+        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
+        $this->waitForElement('#confirm_delete', 50000, 'css');
+        $this->byCssSelector('#confirm_delete .btn_delete')->click();
+        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
+        $save->click();
+        $this->waitForElement('.toast-bottom-left', 50000, 'css');
 
     }
 }

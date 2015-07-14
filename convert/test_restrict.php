@@ -6,16 +6,18 @@ require_once '../tests/selenium/alexanderbrus/extensions/include.php';
 
 use Sauce\Sausage\WebDriverTestCase;
 
-class availability_base_test extends WebDriverTestCase
+class test_restrict extends WebDriverTestCase
 {
     use \Waiters, \Manipulations;
 
     protected $login_url = 'http://{server}/auth/login';
     protected $logout_url = 'http://{server}/auth/logout';
-    protected $cache_url = 'http://{server}/test/cache/from_cache';
+    protected $cache_url = 'http://{server}/api/tests/getCache';
     protected $server_url = 'wwwdev3.ondeficar.com';
     protected $login = 'selenium@cloudbeds.com';
     protected $password = 'testTime!';
+    protected $cbApiLogin = 'ofc_front';
+    protected $cbApiPass = 'H_6z5DpJ:H@5$';
     protected $property_id = 366;
     protected $property_settings = false;
 
@@ -154,8 +156,7 @@ class availability_base_test extends WebDriverTestCase
      * */
     public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false){
         $params = array(
-            'property_id' => $this->property_id,
-            'json' => 1
+            'property_id' => $this->property_id
         );
 
         if($date_from){
@@ -169,8 +170,15 @@ class availability_base_test extends WebDriverTestCase
         if($package_id) $params['package_id'] = $package_id;
 
         $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query($params);
+        
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+        $data = file_get_contents($cache_url, false, $context);
 
-        return file_get_contents($cache_url);
+        return json_decode($data);
     }
 
     function _prepareUrl($url){
