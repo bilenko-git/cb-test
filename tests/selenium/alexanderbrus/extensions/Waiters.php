@@ -36,7 +36,7 @@
          * @param type $selType (css|xpath|jQ)
          * @return type
          */
-        public function waitForElement($selector, $timeout = 5000, $selType='css'){
+        public function waitForElement($selector, $timeout = 15000, $selType='css'){
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
