@@ -141,8 +141,7 @@ class test_restrict extends WebDriverTestCase
      * */
     public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false){
         $params = array(
-            'property_id' => $this->property_id,
-            'json' => 1
+            'property_id' => $this->property_id
         );
 
         if($date_from){
