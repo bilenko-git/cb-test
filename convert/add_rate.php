@@ -27,7 +27,7 @@ class add_rate extends availability_base_test{
 
         $el = $this->byJQ(".define_week_days td:not(._hide) input");
         $el->clear();
-        $this->sendKeys($el,$interval['value_today']);
+        $el->value($interval['value_today']);
 
         //$this->byCssSelector('')
 
