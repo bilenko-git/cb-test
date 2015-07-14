@@ -25,9 +25,9 @@ class add_rate extends availability_base_test{
         $this->byName('start_date')->click();
         $this->byCssSelector('.ui-datepicker-today')->click();
 
-        $this->byJQ(".define_week_days td:not(._hide) input")
-            ->clear()
-            ->value($interval['value_today']);
+        $el = $this->byJQ(".define_week_days td:not(._hide) input");
+        $el->clear();
+        $this->sendKeys($el,$interval['value_today']);
 
         //$this->byCssSelector('')
 
