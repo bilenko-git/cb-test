@@ -4,17 +4,15 @@
 
     class packages_availability extends availability_base_test{
         private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
-       /* private $packages = array(
+        private $packages = array(
             array(
-                'private_title' => 'Pack 1',
-                'rate_plan_name' => 'Pack 001',
-                'is_derived' => false,
-                'promotion_code' => false,
-                'package_include' => 'Nothing include. Just test package',
-                'policies' => 'No any policy.',
-                'file_dir' => __DIR__,
-                'file' => '/files/main_clouds_blue.png',
-                'ranges' => array(
+                '[name=\'package_name\']' => 'Pack 1',
+                '[name=\'package_name_internal\']' => 'Pack 001',
+                /*'[name=\'derived\']' => 0,
+                '[name=\'have_promo\']' => 0,*/
+                '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
+                '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.'
+                /*'ranges' => array(
                     array(
                         'from' => 'now',
                         'to' => '+20 days',
@@ -51,9 +49,20 @@
                         'last_minute_booking' => 0,
                         'closed_to_arrival'  => false
                     )
-                )
+                )*/
             )
-        );*/
+        );
+
+        public function setUpPage() {
+            $this->fileDetector(function($filename) {
+                if(file_exists($filename)) {
+                    return $filename;
+                } else {
+                    return NULL;
+                }
+            });
+        }
+
         public function testSteps(){
             $step = $this;
 
@@ -67,45 +76,47 @@
             $add_new_package_btn->click();
 
             $package_edit_wrapper = $this->waitForElement('#layout .package-edit-block', 15000);
-            //$this->uploadPackagePhoto();
+
+            foreach($this->packages as $package){
+                $this->addPackage($package);
+            }
         }
         public function addPackage($package){
+            foreach($package as $selector => $value){
+                $this->execute(array(
+                    'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
+                    'args' => array()
+                ));
+            }
 
+            $this->uploadPackagePhoto();
         }
         public function uploadPackagePhoto() {
-            $upload_button = $this->waitForElement('.package-uploader > .myimg_upload');
+            $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload');
             $upload_button->click();
 
-            $modals = $this->findModals(true);
-            if(!empty($modals)) {
-                $modal = reset($modals);
-                $this->uploadFileToElement('body>input[type=file]', $this->packages[0]['file_dir'].$this->packages[0]['file']);
+            $modal = $this->waitForElement('#photo_upload_modal');
 
-                $btns = $modal->elements($this->using('css selector')->value('.btn.done'));
-                foreach($btns as $btn)
-                    $btn->click();//click Done
+            $this->uploadFileToElement('body > input[type=\'file\']', './files/cloudbeds-logo-250x39.png');
 
-                $btns = $modal->elements($this->using('css selector')->value('.btn.save-uploader'));
-                foreach($btns as $btn)
-                    $btn->click();//click Save & Continue
+            $btns = $this->byCssSelector('#photo_upload_modal .btn.done');//$modal->elements($this->using('css selector')->value('.btn.done'));
+            $this->waitUntilVisible($btns, 30000);
+            $btns->click();//click Done
 
-                $btn = $this->waitForElement('.btn.saveButton', 5000);
-                if($btn) $btn->click();//click Save
+            $btns = $this->waitForElement('#photo_upload_modal .save-uploader');//$modal->elements($this->using('css selector')->value('.btn.done'));
+            $this->waitUntilVisible($btns, 30000);
+            $btns->click();//click Save & Continue;
 
-                /*assert [data-qe-iq] to saved*/
-                $save_result = '';
-                $this->waitUntil(function() use (&$save_result){
-                    if($save_element = $this->byCssSelector('[data-qe-id]')) {
-                        $save_result = $save_element->attribute('data-qe-id');
-                        echo "current result is: " . $save_result . "\n";
-                        return $save_result == 'saved'?true:null;
-                    }
+/*            $btns = $this->waitForElement('.btn.save-uploader', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
+            $btns->click();//click Save & Continue*/
 
-                    return null;
-                }, 5000);//5000ms until saving process finish
+            $btns = $this->waitForElement('.edit-package-save.btn-save-panel', 5000);
+            $this->waitUntilVisible($btns, 30000);
+            if($btns) $btns->click();//click Save
 
-                $this->assertEquals('saved', $save_result, 'Saving result is: ' . $save_result); //assert saving result
-                /*./assert [data-qe-id] to saved*/
+            $result = $this->waitForElement('#layout .package-list-block', 5000);
+            if(!($result && $this->waitUntilVisible($result, 30000))) {
+                $this->fail('Saving failed');
             }
         }
     }

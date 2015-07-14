@@ -71,8 +71,10 @@
 
         public function waitUntilVisible($element, $timeout = 1000){
             $this->waitUntil(function() use($element){
-                return $element->displayed();
+                return $element->displayed()?:null;
             }, $timeout);
+
+            return $element->displayed();
         }
     }
 ?>
