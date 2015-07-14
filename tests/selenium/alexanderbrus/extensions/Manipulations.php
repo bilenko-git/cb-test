@@ -67,6 +67,13 @@
             ));
         }
 
+        public function getAttribute($element, $name){
+            return $this->execute(array(
+                'script' => 'return arguments[0].getAttribute("'.$name.'")',
+                'args' => array($element->toWebDriverObject())
+            ));
+        }
+
         public function goToLocation($location){
             $path = $this->getLocationPath($location);
 

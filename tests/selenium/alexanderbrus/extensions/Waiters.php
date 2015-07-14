@@ -36,9 +36,10 @@
          * @param type $selType (css|xpath|jQ)
          * @return type
          */
-        public function waitForElement($selector, $timeout = 5000, $selType='css'){
+        public function waitForElement($selector, $timeout = 5000, $selType='css', $check_displayed = true){
             $element = null;
-            $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
+            echo 'Searching element: '. $selector.PHP_EOL;
+            $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {
                 try {
                     switch ($selType) {
                         case 'css':
@@ -55,7 +56,7 @@
                             $testCase->fail('Unknown selector type');
                     }
                     
-                    $boolean = $element?$element->displayed():false;
+                    $boolean = $element?($check_displayed ? $element->displayed() : true):false;
                     
                 } catch (\Exception $e) {
                     $boolean = false;
@@ -64,6 +65,7 @@
                     usleep(500000);
                 return $boolean === true ?: null;
             }, $timeout);
+            echo 'return element: '. ($element?'Object':'false').PHP_EOL;
             return $element;
         }
         

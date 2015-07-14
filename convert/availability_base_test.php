@@ -17,8 +17,7 @@ class availability_base_test extends WebDriverTestCase
     protected $login = 'selenium@cloudbeds.com';
     protected $password = 'testTime!';
     protected $property_id = 366;
-
-    protected $availJSON = false;
+    protected $property_settings = false;
 
     public static $browsers = array(
         // run FF15 on Windows 8 on Sauce
@@ -63,6 +62,22 @@ class availability_base_test extends WebDriverTestCase
             $this->property_id = $property_id;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
+    }
+
+    /*
+     * @date in format for strtotime function
+     * @custom_format - if need, otherwise will be used property date format from @BET.config.formats.date_format
+     * */
+    public function convertDateToSiteFormat($date, $custom_format = false){
+        if(!$this->property_settings){
+            $this->property_settings = $this->getJSObject('BET.config');
+        }
+
+        $date_format = $custom_format;
+        if(!$date_format)
+            $date_format = ($this->property_settings?$this->property_settings['formats']['date_format']:'d/m/Y');
+
+        return date($date_format, strtotime($date));
     }
 
     public function loginToSite(callable $success = null, callable $fail = null)
@@ -154,6 +169,7 @@ class availability_base_test extends WebDriverTestCase
         if($package_id) $params['package_id'] = $package_id;
 
         $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query($params);
+
         return file_get_contents($cache_url);
     }
 
