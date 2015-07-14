@@ -29,26 +29,34 @@
             return $this->elementFromResponseValue($element);
         }
 
+        /**
+         * 
+         * @param type $selector
+         * @param type $timeout
+         * @param type $selType (css|xpath|jQ)
+         * @return type
+         */
         public function waitForElement($selector, $timeout = 5000, $selType='css'){
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
-                    if($selType === 'jQ')
-                    {
-                        $element = $this->byJQ($selector);
-                        $boolean = $element->displayed();
-                    }
-                    elseif($selType === 'css')
-                    {
-                        $element = $testCase->byCssSelector($selector);
-                        $boolean = $element->displayed();
-	                }
-                    else
-                    {
-                        $element = $this->byXPath($selector);
-                        $boolean = $element->displayed();
-                    }
+                    switch ($selType) {
+                        case 'css':
+                            $element = $testCase->byCssSelector($selector);
+                            break;
+                        case 'xpath':
+                            $element = $testCase->byXPath($selector);
+                            break;
+                        case 'jQ':
+                            $element = $this->byJQ($selector);
+                            break;
                         
+                        default:
+                            $testCase->fail('Unknown selector type');
+                    }
+                    
+                    $boolean = $element?$element->displayed():false;
+                    
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
