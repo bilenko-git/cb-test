@@ -182,9 +182,17 @@ class test_restrict extends WebDriverTestCase
     }
 
     function _prepareUrl($url){
-        $url = str_replace('{server}', $this->server_url, $url);
-        $url = str_replace('{property_id}', $this->property_id, $url);
-
+        $url = str_replace(
+                array(
+                        '{server}', 
+                        '{property_id}'
+                     ),
+                array(
+                        $this->server_url, 
+                        $this->property_id
+                ),
+                $url);
+        
         return $url;
     }
     public function _checkLoggedIn(){
