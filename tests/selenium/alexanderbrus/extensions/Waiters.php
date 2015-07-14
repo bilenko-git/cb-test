@@ -38,11 +38,11 @@
                         $element = $this->byJQ($selector);
                         $boolean = $element->displayed();
                     }
-                    elseif($selType === 'xpath')
+                    elseif($selType === 'css')
                     {
                         $element = $testCase->byCssSelector($selector);
                         $boolean = $element->displayed();
-	            }
+	                }
                     else
                     {
                         $element = $this->byXPath($selector);
