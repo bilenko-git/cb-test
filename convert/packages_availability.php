@@ -53,16 +53,6 @@ class packages_availability extends availability_base_test{
         )
     );
 
-    public function setUpPage() {
-        $this->fileDetector(function($filename) {
-            if(file_exists($filename)) {
-                return $filename;
-            } else {
-                return NULL;
-            }
-        });
-    }
-
     public function testSteps(){
         $step = $this;
 
@@ -107,12 +97,9 @@ class packages_availability extends availability_base_test{
         $this->waitUntilVisible($btns, 30000);
         $btns->click();//click Save & Continue;
 
-        /*            $btns = $this->waitForElement('.btn.save-uploader', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
-                    $btns->click();//click Save & Continue*/
-
         $btns = $this->waitForElement('.edit-package-save.btn-save-panel', 5000);
         $this->waitUntilVisible($btns, 30000);
-        if($btns) $btns->click();//click Save
+        if($btns) $btns->click();//click Save on save panel
 
         $result = $this->waitForElement('#layout .package-list-block', 5000);
         if(!($result && $this->waitUntilVisible($result, 30000))) {

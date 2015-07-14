@@ -42,6 +42,16 @@ class availability_base_test extends WebDriverTestCase
         parent::__construct();
     }
 
+    public function setUpPage() {
+        $this->fileDetector(function($filename) {
+            if(file_exists($filename)) {
+                return $filename;
+            } else {
+                return NULL;
+            }
+        });
+    }
+
     public function setupInfo($server_url, $login, $pass, $property_id, $browsersInfo = false){
         if($server_url)
             $this->server_url = $server_url;
