@@ -36,20 +36,20 @@
                     switch ($selType) {
                         case 'css':
                             $element = $testCase->byCssSelector($selector);
-                            $boolean = $element->displayed();
                             break;
                         case 'xpath':
-                            $element = $this->byXPath($selector);
-                            $boolean = $element->displayed();
+                            $element = $testCase->byXPath($selector);
                             break;
                         case 'jQ':
                             $element = $this->byJQ($selector);
-                            $boolean = $element->displayed();
                             break;
                         
                         default:
                             $testCase->fail('Unknown selector type');
                     }
+                    
+                    $boolean = $element?$element->displayed():false;
+                    
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
