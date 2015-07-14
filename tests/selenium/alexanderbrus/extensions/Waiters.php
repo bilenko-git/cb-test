@@ -25,29 +25,35 @@
          * Working ok
          */
         public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
+            $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType) {
                 try {
-                    if($selType === 'jQ')
-                    {
-                        $boolean = $testCase->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array()));
+                    if($selType === 'jQ') {
+                        $boolean = $testCase->execute(array('script' => 'return window.$("' . $selector . '").length>0', 'args' => array()));
+                        if ($boolean) {
+                            $element1 = $testCase->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
+                            $element = $this->elementFromResponseValue($element1);
+                            $element->value("gfg");
+                            echo "s ";
+                        }
                     }
                     elseif($selType === 'css')
                     {
                         $element = $testCase->byCssSelector($selector);
                         $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
-	            }
+                    }
                     else
                     {
                         $element = $this->byXPath($selector);
                         $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
                     }
-                        
+
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
                 return $boolean === true ?: null;
             }, $timeout);
-            return $this->byCssSelector($selector);
+            return $element;
         }
         
         /*
