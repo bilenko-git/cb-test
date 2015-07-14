@@ -29,6 +29,19 @@ class add_rate extends availability_base_test{
         $el->clear();
         $el->value($interval['value_today']);
 
+        $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
+
+        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
+        $save->click();
+
+        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
+        $this->waitForElement('#confirm_delete', 50000, 'css');
+        $this->byCssSelector('#confirm_delete .btn_delete')->click();
+        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
+        $save->click();
+        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+
         //$this->byCssSelector('')
 
     }
