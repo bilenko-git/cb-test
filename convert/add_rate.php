@@ -1,8 +1,8 @@
 <?php
 namespace MyProject\Tests;
-require_once 'availability_base_test.php';
+require_once 'test_restrict.php';
 
-class add_rate extends availability_base_test{
+class add_rate extends test_restrict{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
     private $reservas_url = 'http://{server}/reservas/{property_id}';
     private $availability_url = 'http://{server}/connect/{property_id}#/availability';
