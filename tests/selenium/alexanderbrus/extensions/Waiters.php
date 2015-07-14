@@ -26,28 +26,30 @@
          */
         public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
             $element = null;
-            $this->waitUntil(function($testCase) use ($selector, $selType) {
+            $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
-                    if($selType === 'jQ') {
-                        $boolean = $testCase->execute(array('script' => 'return window.$("' . $selector . '").length>0', 'args' => array()));
-                        if ($boolean) {
-                            $element1 = $testCase->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
-                            $element = $this->elementFromResponseValue($element1);
-                            $element->value("gfg");
-                            echo "s ";
+                    if($selType === 'jQ')
+                    {
+                        $boolean = $testCase->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array())) ;
+                        if($boolean===true)
+                        {
+                            $element = $testCase->execute(array('script' => 'return window.$("'.$selector.'").get(0)', 'args' => array()));
+                            $element = $testCase->elementFromResponseValue($element);
+                            if(!$element->displayed())
+                                $boolean = false;
                         }
                     }
                     elseif($selType === 'css')
                     {
                         $element = $testCase->byCssSelector($selector);
-                        $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
-                    }
+                        $boolean = $element->displayed();
+	            }
                     else
                     {
                         $element = $this->byXPath($selector);
-                        $boolean = $element?($element instanceof \PHPUnit_Extensions_Selenium2TestCase_Element):false;
+                        $boolean = $element->displayed();
                     }
-
+                        
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
