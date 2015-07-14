@@ -133,12 +133,28 @@ class availability_base_test extends WebDriverTestCase
         }
     }
 
-    public function getAvailability($room_type_id, $package_id, $date_from, $date_to, $force = false){
-        if(!$this->availJSON || $force){
-            $this->availJSON = $this->_getAvailabilityJSON();
+    /*
+     * @date_from format Y-m-d
+     * @date_to format Y-m-d
+     * */
+    public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false){
+        $params = array(
+            'property_id' => $this->property_id,
+            'json' => 1
+        );
+
+        if($date_from){
+            $params['start'] = $date_from;
+            if($date_to){
+                $params['days'] = intval((strtotime($date_to) - strtotime($date_from)) / 86400);
+            }
         }
 
-        //TODO: parse json to ranges, room types, packages etc.
+        if($room_type_id) $params['room_type_id'] = $room_type_id;
+        if($package_id) $params['package_id'] = $package_id;
+
+        $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query($params);
+        return file_get_contents($cache_url);
     }
 
     function _prepareUrl($url){
@@ -149,15 +165,6 @@ class availability_base_test extends WebDriverTestCase
     }
     public function _checkLoggedIn(){
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
-    }
-    public function _getAvailabilityJSON(){
-        $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query(
-                array(
-                    'property_id' => $this->property_id,
-                    'json' => 1
-                )
-            );
-        return file_get_contents($cache_url);
     }
 }
 ?>
