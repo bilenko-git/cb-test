@@ -15,9 +15,12 @@ class add_rate extends test_restrict{
 
         $this->setupInfo('', '', '', 366);
         $this->loginToSite();
-        $this->addRate($this->interval);
 
-        $availability = 11; // from json from_cache
+        $arr = json_decode($this->getAvailability('2015-07-14','2015-07-15','891'));
+        $availability = $arr->data[0]->rates->{'640'}->{'2015-07-14'}->avail;
+
+
+        $this->addRate($this->interval);
 
         $room_type_id = $this->execute(array('script' => "return window.$('#tab_0 [name=room_type_id]').val()", 'args' => array()));
         //echo $room_type_id;
