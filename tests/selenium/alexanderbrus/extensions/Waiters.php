@@ -25,13 +25,8 @@
          * Working ok
          */
         public function byJQ($selector){
-                $boolean = $this->execute(array('script' => 'return window.$("' . $selector . '").length>0', 'args' => array()));
-                if ($boolean === true) {
-                    $element = $this->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
-                    $element = $this->elementFromResponseValue($element);
-                    if (!$element->displayed())
-                        $boolean = false;
-                }
+            $element = $this->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
+            return $this->elementFromResponseValue($element);
         }
 
         public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
@@ -40,7 +35,8 @@
                 try {
                     if($selType === 'jQ')
                     {
-                           $this->byJQ($selector);
+                        $element = $this->byJQ($selector);
+                        $boolean = $element->displayed();
                     }
                     elseif($selType === 'css')
                     {

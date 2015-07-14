@@ -6,7 +6,7 @@ class add_rate extends availability_base_test{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
     private $interval = array(
         'name' => 'interval today',
-        'value_today' => 99
+        'value_today' => '99'
     );
     public function testSteps(){
         $step = $this;
@@ -25,7 +25,9 @@ class add_rate extends availability_base_test{
         $this->byName('start_date')->click();
         $this->byCssSelector('.ui-datepicker-today')->click();
 
-        $this->execute(array('script' => 'return window.$(".define_week_days td:not(._hide)")', 'args' => array()))->value($interval['value_today']);
+        $this->byJQ(".define_week_days td:not(._hide) input")
+            ->clear()
+            ->value($interval['value_today']);
 
         //$this->byCssSelector('')
 
