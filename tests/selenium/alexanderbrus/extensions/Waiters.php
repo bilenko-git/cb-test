@@ -33,22 +33,23 @@
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
-                    if($selType === 'jQ')
-                    {
-                        $element = $this->byJQ($selector);
-                        $boolean = $element->displayed();
-                    }
-                    elseif($selType === 'css')
-                    {
-                        $element = $testCase->byCssSelector($selector);
-                        $boolean = $element->displayed();
-	                }
-                    else
-                    {
-                        $element = $this->byXPath($selector);
-                        $boolean = $element->displayed();
-                    }
+                    switch ($selType) {
+                        case 'css':
+                            $element = $testCase->byCssSelector($selector);
+                            $boolean = $element->displayed();
+                            break;
+                        case 'xpath':
+                            $element = $this->byXPath($selector);
+                            $boolean = $element->displayed();
+                            break;
+                        case 'jQ':
+                            $element = $this->byJQ($selector);
+                            $boolean = $element->displayed();
+                            break;
                         
+                        default:
+                            $testCase->fail('Unknown selector type');
+                    }
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
