@@ -163,7 +163,7 @@ class test_restrict extends WebDriverTestCase
         ));
         $data = file_get_contents($cache_url, false, $context);
         
-        return $data;
+        return json_decode($data);
     }
 
     function _prepareUrl($url){

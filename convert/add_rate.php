@@ -16,7 +16,7 @@ class add_rate extends test_restrict{
         $this->setupInfo('', '', '', 366);
         $this->loginToSite();
 
-        $arr = json_decode($this->getAvailability('2015-07-14','2015-07-15','891'));
+        $arr = $this->getAvailability('2015-07-14','2015-07-15','891');
         $availability = $arr->data[0]->rates->{'640'}->{'2015-07-14'}->avail;
 
 
