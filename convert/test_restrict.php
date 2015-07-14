@@ -6,13 +6,13 @@ require_once '../tests/selenium/alexanderbrus/extensions/include.php';
 
 use Sauce\Sausage\WebDriverTestCase;
 
-class availability_base_test extends WebDriverTestCase
+class test_restrict extends WebDriverTestCase
 {
     use \Waiters, \Manipulations;
 
     protected $login_url = 'http://{server}/auth/login';
     protected $logout_url = 'http://{server}/auth/logout';
-    protected $cache_url = 'http://{server}/test/cache/from_cache';
+    protected $cache_url = 'http://{server}/api/tests/getCache';
     protected $server_url = 'wwwdev3.ondeficar.com';
     protected $login = 'selenium@cloudbeds.com';
     protected $password = 'testTime!';
@@ -154,7 +154,15 @@ class availability_base_test extends WebDriverTestCase
         if($package_id) $params['package_id'] = $package_id;
 
         $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query($params);
-        return file_get_contents($cache_url);
+        
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode("ofc_front:H_6z5DpJ:H@5$")
+            )
+        ));
+        $data = file_get_contents($cache_url, false, $context);
+        
+        return $data;
     }
 
     function _prepareUrl($url){
