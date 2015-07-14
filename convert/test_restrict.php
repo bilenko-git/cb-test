@@ -16,6 +16,8 @@ class test_restrict extends WebDriverTestCase
     protected $server_url = 'wwwdev3.ondeficar.com';
     protected $login = 'selenium@cloudbeds.com';
     protected $password = 'testTime!';
+    protected $cbApiLogin = 'ofc_front';
+    protected $cbApiPass = 'H_6z5DpJ:H@5$';
     protected $property_id = 366;
 
     protected $availJSON = false;
@@ -157,7 +159,7 @@ class test_restrict extends WebDriverTestCase
         
         $context = stream_context_create(array(
             'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode("ofc_front:H_6z5DpJ:H@5$")
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
             )
         ));
         $data = file_get_contents($cache_url, false, $context);
