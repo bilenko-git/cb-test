@@ -24,20 +24,23 @@
         /*
          * Working ok
          */
+        public function byJQ($selector){
+                $boolean = $this->execute(array('script' => 'return window.$("' . $selector . '").length>0', 'args' => array()));
+                if ($boolean === true) {
+                    $element = $this->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
+                    $element = $this->elementFromResponseValue($element);
+                    if (!$element->displayed())
+                        $boolean = false;
+                }
+        }
+
         public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
                     if($selType === 'jQ')
                     {
-                        $boolean = $testCase->execute(array('script' => 'return window.$("'.$selector.'").length>0', 'args' => array())) ;
-                        if($boolean===true)
-                        {
-                            $element = $testCase->execute(array('script' => 'return window.$("'.$selector.'").get(0)', 'args' => array()));
-                            $element = $testCase->elementFromResponseValue($element);
-                            if(!$element->displayed())
-                                $boolean = false;
-                        }
+                           $this->byJQ($selector);
                     }
                     elseif($selType === 'css')
                     {
@@ -53,6 +56,8 @@
                 } catch (\Exception $e) {
                     $boolean = false;
                 }
+                if ($boolean !== true)
+                    usleep(500000);
                 return $boolean === true ?: null;
             }, $timeout);
             return $element;
@@ -74,12 +79,20 @@
         }*/
 
         public function waitForLocation($url, $timeout = 5000){
-            $this->waitUntil(function($testCase) use ($url, $timeout) {return $testCase->getBrowserUrl() == $url;}, $timeout);
+            $this->waitUntil(function($testCase) use ($url, $timeout) {
+                $bUrl = $testCase->getBrowserUrl() == $url;
+                if (!$bUrl)
+                    usleep(500000);
+                return $bUrl;
+            }, $timeout);
         }
 
         public function waitUntilVisible($element, $timeout = 1000){
             $this->waitUntil(function() use($element){
-                return $element->displayed();
+                $displayed = $element->displayed();
+                if (!$displayed)
+                    usleep(500000);
+                return $displayed;
             }, $timeout);
         }
     }
