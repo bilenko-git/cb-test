@@ -29,6 +29,13 @@
             return $this->elementFromResponseValue($element);
         }
 
+        /**
+         * 
+         * @param type $selector
+         * @param type $timeout
+         * @param type $selType (css|xpath|jQ)
+         * @return type
+         */
         public function waitForElement($selector, $timeout = 5000, $selType='css'){
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
