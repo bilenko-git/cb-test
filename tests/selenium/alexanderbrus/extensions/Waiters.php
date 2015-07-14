@@ -33,7 +33,7 @@
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
-                    if($selType === 'jquery')
+                    if($selType === 'jQ')
                     {
                         $element = $this->byJQ($selector);
                         $boolean = $element->displayed();
