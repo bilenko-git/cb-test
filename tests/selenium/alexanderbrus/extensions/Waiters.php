@@ -29,16 +29,16 @@
             return $this->elementFromResponseValue($element);
         }
 
-        public function waitForElement($selector, $timeout = 5000, $selType='jQ'){
+        public function waitForElement($selector, $timeout = 5000, $selType='css'){
             $element = null;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element) {
                 try {
-                    if($selType === 'jQ')
+                    if($selType === 'jquery')
                     {
                         $element = $this->byJQ($selector);
                         $boolean = $element->displayed();
                     }
-                    elseif($selType === 'css')
+                    elseif($selType === 'xpath')
                     {
                         $element = $testCase->byCssSelector($selector);
                         $boolean = $element->displayed();
