@@ -110,10 +110,15 @@
         public function uploadFileToElement($css_selector, $files){
             $files = (array) $files;
             foreach($files as $file){
+                echo 'Wait for file input';
                 $input_file = end($this->elements($this->using('css selector')->value($css_selector)));
+                echo 'Wait complete;';
                 if($input_file instanceof PHPUnit_Extensions_Selenium2TestCase_Element) {
+                    echo 'File input set to visible';
                     $this->setAttribute($input_file, 'style', 'display: block!important;');
-                    $input_file->value($file);
+                    echo 'File input set value';
+                    //$input_file->value($file);
+                    $this->sendKeys($input_file, $file);
                 }
             }
         }
