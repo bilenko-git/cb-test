@@ -4,7 +4,7 @@
 
     class packages_availability extends availability_base_test{
         private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
-       /* private $packages = array(
+        private $packages = array(
             array(
                 'private_title' => 'Pack 1',
                 'rate_plan_name' => 'Pack 001',
@@ -53,7 +53,7 @@
                     )
                 )
             )
-        );*/
+        );
         public function testSteps(){
             $step = $this;
 
