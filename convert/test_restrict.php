@@ -2,7 +2,7 @@
 
 namespace MyProject\Tests;
 
-require_once '../tests/selenium/alexanderbrus/extensions/include.php';
+require_once './extensions/include.php';
 
 use Sauce\Sausage\WebDriverTestCase;
 
@@ -155,7 +155,7 @@ class test_restrict extends WebDriverTestCase
      * @date_from format Y-m-d
      * @date_to format Y-m-d
      * */
-    public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false){
+    public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false, $asArray=false){
         $params = array(
             'property_id' => $this->property_id
         );
@@ -179,7 +179,7 @@ class test_restrict extends WebDriverTestCase
         ));
         $data = file_get_contents($cache_url, false, $context);
 
-        return json_decode($data);
+        return json_decode($data, $asArray);
     }
 
     function _prepareUrl($url){
