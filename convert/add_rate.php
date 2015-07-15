@@ -27,6 +27,10 @@ class add_rate extends test_restrict{
         $arr = $this->getAvailability($this->convertDateToSiteFormat($this->interval['start'],'Y-m-d'),$this->convertDateToSiteFormat($this->interval['end'],'Y-m-d'),$room_type_id);
         $availability = $arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($this->interval['start'],'Y-m-d')}->avail;
 
+        //////////////////////////////////////
+        $rate = $arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($this->interval['start'],'Y-m-d')}->rate;
+        $this->assertGreaterThanOrEqual(0,floatval($rate));
+        //////////////////////////////////////
 
         $booking_room_real = $room_type['room_type_max_rooms']  - ($room_type['room_type_capacity'] - $availability);
         if ($booking_room_real < 0) {
@@ -38,11 +42,11 @@ class add_rate extends test_restrict{
         $this->waitForElement('.available_rooms', 15000, 'css');
         $booking_room = $this->execute(array('script' => "return window.$('.available_rooms .room_types [data-room_type_id=".$room_type_id."][data-is_package=0] .roomtype select.rooms_select option').length", 'args' => array()));
         $booking_room--;
-
+        //////////////////////////////////////
         echo 'real= '.$booking_room_real;
         echo 'on_booking= '.$booking_room;
         $this->assertEquals($booking_room_real,$booking_room);
-
+        //////////////////////////////////////
         $this->delRate();
 
     }
