@@ -80,7 +80,7 @@ class test_restrict extends WebDriverTestCase
         if(!$date_format)
             $date_format = ($this->property_settings?$this->property_settings['formats']['date_format']:'d/m/Y');
 
-        return date($date_format, strtotime($date, strtotime($base_date)));
+        return date($date_format, strtotime($date, strtotime($base_date, mktime(0,0,0))));
     }
 
     public function loginToSite(callable $success = null, callable $fail = null)
