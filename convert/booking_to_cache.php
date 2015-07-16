@@ -19,10 +19,12 @@ class booking_to_cache extends test_restrict{
         $this->waitForLocation($url);
         
         //looking for first room block in list
-        $el = $this->waitForElement('.room_types .room:first', 20000, 'jQ');
-        
-        if(!$el)
+        try {
+            $el = $this->waitForElement('.room_types .room:first', 20000, 'jQ');
+        }
+        catch(\Exception $e) {
             $this->fail('No rooms to booking');
+        }
         
         $roomTypeId = $this->getAttribute($el, 'data-room_type_id');
         $selectName = $this->execute(array('script' => 'return window.$(".room_types .room:first select.rooms_select").attr("name")', 'args' => array()));
@@ -59,9 +61,12 @@ class booking_to_cache extends test_restrict{
         $this->byCssSelector('.finalize')->click();
         
         //waiting for success status
-        $success = $this->waitForElement('.reserve_success', 20000);
-        if(!$success)
+        try {
+            $this->waitForElement('.reserve_success', 20000);
+        }
+        catch (\Exception $e) {
             $this->fail('Reserva was not added');
+        }
         
         //getting cache after booking
         $afterAvailability = $this->getAvailability($startDate, $endDate, $roomTypeId, false, true);

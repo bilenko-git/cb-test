@@ -125,6 +125,17 @@ class test_restrict extends WebDriverTestCase
 
         return false;
     }
+    
+    public function execJS($script = ''){
+        if($script){
+            return $this->execute(array(
+                'script' => $script,
+                'args'   => array()
+            ));
+        }
+
+        return false;
+    }
 
     /**
      * @visible true|false|null(all)
