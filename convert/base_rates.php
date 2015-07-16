@@ -108,6 +108,9 @@ class base_rates extends test_restrict{
             if ($el->avail < $availability){
                 $availability = $el->avail;
             }
+            if ($el->avail < 1){
+                $bool = true;
+            }
             //echo "el".$key."=".$el->rate;
             if (floatval($rate) <= 0) {
                $bool = true;
