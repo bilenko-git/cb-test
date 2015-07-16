@@ -79,12 +79,20 @@ class base_rates extends test_restrict{
         $arr = $this->getAvailability($this->convertDateToSiteFormat($interval['start'],'Y-m-d'),$this->convertDateToSiteFormat($interval['end'],'Y-m-d'),$room_type_id);
         $availability = $arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($interval['start'],'Y-m-d')}->avail;
 
+        unset($arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($interval['end'],'Y-m-d')});
+        //print_r($arr->data[0]->rates->{$rate_id});
+        $bool = false;
         //////////////////////////////////////
-        $rate_obj = $rate = $arr->data[0]->rates->{$rate_id};
+        $rate_obj = $arr->data[0]->rates->{$rate_id};
         foreach($rate_obj as $key => $el) {
             $rate = $el->rate;
-            echo "el=".$rate;
-            $this->assertGreaterThan(floatval(1), floatval($rate));
+            if ($el->avail < $availability){
+                $availability = $el->avail;
+            }
+            //echo "el".$key."=".$el->rate;
+            if (floatval($rate) <= 0) {
+               $bool = true;
+            }
         }
         //////////////////////////////////////
 
@@ -92,14 +100,33 @@ class base_rates extends test_restrict{
 
         $this->url($this->_prepareUrl($this->reservas_url));
         $this->waitForLocation($this->_prepareUrl($this->reservas_url));
+
+        $this->byName('search_start_date')->click();
+        $this->byCssSelector('#wizard')->click();
+        $value = $this->convertDateToSiteFormat($interval['start']);
+        $this->byName('search_start_date')->clear();
+        $this->byName('search_start_date')->value($value);
+        $this->byName('search_end_date')->click();
+        $this->byCssSelector('#wizard')->click();
+        $value = $this->convertDateToSiteFormat($interval['end']);
+        $this->byName('search_end_date')->clear();
+        $this->byName('search_end_date')->value($value);
+        $this->byCssSelector('#wizard')->click();
+        $this->byName('check_availability')->click();
+
         $this->waitForElement('.available_rooms', 15000, 'css');
         $booking_room = $this->execute(array('script' => "return window.$('.available_rooms .room_types [data-room_type_id=".$room_type_id."][data-is_package=0] .roomtype select.rooms_select option').length", 'args' => array()));
-        $booking_room--;
-        //////////////////////////////////////
-        echo 'real= '.$booking_room_real;
-        echo 'on_booking= '.$booking_room;
-        $this->assertEquals($booking_room_real,$booking_room);
-        //////////////////////////////////////
+        echo "answer".$booking_room;
+        if ($bool){
+            $this->assertEquals(0,$booking_room);
+        } else {
+            $booking_room--;
+            //////////////////////////////////////
+            //echo 'real= ' . $booking_room_real;
+            //echo 'on_booking= ' . $booking_room;
+            $this->assertEquals($booking_room_real, $booking_room);
+            //////////////////////////////////////
+        }
     }
 }
 ?>

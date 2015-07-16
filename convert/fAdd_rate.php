@@ -10,7 +10,7 @@ class add_rate extends base_rates{
         'name' => 'interval today',
         'value_today' => '99',
         'start' =>'now',
-        'end' =>'+1 days'
+        'end' =>'+10 days'
     );
     public function testSteps(){
         $step = $this;
@@ -27,6 +27,7 @@ class add_rate extends base_rates{
 
         $this->delRate();
 
+        $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
     }
 
 }
