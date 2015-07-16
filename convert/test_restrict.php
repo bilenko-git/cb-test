@@ -2,7 +2,7 @@
 
 namespace MyProject\Tests;
 
-require_once '../tests/selenium/alexanderbrus/extensions/include.php';
+require_once './extensions/include.php';
 
 use Sauce\Sausage\WebDriverTestCase;
 
@@ -20,6 +20,7 @@ class test_restrict extends WebDriverTestCase
     protected $cbApiPass = 'H_6z5DpJ:H@5$';
     protected $property_id = 366;
     protected $property_settings = false;
+    protected $delta = 0.0001;//delta for assertEquals to compare float values
 
     public static $browsers = array(
         // run FF15 on Windows 8 on Sauce
@@ -70,7 +71,7 @@ class test_restrict extends WebDriverTestCase
      * @date in format for strtotime function
      * @custom_format - if need, otherwise will be used property date format from @BET.config.formats.date_format
      * */
-    public function convertDateToSiteFormat($date, $custom_format = false){
+    public function convertDateToSiteFormat($date, $custom_format = false, $base_date = 'now'){
         if(!$this->property_settings){
             $this->property_settings = $this->getJSObject('BET.config');
         }
@@ -79,7 +80,7 @@ class test_restrict extends WebDriverTestCase
         if(!$date_format)
             $date_format = ($this->property_settings?$this->property_settings['formats']['date_format']:'d/m/Y');
 
-        return date($date_format, strtotime($date));
+        return date($date_format, strtotime($date, strtotime($base_date)));
     }
 
     public function loginToSite(callable $success = null, callable $fail = null)
@@ -154,7 +155,7 @@ class test_restrict extends WebDriverTestCase
      * @date_from format Y-m-d
      * @date_to format Y-m-d
      * */
-    public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false){
+    public function getAvailability($date_from, $date_to, $room_type_id = false, $package_id = false, $asArray=false){
         $params = array(
             'property_id' => $this->property_id
         );
@@ -178,7 +179,7 @@ class test_restrict extends WebDriverTestCase
         ));
         $data = file_get_contents($cache_url, false, $context);
 
-        return json_decode($data);
+        return json_decode($data, $asArray);
     }
 
     function _prepareUrl($url){
