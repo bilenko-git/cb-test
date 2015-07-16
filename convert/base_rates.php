@@ -25,6 +25,14 @@ class base_rates extends test_restrict{
         $this->byName('end_date')->value($value);
         $this->byCssSelector('.new_interval_form')->click();
 
+        if (isset($interval['min'])){
+            $this->byName('min_los')->value($interval['min']);
+        }
+
+        if (isset($interval['max'])){
+            $this->byName('max_los')->value($interval['max']);
+        }
+
         $l = $this->execute(array('script' => "return window.$('#tab_0 .define_week_days td:not(._hide) input').length", 'args' => array()));
         for($i=0;$i<$l;$i++){
             $el = $this->byJQ("#tab_0 .define_week_days td:not(._hide) input:eq(".$i.")");
@@ -53,21 +61,32 @@ class base_rates extends test_restrict{
 
     }
 
-    public function updateRate($interval){
+    public function updateRate($interval, $click = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         $this->waitForElement('#tab_0', 15000, 'css')->click();
         $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
         $this->byName('end_date')->click();
         $this->byCssSelector('.new_interval_form')->click();
-        $value = $this->convertDateToSiteFormat($interval['edit_end_day']);
+        $value = $this->convertDateToSiteFormat($interval['end']);
+        $this->byName('end_date')->clear();
         $this->byName('end_date')->value($value);
         $this->byCssSelector('.new_interval_form')->click();
 
-        $el = $this->byJQ(".define_week_days td:not(._hide) input");
-        $el->clear();
-        $el->value($interval['value_today']);
-
+        if($click) {
+            $l = $this->execute(array('script' => "return window.$('.define_week_days td._hide').length", 'args' => array()));
+            for ($i = 0; $i < $l; $i++) {
+                $index = $this->execute(array('script' => "return window.$('.define_week_days td._hide:eq(0)').index()", 'args' => array()));
+                $check = $this->byJQ('#tab_0 .define_week_days th:eq('. $index .') .md-checkbox label');
+                $check->click();
+            }
+        }
+        $l = $this->execute(array('script' => "return window.$('#tab_0 .define_week_days td:not(._hide) input').length", 'args' => array()));
+        for($i=0;$i<$l;$i++){
+            $el = $this->byJQ("#tab_0 .define_week_days td:not(._hide) input:eq(".$i.")");
+            $el->clear();
+            $el->value($interval['value_today']);
+        }
         $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
 
         $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
@@ -79,12 +98,31 @@ class base_rates extends test_restrict{
         $arr = $this->getAvailability($this->convertDateToSiteFormat($interval['start'],'Y-m-d'),$this->convertDateToSiteFormat($interval['end'],'Y-m-d'),$room_type_id);
         $availability = $arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($interval['start'],'Y-m-d')}->avail;
 
+        unset($arr->data[0]->rates->{$rate_id}->{$this->convertDateToSiteFormat($interval['end'],'Y-m-d')});
+        //print_r($arr->data[0]->rates->{$rate_id});
+        $bool = false;
         //////////////////////////////////////
-        $rate_obj = $rate = $arr->data[0]->rates->{$rate_id};
+        $rate_obj = $arr->data[0]->rates->{$rate_id};
         foreach($rate_obj as $key => $el) {
             $rate = $el->rate;
-            echo "el=".$rate;
-            $this->assertGreaterThan(floatval(1), floatval($rate));
+            if ($el->avail < $availability){
+                $availability = $el->avail;
+            }
+            if ($el->avail < 1){
+                $bool = true;
+            }
+            //echo "el".$key."=".$el->rate;
+            if (floatval($rate) <= 0) {
+               $bool = true;
+            }
+        }
+        $days = intval((strtotime($this->convertDateToSiteFormat($interval['end'],'Y-m-d')) - strtotime($this->convertDateToSiteFormat($interval['start'],'Y-m-d'))) / 86400);
+      //  echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
+      //  echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
+       // echo "day=".$days;
+        if (((isset($interval['min']) && $days < $interval['min']) || (isset($interval['max']) && $days > $interval['max']))){
+            $bool = true;
+           // echo "day=".$days;
         }
         //////////////////////////////////////
 
@@ -92,14 +130,33 @@ class base_rates extends test_restrict{
 
         $this->url($this->_prepareUrl($this->reservas_url));
         $this->waitForLocation($this->_prepareUrl($this->reservas_url));
+
+        $this->byName('search_start_date')->click();
+        $this->byCssSelector('#wizard')->click();
+        $value = $this->convertDateToSiteFormat($interval['start']);
+        $this->byName('search_start_date')->clear();
+        $this->byName('search_start_date')->value($value);
+        $this->byName('search_end_date')->click();
+        $this->byCssSelector('#wizard')->click();
+        $value = $this->convertDateToSiteFormat($interval['end']);
+        $this->byName('search_end_date')->clear();
+        $this->byName('search_end_date')->value($value);
+        $this->byCssSelector('#wizard')->click();
+        $this->byName('check_availability')->click();
+
         $this->waitForElement('.available_rooms', 15000, 'css');
         $booking_room = $this->execute(array('script' => "return window.$('.available_rooms .room_types [data-room_type_id=".$room_type_id."][data-is_package=0] .roomtype select.rooms_select option').length", 'args' => array()));
-        $booking_room--;
-        //////////////////////////////////////
-        echo 'real= '.$booking_room_real;
-        echo 'on_booking= '.$booking_room;
-        $this->assertEquals($booking_room_real,$booking_room);
-        //////////////////////////////////////
+        echo "answer".$booking_room;
+        if ($bool){
+            $this->assertEquals(0,$booking_room);
+        } else {
+            $booking_room--;
+            //////////////////////////////////////
+            //echo 'real= ' . $booking_room_real;
+            //echo 'on_booking= ' . $booking_room;
+            $this->assertEquals($booking_room_real, $booking_room);
+            //////////////////////////////////////
+        }
     }
 }
 ?>
