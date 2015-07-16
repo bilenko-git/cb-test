@@ -23,6 +23,7 @@ class fUpdate_rate extends base_rates{
         $room_type_id = $this->execute(array('script' => "return window.$('#tab_0 [name=room_type_id]').val()", 'args' => array()));
         $room_type = $this->execute(array('script' => "return window.TAFFY(BET.DB().select('room_types')[0])({room_type_id: String(".$room_type_id.")}).get()[0]", 'args' => array()));
         $rate_id = $this->execute(array('script' => "return window.$('#tab_0 [name=rate_id]').val()", 'args' => array()));
+
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
 
         $this->interval['end'] =  $this->interval['edit_end_day'];
