@@ -153,8 +153,68 @@ class packages_availability extends test_restrict{
                     'closed_to_arrival'  => false
                 )
             )
+        ),
+        array(
+            '[name=\'package_name\']' => 'Selenium Pack 6',
+            '[name=\'package_name_internal\']' => 'Selenium Pack 006',
+            'is_derived' => true,//[name=\'derived\']
+            '.action_rate' => '+',
+            '.currency_rate' => 'fixed',
+            '[name=\'derived_rate\']' => 5,
+            'have_promo' => false,//[name=\'have_promo\']
+            '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
+            '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
+            'ranges' => array(
+                array(
+                    'interval_name' => 'Selenium Interval 6 (test Derived)',
+                    'end_date' => '+120 days',
+                    'start_date' => '+101 days',
+                    'min_los' => 0,
+                    'max_los' => 0,
+                    'cut_off' => 0,
+                    'last_minute_booking' => 0,
+                    'closed_to_arrival'  => false
+                )
+            )
+        ),
+        array(
+            '[name=\'package_name\']' => 'Selenium Pack 7',
+            '[name=\'package_name_internal\']' => 'Selenium Pack 007',
+            'is_derived' => true,//[name=\'derived\']
+            '.action_rate' => '-',
+            '.currency_rate' => 'percentage',
+            '[name=\'derived_rate\']' => 5,
+            'have_promo' => false,//[name=\'have_promo\']
+            '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
+            '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
+            'ranges' => array(
+                array(
+                    'interval_name' => 'Selenium Interval 7 (test percentage Derived)',
+                    'end_date' => '+140 days',
+                    'start_date' => '+121 days',
+                    'min_los' => 0,
+                    'max_los' => 0,
+                    'cut_off' => 0,
+                    'last_minute_booking' => 0,
+                    'closed_to_arrival'  => false
+                )
+            )
         )
     );
+
+    public function _update_and_verifyPackage($index){
+        if(!empty($this->packages[$index])) {
+            $package = $this->packages[$index];
+            $package_id = $this->addPackage($package);
+            echo 'package id = ' . $package_id . PHP_EOL;
+            if(!$package_id) $this->fail('added package was not found');
+
+            $this->_checkAvailability($package);
+            $this->removePackage($package_id);
+        } else {
+            $this->fail('Package with such index for test doesn\'t exists, myabe data was corrupted.');
+        }
+    }
 
     public function _verifyPackage($index){
         if(!empty($this->packages[$index])){
@@ -188,7 +248,7 @@ class packages_availability extends test_restrict{
         }*/
     }
 
-    public function test_Range_Min_Max_los(){
+/*    public function test_Range_Min_Max_los(){
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
@@ -208,6 +268,18 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(4);
     }
+    public function test_Derived_fixed_package(){
+        $this->go_to_package_page();
+        $this->_verifyPackage(5);
+    }*/
+    public function test_Derived_percentage_package(){
+        $this->go_to_package_page();
+        $this->_verifyPackage(6);
+    }
+/*    public function test_Package_update(){
+        $this->go_to_package_page();
+        $this->_update_and_verifyPackage(0);
+    }*/
 
     public function getLastPackagesID() {
         $last_tr = $this->waitForElement('#layout .packages-table tbody > tr[data-id]:last', 5000, 'jQ');
@@ -297,10 +369,15 @@ class packages_availability extends test_restrict{
     }
 
     public function _checkAvailability($package){
-        $clean_up_charge = (float) $this->execute(array(
-            'script' => 'return BET.roomRates.charge_clean_up_room();',
-            'args' => array()
-        ));
+        $is_derived = !empty($package['is_derived']);
+
+        if($is_derived)
+            $clean_up_charge = 0.0;
+        else
+            $clean_up_charge = (float) $this->execute(array(
+                'script' => 'return BET.roomRates.charge_clean_up_room();',
+                'args' => array()
+            ));
 
         echo '~~~~~~~~~Cache checking....~~~~~~~~~'.PHP_EOL;
 
@@ -308,26 +385,71 @@ class packages_availability extends test_restrict{
             $date_from = $this->convertDateToSiteFormat($range['start_date'], 'Y-m-d');
             $date_to = $this->convertDateToSiteFormat($range['end_date'], 'Y-m-d');
 
-            $availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], $package['package_id']);
-            foreach($availability->data as $assoc){
-                if($assoc->id != 0) continue;//now only check base rate; TODO: associations rates check
+            $base_rate_by_days = array();
+            if($is_derived){
+                $base_rate_availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], 0, true);
+                print_r($base_rate_availability);
+                foreach($base_rate_availability['data'] as $assoc) {
+                    if ($assoc['id'] != 0) continue;//now only check base rate; TODO: associations rates check
 
-                foreach($assoc->rates as $rate_id => $dates) {
+                    foreach($assoc['rates'] as $rate_id => $dates) {
+                        foreach($dates as $currentDate => $value) {
+                            if ($value['package_id'] == 0 && $range['rm_type_id'] == $value['room_type_id']) {
+                                $base_rate_by_days[$currentDate] = $value;
+                            }
+                        }
+                    }
+                }
+                print_r($base_rate_by_days);
+            }
+
+            $availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], $package['package_id'], true);
+            print_r($availability);
+
+            $checked = false;
+            foreach($availability['data'] as $assoc){
+                if($assoc['id'] != 0) continue;//now only check base rate; TODO: associations rates check
+
+                foreach($assoc['rates'] as $rate_id => $dates) {
                     foreach($dates as $currentDate => $value) {
                         $value = (array) $value;
                         if($package['package_id'] == $value['package_id'] && $range['rm_type_id'] == $value['room_type_id']) {
                             $dayOfWeek = date('w', strtotime($currentDate));
 
-                            $this->assertEquals(floatVal($range['prices'][$dayOfWeek]) + $clean_up_charge, floatVal($value['rate']), 'Added Package Range Rate and Cache Range Rate is not equal for date: ' . $currentDate, $this->delta);
+                            $expected_price = 0;
+
+                            if(!$is_derived) {
+                                $expected_price = floatVal($range['prices'][$dayOfWeek]) + $clean_up_charge;
+                            } else {
+
+
+                                /*
+                                 *  '.action_rate' => '+',
+                                 *  '.currency_rate' => 'fixed',
+                                 *  '[name=\'derived_rate\']' => 5,
+                                 * */
+
+                                $expected_price = $base_rate_by_days[$currentDate]['rate'];
+                                $expected_price += ($package['.action_rate'] == '+'?1:-1)
+                                                    * ($package['.currency_rate'] == 'fixed'?1:$expected_price/100)
+                                                    * $package['[name=\'derived_rate\']'];
+                            }
+
+                            $this->assertEquals($expected_price, floatVal($value['rate']), 'Added Package Range Rate and Cache Range Rate is not equal for date: ' . $currentDate, $this->delta);
+
                             $this->assertEquals(intval($range['min_los']), intval($value['min_los']), 'Added Package Range Min Los and Cache Range Min Los is not equal for date: ' . $currentDate);
                             $this->assertEquals(intval($range['max_los']), intval($value['max_los']), 'Added Package Range Max Los and Cache Range Max Los is not equal for date: ' . $currentDate);
                             $this->assertEquals(intval($range['cut_off']), intval($value['cut_off']), 'Added Package Range Cut Off and Cache Range Cut Off is not equal for date: ' . $currentDate);
                             $this->assertEquals(intval($range['last_minute_booking']), intval($value['last_minute_booking']), 'Added Package Range Last minute booking and Cache Range Last minute booking is not equal for date: ' . $currentDate);
                             $this->assertEquals(intval($range['closed_to_arrival']), intval($value['closed_to_arrival']), 'Added Package Range Closed to Arrival and Cache Range Closed to Arrival is not equal for date: ' . $currentDate);
+
+                            $checked = true;
                         }
                     }
                 }
             }
+
+            if(!$checked) $this->fail('Cache was not checked - there is no suck package in results');
         }
 
         echo '~~~~~~~~~Cache checked successfully~~~~~~~~~'.PHP_EOL;
@@ -505,36 +627,19 @@ class packages_availability extends test_restrict{
         return json_decode($result, true);
     }
 
-    /*
-     * not need for now - decided to get data directly from server
-     * */
-    /*public function getBookingUrl($from = false, $to = false) {
-        $url = $this->_prepareUrl($this->booking_url);
-        $from  = $from ?: $this->convertDateToSiteFormat('now', 'Y-m-d');
-        $to = $to ?: $this->convertDateToSiteFormat('+1 day', 'Y-m-d');
-
-        return str_replace(array('{date_from}', '{date_to}'), array($from, $to), $url);
-    }*/
-
     public function addPackage(&$package) {
+        $is_derived = false;
+
         $this->waitForElement('#layout .add-new-package', 30000)->click();
         if(!$this->waitForElement('#layout .package-edit-block', 15000)){
             $this->fail('Form add package was not opened at time.');
-        }
-
-        foreach($package as $selector => $value){
-            if(in_array($selector, array('is_derived', 'have_promo', 'ranges', 'promo_code'))) continue;
-
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
-                'args' => array()
-            ));
         }
 
         if(isset($package['is_derived'])) {
             /*$derived_input = $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\']', 5000, 'jQ', false);//->click();
             $this->setAttribute($derived_input, 'checked', 'checked');*/
             $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
+            $is_derived = $package['is_derived'];
         }
 
         if(isset($package['have_promo'])) {
@@ -548,8 +653,17 @@ class packages_availability extends test_restrict{
             $promo_code_input->value($package['promo_code']);
         }
 
+        foreach($package as $selector => $value){
+            if(in_array($selector, array('is_derived', 'have_promo', 'ranges', 'promo_code'))) continue;
+
+            $this->execute(array(
+                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
+                'args' => array()
+            ));
+        }
+
         foreach($package['ranges'] as &$range) {
-            $rm_type_id = $this->addPackageRange($range);
+            $rm_type_id = $this->addPackageRange($range, $is_derived);
             $range['rm_type_id'] = $rm_type_id;
         }
 
@@ -569,7 +683,7 @@ class packages_availability extends test_restrict{
         return $package_id;
     }
 
-    public function addPackageRange($range) {
+    public function addPackageRange($range, $is_derived) {
         $this->waitForElement('.btn.date_range', 15000)->click();
 
         $form = $this->waitForElement('.portlet.add_interval', 10000);
@@ -621,11 +735,13 @@ class packages_availability extends test_restrict{
                 'args' => array()
             ));
 
-            foreach($range['prices'] as $index => $price) {
-                $price_input_selector = '[name=\'day_' . $rm_type_id . '_' . $index.'\']';
-                $price_input = $this->waitForElement($price_input_selector, 10000, 'jQ');
-                $price_input->clear();
-                $price_input->value($price);
+            if(!$is_derived && !empty($range['prices'])) {
+                foreach ($range['prices'] as $index => $price) {
+                    $price_input_selector = '[name=\'day_' . $rm_type_id . '_' . $index . '\']';
+                    $price_input = $this->waitForElement($price_input_selector, 10000, 'jQ');
+                    $price_input->clear();
+                    $price_input->value($price);
+                }
             }
 
             $this->waitForElement('.save_add_interval', 5000, 'jQ')->click();
