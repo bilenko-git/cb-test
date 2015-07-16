@@ -2,7 +2,7 @@
 namespace MyProject\Tests;
 require_once 'base_rates.php';
 
-class add_rate extends base_rates{
+class fAdd_rate extends base_rates{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
     private $reservas_url = 'http://{server}/reservas/{property_id}';
     private $availability_url = 'http://{server}/connect/{property_id}#/availability';

@@ -53,21 +53,32 @@ class base_rates extends test_restrict{
 
     }
 
-    public function updateRate($interval){
+    public function updateRate($interval, $click = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         $this->waitForElement('#tab_0', 15000, 'css')->click();
         $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
         $this->byName('end_date')->click();
         $this->byCssSelector('.new_interval_form')->click();
-        $value = $this->convertDateToSiteFormat($interval['edit_end_day']);
+        $value = $this->convertDateToSiteFormat($interval['end']);
+        $this->byName('end_date')->clear();
         $this->byName('end_date')->value($value);
         $this->byCssSelector('.new_interval_form')->click();
 
-        $el = $this->byJQ(".define_week_days td:not(._hide) input");
-        $el->clear();
-        $el->value($interval['value_today']);
-
+        if($click) {
+            $l = $this->execute(array('script' => "return window.$('.define_week_days td._hide').length", 'args' => array()));
+            for ($i = 0; $i < $l; $i++) {
+                $index = $this->execute(array('script' => "return window.$('.define_week_days td._hide:eq(0)').index()", 'args' => array()));
+                $check = $this->byJQ('#tab_0 .define_week_days th:eq('. $index .') .md-checkbox label');
+                $check->click();
+            }
+        }
+        $l = $this->execute(array('script' => "return window.$('#tab_0 .define_week_days td:not(._hide) input').length", 'args' => array()));
+        for($i=0;$i<$l;$i++){
+            $el = $this->byJQ("#tab_0 .define_week_days td:not(._hide) input:eq(".$i.")");
+            $el->clear();
+            $el->value($interval['value_today']);
+        }
         $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
 
         $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
