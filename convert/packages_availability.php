@@ -205,12 +205,19 @@ class packages_availability extends test_restrict{
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
             $package = $this->packages[$index];
-            $package_id = $this->addPackage($package);
-            echo 'package id = ' . $package_id . PHP_EOL;
-            if(!$package_id) $this->fail('added package was not found');
 
-            $this->_checkAvailability($package);
-            $this->removePackage($package_id);
+            $edit_package_id = 0;
+            $row = $this->waitForElement('#layout .packages-table tbody > tr[data-id]:first', 30000, 'jQ');
+            $edit_package_id = $this->getAttribute($row, 'data-id');
+
+            if($edit_package_id > 0) {
+                $package_id = $this->updatePackage($edit_package_id, $package);
+                $package['package_id'] = $package_id;
+                $this->_checkAvailability($package);
+                $this->removePackage($package_id);
+            } else {
+                $this->fail('Cannot choose package to edit, maybe package list is empty.');
+            }
         } else {
             $this->fail('Package with such index for test doesn\'t exists, myabe data was corrupted.');
         }
@@ -248,7 +255,7 @@ class packages_availability extends test_restrict{
         }*/
     }
 
-/*    public function test_Range_Min_Max_los(){
+    public function test_Range_Min_Max_los(){
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
@@ -271,15 +278,15 @@ class packages_availability extends test_restrict{
     public function test_Derived_fixed_package(){
         $this->go_to_package_page();
         $this->_verifyPackage(5);
-    }*/
+    }
     public function test_Derived_percentage_package(){
         $this->go_to_package_page();
         $this->_verifyPackage(6);
     }
-/*    public function test_Package_update(){
+    public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
-    }*/
+    }
 
     public function getLastPackagesID() {
         $last_tr = $this->waitForElement('#layout .packages-table tbody > tr[data-id]:last', 5000, 'jQ');
@@ -296,8 +303,11 @@ class packages_availability extends test_restrict{
         sleep(1);
         $delete_package_btn->click();
 
-        $delete_modal = $this->waitForElement('#confirm_delete', 15000);
-        $this->waitForElement('.btn_delete', 5000)->click();
+        $this->confirmDeleteDialog();
+    }
+
+    public function editPackageAction($package_id){
+        $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.edit', 5000, 'jQ')->click();
     }
 
     public function checkPackageNeedToBeExists($reservation_from, $reservation_to, $start_date, $end_date, $min_los = false, $max_los = false, $cut_off = false, $last_mb = false, $closed_to_arrival = false, $is_promo = false, $promo_code = ''){
@@ -388,7 +398,7 @@ class packages_availability extends test_restrict{
             $base_rate_by_days = array();
             if($is_derived){
                 $base_rate_availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], 0, true);
-                print_r($base_rate_availability);
+                //print_r($base_rate_availability);
                 foreach($base_rate_availability['data'] as $assoc) {
                     if ($assoc['id'] != 0) continue;//now only check base rate; TODO: associations rates check
 
@@ -400,11 +410,11 @@ class packages_availability extends test_restrict{
                         }
                     }
                 }
-                print_r($base_rate_by_days);
+                //print_r($base_rate_by_days);
             }
 
             $availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], $package['package_id'], true);
-            print_r($availability);
+            //print_r($availability);
 
             $checked = false;
             foreach($availability['data'] as $assoc){
@@ -627,13 +637,54 @@ class packages_availability extends test_restrict{
         return json_decode($result, true);
     }
 
-    public function addPackage(&$package) {
-        $is_derived = false;
-
+    public function addPackage(&$package){
         $this->waitForElement('#layout .add-new-package', 30000)->click();
         if(!$this->waitForElement('#layout .package-edit-block', 15000)){
             $this->fail('Form add package was not opened at time.');
         }
+
+        $this->fillPackage($package);
+
+        $package_id = $this->getLastPackagesID();
+        $package['package_id'] = $package_id;
+        return $package_id;
+    }
+
+    public function updatePackage($id, &$package){
+        $this->editPackageAction($id);
+        $this->clearOpenedPackage();
+        $this->fillPackage($package);
+
+        return $id;
+    }
+
+    public function clearOpenedPackage(){
+        $this->execute(array(
+            'script' => '$(".edit_package_form").get(0).reset()',
+            'args' => array()
+        ));
+
+        $this->removeOpenedPackageIntervals();
+    }
+
+    public function removeOpenedPackageIntervals(){
+        $intervals_count = $this->execute(array(
+            'script' => 'return $(".intervals-table .interval_delete:visible").length;',
+            'args' => array()
+        ));
+        for($i = 0; $i < $intervals_count; $i++){
+            $this->waitForElement('.intervals-table .interval_delete:visible', 1000, 'jQ')->click();
+            $this->confirmDeleteDialog();
+        }
+    }
+
+    public function confirmDeleteDialog(){
+        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
+        $this->waitForElement('.btn_delete', 5000)->click();
+    }
+
+    public function fillPackage(&$package) {
+        $is_derived = false;
 
         if(isset($package['is_derived'])) {
             /*$derived_input = $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\']', 5000, 'jQ', false);//->click();
@@ -677,10 +728,6 @@ class packages_availability extends test_restrict{
         if(!$result) {
             $this->fail('Saving failed');
         }
-
-        $package_id = $this->getLastPackagesID();
-        $package['package_id'] = $package_id;
-        return $package_id;
     }
 
     public function addPackageRange($range, $is_derived) {
