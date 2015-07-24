@@ -2,7 +2,7 @@
 
 namespace MyProject\Tests;
 
-require_once 'extensions/include.php';
+require_once './extensions/include.php';
 
 use Sauce\Sausage\WebDriverTestCase;
 
