@@ -73,6 +73,14 @@ class base_rates extends test_restrict{
         $this->byName('end_date')->value($value);
         $this->byCssSelector('.new_interval_form')->click();
 
+        if (isset($interval['min'])){
+            $this->byName('min_los')->value($interval['min']);
+        }
+
+        if (isset($interval['max'])){
+            $this->byName('max_los')->value($interval['max']);
+        }
+
         if($click) {
             $l = $this->execute(array('script' => "return window.$('.define_week_days td._hide').length", 'args' => array()));
             for ($i = 0; $i < $l; $i++) {
