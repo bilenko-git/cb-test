@@ -119,9 +119,9 @@ class base_rates extends test_restrict{
             }
         }
         $days = intval((strtotime($this->convertDateToSiteFormat($interval['end'],'Y-m-d')) - strtotime($this->convertDateToSiteFormat($interval['start'],'Y-m-d'))) / 86400);
-      //  echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
-      //  echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
-       // echo "day=".$days;
+        echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
+        echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
+       echo "day=".$days;
         if (((isset($interval['min']) && $days < $interval['min']) || (isset($interval['max']) && $days > $interval['max']))){
             $bool = true;
             echo "+++++++++day=".$days;
