@@ -118,12 +118,12 @@ class base_rates extends test_restrict{
             }
             if ($el->avail < 1){
                 $bool = true;
-               // echo "----------".$el."------";
+                echo "----------".$el."------";
             }
             //echo "el".$key."=".$el->rate;
             if (floatval($rate) <= 0) {
                $bool = true;
-               // echo "----------".$el."------";
+                echo "----------".$el."------";
             }
         }
         $days = intval((strtotime($this->convertDateToSiteFormat($interval['end'],'Y-m-d')) - strtotime($this->convertDateToSiteFormat($interval['start'],'Y-m-d'))) / 86400);
