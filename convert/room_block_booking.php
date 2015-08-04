@@ -155,12 +155,12 @@ class room_block_booking extends test_restrict{
                 }
             }
         //
-            
+
         //checking if cache ok
             $checkIdx = count($checkAvailability['data'])-1;
-            $availCheck = $checkAvailability['data'][$checkIdx]['rates'][$rateId][$blockDate]['avail'];
+            $availCheck = $checkAvailability['data'][$checkIdx]['rates'][$rateId][$blockDate]['closed'];
 
-            $this->assertEquals($availCheck, 0);
+            $this->assertEquals($availCheck, 1);
         //
     }
     
