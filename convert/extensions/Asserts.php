@@ -1,4 +1,4 @@
-<?
+<?php
     trait Asserts{
         protected $pdo = null;
         public function __construct(){

@@ -12,7 +12,6 @@ class fAdd_min_max_rate extends base_rates{
         'start' => 'now',
         'end' => '+1 days',
         'min' => '2',
-        'max' => '5',
         'edit_end_day' => '+12 days'
     );
     public function testSteps(){
@@ -29,6 +28,7 @@ class fAdd_min_max_rate extends base_rates{
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
 
         $this->interval['end'] =  $this->interval['edit_end_day'];
+        $this->interval['max'] =  '5';
 
         $this->updateRate($this->interval, true);
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);

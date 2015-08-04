@@ -1,4 +1,4 @@
-<?
+<?php
     trait Manipulations{
         protected $_map= array(
             'dashboard' => array('action' => 'click', 'css selector' => '#main_menu [name="adashboard"]'),

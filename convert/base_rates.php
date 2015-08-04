@@ -73,6 +73,14 @@ class base_rates extends test_restrict{
         $this->byName('end_date')->value($value);
         $this->byCssSelector('.new_interval_form')->click();
 
+        if (isset($interval['min'])){
+            $this->byName('min_los')->value($interval['min']);
+        }
+
+        if (isset($interval['max'])){
+            $this->byName('max_los')->value($interval['max']);
+        }
+
         if($click) {
             $l = $this->execute(array('script' => "return window.$('.define_week_days td._hide').length", 'args' => array()));
             for ($i = 0; $i < $l; $i++) {
@@ -110,19 +118,21 @@ class base_rates extends test_restrict{
             }
             if ($el->avail < 1){
                 $bool = true;
+              //  echo "----------".$el."------";
             }
             //echo "el".$key."=".$el->rate;
             if (floatval($rate) <= 0) {
                $bool = true;
+              //  echo "----------".$el."------";
             }
         }
         $days = intval((strtotime($this->convertDateToSiteFormat($interval['end'],'Y-m-d')) - strtotime($this->convertDateToSiteFormat($interval['start'],'Y-m-d'))) / 86400);
-      //  echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
-      //  echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
-       // echo "day=".$days;
+        echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
+        echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
+       echo "day=".$days;
         if (((isset($interval['min']) && $days < $interval['min']) || (isset($interval['max']) && $days > $interval['max']))){
             $bool = true;
-           // echo "day=".$days;
+            echo "+++++++++day=".$days;
         }
         //////////////////////////////////////
 
