@@ -118,7 +118,9 @@
             $files = (array) $files;
             foreach($files as $file){
                 echo 'Wait for file input';
-                $input_file = end($this->elements($this->using('css selector')->value($css_selector)));
+                $tmp = $this->using('css selector')->value($css_selector);
+                $tmp = $this->elements($tmp);
+                $input_file = end($tmp);
                 echo 'Wait complete;';
                 if($input_file instanceof PHPUnit_Extensions_Selenium2TestCase_Element) {
                     echo 'File input set to visible';

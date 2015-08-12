@@ -214,7 +214,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(2);
     }
-    public function test_Closed_to_arrival(){
+ /*   public function test_Closed_to_arrival(){
         $this->go_to_package_page();
         $this->_verifyPackage(3);
     }
@@ -233,7 +233,7 @@ class packages_availability extends test_restrict{
     public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
-    }
+    }*/
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
