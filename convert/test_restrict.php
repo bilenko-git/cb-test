@@ -13,12 +13,12 @@ class test_restrict extends WebDriverTestCase
     protected $login_url = 'http://{server}/auth/login';
     protected $logout_url = 'http://{server}/auth/logout';
     protected $cache_url = 'http://{server}/api/tests/getCache';
-    protected $server_url = 'wwwdev3.ondeficar.com';
-    protected $login = 'selenium@cloudbeds.com';
+    protected $server_url = 'wwwdev.ondeficar.com';
+    protected $login = 'selenium2@cloudbeds.com'; // selenium@cloudbeds.com for OTA
     protected $password = 'testTime!';
     protected $cbApiLogin = 'ofc_front';
     protected $cbApiPass = 'H_6z5DpJ:H@5$';
-    protected $property_id = 366;
+    protected $property_id = 479; // 479
     protected $property_settings = false;
     protected $delta = 0.0001;//delta for assertEquals to compare float values
 
@@ -208,6 +208,7 @@ class test_restrict extends WebDriverTestCase
         return $url;
     }
     public function _checkLoggedIn(){
+        echo "loh";
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
     }
 }

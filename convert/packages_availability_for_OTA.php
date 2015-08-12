@@ -11,7 +11,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 1',
             '[name=\'package_name_internal\']' => 'Selenium Pack 001',
-            'is_derived' => false,//[name=\'derived\']
+         //   'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
@@ -40,7 +40,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 2',
             '[name=\'package_name_internal\']' => 'Selenium Pack 002',
-            'is_derived' => false,//[name=\'derived\']
+           // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
@@ -69,7 +69,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 3',
             '[name=\'package_name_internal\']' => 'Selenium Pack 003',
-            'is_derived' => false,//[name=\'derived\']
+          //  'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
@@ -98,7 +98,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 4',
             '[name=\'package_name_internal\']' => 'Selenium Pack 004',
-            'is_derived' => false,//[name=\'derived\']
+           // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
@@ -127,7 +127,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 5',
             '[name=\'package_name_internal\']' => 'Selenium Pack 005',
-            'is_derived' => false,//[name=\'derived\']
+           // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => true,//[name=\'have_promo\']
             'promo_code' => 'Xxkj3dDSd!',
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
@@ -157,7 +157,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 6',
             '[name=\'package_name_internal\']' => 'Selenium Pack 006',
-            'is_derived' => true,//[name=\'derived\']
+          //  'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '+',
             '.currency_rate' => 'fixed',
             '[name=\'derived_rate\']' => 5,
@@ -180,7 +180,7 @@ class packages_availability extends test_restrict{
         array(
             '[name=\'package_name\']' => 'Selenium Pack 7',
             '[name=\'package_name_internal\']' => 'Selenium Pack 007',
-            'is_derived' => true,//[name=\'derived\']
+          //  'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '-',
             '.currency_rate' => 'percentage',
             '[name=\'derived_rate\']' => 5,
@@ -206,7 +206,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
-  /*  public function test_Cut_off(){
+    public function test_Cut_off(){
         $this->go_to_package_page();
         $this->_verifyPackage(1);
     }
@@ -222,14 +222,6 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(4);
     }
-    public function test_Derived_fixed_package(){
-        $this->go_to_package_page();
-        $this->_verifyPackage(5);
-    }
-    public function test_Derived_percentage_package(){
-        $this->go_to_package_page();
-        $this->_verifyPackage(6);
-    }*/
     public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
@@ -405,25 +397,24 @@ class packages_availability extends test_restrict{
             }
 
             $availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], $package['package_id'], true);
-            //print_r($availability);
+          //  print_r($availability);
 
             $checked = false;
             foreach($availability['data'] as $assoc){
-                if($assoc['id'] != 0) continue;//now only check base rate; TODO: associations rates check
 
+                if($assoc['id'] == 0) continue;//now only check base rate; TODO: associations rates check
                 foreach($assoc['rates'] as $rate_id => $dates) {
+
                     foreach($dates as $currentDate => $value) {
                         $value = (array) $value;
+
                         if($package['package_id'] == $value['package_id'] && $range['rm_type_id'] == $value['room_type_id']) {
                             $dayOfWeek = date('w', strtotime($currentDate));
-
                             $expected_price = 0;
 
                             if(!$is_derived) {
                                 $expected_price = floatVal($range['prices'][$dayOfWeek]) + $clean_up_charge;
                             } else {
-
-
                                 /*
                                  *  '.action_rate' => '+',
                                  *  '.currency_rate' => 'fixed',
