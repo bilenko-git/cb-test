@@ -789,7 +789,7 @@ class packages_availability extends test_restrict{
 
         $modal = $this->waitForElement('#photo_upload_modal', 7000);
 
-        $this->uploadFileToElement('body > input[type=\'file\']', './files/cloudbeds-logo-250x39.png');
+        $this->uploadFileToElement('body > input[type=\'file\']', __DIR__ .'/files/cloudbeds-logo-250x39.png');
 
         $btns = $this->waitForElement('#photo_upload_modal .btn.done', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
         $btns->click();//click Done
