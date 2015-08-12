@@ -211,7 +211,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(1);
     }
-   /* public function test_Last_minute_booking(){
+    public function test_Last_minute_booking(){
         $this->go_to_package_page();
         $this->_verifyPackage(2);
     }
@@ -226,7 +226,7 @@ class packages_availability extends test_restrict{
     public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
-    }*/
+    }
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
@@ -240,7 +240,7 @@ class packages_availability extends test_restrict{
                 $package_id = $this->updatePackage($edit_package_id, $package);
                 $package['package_id'] = $package_id;
                 $this->_checkAvailability($package);
-                $this->removePackage($package_id);
+               // $this->removePackage($package_id);
             } else {
                 $this->fail('Cannot choose package to edit, maybe package list is empty.');
             }
