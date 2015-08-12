@@ -15,7 +15,7 @@ class room_block_booking extends test_restrict{
     
     public function testSteps() {
         $newBlockingId = false;
-        $this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 33);
+      //  $this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 33);
 
         //will check next week
         $startDate = date('Y-m-d', strtotime('next monday'));

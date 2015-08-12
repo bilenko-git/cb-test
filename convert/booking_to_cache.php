@@ -9,7 +9,7 @@ class booking_to_cache extends test_restrict{
     private $testUrl = 'http://{server}/reservas/{property_id}';
     public function testSteps() {
 
-        $this->setupInfo('', '', '', 33);
+        $this->setupInfo('', '', '', 366);
 
         $startDate = date('Y-m-d', strtotime('+1 day'));
         $endDate = date('Y-m-d', strtotime('+2 day'));
