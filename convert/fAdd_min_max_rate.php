@@ -17,7 +17,7 @@ class fAdd_min_max_rate extends base_rates{
     public function testSteps(){
         $step = $this;
 
-        $this->setupInfo('', '', '', 366);
+        $this->setupInfo('', '', '', 479);//479
         $this->loginToSite();
         $this->addRate($this->interval);
 
