@@ -207,7 +207,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
-    public function test_Cut_off(){
+  /*  public function test_Cut_off(){
         $this->go_to_package_page();
         $this->_verifyPackage(1);
     }
@@ -226,7 +226,7 @@ class packages_availability extends test_restrict{
     public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
-    }
+    }*/
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
@@ -399,13 +399,13 @@ class packages_availability extends test_restrict{
             }
 
             $availability = $this->getAvailability($date_from, $date_to, $range['rm_type_id'], $package['package_id'], true);
-          //  print_r($availability);
 
             $checked = false;
             foreach($availability['data'] as $assoc){
 
-                if($assoc['id'] == $this->association_id) continue;//now only check base rate; TODO: associations rates check
+                if($assoc['id'] != $this->association_id) continue;//now only check base rate; TODO: associations rates check
                 foreach($assoc['rates'] as $rate_id => $dates) {
+
 
                     foreach($dates as $currentDate => $value) {
                         $value = (array) $value;
