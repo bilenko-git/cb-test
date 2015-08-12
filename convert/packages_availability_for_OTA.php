@@ -6,6 +6,7 @@ class packages_availability extends test_restrict{
     private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
     /*protected $booking_url = 'http://{server}/reservas/{property_id}#checkin={date_from}&checkout={date_to}';*/
     protected $booking_rooms_url = 'http://{server}/booking/rooms';
+    private $association_id = 7;
 
     private $packages = array(
         array(
@@ -210,7 +211,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(1);
     }
-    public function test_Last_minute_booking(){
+   /* public function test_Last_minute_booking(){
         $this->go_to_package_page();
         $this->_verifyPackage(2);
     }
@@ -225,7 +226,7 @@ class packages_availability extends test_restrict{
     public function test_Package_update(){
         $this->go_to_package_page();
         $this->_update_and_verifyPackage(0);
-    }
+    }*/
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
@@ -264,7 +265,8 @@ class packages_availability extends test_restrict{
 
     public function go_to_package_page(){
         //$this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 31);//for 31 hotel
-      //  $this->setupInfo('', 'aleksandr.brus+20150715@cloudbeds.com', 'KNS16111988', 412);//for 412 - my demo hotel on dev3
+        //$this->setupInfo('', 'aleksandr.brus+20150715@cloudbeds.com', 'KNS16111988', 412);//for 412 - my demo hotel on dev3
+        $this->setupInfo('', 'selenium2@cloudbeds.com', 'testTime!', 479);//for 412 - my demo hotel on dev3
 
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->packages_list_url));
@@ -402,7 +404,7 @@ class packages_availability extends test_restrict{
             $checked = false;
             foreach($availability['data'] as $assoc){
 
-                if($assoc['id'] == 0) continue;//now only check base rate; TODO: associations rates check
+                if($assoc['id'] == $this->association_id) continue;//now only check base rate; TODO: associations rates check
                 foreach($assoc['rates'] as $rate_id => $dates) {
 
                     foreach($dates as $currentDate => $value) {
