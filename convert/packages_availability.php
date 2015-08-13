@@ -240,6 +240,7 @@ class packages_availability extends test_restrict{
             $package = $this->packages[$index];
 
             $edit_package_id = 0;
+
             $row = $this->waitForElement('#layout .packages-table tbody > tr[data-id]:first', 30000, 'jQ');
             $edit_package_id = $this->getAttribute($row, 'data-id');
 
