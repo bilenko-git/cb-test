@@ -4,13 +4,16 @@ require_once 'test_restrict.php';
 
 class tax_rename_change_previous_transactions extends test_restrict {
     private $fees_and_taxes_url = 'http://{server}/connect/{property_id}#/fees_and_taxes';
+    private $reservation_url = 'http://{server}/connect/{property_id}#/newreservation';
     private $transactions_url = 'http://{server}/connect/{property_id}#/report_transactions';
     private $fee = array(
         'name' => 'Fee Transactions #1',
+        'name_changed' => 'Fee Transactions #1 changed',
         'amount' => '10'
     );
     private $tax = array(
         'name' => 'Tax Transactions #1',
+        'name_changed' => 'Tax Transactions #1 changed',
         'amount' => '10'
     );
 
@@ -72,6 +75,9 @@ class tax_rename_change_previous_transactions extends test_restrict {
     }
 
     private function add_reservation() {
+        // $index = $this->execute(array('script' => "return BET.newreservations.newReservation(false)", 'args' => array()));
+        // $this->waitForLocation($this->_prepareUrl($this->$reservation_url));
+        // $this->waitForElement('.submit-tax', 15000, 'css')->click();
         return false;
     }
 
@@ -80,10 +86,28 @@ class tax_rename_change_previous_transactions extends test_restrict {
     }
 
     private function change_fee_name() {
+        $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
+        $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
+        $this->byJQ('#layout .tabs_payments a:first')->click();
+        $this->waitForElement('#layout .edit-fee', 15000, 'css')->click();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->click();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->clear();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->value($this->fee['name_changed']);
+        $this->waitForElement('.submit-fee', 15000, 'css')->click();
+        $this->waitForElement('.toast-close-button', 15000, 'css')->click();
         return false;
     }
 
     private function change_tax_name() {
+        $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
+        $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
+        $this->byJQ('#layout .tabs_payments a:last')->click();
+        $this->waitForElement('#layout .edit-tax', 15000, 'css')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->clear();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->value($this->tax['name_changed']);
+        $this->waitForElement('.submit-tax', 15000, 'css')->click();
+        $this->waitForElement('.toast-close-button', 15000, 'css')->click();
         return false;
     }
 
