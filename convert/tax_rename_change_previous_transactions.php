@@ -9,6 +9,10 @@ class tax_rename_change_previous_transactions extends test_restrict {
         'name' => 'Fee Transactions #1',
         'amount' => '10'
     );
+    private $tax = array(
+        'name' => 'Tax Transactions #1',
+        'amount' => '10'
+    );
 
     public function testSteps() {
         $this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
@@ -41,6 +45,8 @@ class tax_rename_change_previous_transactions extends test_restrict {
     private function add_fee() {
         $this->url($this->_prepareUrl($this->fees_and_taxes_url));
         $this->waitForLocation($this->_prepareUrl($this->fees_and_taxes_url));
+        $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
+        $this->byJQ('#layout .tabs_payments a:first')->click();
         $this->waitForElement('#layout .add-new-fee', 15000, 'css')->click();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->click();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->value($this->fee['name']);
@@ -52,7 +58,17 @@ class tax_rename_change_previous_transactions extends test_restrict {
     }
 
     private function add_tax() {
-        return false;
+        $this->url($this->_prepareUrl($this->fees_and_taxes_url));
+        $this->waitForLocation($this->_prepareUrl($this->fees_and_taxes_url));
+        $this->byJQ('#layout .tabs_payments a:last')->click();
+        $this->waitForElement('#layout .add-new-tax', 15000, 'css')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->value($this->tax['name']);
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->clear();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->value($this->tax['amount']);
+        $this->waitForElement('.submit-tax', 15000, 'css')->click();
+        $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
 
     private function add_reservation() {
@@ -80,12 +96,15 @@ class tax_rename_change_previous_transactions extends test_restrict {
     }
 
     private function remove_fee() {
+        $this->byJQ('#layout .tabs_payments a:first')->click();
         $this->waitForElement('#layout .delete-fee', 15000, 'css')->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
     }
 
     private function remove_tax() {
-        return false;
+        $this->byJQ('#layout .tabs_payments a:last')->click();
+        $this->waitForElement('#layout .delete-tax', 15000, 'css')->click();
+        $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
     }
 
     private function remove_reservation() {
