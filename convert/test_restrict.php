@@ -207,6 +207,7 @@ class test_restrict extends WebDriverTestCase
         
         return $url;
     }
+    
     public function _checkLoggedIn(){
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
     }
