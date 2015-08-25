@@ -108,7 +108,7 @@ class add_inventory extends WebDriverTestCase {
       return true;
     },50000);
     // clickElement
-    $this->byCssSelector("a[name=\"asettings\"] > span.arrow")->click();
+        $this->byCssSelector("a[name=\"asettings\"] > span.arrow")->click();
     // clickElement
         $this->byCssSelector("a.logout_link")->click();
   }
