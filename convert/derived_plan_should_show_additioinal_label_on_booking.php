@@ -8,6 +8,6 @@ class derived_plan_should_show_additioinal_label_on_booking extends test_restric
     public function testSteps() {
         $this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
         $this->loginToSite();
-        $this->create_package('name');
+        $this->packages_create_package('name');
     }
 }
