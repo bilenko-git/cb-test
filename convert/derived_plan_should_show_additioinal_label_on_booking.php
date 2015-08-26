@@ -33,5 +33,6 @@ class derived_plan_should_show_additioinal_label_on_booking extends test_restric
         );
 
         $package_id = $this->packages_add_package($package);
+        $this->packages_remove_package($package_id);
     }
 }

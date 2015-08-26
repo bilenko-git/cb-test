@@ -6,12 +6,9 @@ trait Packages {
     public function packages_add_package(&$package) {
         $this->packages_go_to_package_page();
         $this->waitForElement('#layout .add-new-package', 30000)->click();
-        if(!$this->waitForElement('#layout .package-edit-block', 15000)){
+        if (!$this->waitForElement('#layout .package-edit-block', 15000))
             $this->fail('Form add package was not opened at time.');
-        }
-
         $this->packages_fill_package($package);
-
         $package_id = $this->packages_get_last_package_id();
         $package['package_id'] = $package_id;
         return $package_id;
@@ -159,8 +156,16 @@ trait Packages {
         return false;
     }
 
-
-    public function packages_delete_package($package) {
-        return false;
+    public function packages_remove_package($package_id) {
+        $delete_package_btn = $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.delete', 5000, 'jQ');
+        sleep(1);
+        $delete_package_btn->click();
+        $this->packages_confirm_delete_dialog();
     }
+
+    public function packages_confirm_delete_dialog() {
+        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
+        $this->waitForElement('.btn_delete', 5000)->click();
+    }
+
 }
