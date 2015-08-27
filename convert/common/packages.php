@@ -102,8 +102,8 @@ trait Packages {
 
 
             // TODO:   $rm_type_index = rand(0, 1000) % count($rm_types);????????
-          //  $rm_type_index = rand(0, 1000) % count($rm_types);
-            $rm_type = $rm_types[1];
+            //  $rm_type_index = rand(0, 1000) % count($rm_types);
+            $rm_type = $rm_types[0];
             $rm_type_id = $rm_type['room_type_id'];
         }
 
@@ -157,6 +157,7 @@ trait Packages {
     }
 
     public function packages_remove_package($package_id) {
+        $this->packages_go_to_package_page();
         $delete_package_btn = $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.delete', 5000, 'jQ');
         sleep(1);
         $delete_package_btn->click();
