@@ -9,13 +9,14 @@
         <CLASSES>
           <root url="phar://$MODULE_DIR$/tests/selenium/philipp/acessa/SeleniumTestHostel/roomrate/convert/composer.phar" />
           <root url="phar://$MODULE_DIR$/convert/composer.phar" />
+          <root url="phar://$MODULE_DIR$/billing_portal/composer.phar" />
         </CLASSES>
         <SOURCES>
           <root url="phar://$MODULE_DIR$/tests/selenium/philipp/acessa/SeleniumTestHostel/roomrate/convert/composer.phar" />
           <root url="phar://$MODULE_DIR$/convert/composer.phar" />
+          <root url="phar://$MODULE_DIR$/billing_portal/composer.phar" />
         </SOURCES>
       </library>
     </orderEntry>
   </component>
 </module>
-
