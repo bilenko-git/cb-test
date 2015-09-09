@@ -35,6 +35,17 @@ class test_restrict extends WebDriverTestCase
         parent::__construct();
     }
 
+    public function setUp() {
+        parent::setUp();
+
+        if (getenv('SELENIUM_LOCAL')) {
+            $this->setupSpecificBrowser(array(
+                'local' => true,
+                'browserName' => 'firefox',
+            ));
+        }
+    }
+
     /*
      * @date in format for strtotime function
      * @custom_format - if need, otherwise will be used property date format from @BET.config.formats.date_format
@@ -134,20 +145,8 @@ class test_restrict extends WebDriverTestCase
         }
     }
 
-    function _prepareUrl($url){
-        //todo: revrite
-        $url = str_replace(
-                array(
-                        '{server}', 
-                        '{property_id}'
-                     ),
-                array(
-                        $this->server_url, 
-                        $this->property_id
-                ),
-                $url);
-        
-        return $url;
+    function _url($uri) {
+        $this->server_url.$uri;
     }
     
     public function _checkLoggedIn(){

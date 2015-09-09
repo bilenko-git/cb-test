@@ -44,6 +44,17 @@ class test_restrict extends WebDriverTestCase
         parent::__construct();
     }
 
+    public function setUp() {
+        parent::setUp();
+
+        if (getenv('SELENIUM_LOCAL')) {
+            $this->setupSpecificBrowser(array(
+                'local' => true,
+                'browserName' => 'firefox',
+            ));
+        }
+    }
+
     public function setUpPage() {
         $this->fileDetector(function($filename) {
             if(file_exists($filename)) {
