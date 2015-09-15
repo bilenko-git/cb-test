@@ -202,7 +202,7 @@ class packages_availability extends test_restrict{
         )
     );
 
-   /* public function test_Range_Min_Max_los(){
+    public function test_Range_Min_Max_los(){
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
@@ -221,7 +221,7 @@ class packages_availability extends test_restrict{
       public function test_Promo_code(){
           $this->go_to_package_page();
           $this->_verifyPackage(4);
-      }*/
+      }
       public function test_Derived_fixed_package(){
           $this->go_to_package_page();
           $this->_verifyPackage(5);
@@ -263,14 +263,6 @@ class packages_availability extends test_restrict{
             $package_id = $this->addPackage($package);
             echo 'package id = ' . $package_id . PHP_EOL;
             if(!$package_id) $this->fail('added package was not found');
-
-            $cache_url = $this->_prepareUrl('http://wwwdev.ondeficar.com/test/cache/write_ma/') . '/' .$package_id.'/479/7';
-            $context = stream_context_create(array(
-                'http' => array(
-                    'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-                )
-            ));
-            $data = file_get_contents($cache_url, false, $context);
 
             $this->_checkAvailability($package);
             $this->removePackage($package_id);
