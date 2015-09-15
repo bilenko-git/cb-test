@@ -203,7 +203,7 @@ class packages_availability extends test_restrict{
         )
     );
 
-  /*  public function test_Range_Min_Max_los(){
+    public function test_Range_Min_Max_los(){
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
@@ -218,10 +218,10 @@ class packages_availability extends test_restrict{
     public function test_Closed_to_arrival(){
         $this->go_to_package_page();
         $this->_verifyPackage(3);
-    }*/
+    }
     public function test_Promo_code(){
-        $this->go_to_package_page();
-        $this->_verifyPackage(4);
+      //  $this->go_to_package_page();
+      //  $this->_verifyPackage(4);
     }
     public function test_Package_update(){
         $this->go_to_package_page();
@@ -256,7 +256,7 @@ class packages_availability extends test_restrict{
             echo 'package id = ' . $package_id . PHP_EOL;
             if(!$package_id) $this->fail('added package was not found');
 
-            $cache_url = $this->_prepareUrl('http://wwwdev.ondeficar.com/test/cache/write_ma/') . '/' .$package_id.'/479/7';
+          /*  $cache_url = $this->_prepareUrl('http://wwwdev.ondeficar.com/test/cache/write_ma') . '/1115/479/7';
             $context = stream_context_create(array(
                 'http' => array(
                     'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
@@ -264,7 +264,7 @@ class packages_availability extends test_restrict{
             ));
             $data = file_get_contents($cache_url, false, $context);
 
-            print_r($data);
+            print_r($data);*/
 
             $this->_checkAvailability($package);
             $this->removePackage($package_id);
