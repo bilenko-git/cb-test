@@ -10,8 +10,8 @@ class packages_availability extends test_restrict{
 
     private $packages = array(
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 1',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 001',
+            '[name ^=\'package_name\']' => 'Selenium Pack 1',
+            '[name ^=\'package_name_internal\']' => 'Selenium Pack 001',
          //   'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
@@ -39,8 +39,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 2',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 002',
+            '[name^=\'package_name\']' => 'Selenium Pack 2',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 002',
            // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
@@ -68,8 +68,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 3',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 003',
+            '[name^=\'package_name\']' => 'Selenium Pack 3',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 003',
           //  'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
@@ -97,8 +97,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 4',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 004',
+            '[name^=\'package_name\']' => 'Selenium Pack 4',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 004',
            // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
@@ -126,8 +126,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 5',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 005',
+            '[name^=\'package_name\']' => 'Selenium Pack 5',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 005',
            // 'is_derived' => false,//[name=\'derived\']
             'have_promo' => true,//[name=\'have_promo\']
             'promo_code' => 'Xxkj3dDSd!',
@@ -156,8 +156,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 6',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 006',
+            '[name^=\'package_name\']' => 'Selenium Pack 6',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 006',
           //  'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '+',
             '.currency_rate' => 'fixed',
@@ -179,8 +179,8 @@ class packages_availability extends test_restrict{
             )
         ),
         array(
-            '[name=\'package_name\']' => 'Selenium Pack 7',
-            '[name=\'package_name_internal\']' => 'Selenium Pack 007',
+            '[name^=\'package_name\']' => 'Selenium Pack 7',
+            '[name^=\'package_name_internal\']' => 'Selenium Pack 007',
           //  'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '-',
             '.currency_rate' => 'percentage',
