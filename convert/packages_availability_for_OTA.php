@@ -264,6 +264,8 @@ class packages_availability extends test_restrict{
             ));
             $data = file_get_contents($cache_url, false, $context);
 
+            print_r($data);
+
             $this->_checkAvailability($package);
             $this->removePackage($package_id);
         }else{
