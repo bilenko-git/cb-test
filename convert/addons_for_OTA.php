@@ -1,6 +1,6 @@
 <?php
 namespace MyProject\Tests;
-require_once 'base_rates.php';
+require_once 'base_addons.php';
 
 class addons_for_OTA extends base_addons {
 
@@ -15,7 +15,33 @@ class addons_for_OTA extends base_addons {
             'charge_different_price_for_children' => '1',
             'with_image' => true,
             'intervals' => array(
-
+              'room_type_id' => 12,
+              'interval_name' => '',
+              'start_date' => 'now',
+              'end_date'  => '+2 days',
+              'min_overlap' => '0',
+              'max_overlap' => '0',
+              'day_0' => 0,
+              'day_0_adult_price' => 0,
+              'day_0_child_price' => 0,
+              'day_1' => 0,
+              'day_1_adult_price' => 0,
+              'day_1_child_price' => 0,
+              'day_2' => 0,
+              'day_2_adult_price' => 0,
+              'day_2_child_price' => 0,
+              'day_3' => 0,
+              'day_3_adult_price' => 0,
+              'day_3_child_price' => 0,
+              'day_4' => 0,
+              'day_4_adult_price' => 0,
+              'day_4_child_price' => 0,
+              'day_5' => 0,
+              'day_5_adult_price' => 0,
+              'day_5_child_price' => 0,
+              'day_6' => 0,
+              'day_6_adult_price' => 0,
+              'day_6_child_price' => 0,
             )
         ),
         array(

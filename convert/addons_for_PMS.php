@@ -1,6 +1,6 @@
 <?php
 namespace MyProject\Tests;
-require_once 'base_rates.php';
+require_once 'base_addons.php';
 
 class addons_for_PMS extends base_addons {
 
