@@ -28,7 +28,7 @@ class base_addons extends test_restrict{
     {
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
-        $this->waitForElement('#open_products"]', 15000, 'jQ')->click();
+        $this->waitForElement('#open_products"', 15000, 'jQ')->click();
         $add_new_product = $this->waitForElement('#tab_products .add-new-product', 15000, 'css');
         $add_new_product->click();
 
