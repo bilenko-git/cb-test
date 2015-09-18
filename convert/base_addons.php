@@ -39,7 +39,6 @@ class base_addons extends test_restrict{
         $this->byName('product_code')->value($product['product_code']);
         $this->byName('product_description')->value($product['product_description']);
         $this->byName('product_price')->value($product['product_price']);
-        $this->byName('charge_type')->value($product['charge_type']);
 
         $btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
         $btn->click();//click Save & Continue;
