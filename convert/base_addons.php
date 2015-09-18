@@ -12,7 +12,7 @@ class base_addons extends test_restrict{
     {
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
-        $this->waitForElement('#tab_products', 15000, 'css')->click();
+        $this->waitForElement('#open_products', 15000, 'css')->click();
         $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
         print_r($products);
         $products_rows = $this->execute(array('script' => "return window.BET.products.map.products_table.dataTable().fnGetNodes()", 'args' => array()));
@@ -28,7 +28,7 @@ class base_addons extends test_restrict{
     {
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
-        $this->waitForElement('a[href="#tab_products"]', 15000, 'jQ')->click();
+        $this->waitForElement('#open_products"]', 15000, 'jQ')->click();
         $add_new_product = $this->waitForElement('#tab_products .add-new-product', 15000, 'css');
         $add_new_product->click();
 
@@ -71,7 +71,7 @@ class base_addons extends test_restrict{
     {
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
-        $this->waitForElement('a[href="#tab_addons"]', 15000, 'css')->click();
+        $this->waitForElement('#open_addons', 15000, 'css')->click();
         $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
         $add_new_addon->click();
         $this->byName('addon_name')->value($addon_info['addon_name']);
