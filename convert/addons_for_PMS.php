@@ -4,9 +4,40 @@ require_once 'base_addons.php';
 
 class addons_for_PMS extends base_addons {
 
+    private $products = array(
+        array(
+            'sku' => '862621',
+            'product_name' => 'Black Tea',
+            'product_code' => 'BT0001',
+            'product_description' => 'More of a Good Thing Tea - Our exceptional Earl Greyer blend combines the lush flavor and exquisite fragrance of the Bergamot Orange, native to Southern Italy, with a lovely Ceylon black tea leaf from Sri Lanka. Recognized as the best tasting Earl Grey available.',
+            'product_price' => 11,
+        ),
+        array(
+            'sku' => '862620',
+            'product_name' => 'Wi-Fi',
+            'product_code' => 'WF0001',
+            'product_description' => '',
+            'product_price' => 5.46,
+        ),
+        array(
+            'sku' => '862619',
+            'product_name' => 'Iron',
+            'product_code' => 'IR0001',
+            'product_description' => '',
+            'product_price' => 5.46,
+        ),
+        array(
+            'sku' => '862618',
+            'product_name' => 'Cakes',
+            'product_code' => 'CK0001',
+            'product_description' => 'Cakes with kiwi',
+            'product_price' => 28.1,
+        ),
+    );
+
     private $addons = array(
         array(
-            'addon_name' => 'Black Tea',
+            'addon_name' => 'Earl Greyer Black Tea',
             'product_id' => '0',
             'transaction_code' => 'TRD1544545',
             'available' => 'n/a',
@@ -15,7 +46,13 @@ class addons_for_PMS extends base_addons {
             'charge_different_price_for_children' => '1',
             'with_image' => true,
             'intervals' => array(
-
+                array(
+                    'interval_name' => '',
+                    'min_overlap' => 0,
+                    'max_overlap' => 0,
+                    'start_date' => 'now',
+                    'end_date' => '+2 days',
+                )
             )
         ),
         array(
@@ -63,8 +100,11 @@ class addons_for_PMS extends base_addons {
 
     public function testSteps()
     {
-        $this->setupInfo('wwwdev9.ondeficar.com', 'admin@test.test', '123qwe', 3);
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
+        $product_id = $this->addProduct($this->products[0]);
+        print_r($product_id);
+        $this->addons[0]['product_id'] = $product_id;
         $this->addAddon($this->addons[0]);
     }
 }

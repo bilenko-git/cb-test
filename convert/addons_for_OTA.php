@@ -3,6 +3,36 @@ namespace MyProject\Tests;
 require_once 'base_addons.php';
 
 class addons_for_OTA extends base_addons {
+    private $products = array(
+        array(
+            'sku' => '862621',
+            'product_name' => 'Black Tea',
+            'product_code' => 'BT0001',
+            'product_description' => 'More of a Good Thing Tea - Our exceptional Earl Greyer blend combines the lush flavor and exquisite fragrance of the Bergamot Orange, native to Southern Italy, with a lovely Ceylon black tea leaf from Sri Lanka. Recognized as the best tasting Earl Grey available.',
+            'product_price' => 11,
+        ),
+        array(
+            'sku' => '862620',
+            'product_name' => 'Wi-Fi',
+            'product_code' => 'WF0001',
+            'product_description' => '',
+            'product_price' => 5.46,
+        ),
+        array(
+            'sku' => '862619',
+            'product_name' => 'Iron',
+            'product_code' => 'IR0001',
+            'product_description' => '',
+            'product_price' => 5.46,
+        ),
+        array(
+            'sku' => '862618',
+            'product_name' => 'Cakes',
+            'product_code' => 'CK0001',
+            'product_description' => 'Cakes with kiwi',
+            'product_price' => 28.1,
+        ),
+    );
 
     private $addons = array(
         array(
@@ -88,8 +118,11 @@ class addons_for_OTA extends base_addons {
     );
 
     public function testSteps(){
-        $this->setupInfo('wwwdev9.ondeficar.com', 'ahisandra@gmail.com', 'Cloudbed$', 4);
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
+        $product_id = $this->addProduct($this->products[0]);
+        print_r($product_id);
+        $this->addons[0]['product_id'] = $product_id;
         $this->addAddon($this->addons[0]);
     }
 }
