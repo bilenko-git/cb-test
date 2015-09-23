@@ -56,6 +56,8 @@ class booking_to_cache extends test_restrict{
         
         //select Bank Transfer
         $this->byCssSelector('.payment_method label[for="ebanking"]')->click();
+
+        $this->byId('agree_terms')->click();
         
         //Go booking
         $this->byCssSelector('.finalize')->click();
