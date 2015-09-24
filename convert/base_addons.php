@@ -8,15 +8,63 @@ class base_addons extends test_restrict{
     private $fees_and_taxes_url = 'http://{server}/connect/{property_id}#/fees_and_taxes';
     private $room_types_url = 'http://{server}/connect/{property_id}#/roomTypes';
 
+    /**
+     * Confirm Delete dialog
+     */
+    public function confirmDeleteDialog()
+    {
+        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
+        $this->waitForElement('.btn_delete', 5000)->click();
+    }
+
+    /**
+     * Delete all products from tab
+     */
     public function delAllProducts()
     {
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~ Started Del All Products function~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_product', 15000, 'css')->click();
-        $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
-        print_r($products);
-        $products_rows = $this->execute(array('script' => "return window.BET.products.map.products_table.dataTable().fnGetNodes()", 'args' => array()));
-        print_r($products_rows);
+
+        $num = $this->getAllProducts(); // check number before save and after
+
+        // Remove one by one
+        while ($num > 1) {
+            $this->waitForElement('.delete_product', 10000, 'css')->click();
+            $this->confirmDeleteDialog();
+            sleep(1);
+            $num = $this->getAllProducts();
+        }
+        $this->assertEquals($num, 0);
+        echo '~~~~~~~~~ All products deleted successfully ~~~~~~~~~' . PHP_EOL;
+    }
+
+    /**
+     * Delete all Add-ons from tab
+     */
+    public function delAllAddons()
+    {
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~ Started Del All Add-ons function~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $this->url($this->_prepareUrl($this->products_url));
+        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->waitForElement('#open_addon', 15000, 'css')->click();
+
+        $num = $this->getAllAddons(); // check number before save and after
+
+        // Remove one by one
+        while ($num > 1) {
+            $this->waitForElement('.delete_addon', 10000, 'css')->click();
+            $this->confirmDeleteDialog();
+            $this->timeouts()->implicitWait(5000);
+            $num = $this->getAllAddons();
+        }
+        $this->assertEquals($num, 0);
+        echo '~~~~~~~~~ All Add-ons deleted successfully ~~~~~~~~~' . PHP_EOL;
     }
 
     /**
@@ -26,6 +74,10 @@ class base_addons extends test_restrict{
      */
     public function addProduct($product)
     {
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~ Started Add Product function~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo 'New Product name =' . $product['product_name'] . PHP_EOL;
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_product', 15000, 'jQ')->click();
@@ -37,44 +89,86 @@ class base_addons extends test_restrict{
         $this->byName('product_name')->value($product['product_name']);
         $sku = $this->byName('sku');
         $sku->click();
-        //$btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
-
         $sku->clear();
         $sku->value($product['sku']);
-        var_dump($sku->value());
+
         $this->byName('product_code')->value($product['product_code']);
         $this->byName('product_description')->value($product['product_description']);
         $this->byName('product_price')->value($product['product_price']);
         $btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
-        $btn->click();//click Save & Continue;
 
-        $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
-        print_r($products);
+        $this->getAllProducts(); // check number before save and after
+        $btn->click();//click Save & Continue;
+        $this->getAllProducts();
 
         $saved_product = $this->checkSavedProduct($product['sku']);
 
+        echo $saved_product ? 'Saved product id =' . $saved_product['id'] . PHP_EOL : '';
+        echo ($saved_product ? '~~~~~~~~~ Product saved successfully ~~~~~~~~~' : '~~~~~~~~~ Product NOT saved ~~~~~~~~~') . PHP_EOL;
         return $saved_product ? $saved_product['id'] : false;
     }
 
     /**
+     * Get all products
+     * @return array
+     */
+    public function getAllProducts()
+    {
+        $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
+        echo 'Number of products =' . count($products) . PHP_EOL;
+        return $products;
+    }
+
+    /**
+     * Get All add-ons
+     * @return array
+     */
+    public function getAllAddons()
+    {
+        $addons = $this->execute(array('script' => "return window.BET.products.addons({is_deleted: '0'})", 'args' => array()));
+        echo 'Number of add-ons =' . count($addons) . PHP_EOL;
+        return $addons;
+    }
+
+    /**
      * Get product by sku & check it
-     * @param $product_sku
+     * @param string $product_sku
+     * @param bool $with_assert
      * @return bool
      */
-    public function checkSavedProduct($product_sku)
+    public function checkSavedProduct($product_sku, $with_assert = false)
     {
         $saved_product = $this->execute(array('script' => "return window.BET.products.products({is_active: '1', sku: '" . $product_sku . "'})", 'args' => array()));
-        //$this->assertEquals(1, count($saved_product), 'Check saved product id by sku = '. $product_sku);
+        $with_assert && $this->assertEquals(1, count($saved_product), 'Check saved product id by sku = '. $product_sku);
 
         return $saved_product && count($saved_product) ? $saved_product[0] : false;
     }
 
     /**
+     * Get add-on by unique name & check it
+     * @param string $addon_name
+     * @param bool $with_assert
+     * @return bool
+     */
+    public function checkSavedAddon($addon_name, $with_assert = false)
+    {
+        $saved_addon = $this->execute(array('script' => "return window.BET.products.products({is_deleted: '0', addon_name: '" . $addon_name . "'})", 'args' => array()));
+        $with_assert && $this->assertEquals(1, count($saved_addon), 'Check saved add-on with the following name: '. $addon_name);
+
+        return $saved_addon && count($saved_addon) ? $saved_addon[0] : false;
+    }
+
+    /**
      * Add new add-on without intervals
      * @param array $addon_info
+     * @return int|bool
      */
     public function addAddon($addon_info)
     {
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~ Started Add Add-on function~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo 'New Add-on name =' . $addon_info['addon_name'] . PHP_EOL;
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_addon', 15000, 'css')->click();
@@ -85,37 +179,40 @@ class base_addons extends test_restrict{
         $this->select($product_id)->selectOptionByValue($addon_info['product_id']);
         $this->byName('transaction_code')->value($addon_info['transaction_code']);
         $this->byName('available')->value($addon_info['available']);
-        $charge_type = $this->byName('charge_type');
-        $this->select($charge_type)->value($addon_info['charge_type']);
 
-        $max_qty = $this->byJQ('#layout [name=max_qty_per_res]');
+        $charge_type = $this->byName('charge_type');
+        //$this->select($charge_type)->value($addon_info['charge_type']);
+        $this->select($charge_type)->selectOptionByValue($addon_info['charge_type']);
+        echo 'Charge Type =' . $addon_info['charge_type'] . PHP_EOL;
+
+        echo '~~~~~~~~~ Max QTY visibility checking ... ~~~~~~~~~'.PHP_EOL;
+        $max_qty = $this->waitForElement('#layout [name=max_qty_per_res]', 15000, 'jQ', false);
         if ($addon_info['charge_type'] == 'quantity') {
             // we can input max qty
-            $this->assertEquals($max_qty->displayed(), true, 'addAddon::1.1Check visibility of max qty');
+            $this->assertEquals($max_qty->displayed(), true, 'addAddon::1.1 Check visibility of max qty');
             $max_qty->value($addon_info['max_qty_per_res']);
         } else {
             // not visible max qty field
-            $this->assertEquals($max_qty->displayed(), false, 'addAddon::1.2Check visibility of max qty');
+            $this->assertEquals($max_qty->displayed(), false, 'addAddon::1.2 Check visibility of max qty');
         }
+        echo '~~~~~~~~~ Max QTY visibility checked successfully ~~~~~~~~~'.PHP_EOL;
 
-        $charge_for_children = $this->byJQ('#layout [name=charge_for_children]');
-        $charge_different_price_for_children = $this->byJQ('#layout [name=charge_different_price_for_children]');
+        echo '~~~~~~~~~charge for children & different charge checking....~~~~~~~~~'.PHP_EOL;
+        $charge_for_children = $this->waitForElement('#layout [name=charge_for_children]', 15000, 'jQ', false);
+        $charge_different_price_for_children = $this->waitForElement('#layout [name=charge_different_price_for_children]', 15000, 'jQ', false);
 
         if ($addon_info['charge_type'] == 'per_guest' || $addon_info['charge_type'] == 'per_guest_per_night') {
-            $this->waitForElement($charge_for_children, 15000, 'jQ');
-            $this->assertEquals($charge_for_children->displayed(), true, "addAddon::1.3Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
-
-            $this->waitForElement('[name=charge_different_price_for_children]', 1000, 'jQ');
-            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.4Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
+            $this->assertEquals($charge_for_children->displayed(), true, "addAddon::1.3 Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
+            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.4 Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
 
             if (empty($addon_info['charge_for_children'])) {
                 $this->byJQ("[name=charge_for_children][value='0']")->click();
-                $this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
-                $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.5Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
+                $charge_different_price_for_children = $this->waitForElement('#layout [name=charge_different_price_for_children]', 15000, 'jQ', false);
+                $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.5 Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
             } else {
                 $this->byJQ("[name=charge_for_children][value='1']")->click();
-                $this->waitForElement('[name=charge_different_price_for_children]', 30000, 'jQ');
-                $this->assertEquals($charge_different_price_for_children->displayed(), true, "addAddon::1.6Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
+                $charge_different_price_for_children = $this->waitForElement('#layout [name=charge_different_price_for_children]', 15000, 'jQ', false);
+                $this->assertEquals($charge_different_price_for_children->displayed(), true, "addAddon::1.6 Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
 
                 if (empty($addon_info['charge_different_price_for_children'])) {
                     $this->byJQ("[name=charge_different_price_for_children][value='0']")->click();
@@ -126,11 +223,11 @@ class base_addons extends test_restrict{
                 }
             }
         } else {
-            //$this->waitForElement('[name=charge_for_children]:not(:visible)', 15000, 'jQ');
-            //$this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
-            $this->assertEquals($charge_for_children->displayed(), true, "addAddon::1.7Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
-            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.8Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
+            $this->assertEquals($charge_for_children->displayed(), false, "addAddon::1.7 Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
+            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.8 Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
         }
+        echo '~~~~~~~~~Charge for children & different charge checked successfully~~~~~~~~~'.PHP_EOL;
+
         if (isset($addon_info['with_image'])) {
             $this->uploadAddonPhoto();
         }
@@ -140,12 +237,21 @@ class base_addons extends test_restrict{
             }
         }
         $this->saveAddon();
+
+        $this->getAllAddons();
+        $result = $this->checkSavedAddon($addon_info['addon_name']);
+        $this->getAllAddons();
+        echo $result ? 'Saved add-on id =' . $result['id'] . PHP_EOL : '';
+        echo ($result ? '~~~~~~~~~ Add-on saved successfully ~~~~~~~~~' : '~~~~~~~~~ Add-on NOT saved ~~~~~~~~~') . PHP_EOL;
+        return $result ? $result['id'] : false;
+
     }
 
     /**
      * Upload image to addon
      */
     public function uploadAddonPhoto() {
+        echo '~~~~~~~~~Upload Add-On Photo checking...~~~~~~~~~'.PHP_EOL;
         $upload_button = $this->waitForElement('#layout .qq-uploader > .myimg_upload_featured');
         $upload_button->click();
 
@@ -158,6 +264,7 @@ class base_addons extends test_restrict{
 
         $btns = $this->waitForElement('#photo_upload_modal .save-uploader', 30000);
         $btns->click();//click Save & Continue;
+        echo '~~~~~~~~~Cache checked successfully~~~~~~~~~'.PHP_EOL;
     }
 
     /**

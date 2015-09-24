@@ -98,15 +98,37 @@ class addons_for_PMS extends base_addons {
         'edit_end_day' => '+12 days'
     );
 
-    public function testSteps()
+    public function testDeleteAllProducts()
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
-        $product_id = $this->addProduct($this->products[3]);
-        var_dump($product_id);
+        $this->delAllProducts();
+    }
+/*
+    public function testDeleteAllAddons()
+    {
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->delAllAddons();
+    }
+*/
+    public function testCheckAllErros()
+    {
+        //$this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        //$this->loginToSite();
+    }
 
-        $this->addons[3]['product_id'] = $product_id;
-        $this->addAddon($this->addons[3]);
+    public function testAddonsCreation()
+    {
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+
+        foreach($this->products as $i => $product) {
+            $product_id = $this->addProduct($product);
+
+            $this->addons[$i]['product_id'] = $product_id;
+            $this->addAddon($this->addons[$i]);
+        }
     }
 }
 ?>
