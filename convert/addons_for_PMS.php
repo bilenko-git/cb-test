@@ -102,10 +102,11 @@ class addons_for_PMS extends base_addons {
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
-        $product_id = $this->addProduct($this->products[0]);
-        print_r($product_id);
-        $this->addons[0]['product_id'] = $product_id;
-        $this->addAddon($this->addons[0]);
+        $product_id = $this->addProduct($this->products[3]);
+        var_dump($product_id);
+
+        $this->addons[3]['product_id'] = $product_id;
+        $this->addAddon($this->addons[3]);
     }
 }
 ?>

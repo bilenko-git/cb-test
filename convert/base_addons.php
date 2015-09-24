@@ -35,16 +35,23 @@ class base_addons extends test_restrict{
         $this->waitForElement('#product_modal', 7000);
 
         $this->byName('product_name')->value($product['product_name']);
-        $this->byName('sku')->value($product['sku']);
+        $sku = $this->byName('sku');
+        $sku->click();
+        //$btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
+
+        $sku->clear();
+        $sku->value($product['sku']);
+        var_dump($sku->value());
         $this->byName('product_code')->value($product['product_code']);
         $this->byName('product_description')->value($product['product_description']);
         $this->byName('product_price')->value($product['product_price']);
-
         $btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
         $btn->click();//click Save & Continue;
 
+        $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
+        print_r($products);
+
         $saved_product = $this->checkSavedProduct($product['sku']);
-        print_r($saved_product);
 
         return $saved_product ? $saved_product['id'] : false;
     }
@@ -57,7 +64,7 @@ class base_addons extends test_restrict{
     public function checkSavedProduct($product_sku)
     {
         $saved_product = $this->execute(array('script' => "return window.BET.products.products({is_active: '1', sku: '" . $product_sku . "'})", 'args' => array()));
-        $this->assertEquals(1, count($saved_product), 'Product has been saved');
+        //$this->assertEquals(1, count($saved_product), 'Check saved product id by sku = '. $product_sku);
 
         return $saved_product && count($saved_product) ? $saved_product[0] : false;
     }
@@ -74,38 +81,55 @@ class base_addons extends test_restrict{
         $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
         $add_new_addon->click();
         $this->byName('addon_name')->value($addon_info['addon_name']);
-        $this->byName('product_id')->value($addon_info['product_id']);
+        $product_id = $this->byName('product_id');
+        $this->select($product_id)->selectOptionByValue($addon_info['product_id']);
         $this->byName('transaction_code')->value($addon_info['transaction_code']);
         $this->byName('available')->value($addon_info['available']);
-        $this->byName('charge_type')->value($addon_info['charge_type']);
+        $charge_type = $this->byName('charge_type');
+        $this->select($charge_type)->value($addon_info['charge_type']);
 
+        $max_qty = $this->byJQ('#layout [name=max_qty_per_res]');
         if ($addon_info['charge_type'] == 'quantity') {
             // we can input max qty
-            $this->waitForElement('[name=max_qty_per_res]:visible', 15000, 'jQ');
-            $this->byName('max_qty_per_res')->value($addon_info['max_qty_per_res']);
+            $this->assertEquals($max_qty->displayed(), true, 'addAddon::1.1Check visibility of max qty');
+            $max_qty->value($addon_info['max_qty_per_res']);
         } else {
             // not visible max qty field
-            $this->waitForElement('[name=max_qty_per_res]:not(:visible)', 15000, 'jQ');
+            $this->assertEquals($max_qty->displayed(), false, 'addAddon::1.2Check visibility of max qty');
         }
 
+        $charge_for_children = $this->byJQ('#layout [name=charge_for_children]');
+        $charge_different_price_for_children = $this->byJQ('#layout [name=charge_different_price_for_children]');
+
         if ($addon_info['charge_type'] == 'per_guest' || $addon_info['charge_type'] == 'per_guest_per_night') {
-            $this->waitForElement('[name=charge_for_children]:visible', 15000, 'jQ');
-            $this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
+            $this->waitForElement($charge_for_children, 15000, 'jQ');
+            $this->assertEquals($charge_for_children->displayed(), true, "addAddon::1.3Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
+
+            $this->waitForElement('[name=charge_different_price_for_children]', 1000, 'jQ');
+            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.4Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
+
             if (empty($addon_info['charge_for_children'])) {
                 $this->byJQ("[name=charge_for_children][value='0']")->click();
                 $this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
+                $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.5Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
             } else {
                 $this->byJQ("[name=charge_for_children][value='1']")->click();
-                $this->waitForElement('[name=charge_different_price_for_children]:visible', 15000, 'jQ');
+                $this->waitForElement('[name=charge_different_price_for_children]', 30000, 'jQ');
+                $this->assertEquals($charge_different_price_for_children->displayed(), true, "addAddon::1.6Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
+
                 if (empty($addon_info['charge_different_price_for_children'])) {
                     $this->byJQ("[name=charge_different_price_for_children][value='0']")->click();
+                    // TODO-natali ckeck intervals
                 } else {
                     $this->byJQ("[name=charge_different_price_for_children][value='1']")->click();
+                    // TODO-natali ckeck intervals
                 }
             }
         } else {
-            $this->waitForElement('[name=charge_for_children]:not(:visible)', 15000, 'jQ');
-            $this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
+            //$this->waitForElement('[name=charge_for_children]:not(:visible)', 15000, 'jQ');
+            //$this->waitForElement('[name=charge_different_price_for_children]:not(:visible)', 15000, 'jQ');
+            $this->assertEquals($charge_for_children->displayed(), true, "addAddon::1.7Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
+            $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.8Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
         }
         if (isset($addon_info['with_image'])) {
             $this->uploadAddonPhoto();
