@@ -124,7 +124,7 @@ class addons_for_OTA extends base_addons {
         $this->delAllProducts();
     }
 
-    public function testDeleteAllAddons()
+   /* public function testDeleteAllAddons()
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
@@ -136,8 +136,8 @@ class addons_for_OTA extends base_addons {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
     }
-
-    public function testSteps()
+*/
+    /*public function testAddonsCreation()
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
@@ -148,6 +148,6 @@ class addons_for_OTA extends base_addons {
             $this->addons[$i]['product_id'] = $product_id;
             $this->addAddon($this->addons[$i]);
         }
-    }
+    }*/
 }
 ?>

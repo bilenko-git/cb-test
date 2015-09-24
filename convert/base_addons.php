@@ -15,6 +15,8 @@ class base_addons extends test_restrict{
     {
         $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
         $this->waitForElement('.btn_delete', 5000)->click();
+        echo '~~~~~~~~~~Confirmed Delete operation~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
 
     /**
@@ -29,14 +31,14 @@ class base_addons extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_product', 15000, 'css')->click();
 
-        $num = $this->getAllProducts(); // check number before save and after
+        $num = count($this->getAllProducts()); // check number before save and after
 
         // Remove one by one
-        while ($num > 1) {
+        while ($num > 0) {
             $this->waitForElement('.delete_product', 10000, 'css')->click();
             $this->confirmDeleteDialog();
-            sleep(1);
-            $num = $this->getAllProducts();
+            $this->timeouts()->implicitWait(5000);
+            $num = count($this->getAllProducts());
         }
         $this->assertEquals($num, 0);
         echo '~~~~~~~~~ All products deleted successfully ~~~~~~~~~' . PHP_EOL;
@@ -54,14 +56,15 @@ class base_addons extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_addon', 15000, 'css')->click();
 
-        $num = $this->getAllAddons(); // check number before save and after
+        $num = count($this->getAllAddons()); // check number before save and after
 
         // Remove one by one
-        while ($num > 1) {
+        while ($num > 0) {
             $this->waitForElement('.delete_addon', 10000, 'css')->click();
             $this->confirmDeleteDialog();
+
             $this->timeouts()->implicitWait(5000);
-            $num = $this->getAllAddons();
+            $num = count($this->getAllAddons());
         }
         $this->assertEquals($num, 0);
         echo '~~~~~~~~~ All Add-ons deleted successfully ~~~~~~~~~' . PHP_EOL;
@@ -77,7 +80,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add Product function~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo 'New Product name =' . $product['product_name'] . PHP_EOL;
+        echo 'New Product name = ' . $product['product_name'] . PHP_EOL;
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_product', 15000, 'jQ')->click();
@@ -103,7 +106,7 @@ class base_addons extends test_restrict{
 
         $saved_product = $this->checkSavedProduct($product['sku']);
 
-        echo $saved_product ? 'Saved product id =' . $saved_product['id'] . PHP_EOL : '';
+        echo $saved_product ? 'Saved product id = ' . $saved_product['id'] . PHP_EOL : '';
         echo ($saved_product ? '~~~~~~~~~ Product saved successfully ~~~~~~~~~' : '~~~~~~~~~ Product NOT saved ~~~~~~~~~') . PHP_EOL;
         return $saved_product ? $saved_product['id'] : false;
     }
@@ -115,7 +118,7 @@ class base_addons extends test_restrict{
     public function getAllProducts()
     {
         $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
-        echo 'Number of products =' . count($products) . PHP_EOL;
+        echo 'Number of products = ' . count($products) . PHP_EOL;
         return $products;
     }
 
@@ -126,7 +129,7 @@ class base_addons extends test_restrict{
     public function getAllAddons()
     {
         $addons = $this->execute(array('script' => "return window.BET.products.addons({is_deleted: '0'})", 'args' => array()));
-        echo 'Number of add-ons =' . count($addons) . PHP_EOL;
+        echo 'Number of add-ons = ' . count($addons) . PHP_EOL;
         return $addons;
     }
 
@@ -168,7 +171,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add Add-on function~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo 'New Add-on name =' . $addon_info['addon_name'] . PHP_EOL;
+        echo 'New Add-on name = ' . $addon_info['addon_name'] . PHP_EOL;
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
         $this->waitForElement('#open_addon', 15000, 'css')->click();
@@ -178,12 +181,19 @@ class base_addons extends test_restrict{
         $product_id = $this->byName('product_id');
         $this->select($product_id)->selectOptionByValue($addon_info['product_id']);
         $this->byName('transaction_code')->value($addon_info['transaction_code']);
-        $this->byName('available')->value($addon_info['available']);
+
+        $available = $this->byName('available');
+        $this->select($available)->selectOptionByValue($addon_info['available']);
+        echo 'Availability = ' . $addon_info['available'] . PHP_EOL;
+        echo 'Availability Value:' . PHP_EOL;
+        var_dump($this->select($available)->value());
 
         $charge_type = $this->byName('charge_type');
         //$this->select($charge_type)->value($addon_info['charge_type']);
         $this->select($charge_type)->selectOptionByValue($addon_info['charge_type']);
-        echo 'Charge Type =' . $addon_info['charge_type'] . PHP_EOL;
+        echo 'Charge Type = ' . $addon_info['charge_type'] . PHP_EOL;
+        echo 'Charge Type Value:' . PHP_EOL;
+        var_dump($this->select($charge_type)->value());
 
         echo '~~~~~~~~~ Max QTY visibility checking ... ~~~~~~~~~'.PHP_EOL;
         $max_qty = $this->waitForElement('#layout [name=max_qty_per_res]', 15000, 'jQ', false);
@@ -241,7 +251,7 @@ class base_addons extends test_restrict{
         $this->getAllAddons();
         $result = $this->checkSavedAddon($addon_info['addon_name']);
         $this->getAllAddons();
-        echo $result ? 'Saved add-on id =' . $result['id'] . PHP_EOL : '';
+        echo $result ? 'Saved add-on id = ' . $result['id'] . PHP_EOL : '';
         echo ($result ? '~~~~~~~~~ Add-on saved successfully ~~~~~~~~~' : '~~~~~~~~~ Add-on NOT saved ~~~~~~~~~') . PHP_EOL;
         return $result ? $result['id'] : false;
 
