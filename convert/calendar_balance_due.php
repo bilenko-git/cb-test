@@ -16,7 +16,7 @@ class calendar_balance_due extends test_restrict{
     public function testSteps() {
         $test = $this;
         //need SU privileges to remove reservas
-        $this->setupInfo('wwwdev3.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        //$this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
         
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
