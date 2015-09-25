@@ -16,7 +16,7 @@ class calendar_balance_due extends test_restrict{
     public function testSteps() {
         $test = $this;
         //need SU privileges to remove reservas
-        //$this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
         
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
@@ -98,8 +98,9 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
-        $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
+
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+       // $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
         if(!$el)
             $this->fail('Cannot find the reservation');
         
@@ -178,8 +179,8 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
-        $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
+
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
         if(!$el)
             $this->fail('Cannot find the reservation to delete');
         
