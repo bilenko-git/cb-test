@@ -17,7 +17,7 @@ class derived_plan_should_show_additioinal_label_on_booking extends test_restric
 
     public function testSteps() {
         $this->init_vars();
-        $this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
+        $this->setupInfo('wwwdev.ondeficar.com', '', '', 366);
         $this->loginToSite();
         $interval_id = $this->rates_add_rate($this->interval);
         $package_id = $this->packages_add_package($this->package);
@@ -28,8 +28,8 @@ class derived_plan_should_show_additioinal_label_on_booking extends test_restric
 
     private function init_vars() {
         $this->package = array(
-           '[name=\'package_name\']' => 'Derived Pack HOTELS-9974',
-           '[name=\'package_name_internal\']' => 'Derived Pack HOTELS-9974',
+           '[name^=\'package_name\']' => 'Derived Pack HOTELS-9974',
+           '[name^=\'package_name_internal\']' => 'Derived Pack HOTELS-9974',
            'is_derived' => true,//[name=\'derived\']
            '.action_rate' => '-',
            '.currency_rate' => 'percentage',
