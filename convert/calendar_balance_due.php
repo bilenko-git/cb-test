@@ -66,7 +66,8 @@ class calendar_balance_due extends test_restrict{
         $this->byId('exp_month')->value(3);
         $this->byId('exp_year')->value(date('Y')+1);
         $this->byId('cvv')->value('123');
-        
+
+        $this->execute(array('script' => 'window.$("#agree_terms").click()', 'args' => array()));
         $this->byCssSelector('button.finalize')->click();
         
         try {
