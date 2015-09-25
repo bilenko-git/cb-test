@@ -98,7 +98,7 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        $this->waitForElement('#layout_container>.loading.hide', 15000, 'jQ');
+        $this->waitForElement('#layout_container>.loading.hide', 15000);
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
        // $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
         if(!$el)
@@ -179,7 +179,7 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        $this->waitForElement('#layout_container>.loading.hide', 15000, 'jQ');
+        $this->waitForElement('#layout_container>.loading.hide', 15000);
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
         if(!$el)
             $this->fail('Cannot find the reservation to delete');
