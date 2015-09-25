@@ -6,28 +6,28 @@ class addons_for_PMS extends base_addons {
 
     private $products = array(
         array(
-            'sku' => '862621',
+            'sku' => '',
             'product_name' => 'Black Tea',
             'product_code' => 'BT0001',
             'product_description' => 'More of a Good Thing Tea - Our exceptional Earl Greyer blend combines the lush flavor and exquisite fragrance of the Bergamot Orange, native to Southern Italy, with a lovely Ceylon black tea leaf from Sri Lanka. Recognized as the best tasting Earl Grey available.',
             'product_price' => 11,
         ),
         array(
-            'sku' => '862620',
+            'sku' => '',
             'product_name' => 'Wi-Fi',
             'product_code' => 'WF0001',
             'product_description' => '',
             'product_price' => 5.46,
         ),
         array(
-            'sku' => '862619',
+            'sku' => '',
             'product_name' => 'Iron',
             'product_code' => 'IR0001',
             'product_description' => '',
             'product_price' => 5.46,
         ),
         array(
-            'sku' => '862618',
+            'sku' => '',
             'product_name' => 'Cakes',
             'product_code' => 'CK0001',
             'product_description' => 'Cakes with kiwi',
@@ -98,20 +98,20 @@ class addons_for_PMS extends base_addons {
         'edit_end_day' => '+12 days'
     );
 
-    public function testDeleteAllProducts()
-    {
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
-        $this->loginToSite();
-        $this->delAllProducts();
-    }
-/*
     public function testDeleteAllAddons()
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $this->delAllAddons();
     }
-*/
+
+    public function testDeleteAllProducts()
+    {
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->delAllProducts();
+    }
+
     public function testCheckAllErros()
     {
         //$this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
@@ -122,7 +122,7 @@ class addons_for_PMS extends base_addons {
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
-
+        $this->checkAddonsForEmptyProducts();
         foreach($this->products as $i => $product) {
             $product_id = $this->addProduct($product);
 
