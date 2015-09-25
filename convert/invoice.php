@@ -16,6 +16,10 @@ class invoice extends test_restrict{
         $this->waitForElement('#layout_container>.loading:not(.hide)', 15000, 'jQ');
        // $this->keys(Keys::ENTER);
         $this->keys(Keys::ESCAPE);
+        $this->keys(Keys::ESCAPE);
+        $this->keys(Keys::ESCAPE);
+        $this->keys(Keys::ESCAPE);
+
         $this->keysSpecial('escape');$this->keysSpecial('escape');$this->keysSpecial('escape');
         $this->waitForElement('#layout_container>.loading.hide', 15000, 'css');
       //  $this->keyDown('theTextbox', '98');

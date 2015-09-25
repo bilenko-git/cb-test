@@ -2,6 +2,7 @@
 namespace MyProject\Tests;
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 require_once 'test_restrict.php';
+require_once 'common/rates.php';
 
 /**
  * Test restrictions:
@@ -9,14 +10,29 @@ require_once 'test_restrict.php';
   * 
  */
 class calendar_balance_due extends test_restrict{
+    use \Rates;
     private $bookingUrl = 'http://{server}/reservas/{property_id}';
     private $calendarUrl = 'http://{server}/connect/{property_id}#/calendar';
     private $reservationsUrl = 'http://{server}/connect/{property_id}#/newreservations';
+    private $interval = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+140 days',
+        'start' => '+0 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
+
     
     public function testSteps() {
+
+
         $test = $this;
         //need SU privileges to remove reservas
         $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+
+        $this->loginToSite();
+        $interval_id = $this->rates_add_rate($this->interval);
         
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
@@ -221,6 +237,8 @@ class calendar_balance_due extends test_restrict{
             }
             return true;
         },50000);
+
+        $this->rates_remove_rate();
     }
     
     private function _checkCalendar($checkFlag = 1, $assign = false)
