@@ -162,6 +162,8 @@ class calendar_balance_due extends test_restrict{
             }
             return true;
         },50000);
+
+        sleep(3);
         
         //check calendar again
         $this->_checkCalendar(0, false);
