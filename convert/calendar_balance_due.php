@@ -2,6 +2,7 @@
 namespace MyProject\Tests;
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 require_once 'test_restrict.php';
+require_once 'common/rates.php';
 
 /**
  * Test restrictions:
@@ -9,14 +10,29 @@ require_once 'test_restrict.php';
   * 
  */
 class calendar_balance_due extends test_restrict{
+    use \Rates;
     private $bookingUrl = 'http://{server}/reservas/{property_id}';
     private $calendarUrl = 'http://{server}/connect/{property_id}#/calendar';
     private $reservationsUrl = 'http://{server}/connect/{property_id}#/newreservations';
+    private $interval = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+140 days',
+        'start' => '+0 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
+
     
     public function testSteps() {
+
+
         $test = $this;
         //need SU privileges to remove reservas
-        $this->setupInfo('wwwdev3.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+
+        $this->loginToSite();
+        $interval_id = $this->rates_add_rate($this->interval);
         
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
@@ -66,7 +82,8 @@ class calendar_balance_due extends test_restrict{
         $this->byId('exp_month')->value(3);
         $this->byId('exp_year')->value(date('Y')+1);
         $this->byId('cvv')->value('123');
-        
+
+        $this->execute(array('script' => 'window.$("#agree_terms").click()', 'args' => array()));
         $this->byCssSelector('button.finalize')->click();
         
         try {
@@ -97,8 +114,11 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
-        $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
+        //$this->byCssSelector("#layout .list_reservation_table")->click();
+        //$this->waitForElement('.loading:not(.hide)', 15000, 'jQ');
+        sleep(3);
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+       // $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
         if(!$el)
             $this->fail('Cannot find the reservation');
         
@@ -158,6 +178,8 @@ class calendar_balance_due extends test_restrict{
             }
             return true;
         },50000);
+
+        sleep(3);
         
         //check calendar again
         $this->_checkCalendar(0, false);
@@ -177,8 +199,8 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
-        $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
+        sleep(3);
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
         if(!$el)
             $this->fail('Cannot find the reservation to delete');
         
@@ -215,6 +237,8 @@ class calendar_balance_due extends test_restrict{
             }
             return true;
         },50000);
+
+        $this->rates_remove_rate();
     }
     
     private function _checkCalendar($checkFlag = 1, $assign = false)
