@@ -158,7 +158,7 @@ trait Packages {
 
     public function packages_remove_package($package_id) {
         $this->packages_go_to_package_page();
-        $delete_package_btn = $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.delete', 5000, 'jQ');
+        $delete_package_btn = $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.delete', 50000, 'jQ');
         sleep(1);
         $delete_package_btn->click();
         $this->packages_confirm_delete_dialog();
