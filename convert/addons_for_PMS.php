@@ -114,8 +114,9 @@ class addons_for_PMS extends base_addons {
 
     public function testCheckAllErros()
     {
-        //$this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
-        //$this->loginToSite();
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->checkAddonErrors();
     }
 
     public function testAddonsCreation()

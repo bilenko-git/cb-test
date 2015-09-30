@@ -136,6 +136,7 @@ class addons_for_OTA extends base_addons {
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
+        $this->checkAddonErrors();
     }
 
     public function testAddonsCreation()
