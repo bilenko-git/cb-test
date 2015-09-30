@@ -755,7 +755,6 @@ class packages_availability extends test_restrict{
                 if (empty($rm_type['room_type_capacity'])) unset($rm_types[$index]);
             }
 
-
             // TODO:   $rm_type_index = rand(0, 1000) % count($rm_types);????????
           //  $rm_type_index = rand(0, 1000) % count($rm_types);
             $rm_type = $rm_types[1];
