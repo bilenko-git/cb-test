@@ -17,7 +17,7 @@ class invoice extends test_restrict{
             'desiredCapabilities' => array(
                 'platform' => 'Windows 8.1',
             ));
-        $this->setupInfo('', '', '', 366, $br);
+        //$this->setupInfo('', '', '', 366, $br);
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->invoice_url));
         $this->waitForLocation($this->_prepareUrl($this->invoice_url));
