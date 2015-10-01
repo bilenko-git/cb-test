@@ -136,6 +136,19 @@ class addons_for_OTA extends base_addons {
     {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
+        $product =  array(
+            'sku' => '',
+            'product_name' => 'Tour',
+            'product_code' => 'TR0001',
+            'product_description' => 'Trip to Croatia',
+            'product_price' => 800,
+        );
+
+        $product_id = $this->addProduct($product);
+        if ($product_id) {
+            $this->checkAddonErrors();
+            $this->delAllProducts();
+        }
     }
 
     public function testAddonsCreation()

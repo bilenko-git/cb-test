@@ -114,8 +114,21 @@ class addons_for_PMS extends base_addons {
 
     public function testCheckAllErros()
     {
-        //$this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
-        //$this->loginToSite();
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $product =  array(
+            'sku' => '',
+            'product_name' => 'Tour',
+            'product_code' => 'TR0001',
+            'product_description' => 'Trip to Croatia',
+            'product_price' => 800,
+        );
+
+        $product_id = $this->addProduct($product);
+        if ($product_id) {
+            $this->checkAddonErrors();
+            $this->delAllProducts();
+        }
     }
 
     public function testAddonsCreation()
