@@ -181,9 +181,10 @@ class base_addons extends test_restrict{
     /**
      * Add new add-on without intervals
      * @param array $addon_info
+     * @param bool $with_intervals
      * @return int|bool
      */
-    public function addAddon($addon_info)
+    public function addAddon($addon_info, $with_intervals = false)
     {
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add Add-on function~~~~~~~~~~~~~'.PHP_EOL;
@@ -264,9 +265,9 @@ class base_addons extends test_restrict{
         if (isset($addon_info['with_image'])) {
             $this->uploadAddonPhoto();
         }
-        if (isset($addon_info['intervals'])) {
+        if ($with_intervals && isset($addon_info['intervals'])) {
             foreach($addon_info['intervals'] as $interval) {
-                // $this->addAddonInterval($interval);
+                $this->addAddonInterval($interval);
             }
         }
         $this->getAllAddons();
@@ -390,43 +391,131 @@ class base_addons extends test_restrict{
     public function addAddonInterval($interval)
     {
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo '~~~~~~~~ Start of Add Addon Interval function ~~~~~~~~'.PHP_EOL;
-        $add_new_interval = $this->waitForElement('#tab_addons .add_interval', 15000, 'css');
-        $add_new_interval->click();
-        $this->byName('interval_name')->value($interval['name']);
+        echo '~~~~~~~~ Start of Add Add-on Interval function ~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $add_new_interval_btn = $this->waitForElement('#tab_addons .add_date_range', 15000, 'css');
+        $add_new_interval_btn->click();
+
+        $form = $this->waitForElement('.portlet.interval_form', 10000);
+
+        $this->byName('interval_name')->value($interval['interval_name']);
         $this->byName('start_date')->click();
-        $this->byCssSelector('.new_interval_form')->click();
-        $value = $this->convertDateToSiteFormat($interval['start']);
+        $form->click();
+
+        $value = $this->convertDateToSiteFormat($interval['start_date']);
         $this->byName('start_date')->value($value);
         $this->byName('end_date')->click();
-        $this->byCssSelector('.interval_form')->click();
-        $value = $this->convertDateToSiteFormat($interval['end']);
+        $form->click();
+
+        $value = $this->convertDateToSiteFormat($interval['end_date']);
         $this->byName('end_date')->clear();
         $this->byName('end_date')->value($value);
-        $this->byCssSelector('.interval_form')->click();
+        $form->click();
 
         if (isset($interval['min_overlap'])){
-            $this->byName('min_overlap')->value($interval['min_overlap']);
+            $min_overlap = $this->byName('min_overlap');
+            $min_overlap->clear();
+            $min_overlap->value($interval['min_overlap']);
         }
 
         if (isset($interval['max_overlap'])){
-            $this->byName('max_overlap')->value($interval['max_overlap']);
+            $max_overlap = $this->byName('max_overlap');
+            $max_overlap->clear();
+            $max_overlap->value($interval['max_overlap']);
         }
 
-        $l = $this->execute(array('script' => "return window.$('#tab_addons .define_week_days td:not(._hide) input').length", 'args' => array()));
-        for($i=0;$i<$l;$i++){
-            $el = $this->byJQ("#tab_addons .define_week_days td:not(._hide) input:eq(".$i.")");
-            $el->clear();
-            $el->value($interval['value_today']);
+        if (isset($interval['room_types']) && count($interval['room_types'])) {
+            echo PHP_EOL;
+            echo "Room types count = " . count($interval['room_types']) . PHP_EOL;
+            foreach($interval['room_types'] as $room_type) {
+                if (isset($room_type['room_type_id'])) {
+                    echo PHP_EOL;
+                    echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
+                    $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
+                    $avail_button->click();//open
+                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 16000, 'jQ')->click();
+                    $avail_button->click();//close
+                    $form->click();
+
+                    //for better video view
+                    $this->execute(array(
+                        'script' => "window.$('html, body').animate({scrollTop: '+=200px'}, 0);",
+                        'args' => array()
+                    ));
+
+                    // For each day of week: from sunday(0) to saturday(6)
+                    // 'day_0' => 1, // checked checkbox
+                    // 'day_0_adult_price' => 11, // price for adult
+                    // 'day_0_child_price' => 10, // price for child
+                    for($i = 0; $i <= 6; $i++) {
+
+                        echo 'Day ' . $i . ' checking...' . PHP_EOL;
+                        $checkbox_selector = '[name=\'day_' . $i . '_' . $room_type['room_type_id'] . '\']';
+                        $room_type_checkbox_label = $this->waitForElement($checkbox_selector . ' + label', 16000, 'jQ', false);
+                        $room_type_checkbox = $this->waitForElement($checkbox_selector, 16000, 'jQ', false);
+                        echo 'Visible checkbox? ' . ($room_type_checkbox_label->displayed() ? 'Yes' : 'No') . PHP_EOL;
+                        if ($room_type_checkbox_label->displayed()) {
+                            $is_enabled = $room_type_checkbox->enabled();
+                            echo 'Enabled checkbox? ' . ($is_enabled ? 'Yes' : 'No') . PHP_EOL;
+                            echo 'Checkbox selected? ' . ($room_type_checkbox->selected() ? 'Yes' : 'No') . PHP_EOL;
+
+                            if ($is_enabled) {
+                                $adult_input_selector = '[name=\'day_' . $i . '_adult_price_' . $room_type['room_type_id'] . '\']';
+                                $child_input_selector = '[name=\'day_' . $i . '_child_price_' . $room_type['room_type_id'] . '\']';
+
+                                if (!empty($room_type['day_' . $i])) {
+                                    // If need to turn on checkbox for this day
+                                    if (!$room_type_checkbox->selected()) {
+                                        $room_type_checkbox->click();
+                                    }
+
+                                    $adult_price_input = $this->waitForElement($adult_input_selector, 10000, 'jQ');
+                                    $child_price_input = $this->waitForElement($child_input_selector, 10000, 'jQ', false);
+
+                                    $charge_type = $this->select($this->byName('charge_type'))->value();
+                                    echo 'Charge Type = ' . $charge_type . PHP_EOL;
+                                    $this->assertEquals(true, $adult_price_input->enabled(), 'Check enabled adult price field');
+                                    // Check visibility
+                                    if ($charge_type != 'per_guest' && $charge_type != 'per_guest_per_night') {
+                                        $this->assertEquals(false, $child_price_input->displayed(), 'Check visibility of child price field. Need to be hidden');
+                                        $this->assertEquals(false, $child_price_input->enabled(), 'Check disabled child price field');
+                                    }
+
+                                    if ($adult_price_input->enabled()) {
+                                        $adult_price_input->clear();
+                                        $adult_price_input->value($room_type['day_' . $i . '_adult_price']);
+
+
+                                        echo 'Price for child is visible? ' . ($child_price_input->displayed() ? 'Yes' : 'No') . PHP_EOL;
+                                        if ($child_price_input->displayed()) {
+                                            $child_price_input->clear();
+                                            $child_price_input->value($room_type['day_' . $i . '_child_price']);
+                                        }
+                                    }
+                                } else {
+                                    // IF we turn off checkbox for day
+                                    // Need to check fields with prices. Need to be readonly (disabled)
+                                    if ($room_type_checkbox->selected()) {
+                                        $room_type_checkbox->click();
+                                    }
+                                    $adult_price_input = $this->waitForElement($adult_input_selector, 10000, 'jQ');
+                                    $child_price_input = $this->waitForElement($child_input_selector, 10000, 'jQ', false);
+                                    $this->assertEquals(false, $adult_price_input->enabled(), 'Check disabled adult price field');
+                                    $this->assertEquals(false, $child_price_input->enabled(), 'Check disabled child price field');
+                                }
+                            }
+                        }
+                    }
+
+                } else {
+                    $this->fail('room type id can not be selected');
+                }
+            }
         }
 
-
-        $this->byCssSelector('.interval_form a.save_interval')->click();
-        echo '~~~~~~~~~ Add-on Interval saved successfully ~~~~~~~~~' . PHP_EOL;
-
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->waitForElement('.save_interval', 5000, 'jQ')->click();
+        echo '~~~~~~~~~~~~~~~~ Interval added successfully ~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
 
     /**

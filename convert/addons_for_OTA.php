@@ -45,34 +45,97 @@ class addons_for_OTA extends base_addons {
             'charge_different_price_for_children' => '1',
             'with_image' => true,
             'intervals' => array(
-              'room_type_id' => 12,
-              'interval_name' => '',
-              'start_date' => 'now',
-              'end_date'  => '+2 days',
-              'min_overlap' => '0',
-              'max_overlap' => '0',
-              'day_0' => 0,
-              'day_0_adult_price' => 0,
-              'day_0_child_price' => 0,
-              'day_1' => 0,
-              'day_1_adult_price' => 0,
-              'day_1_child_price' => 0,
-              'day_2' => 0,
-              'day_2_adult_price' => 0,
-              'day_2_child_price' => 0,
-              'day_3' => 0,
-              'day_3_adult_price' => 0,
-              'day_3_child_price' => 0,
-              'day_4' => 0,
-              'day_4_adult_price' => 0,
-              'day_4_child_price' => 0,
-              'day_5' => 0,
-              'day_5_adult_price' => 0,
-              'day_5_child_price' => 0,
-              'day_6' => 0,
-              'day_6_adult_price' => 0,
-              'day_6_child_price' => 0,
-            )
+                array(
+                    'interval_name' => '2 day interval only with one room type',
+                    'start_date' => 'now',
+                    'end_date'  => '+2 days',
+                    'min_overlap' => '0',
+                    'max_overlap' => '0',
+                    'room_types' => array(
+                        array(
+                            'room_type_id' => 18,
+                            'day_0' => 1,
+                            'day_0_adult_price' => 11,
+                            'day_0_child_price' => 10,
+                            'day_1' => 1,
+                            'day_1_adult_price' => 11,
+                            'day_1_child_price' => 9,
+                            'day_2' => 1,
+                            'day_2_adult_price' => 11,
+                            'day_2_child_price' => 11,
+                            'day_3' => 1,
+                            'day_3_adult_price' => 11,
+                            'day_3_child_price' => 12,
+                            'day_4' => 1,
+                            'day_4_adult_price' => 11,
+                            'day_4_child_price' => 11,
+                            'day_5' => 1,
+                            'day_5_adult_price' => 12,
+                            'day_5_child_price' => 12,
+                            'day_6' => 1,
+                            'day_6_adult_price' => 12,
+                            'day_6_child_price' => 11,
+                        )
+                    )
+                ),
+                array(
+                    'interval_name' => '28 days with two room types',
+                    'start_date' => '+2 days',
+                    'end_date'  => '+30 days',
+                    'min_overlap' => '0',
+                    'max_overlap' => '0',
+                    'room_types' => array(
+                        array(
+                            'room_type_id' => 18,
+                            'day_0' => 1,
+                            'day_0_adult_price' => 11,
+                            'day_0_child_price' => 10,
+                            'day_1' => 1,
+                            'day_1_adult_price' => 11,
+                            'day_1_child_price' => 9,
+                            'day_2' => 1,
+                            'day_2_adult_price' => 11,
+                            'day_2_child_price' => 11,
+                            'day_3' => 1,
+                            'day_3_adult_price' => 11,
+                            'day_3_child_price' => 12,
+                            'day_4' => 1,
+                            'day_4_adult_price' => 11,
+                            'day_4_child_price' => 11,
+                            'day_5' => 1,
+                            'day_5_adult_price' => 12,
+                            'day_5_child_price' => 12,
+                            'day_6' => 1,
+                            'day_6_adult_price' => 12,
+                            'day_6_child_price' => 11,
+                        ),
+                        array(
+                            'room_type_id' => 19,
+                            'day_0' => 1,
+                            'day_0_adult_price' => 11,
+                            'day_0_child_price' => 10,
+                            'day_1' => 1,
+                            'day_1_adult_price' => 11,
+                            'day_1_child_price' => 9,
+                            'day_2' => 1,
+                            'day_2_adult_price' => 11,
+                            'day_2_child_price' => 11,
+                            'day_3' => 1,
+                            'day_3_adult_price' => 11,
+                            'day_3_child_price' => 12,
+                            'day_4' => 1,
+                            'day_4_adult_price' => 11,
+                            'day_4_child_price' => 11,
+                            'day_5' => 1,
+                            'day_5_adult_price' => 12,
+                            'day_5_child_price' => 12,
+                            'day_6' => 1,
+                            'day_6_adult_price' => 12,
+                            'day_6_child_price' => 11,
+                        )
+                    )
+                )
+            ),
         ),
         array(
             'addon_name' => 'Wi-Fi',
@@ -162,6 +225,12 @@ class addons_for_OTA extends base_addons {
             $this->addons[$i]['product_id'] = $product_id;
             $this->addAddon($this->addons[$i]);
         }
+    }
+
+    public function testAddonBooking()
+    {
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
     }
 }
 ?>

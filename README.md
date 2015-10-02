@@ -112,7 +112,8 @@ $child = $parent->element($this->using('css selector|id')->value('the css'));
 `->selected()` // Is an option selected.
 
 `$form_element
-->enabled();` Is a form element enabled or not.
+->enabled();` Is a form element enabled or not (disabled or not).
+$this->byId('disabledInput')->enabled();
 
 `->value();` Get a value.
 
