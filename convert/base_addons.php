@@ -134,7 +134,7 @@ class base_addons extends test_restrict{
      */
     public function getAllProducts()
     {
-        $products = $this->execute(array('script' => "return window.BET.products.products({is_active: '1'})", 'args' => array()));
+        $products = $this->getJSObject("BET.products.products({is_active: '1'})");
         echo 'Number of products = ' . count($products) . PHP_EOL;
         return $products;
     }
@@ -145,7 +145,7 @@ class base_addons extends test_restrict{
      */
     public function getAllAddons()
     {
-        $addons = $this->execute(array('script' => "return window.BET.products.addons({is_deleted: '0'})", 'args' => array()));
+        $addons = $this->getJSObject("BET.products.addons({is_deleted: '0'})");
         echo 'Number of add-ons = ' . count($addons) . PHP_EOL;
         return $addons;
     }
@@ -172,7 +172,8 @@ class base_addons extends test_restrict{
      */
     public function checkSavedAddon($addon_name, $with_assert = false)
     {
-        $saved_addon = $this->execute(array('script' => "return window.BET.products.products({is_deleted: '0', addon_name: '" . $addon_name . "'})", 'args' => array()));
+        echo 'Checked Add-on name: ' . $addon_name . PHP_EOL;
+        $saved_addon = $this->execute(array('script' => "return window.BET.products.addons({is_deleted: '0', addon_name: '" . $addon_name . "'})", 'args' => array()));
         $with_assert && $this->assertEquals(1, count($saved_addon), 'Check saved add-on with the following name: '. $addon_name);
 
         return $saved_addon && count($saved_addon) ? $saved_addon[0] : false;
@@ -426,14 +427,16 @@ class base_addons extends test_restrict{
 
         if (isset($interval['room_types']) && count($interval['room_types'])) {
             echo PHP_EOL;
-            echo "Room types count = " . count($interval['room_types']) . PHP_EOL;
+            echo "Number of selected room types = " . count($interval['room_types']) . PHP_EOL;
             foreach($interval['room_types'] as $room_type) {
                 if (isset($room_type['room_type_id'])) {
                     echo PHP_EOL;
                     echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
                     $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
                     $avail_button->click();//open
-                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 16000, 'jQ')->click();
+                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 20000, 'jQ', false);
+                    echo "Room type is visible? " . ($room_type_checkbox->displayed() ? 'Yes' : 'No') . PHP_EOL;
+                    $room_type_checkbox->click();
                     $avail_button->click();//close
                     $form->click();
 
@@ -595,4 +598,81 @@ class base_addons extends test_restrict{
         $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
     }
 
+
+    public function createReservation($start, $end)
+    {
+        //will check next week
+        $startDate = date('Y-m-d', strtotime($start));
+        $endDate = date('Y-m-d', strtotime($end, strtotime($startDate)));
+
+        //get first available room on booking
+        $url = $this->_prepareUrl($this->booking_url).'#checkin='.$startDate.'&checkout='.$endDate;
+        $this->url($url);
+        $this->waitForLocation($url);
+
+        //looking for first room block in list
+        try {
+            $el = $this->waitForElement('.room_types .room:first', 20000, 'jQ');
+        }
+        catch (\Exception $e)
+        {
+            $this->fail('No rooms to booking');
+        }
+
+        $roomTypeId = $this->getAttribute($el, 'data-room_type_id');
+        $selectName = $this->execute(array('script' => 'return window.$(".room_types .room:first select.rooms_select").attr("name")', 'args' => array()));
+        $rateId = preg_replace('/qty_rooms\[(\d+)\]/', '$1', $selectName);
+        echo 'Room Type Id = ' . $roomTypeId . PHP_EOL;
+        echo 'rate Id = ' . $rateId . PHP_EOL;
+        echo 'Select Name = ' . $selectName . PHP_EOL;
+
+        echo 'Search start date = ' . $startDate . PHP_EOL;
+        echo 'Search end date = ' . $endDate . PHP_EOL;
+
+        //get cache before booking
+        $beforeAvailability = $this->getAvailability($startDate, $endDate, $roomTypeId, false, true);
+
+        //select 1 room
+        $el->byCssSelector('div.rooms_select button')->click();
+        $this->byjQ('div.rooms_select ul.dropdown-menu li:eq(1) a')->click();
+
+        //waiting for folio js execution
+        $this->waitForElement('.selected_rooms_price');
+        $this->byCssSelector('.book_now')->click();
+
+        //waiting for rendering
+        $el = $this->waitForElement('select[name="country"]');
+
+        //fill out all inputs/textarea
+        $this->execute(array('script' => 'window.$("input:text[class~=\'required\']").filter(function(){return !this.value;}).val(\'test\')', 'args' => array()));
+        $this->execute(array('script' => 'window.$("textarea[class~=\'required\']").filter(function(){return !this.value;}).val(\'test\')', 'args' => array()));
+
+        //set country
+        $el->value('US');
+
+        //set email
+        $this->byId('email')->value('test@test.com');
+
+        //select Bank Transfer
+        $this->byCssSelector('.payment_method label[for="ebanking"]')->click();
+
+        $this->execute(array('script' => 'window.$("#agree_terms").click()', 'args' => array()));
+
+        //Go booking
+        $this->byCssSelector('.finalize')->click();
+
+        //waiting for success status
+        try {
+            $this->waitForElement('.reserve_success', 40000);
+            $cookie = $this->cookie();
+            // $cookies->get('name');
+        }
+        catch (\Exception $e) {
+            $this->fail('Reserva was not added');
+        }
+
+
+        echo '~~~~~~~~~~~~~~~~ Booking Creation successfully ~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+    }
  }

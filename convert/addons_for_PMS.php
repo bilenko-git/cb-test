@@ -184,6 +184,7 @@ class addons_for_PMS extends base_addons {
 
   /*  public function testDeleteAllAddons()
     {
+          echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $this->delAllAddons();
@@ -198,6 +199,7 @@ class addons_for_PMS extends base_addons {
 
     public function testCheckAllErros()
     {
+          echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $product =  array(
@@ -217,6 +219,7 @@ class addons_for_PMS extends base_addons {
 
     public function testAddonsCreation()
     {
+          echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $this->checkAddonsForEmptyProducts();
@@ -230,6 +233,7 @@ class addons_for_PMS extends base_addons {
 
     public function testAddonsCreationWithIntervals()
     {
+        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $this->delAllProducts();
@@ -238,10 +242,21 @@ class addons_for_PMS extends base_addons {
         $this->addAddon($this->addons[0], true);
     }
 
-    public function testAddonBooking()
+    /*
+    public function testAddonBookingForLoggedUser()
     {
+        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
+        $this->createReservation('now', '+2 days');
+    }
+    */
+    public function testAddonBooking()
+    {
+        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->createReservation('now', '+2 days');
     }
 }
 ?>
