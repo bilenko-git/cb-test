@@ -1,7 +1,6 @@
 <?php
 namespace MyProject\Tests;
 require_once 'base_addons.php';
-require_once 'booking.php';
 
 class addons_for_OTA extends base_addons {
     private $products = array(

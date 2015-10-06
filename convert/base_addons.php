@@ -267,7 +267,11 @@ class base_addons extends test_restrict{
             $this->uploadAddonPhoto();
         }
         if ($with_intervals && isset($addon_info['intervals'])) {
-            foreach($addon_info['intervals'] as $interval) {
+            echo PHP_EOL;
+            echo 'Number of new intervals: ' . count($addon_info['intervals']) . PHP_EOL;
+            echo PHP_EOL;
+            foreach($addon_info['intervals'] as $i => $interval) {
+                echo '>>>>>>> New Interval #' . $i . PHP_EOL;
                 $this->addAddonInterval($interval);
             }
         }
@@ -398,18 +402,21 @@ class base_addons extends test_restrict{
         $add_new_interval_btn->click();
 
         $form = $this->waitForElement('.portlet.interval_form', 10000);
-
+        echo 'Interval Name: ' . $interval['interval_name']. PHP_EOL;
+        echo PHP_EOL;
         $this->byName('interval_name')->value($interval['interval_name']);
         $this->byName('start_date')->click();
         $form->click();
 
         $value = $this->convertDateToSiteFormat($interval['start_date']);
+        echo 'Start Date:' . $value . PHP_EOL;
         $this->byName('start_date')->value($value);
         $this->byName('end_date')->click();
         $form->click();
 
         $value = $this->convertDateToSiteFormat($interval['end_date']);
         $this->byName('end_date')->clear();
+        echo 'End date: ' . $value . PHP_EOL;
         $this->byName('end_date')->value($value);
         $form->click();
 
@@ -426,7 +433,6 @@ class base_addons extends test_restrict{
         }
 
         if (isset($interval['room_types']) && count($interval['room_types'])) {
-            echo PHP_EOL;
             echo "Number of selected room types = " . count($interval['room_types']) . PHP_EOL;
             foreach($interval['room_types'] as $room_type) {
                 if (isset($room_type['room_type_id'])) {
@@ -664,15 +670,79 @@ class base_addons extends test_restrict{
         //waiting for success status
         try {
             $this->waitForElement('.reserve_success', 40000);
-            $cookie = $this->cookie();
-            // $cookies->get('name');
         }
         catch (\Exception $e) {
             $this->fail('Reserva was not added');
         }
 
-
+        $cookie = $this->cookie();
+        $reservationIdentifier = $cookie->get('last_reservation_id');
+        echo "Coockie [RESERVATION ID]: " . $reservationIdentifier . PHP_EOL;
         echo '~~~~~~~~~~~~~~~~ Booking Creation successfully ~~~~~~~~~'.PHP_EOL;
+
+        $btn = $this->waitForElement('.select_addons a', 20000);
+        $addons_block = $this->waitForElement('.addons', 15000,'css', false);
+        $this->assertEquals(false, $addons_block->displayed(), 'Check visibility of block');
+        $btn->click();
+
+        $addons_block = $this->waitForElement('.addons', 15000,'css', false);
+        $this->assertEquals(true, $addons_block->displayed(), 'Check visibility of block after click');
+
+        $addons = $this->elements($this->using('css selector')->value('.room_services'));
+        echo 'Add-ons count: ' . count($addons) . PHP_EOL;
+
+        if (count($addons)) {
+            echo PHP_EOL . 'LIST OF FOUND ADD-ONS:' . PHP_EOL;
+            foreach($addons as $i => $addon) {
+                //TODO-natali select more than one type
+                $addonId = $this->getAttribute($addon, 'data-id');
+                $roomTypeId = $this->getAttribute($addon, 'data-room_type_id');
+                $addonPrice = $this->getAttribute($addon, 'data-price');
+                $chargeType = $this->getAttribute($addon, 'data-charge-type');
+                echo '>>' . $i . PHP_EOL;
+                echo 'Add-on #' . $addonId . ' for room type "' . $roomTypeId . '". Price: "' . $addonPrice . '". Charge Type: ' . $chargeType . PHP_EOL;
+                echo 'Checking...' . PHP_EOL;
+                if ($chargeType == 'quantity') {
+                    // Select list needed
+                    $addonBlock = $this->waitForElement('.room_services[data-id="' . $addonId . '"]', 7000, 'jQ', false);
+
+                    //select 1 item
+                    $selectList = $addonBlock->byCssSelector('div.addon_count button');
+                    $this->assertEquals(false, $selectList->disaplayed(), 'Select list needed');
+
+                    $selectList->click();
+                    $this->byjQ('div.addon_count ul.dropdown-menu li:eq(1) a')->click();
+
+                    echo 'Success' . PHP_EOL;
+                } else {
+                    // Checkbox needed
+                    $addonCheckbox = $this->waitForElement('#addon_checkbox_' . $addonId  . '_' . $i .' + label', 15000, 'jQ', false);
+                    $this->assertEquals(true, $addonCheckbox->displayed(), 'Checkbox needed');
+
+                    if (! $addonCheckbox->selected()) {
+                        // Select add-on if it is not selected
+                        $addonCheckbox->click();
+                    }
+                    echo 'Success' . PHP_EOL;
+                }
+            }
+            // Click Update Total Price Button
+            $this->waitForElement('button.update-btn', 15000)->click();
+
+
+            //waiting for success status
+            try {
+                // Need to be the block with sold add-ons
+                $this->waitForElement('.additional_saved_items', 40000);
+            }
+            catch (\Exception $e) {
+                $this->fail('Add-ons not added to reservation #' . $reservationIdentifier);
+            }
+        } else {
+            echo 'There are no add-ons' . PHP_EOL;
+        }
+
+        echo '~~~~~~~~~~~~~~~~ Add-ons for booking page checked successfully ~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
  }
