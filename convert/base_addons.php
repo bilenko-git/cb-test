@@ -7,6 +7,25 @@ class base_addons extends test_restrict{
     private $booking_url = 'http://{server}/reservas/{property_id}';
     private $fees_and_taxes_url = 'http://{server}/connect/{property_id}#/fees_and_taxes';
     private $room_types_url = 'http://{server}/connect/{property_id}#/roomTypes';
+    private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
+
+    /**
+     * Go to Packages List page
+     */
+    public function go_to_package_page()
+    {
+        $this->url($this->_prepareUrl($this->packages_list_url));
+        $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
+    }
+
+    /**
+     * Go to Products Page
+     */
+    public function go_to_products_page()
+    {
+        $this->url($this->_prepareUrl($this->products_url));
+        $this->waitForLocation($this->_prepareUrl($this->products_url));
+    }
 
     /**
      * Confirm Delete dialog
@@ -26,8 +45,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~ Started Del All Products function~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_product', 15000, 'css')->click();
 
         $num = count($this->getAllProducts()); // check number before save and after
@@ -51,8 +69,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~ Started Del All Add-ons function~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_addon', 15000, 'css')->click();
 
         $num = count($this->getAllAddons()); // check number before save and after
@@ -74,8 +91,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~ Check Addons for empty Products ~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_addon', 15000, 'css')->click();
         $add_new_product = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
         $add_new_product->click();
@@ -98,8 +114,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~ Started Add Product function~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo 'New Product name = ' . $product['product_name'] . PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_product', 15000, 'jQ')->click();
         $add_new_product = $this->waitForElement('#tab_products .add-new-product', 15000, 'css');
         $add_new_product->click();
@@ -191,8 +206,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~ Started Add Add-on function~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo 'New Add-on name = ' . $addon_info['addon_name'] . PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_addon', 15000, 'css')->click();
         $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
         $add_new_addon->click();
@@ -294,8 +308,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add-on Validation ~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('#open_addon', 15000, 'css')->click();
 
         $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
@@ -475,7 +488,7 @@ class base_addons extends test_restrict{
                                 if (!empty($room_type['day_' . $i])) {
                                     // If need to turn on checkbox for this day
                                     if (!$room_type_checkbox->selected()) {
-                                        $room_type_checkbox->click();
+                                        $room_type_checkbox_label->click();
                                     }
 
                                     $adult_price_input = $this->waitForElement($adult_input_selector, 10000, 'jQ');
@@ -487,7 +500,6 @@ class base_addons extends test_restrict{
                                     // Check visibility
                                     if ($charge_type != 'per_guest' && $charge_type != 'per_guest_per_night') {
                                         $this->assertEquals(false, $child_price_input->displayed(), 'Check visibility of child price field. Need to be hidden');
-                                        $this->assertEquals(false, $child_price_input->enabled(), 'Check disabled child price field');
                                     }
 
                                     if ($adult_price_input->enabled()) {
@@ -505,7 +517,7 @@ class base_addons extends test_restrict{
                                     // IF we turn off checkbox for day
                                     // Need to check fields with prices. Need to be readonly (disabled)
                                     if ($room_type_checkbox->selected()) {
-                                        $room_type_checkbox->click();
+                                        $room_type_checkbox_label->click();
                                     }
                                     $adult_price_input = $this->waitForElement($adult_input_selector, 10000, 'jQ');
                                     $child_price_input = $this->waitForElement($child_input_selector, 10000, 'jQ', false);
@@ -532,8 +544,7 @@ class base_addons extends test_restrict{
      */
     public function delAddonInterval()
     {
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('a[href="#tab_addon]', 15000, 'jQ')->click();
 
         $script_show = 'jQuery(".addon_form .intervals-table .btn-group", "#layout").css("cssText", "display: block !important;");';
@@ -582,8 +593,7 @@ class base_addons extends test_restrict{
      */
     public function delAddon($addon_id)
     {
-        $this->url($this->_prepareUrl($this->products_url));
-        $this->waitForLocation($this->_prepareUrl($this->products_url));
+        $this->go_to_products_page();
         $this->waitForElement('a[href="#tab_addon]', 15000, 'jQ')->click();
 
         $script_show = 'jQuery("#addons_list .btn-group", "#layout").css("cssText", "display: block !important;");';
@@ -604,6 +614,9 @@ class base_addons extends test_restrict{
         $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
     }
 
+    public function editAddonAction($addonId){
+        $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit', 5000, 'jQ')->click();
+    }
 
     public function createReservation($start, $end)
     {
@@ -745,4 +758,185 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~ Add-ons for booking page checked successfully ~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
- }
+
+    /* -------------------------------------------------------------------------------- */
+    /* ------------------------------- PART FOR PACKAGES ------------------------------ */
+    public function addPackage(&$package){
+        $this->waitForElement('#layout .add-new-package', 30000)->click();
+        if(!$this->waitForElement('#layout .package-edit-block', 15000)){
+            $this->fail('Form add package was not opened at time.');
+        }
+
+        $this->fillPackage($package);
+
+        $package_id = $this->getLastPackagesID();
+        $package['package_id'] = $package_id;
+        return $package_id;
+    }
+
+    public function getLastPackagesID() {
+        $last_tr = $this->waitForElement('#layout .packages-table tbody > tr[data-id]:last', 5000, 'jQ');
+
+        if($last_tr){
+            return $this->getAttribute($last_tr, 'data-id');
+        }
+
+        return false;
+    }
+
+    public function removePackage($package_id) {
+        $delete_package_btn = $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.delete', 5000, 'jQ');
+        sleep(1);
+        $delete_package_btn->click();
+
+        $this->confirmDeleteDialog();
+    }
+
+    public function fillPackage(&$package) {
+        $is_derived = false;
+
+        if(isset($package['is_derived'])) {
+            $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
+            $is_derived = $package['is_derived'];
+        }
+
+        if(isset($package['addons'])) {
+            if (count($package['addons'])) {
+                foreach($package['addons'] as $id) {
+                    echo "Add-on ID selected for package = ". $id .PHP_EOL;
+                    $addons_button = $this->waitForElement('[name=\'addons\'] + div > button', 15000, 'jQ');
+                    $addons_button->click();//open
+                    $this->waitForElement('[name=\'addons\'][value=\''.$id.'\'] + label', 16000, 'jQ')->click();
+                    $addons_button->click();//close
+                }
+                echo "Selected Add-ons:" . PHP_EOL;
+                $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
+                var_dump($selectedAddons);
+            }
+        }
+
+        if(isset($package['have_promo'])) {
+            $this->waitForElement('[name=\'have_promo\'][value=\''.($package['have_promo']?1:0).'\'] + label', 5000, 'jQ')->click();
+        }
+
+        if(isset($package['promo_code'])) {
+            $promo_code_input = $this->waitForElement('[name=\'promo_code\']', 5000, 'jQ', true);
+            $promo_code_input->value($package['promo_code']);
+        }
+
+        foreach($package as $selector => $value){
+            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
+
+            $this->execute(array(
+                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
+                'args' => array()
+            ));
+        }
+
+        foreach($package['ranges'] as &$range) {
+            $rm_type_id = $this->addPackageRange($range, $is_derived);
+            $range['rm_type_id'] = $rm_type_id;
+        }
+
+        $this->uploadPackagePhoto();
+
+        $btns = $this->waitForElement('.edit-package-save.btn-save-panel', 5000);
+        $this->waitUntilVisible($btns, 30000);
+        if($btns) $btns->click();//click Save on save panel
+
+        $result = $this->waitForElement('#layout .package-list-block', 5000);
+        if(!$result) {
+            $this->fail('Saving failed');
+        }
+        $this->editPackageAction();
+        echo "Selected Add-ons:" . PHP_EOL;
+        $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
+        var_dump($selectedAddons);
+    }
+
+    public function addPackageRange($range, $is_derived) {
+        $this->waitForElement('.btn.date_range', 15000)->click();
+
+        $form = $this->waitForElement('.portlet.add_interval', 10000);
+
+        if($form instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $skip = array('prices', 'available_room_types', 'closed_to_arrival');
+            foreach($range as $selector => $value) {
+                if(!in_array($selector, $skip)) {
+                    if(strpos($selector, 'date') !== FALSE){
+                        $value = $this->convertDateToSiteFormat($value);
+                    }
+
+                    $input = $form->byName($selector);
+                    $input->click();
+                    $form->click();
+                    $input->value($value);
+                }
+            }
+
+            if(isset($range['closed_to_arrival'])) {
+                $this->waitForElement('[name=\'closed_to_arrival\'][value=\''.($range['closed_to_arrival']?1:0).'\'] + label', 5000, 'jQ')->click();
+            }
+        }
+
+        $rm_type_id = 0;
+        $rm_types = $this->getJSObject('BET.roomTypes.items()');
+
+        if($rm_types && is_array($rm_types)) {
+            foreach ($rm_types as $index => $rm_type) {
+                if (empty($rm_type['room_type_capacity'])) unset($rm_types[$index]);
+            }
+
+            $rm_type_id = $rm_type['room_type_id'];
+        }
+
+        if($rm_type_id) {
+            echo "rm_type_id = ".$rm_type_id.PHP_EOL;
+            $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
+            $avail_button->click();//open
+            $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+            $avail_button->click();//close
+            $form->click();
+
+            //for better video view
+            $this->execute(array(
+                'script' => "window.$('html, body').animate({scrollTop: '+=200px'}, 0);",
+                'args' => array()
+            ));
+
+            if(!$is_derived && !empty($range['prices'])) {
+                foreach ($range['prices'] as $index => $price) {
+                    $price_input_selector = '[name=\'day_' . $rm_type_id . '_' . $index . '\']';
+                    $price_input = $this->waitForElement($price_input_selector, 10000, 'jQ');
+                    $price_input->clear();
+                    $price_input->value($price);
+                }
+            }
+
+            $this->waitForElement('.save_add_interval', 5000, 'jQ')->click();
+        } else {
+            $this->fail('room type id can not be selected');
+        }
+
+        return $rm_type_id;
+    }
+
+    public function uploadPackagePhoto() {
+        $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload');
+        $upload_button->click();
+
+        $modal = $this->waitForElement('#photo_upload_modal', 7000);
+
+        $this->uploadFileToElement('body > input[type=\'file\']', __DIR__ .'/files/cloudbeds-logo-250x39.png');
+
+        $btns = $this->waitForElement('#photo_upload_modal .btn.done', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
+        $btns->click();//click Done
+
+        $btns = $this->waitForElement('#photo_upload_modal .save-uploader', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
+        $btns->click();//click Save & Continue;
+    }
+
+    public function editPackageAction($package_id){
+        $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.edit', 5000, 'jQ')->click();
+    }
+}
