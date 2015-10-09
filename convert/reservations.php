@@ -13,7 +13,6 @@ class reservations extends test_restrict{
 
     public function testSteps() {
         $this->loginToSite();
-
         //check find
         $this->byCssSelector('.search-form a.btn.submit')->click();
         $this->waitForElement('.search-form.open');
