@@ -114,13 +114,12 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        //$this->byCssSelector("#layout .list_reservation_table")->click();
-        //$this->waitForElement('.loading:not(.hide)', 15000, 'jQ');
-        sleep(3);
-        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
-       // $el = $this->byjQ('#layout .reservations-table tbody tr:eq(0) td.res-guest a');
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+       
         if(!$el)
             $this->fail('Cannot find the reservation');
+        
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
         
         $reservationId = $this->getAttribute($el, 'data-id');
         $el->click();
@@ -199,10 +198,12 @@ class calendar_balance_due extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        sleep(3);
-        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+       
         if(!$el)
-            $this->fail('Cannot find the reservation to delete');
+            $this->fail('Cannot find the reservation');
+        
+        $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
         
         $reservationId = $this->getAttribute($el, 'data-id');
         $el->click();
