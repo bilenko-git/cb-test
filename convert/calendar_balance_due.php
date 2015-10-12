@@ -248,7 +248,6 @@ class calendar_balance_due extends test_restrict{
         $url = $this->_prepareUrl($this->calendarUrl);
         $this->url($url);
         $this->waitForLocation($url);
-        
         //loading waiting
         $this->waitUntil(function() use ($test) {
             try {
