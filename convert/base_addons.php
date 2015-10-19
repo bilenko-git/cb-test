@@ -195,7 +195,7 @@ class base_addons extends test_restrict{
     }
 
     /**
-     * Add new add-on without intervals
+     * Add new add-on with or without intervals
      * @param array $addon_info
      * @param bool $with_intervals
      * @return int|bool
@@ -347,7 +347,8 @@ class base_addons extends test_restrict{
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
         $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
-        $this->assertEquals(true, $has_error, 'Check error class for max qty');
+        // Max qty not required. We can set 0 or live empty
+        $this->assertEquals(false, $has_error, 'Check error class for max qty');
 
         echo 'Max QTY with empty string checking ... '.PHP_EOL;
         $this->byName('max_qty_per_res')->value('');
@@ -355,7 +356,7 @@ class base_addons extends test_restrict{
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
         $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
-        $this->assertEquals(true, $has_error, 'Check error class for empty max qty');
+        $this->assertEquals(false, $has_error, 'Check error class for empty max qty');
 
         echo 'Max QTY with correct number checking ... '.PHP_EOL;
         $this->byName('max_qty_per_res')->value('82');
@@ -451,7 +452,7 @@ class base_addons extends test_restrict{
                 if (isset($room_type['room_type_id'])) {
                     echo PHP_EOL;
                     echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
-                    $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
+                    $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 10000, 'jQ');
                     $avail_button->click();//open
                     $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 20000, 'jQ', false);
                     echo "Room type is visible? " . ($room_type_checkbox->displayed() ? 'Yes' : 'No') . PHP_EOL;
@@ -473,8 +474,8 @@ class base_addons extends test_restrict{
 
                         echo 'Day ' . $i . ' checking...' . PHP_EOL;
                         $checkbox_selector = '[name=\'day_' . $i . '_' . $room_type['room_type_id'] . '\']';
-                        $room_type_checkbox_label = $this->waitForElement($checkbox_selector . ' + label', 16000, 'jQ', false);
-                        $room_type_checkbox = $this->waitForElement($checkbox_selector, 16000, 'jQ', false);
+                        $room_type_checkbox_label = $this->waitForElement($checkbox_selector . ' + label', 10000, 'jQ', false);
+                        $room_type_checkbox = $this->waitForElement($checkbox_selector, 10000, 'jQ', false);
                         echo 'Visible checkbox? ' . ($room_type_checkbox_label->displayed() ? 'Yes' : 'No') . PHP_EOL;
                         if ($room_type_checkbox_label->displayed()) {
                             $is_enabled = $room_type_checkbox->enabled();
@@ -794,7 +795,7 @@ class base_addons extends test_restrict{
 
     public function fillPackage(&$package) {
         $is_derived = false;
-
+        echo '~~~~~~~~~~~~~~~~ Fill Package ~~~~~~~~~'.PHP_EOL;
         if(isset($package['is_derived'])) {
             $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
             $is_derived = $package['is_derived'];
@@ -806,7 +807,7 @@ class base_addons extends test_restrict{
                     echo "Add-on ID selected for package = ". $id .PHP_EOL;
                     $addons_button = $this->waitForElement('[name=\'addons\'] + div > button', 15000, 'jQ');
                     $addons_button->click();//open
-                    $this->waitForElement('[name=\'addons\'][value=\''.$id.'\'] + label', 16000, 'jQ')->click();
+                    $this->waitForElement('[name=\'selectItemaddons\'][value=\''.$id.'\'] + label', 16000, 'jQ')->click();
                     $addons_button->click();//close
                 }
                 echo "Selected Add-ons:" . PHP_EOL;
@@ -826,7 +827,7 @@ class base_addons extends test_restrict{
 
         foreach($package as $selector => $value){
             if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
-
+            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
             $this->execute(array(
                 'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
                 'args' => array()
