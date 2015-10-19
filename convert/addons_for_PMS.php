@@ -510,7 +510,7 @@ class addons_for_PMS extends base_addons {
         $this->loginToSite();
         $this->delAllProducts();
     }
-
+*/
     public function testCheckAllErros()
     {
           echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -536,6 +536,7 @@ class addons_for_PMS extends base_addons {
           echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
+        $this->delAllProducts();
         $this->checkAddonsForEmptyProducts();
         foreach($this->products as $i => $product) {
             $product_id = $this->addProduct($product);
@@ -543,7 +544,7 @@ class addons_for_PMS extends base_addons {
             $this->addons[$i]['product_id'] = $product_id;
             $this->addAddon($this->addons[$i]);
         }
-    }*/
+    }
 /*
     public function testAddonsCreationWithIntervals()
     {
@@ -570,8 +571,8 @@ class addons_for_PMS extends base_addons {
         $this->loginToSite();
 
         $this->delAllProducts();
-        $product_id = $this->addProduct($this->products[2]);
-        $this->addons[2]['product_id'] = $product_id;
+        $product_id = $this->addProduct($this->products[1]);
+        $this->addons[1]['product_id'] = $product_id;
         $addon_id = $this->addAddon($this->addons[1], true);
         if ($addon_id) {
             $this->go_to_package_page();
