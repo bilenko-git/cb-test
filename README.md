@@ -226,3 +226,4 @@ $this->assertThereIsNoCookieNamed('name');
 `$screenshot = $this->currentScreenshot();` // Fetches a screenshot.
 
 `$this->orientation('LANDSCAPE|PORTRAIT');`
+
