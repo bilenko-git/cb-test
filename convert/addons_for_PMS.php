@@ -511,6 +511,14 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
     }
 
+  public function testCheckUniqueAddonName()
+  {
+        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->delAllAddons();
+
+  }
     public function testCheckAllErros()
     {
           echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -586,9 +594,9 @@ class addons_for_PMS extends base_addons {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
 
-        //$this->delAllProducts();
-        //$product_id = $this->addProduct($this->products[1]);
-        $this->addons[1]['product_id'] = 12; //$product_id;
+        $this->delAllProducts();
+        $product_id = $this->addProduct($this->products[1]);
+        $this->addons[1]['product_id'] = $product_id;
         $addon_id = $this->addAddon($this->addons[1], true);
         if ($addon_id) {
             $this->go_to_package_page();
@@ -598,6 +606,15 @@ class addons_for_PMS extends base_addons {
                 $package_id = $this->addPackage($package);
                 echo 'package id = ' . $package_id . PHP_EOL;
                 if (!$package_id) $this->fail('added package was not found');
+
+                $this->editPackageAction($package_id);
+                echo "Selected Add-ons:" . PHP_EOL;
+                $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
+                print_r($selectedAddons);
+                $btns = $this->waitForElement('.edit-package-cancel', 5000);
+                $this->waitUntilVisible($btns, 30000);
+                if($btns) $btns->click();//click Cancel on save panel
+                $this->assertEquals(count($selectedAddons), 1, 'Check number of add-ons');
 
                 // $this->_checkAvailability($package);
                 $this->removePackage($package_id);

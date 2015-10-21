@@ -768,6 +768,8 @@ class base_addons extends test_restrict{
             $this->fail('Form add package was not opened at time.');
         }
 
+        sleep(2);
+
         $this->fillPackage($package);
 
         $package_id = $this->getLastPackagesID();
@@ -801,7 +803,7 @@ class base_addons extends test_restrict{
             if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
             echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
             $this->execute(array(
-                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
+                'script' => 'return window.$("'.$selector.':visible", "#layout").val("'.$value.'");',
                 'args' => array()
             ));
         }
@@ -851,13 +853,10 @@ class base_addons extends test_restrict{
         if(!$result) {
             $this->fail('Saving failed');
         }
-        $this->editPackageAction();
-        echo "Selected Add-ons:" . PHP_EOL;
-        $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
-        var_dump($selectedAddons);
     }
 
-    public function addPackageRange($range, $is_derived) {
+    public function addPackageRange($range, $is_derived)
+    {
         $this->waitForElement('.btn.date_range', 15000)->click();
 
         $form = $this->waitForElement('.portlet.add_interval', 10000);
@@ -866,6 +865,7 @@ class base_addons extends test_restrict{
             $skip = array('prices', 'available_room_types', 'closed_to_arrival');
             foreach($range as $selector => $value) {
                 if(!in_array($selector, $skip)) {
+                    echo "Search " . $selector . PHP_EOL;
                     if(strpos($selector, 'date') !== FALSE){
                         $value = $this->convertDateToSiteFormat($value);
                     }
@@ -876,7 +876,8 @@ class base_addons extends test_restrict{
                     $input->value($value);
                 }
             }
-
+            $form->click();
+            sleep(1);
             if(isset($range['closed_to_arrival'])) {
                 $this->waitForElement('[name=\'closed_to_arrival\'][value=\''.($range['closed_to_arrival']?1:0).'\'] + label', 5000, 'jQ')->click();
             }
@@ -910,9 +911,13 @@ class base_addons extends test_restrict{
             if(!$is_derived && !empty($range['prices'])) {
                 foreach ($range['prices'] as $index => $price) {
                     $price_input_selector = '[name=\'day_' . $rm_type_id . '_' . $index . '\']';
-                    $price_input = $this->waitForElement($price_input_selector, 10000, 'jQ');
-                    $price_input->clear();
-                    $price_input->value($price);
+                    echo "Price selector: " . $price_input_selector . PHP_EOL;
+                    $price_input = $this->waitForElement($price_input_selector, 12000, 'jQ', false);
+                    echo "Is enabled? " . $price_input->enabled() ? 'Yes' : 'No';
+                    if ($price_input->enabled()) {
+                        $price_input->clear();
+                        $price_input->value($price);
+                    }
                 }
             }
 
@@ -940,6 +945,7 @@ class base_addons extends test_restrict{
     }
 
     public function editPackageAction($package_id){
-        $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.edit', 5000, 'jQ')->click();
+        echo 'Edit Package ' . $package_id . PHP_EOL;
+        $this->waitForElement('#layout .packages-table tbody > tr[data-id=\''.$package_id.'\'] .action-btn.edit', 10000, 'jQ')->click();
     }
 }
