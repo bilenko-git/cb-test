@@ -1,6 +1,6 @@
 <?php
 namespace MyProject\Tests;
-require_once 'base_rates.php';
+require_once 'test_restrict.php';
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 
 class invoice extends test_restrict{
