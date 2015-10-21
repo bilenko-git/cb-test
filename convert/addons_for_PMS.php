@@ -54,7 +54,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -87,7 +87,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 11,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -111,7 +111,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 17,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -153,7 +153,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 11,
@@ -177,7 +177,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 17,
+                            'room_type_id' => 11,
                             'day_0' => 1,
                             'day_0_adult_price' => 17,
                             'day_0_child_price' => 11,
@@ -210,7 +210,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -234,7 +234,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 17,
+                            'room_type_id' => 11,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -276,7 +276,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -309,7 +309,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -333,7 +333,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 17,
+                            'room_type_id' => 11,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -377,7 +377,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -410,7 +410,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 16,
+                            'room_type_id' => 10,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -434,7 +434,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 17,
+                            'room_type_id' => 11,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -465,8 +465,8 @@ class addons_for_PMS extends base_addons {
 
     private $packages = array(
         array(
-            '[name ^=\'package_name\']' => 'Selenium Pack 1',
-            '[name ^=\'package_name_internal\']' => 'Selenium Pack 001',
+            '[id^=\'package_name\']' => 'Selenium Pack 1',
+            '[id^=\'package_name_internal\']' => 'Selenium Pack 001',
             'addons' => array(),
             'is_derived' => false,//[name=\'derived\']
             'have_promo' => false,//[name=\'have_promo\']
@@ -510,7 +510,7 @@ class addons_for_PMS extends base_addons {
         $this->loginToSite();
         $this->delAllProducts();
     }
-*/
+
     public function testCheckAllErros()
     {
           echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -545,6 +545,22 @@ class addons_for_PMS extends base_addons {
             $this->addAddon($this->addons[$i]);
         }
     }
+
+    public function testAddonsCreation()
+    {
+          echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->loginToSite();
+        $this->delAllProducts();
+        $this->checkAddonsForEmptyProducts();
+        foreach($this->products as $i => $product) {
+            $product_id = $this->addProduct($product);
+
+            $this->addons[$i]['product_id'] = $product_id;
+            $this->addAddon($this->addons[$i]);
+        } --version
+
+    }
 /*
     public function testAddonsCreationWithIntervals()
     {
@@ -570,9 +586,9 @@ class addons_for_PMS extends base_addons {
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
 
-        $this->delAllProducts();
-        $product_id = $this->addProduct($this->products[1]);
-        $this->addons[1]['product_id'] = $product_id;
+        //$this->delAllProducts();
+        //$product_id = $this->addProduct($this->products[1]);
+        $this->addons[1]['product_id'] = 12; //$product_id;
         $addon_id = $this->addAddon($this->addons[1], true);
         if ($addon_id) {
             $this->go_to_package_page();

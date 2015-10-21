@@ -32,7 +32,7 @@ class base_addons extends test_restrict{
      */
     public function confirmDeleteDialog()
     {
-        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
+        $this->waitForElement('#confirm_delete', 20000);//delete confirmation almost all over site we can you this method to confim deleting something
         $this->waitForElement('.btn_delete', 5000)->click();
         echo '~~~~~~~~~~Confirmed Delete operation~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
@@ -46,13 +46,13 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~ Started Del All Products function~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->go_to_products_page();
-        $this->waitForElement('#open_product', 15000, 'css')->click();
+        $this->waitForElement('#open_product', 25000, 'css')->click();
 
         $num = count($this->getAllProducts()); // check number before save and after
 
         // Remove one by one
         while ($num > 0) {
-            $this->waitForElement('.delete_product', 10000, 'css')->click();
+            $this->waitForElement('.delete_product', 12000, 'css')->click();
             $this->confirmDeleteDialog();
             $this->timeouts()->implicitWait(5000);
             $num = count($this->getAllProducts());
@@ -454,7 +454,7 @@ class base_addons extends test_restrict{
                     echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
                     $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 10000, 'jQ');
                     $avail_button->click();//open
-                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 20000, 'jQ', false);
+                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 25000, 'jQ', false);
                     echo "Room type is visible? " . ($room_type_checkbox->displayed() ? 'Yes' : 'No') . PHP_EOL;
                     $room_type_checkbox->click();
                     $avail_button->click();//close
@@ -796,6 +796,16 @@ class base_addons extends test_restrict{
     public function fillPackage(&$package) {
         $is_derived = false;
         echo '~~~~~~~~~~~~~~~~ Fill Package ~~~~~~~~~'.PHP_EOL;
+
+        foreach($package as $selector => $value){
+            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
+            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
+            $this->execute(array(
+                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
+                'args' => array()
+            ));
+        }
+
         if(isset($package['is_derived'])) {
             $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
             $is_derived = $package['is_derived'];
@@ -825,14 +835,6 @@ class base_addons extends test_restrict{
             $promo_code_input->value($package['promo_code']);
         }
 
-        foreach($package as $selector => $value){
-            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
-            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.'").val("'.$value.'");',
-                'args' => array()
-            ));
-        }
 
         foreach($package['ranges'] as &$range) {
             $rm_type_id = $this->addPackageRange($range, $is_derived);
