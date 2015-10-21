@@ -53,7 +53,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -86,7 +86,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -110,7 +110,7 @@ class addons_for_OTA extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 19,
+                            'room_type_id' => 13,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -152,7 +152,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -185,7 +185,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -209,7 +209,7 @@ class addons_for_OTA extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 19,
+                            'room_type_id' => 13,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -251,7 +251,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -284,7 +284,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -308,7 +308,7 @@ class addons_for_OTA extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 19,
+                            'room_type_id' => 13,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -352,7 +352,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -385,7 +385,7 @@ class addons_for_OTA extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 18,
+                            'room_type_id' => 12,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -409,7 +409,7 @@ class addons_for_OTA extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 19,
+                            'room_type_id' => 13,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -456,7 +456,7 @@ class addons_for_OTA extends base_addons {
                     'prices' => array(
                         '0' => '12',
                         '1' => '12',
-                        '2' => '18',
+                        '2' => '12',
                         '3' => '10',
                         '4' => '20',
                         '5' => '22',
