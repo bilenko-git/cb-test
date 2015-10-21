@@ -219,7 +219,7 @@ class calendar_balance_due extends test_restrict{
         },50000);
         
         try {
-            $el = $this->waitForElement('#layout a.delete-button-reservation', 20000);
+            $el = $this->waitForElement('#layout a.delete-button-reservation:visible:eq(0)', 20000, 'jQ');
         }
         catch (\Exception $e)
         {
