@@ -219,7 +219,7 @@ class calendar_balance_due extends test_restrict{
         },50000);
         
         try {
-            $el = $this->waitForElement('#layout a.delete-button-reservation', 20000);
+            $el = $this->waitForElement('#layout a.delete-button-reservation:visible:eq(0)', 20000, 'jQ');
         }
         catch (\Exception $e)
         {
@@ -227,8 +227,8 @@ class calendar_balance_due extends test_restrict{
         }
         
         $el->click();
-        $this->waitForElement('#confirm_delete');
-        $this->waitForElement('.btn_delete')->click();
+        $this->waitForElement('#confirm_delete', 15000, 'css', true);
+        $this->waitForElement('.btn_delete', 15000, 'css', true)->click();
 
         $this->waitUntil(function() use ($test) {
             try {
