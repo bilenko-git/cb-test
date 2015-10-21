@@ -244,7 +244,6 @@ class calendar_balance_due extends test_restrict{
         $this->waitForLocation($url);
         $this->rates_remove_rate();
 
-        $this->rates_remove_rate();
     }
     
     private function _checkCalendar($checkFlag = 1, $assign = false)
