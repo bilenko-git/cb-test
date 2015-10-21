@@ -239,10 +239,11 @@ class calendar_balance_due extends test_restrict{
             return true;
         },50000);
 
-        $this->waitForElement('#confirm_delete', 15000, 'css', true);
         $url = $this->_prepareUrl($this->reservationsUrl);
         $this->url($url);
         $this->waitForLocation($url);
+        $this->rates_remove_rate();
+
         $this->rates_remove_rate();
     }
     
