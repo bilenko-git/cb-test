@@ -21,61 +21,35 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
 
     // setElementSelected
-    $element = $this->byJQ("input[name^='charge_additional'][value='Y']:visible");
+    $element = $this->waitForElement(".hide_show_content_below label:first", 15000, 'jQ');
       $element->click();
     // waitForElementPresent
     // setElementText
-    $element = $this->byJQ(".charge_additional .adults input");
+    $element = $this->waitForElement("#layout .charge_additional .adults input:visible", 15000, 'jQ');
     $element->click();
     $element->clear();
     $element->value("10");
     // setElementText
-        $element = $this->byJQ(".charge_additional .kids input");
+        $element = $this->waitForElement("#layout .charge_additional .kids input:visible:first", 15000, 'jQ');
         $element->click();
         $element->clear();
     $element->value("99");
     // setElementText
     // clickElement
-      $this->byCssSelector(".pull-line-right > .btn.green")->click();
-    // waitForElementAttribute
-    $this->waitUntil(function() use ($test) {
-      try {
-        $test->assertEquals("saved", $test->byCssSelector(".savingMsg")->attribute("data-qe-id"));
-      } catch(\Exception $e) {
-        return null;
-      }
-      return true;
-    },50000);
-    // refresh
+      $this->save();
     $this->refresh();
     // waitForElementAttribute
-    $this->waitUntil(function() use ($test) {
-      try {
-        $test->assertEquals("roomRates", $test->byId("layout")->attribute("data-current_view"));
-      } catch(\Exception $e) {
-        return null;
-      }
-      return true;
-    },50000);
+        $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
     // clickElement
-    $this->byXPath("//div[@id='layout']//a[.='Econom']")->click();
+        $this->waitForElement(".hide_show_content_below label:first", 15000, 'jQ');
     // assertElementValue
-    $test->assertEquals("Y", $test->byCssSelector("span.checked input[name='charge_additional?tab_1'][value='Y']")->value());
+    $this->assertEquals("10.00 руб", $this->waitForElement("#layout .charge_additional .adults input:visible", 15000, 'jQ')->value());
     // setElementSelected
-    $element = $this->byCssSelector("input[name='charge_additional?tab_1'][value='N']");
-    if (!$element->selected()) {
-      $element->click();
-    }
+        $element = $this->waitForElement(".hide_show_content_below label:eq(1)", 15000, 'jQ');
+        $element->click();
     // clickElement
-      $this->byCssSelector(".pull-line-right > .btn.green")->click();
+        $this->save();
     // waitForElementAttribute
-    $this->waitUntil(function() use ($test) {
-      try {
-        $test->assertEquals("saved", $test->byCssSelector(".savingMsg")->attribute("data-qe-id"));
-      } catch(\Exception $e) {
-        return null;
-      }
-      return true;
-    },50000);
+
   }
 }
