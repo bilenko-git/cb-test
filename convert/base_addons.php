@@ -583,6 +583,14 @@ class base_addons extends test_restrict{
         $this->waitForElement('.toast-bottom-left', 50000, 'css');
     }
 
+    public function checkUniqueAddonName()
+    {
+        $this->waitForElement('#error_modal', 7000);
+        $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
+        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $this->assertEquals(true, $has_error, 'Check error class for unique add-on name');
+    }
+
     public function cancelAddon()
     {
         $cancel = $this->waitForElement('#panel-save .btn-cancel', 15000, 'css');
@@ -767,8 +775,8 @@ class base_addons extends test_restrict{
         if(!$this->waitForElement('#layout .package-edit-block', 15000)){
             $this->fail('Form add package was not opened at time.');
         }
-
-        sleep(2);
+        echo PHP_EOL . "------->Sleep 15". PHP_EOL;
+        sleep(15);
 
         $this->fillPackage($package);
 
@@ -799,15 +807,6 @@ class base_addons extends test_restrict{
         $is_derived = false;
         echo '~~~~~~~~~~~~~~~~ Fill Package ~~~~~~~~~'.PHP_EOL;
 
-        foreach($package as $selector => $value){
-            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
-            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.':visible", "#layout").val("'.$value.'");',
-                'args' => array()
-            ));
-        }
-
         if(isset($package['is_derived'])) {
             $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
             $is_derived = $package['is_derived'];
@@ -837,6 +836,16 @@ class base_addons extends test_restrict{
             $promo_code_input->value($package['promo_code']);
         }
 
+        sleep(1);
+
+        foreach($package as $selector => $value){
+            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
+            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
+            $this->execute(array(
+                'script' => 'return window.$("'.$selector.':visible", "#layout").val("'.$value.'");',
+                'args' => array()
+            ));
+        }
 
         foreach($package['ranges'] as &$range) {
             $rm_type_id = $this->addPackageRange($range, $is_derived);
