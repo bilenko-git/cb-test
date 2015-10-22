@@ -373,13 +373,7 @@ class packages_availability extends test_restrict{
     public function _checkAvailability($package){
         $is_derived = !empty($package['is_derived']);
 
-        if($is_derived)
             $clean_up_charge = 0.0;
-        else
-            $clean_up_charge = (float) $this->execute(array(
-                'script' => 'return BET.roomRates.charge_clean_up_room();',
-                'args' => array()
-            ));
 
         echo '~~~~~~~~~Cache checking....~~~~~~~~~'.PHP_EOL;
 

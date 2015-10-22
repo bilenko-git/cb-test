@@ -13,7 +13,7 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->dashboard_url));
         $this->waitForLocation($this->_prepareUrl($this->dashboard_url));
-
+        $this->waitForElement('.dashboard-current-date', 50000, 'css');
     $this->byName("arates")->click();
     // clickElement
       $this->byCssSelector("#main_menu #sroomRates a")->click();
@@ -21,31 +21,20 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
 
     // setElementSelected
-    $element = $this->byCssSelector("input[name='charge_additional?tab_1'][value='Y']");
-    if (!$element->selected()) {
+    $element = $this->byJQ("input[name^='charge_additional'][value='Y']:visible");
       $element->click();
-    }
     // waitForElementPresent
     // setElementText
-    $element = $this->byXPath("//div[@id='tab_1']/form/div[2]/div[2]/div[1]/div[2]/div/input");
+    $element = $this->byJQ(".charge_additional .adults input");
     $element->click();
     $element->clear();
     $element->value("10");
     // setElementText
-    $element = $this->byXPath("//div[@id='tab_1']/form/div[2]/div[2]/div[2]/div[3]/div/input");
-    $element->click();
-    $element->clear();
+        $element = $this->byJQ(".charge_additional .kids input");
+        $element->click();
+        $element->clear();
     $element->value("99");
     // setElementText
-    $element = $this->byXPath("//div[@id='tab_1']/form/div[2]/div[2]/div[2]/div[2]/div/input");
-    $element->click();
-    $element->clear();
-    $element->value("10");
-    // setElementText
-    $element = $this->byXPath("//div[@id='tab_1']/form/div[2]/div[2]/div[1]/div[3]/div/input");
-    $element->click();
-    $element->clear();
-    $element->value("98");
     // clickElement
       $this->byCssSelector(".pull-line-right > .btn.green")->click();
     // waitForElementAttribute
