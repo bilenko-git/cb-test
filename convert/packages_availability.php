@@ -206,7 +206,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
-      /*public function test_Cut_off(){
+      public function test_Cut_off(){
           $this->go_to_package_page();
           $this->_verifyPackage(1);
       }
@@ -234,7 +234,7 @@ class packages_availability extends test_restrict{
           $this->go_to_package_page();
           $this->_update_and_verifyPackage(0);
       }
-*/
+
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
             $package = $this->packages[$index];
