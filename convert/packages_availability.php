@@ -206,7 +206,7 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
-      /*public function test_Cut_off(){
+      public function test_Cut_off(){
           $this->go_to_package_page();
           $this->_verifyPackage(1);
       }
@@ -234,7 +234,7 @@ class packages_availability extends test_restrict{
           $this->go_to_package_page();
           $this->_update_and_verifyPackage(0);
       }
-*/
+
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
             $package = $this->packages[$index];
@@ -373,13 +373,7 @@ class packages_availability extends test_restrict{
     public function _checkAvailability($package){
         $is_derived = !empty($package['is_derived']);
 
-        if($is_derived)
             $clean_up_charge = 0.0;
-        else
-            $clean_up_charge = (float) $this->execute(array(
-                'script' => 'return BET.roomRates.charge_clean_up_room();',
-                'args' => array()
-            ));
 
         echo '~~~~~~~~~Cache checking....~~~~~~~~~'.PHP_EOL;
 
