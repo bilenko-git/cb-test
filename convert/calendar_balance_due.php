@@ -87,7 +87,7 @@ class calendar_balance_due extends test_restrict{
         $this->byCssSelector('button.finalize')->click();
         
         try {
-            $el = $this->waitForElement('.reserve_number', 20000);
+            $el = $this->waitForElement('.reserve_number', 50000);
         }
         catch (\Exception $e)
         {
