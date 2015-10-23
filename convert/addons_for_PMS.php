@@ -754,6 +754,9 @@ class addons_for_PMS extends base_addons {
         );
 
         $product_id = $this->addProduct($product);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
+
         if ($product_id) {
             $this->checkAddonErrors();
             $this->delAllProducts();
@@ -770,6 +773,8 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[0]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[0]['product_id'] = $product_id;
         $this->addAddon($this->addons[0], true);
@@ -785,6 +790,8 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[1]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[1]['product_id'] = $product_id;
         $this->addAddon($this->addons[1], true);
@@ -800,6 +807,8 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[2]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[2]['product_id'] = $product_id;
         $this->addAddon($this->addons[2], true);
@@ -815,6 +824,8 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[3]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[3]['product_id'] = $product_id;
         $this->addAddon($this->addons[3], true);
@@ -831,6 +842,8 @@ class addons_for_PMS extends base_addons {
         $this->checkAddonsForEmptyProducts();
 
         $product_id = $this->addProduct($this->products[4]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[4]['product_id'] = $product_id;
         $this->addAddon($this->addons[4]);
@@ -848,6 +861,8 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[5]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[5]['product_id'] = $product_id;
         $this->addAddon($this->addons[5], true);
@@ -862,14 +877,21 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[6]);
-
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
         $this->addons[6]['product_id'] = $product_id;
         $this->addAddon($this->addons[6], true);
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~ Check Unique Add-on Name ~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->waitForElement('#open_addon', 15000, 'css')->click();
         $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
         $add_new_addon->click();
+
         $this->byName('addon_name')->value($this->addons[6]['addon_name']);
+        $product_id = $this->byName('product_id');
+        $this->select($product_id)->selectOptionByValue($this->addons[6]['product_id']);
+        $charge_type = $this->byName('charge_type');
+        $this->select($charge_type)->selectOptionByValue($this->addons[6]['charge_type']);
+
         $this->saveAddon();
         $this->checkUniqueAddonName();
         $this->cancelAddon();
@@ -879,11 +901,14 @@ class addons_for_PMS extends base_addons {
     public function testAddonUpdate()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '~~~~~~~~~~~~~~~TEST ADD-ON UPDATE~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[0]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[0]['product_id'] = $product_id;
         $addon_id = $this->addAddon($this->addons[0]);
@@ -891,8 +916,13 @@ class addons_for_PMS extends base_addons {
         if (!$addon_id) $this->fail('Added add-on was not found');
 
         $this->editAddonAction($addon_id);
-    }
 
+        $this->byName('addon_name')->value('Changed Add-on');
+        $charge_type = $this->byName('charge_type');
+        $this->select($charge_type)->selectOptionByValue('quantity');
+
+        $this->saveAddon();
+    }
 
     public function testAddonActiveState()
     {
@@ -903,42 +933,31 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
 
         $product_id = $this->addProduct($this->products[0]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
 
         $this->addons[0]['product_id'] = $product_id;
         $addon_id = $this->addAddon($this->addons[0]);
         if ($addon_id) {
-                $switcher = $this->waitForElement('#addons_list #addon_' . $addon_id . ' .bootstrap-switch', 15000, 'css');
-                $switcher->click();
-                sleep(1);
-
-                $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
-                $this->assertEquals(1, count($saved_addon), 'Check addon');
-                $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
-                echo 'Refresh Page and check add-on state' . PHP_EOL;
-                $this->refresh();
-                $this->go_to_products_page();
-                $this->waitForElement('#open_addon', 15000, 'css')->click();
-                $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
-                $this->assertEquals(1, count($saved_addon), 'Check addon');
-                $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
+            sleep(1);
+            $this->execJS("$('#addons_list #addon_" . $addon_id . " [name=is_active]', '#layout').click()");
+            sleep(1);
+            $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
+            $this->assertEquals(1, count($saved_addon), 'Check addon');
+            $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
+            echo 'Refresh Page and check add-on state' . PHP_EOL;
+            $this->refresh();
+            $this->go_to_products_page();
+            $this->waitForElement('#open_addon', 15000, 'css')->click();
+            $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
+            $this->assertEquals(1, count($saved_addon), 'Check addon');
+            $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
 
         } else {
             $this->fail('Add-on cannot be found');
         }
     }
 
-/*
-    public function testAddonsCreationWithIntervals()
-    {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
-        $this->loginToSite();
-        $this->delAllProducts();
-        $product_id = $this->addProduct($this->products[1]);
-        $this->addons[1]['product_id'] = $product_id;
-        $this->addAddon($this->addons[1], true);
-    }
-*/
 /*
     public function testAddonBooking()
     {
@@ -947,15 +966,23 @@ class addons_for_PMS extends base_addons {
         $this->createReservation('now', '+2 days');
     }*/
 
-    public function testAddonsForPackages(){
+    public function testAddonsForPackages()
+    {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '~~~~~~~~~~~~~~TEST ADD-ONS FOR PACKAGES ~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->loginToSite();
 
         $this->delAllProducts();
-        $product_id = $this->addProduct($this->products[1]);
-        $this->addons[1]['product_id'] = $product_id;
-        $addon_id = $this->addAddon($this->addons[1], true);
+        $product_id = $this->addProduct($this->products[0]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
+
+        $this->addons[0]['product_id'] = $product_id;
+        $addon_id = $this->addAddon($this->addons[0], true);
+        echo 'Add-on id = ' . $addon_id . PHP_EOL;
+        if (!$addon_id) $this->fail('Added add-on was not found');
+
         if ($addon_id) {
             $this->go_to_package_page();
             if (!empty($this->packages[0])) {

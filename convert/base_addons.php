@@ -624,12 +624,15 @@ class base_addons extends test_restrict{
 
     public function editAddonAction($addonId)
     {
-        $script_show = 'jQuery(".table-scrollable:visible", "#layout").addClass(".table-scrollable-tmp").removeClass(".table-scrollable");';
-        $script_hide = 'jQuery(".table-scrollable-tmp:visible", "#layout").addClass(".table-scrollable").removeClass(".table-scrollable-tmp");';
+        $script_show = 'jQuery(".addons-list-block .table-scrollable", "#layout").addClass("table-scrollable-tmp").removeClass("table-scrollable");';
+        $script_hide = 'jQuery(".addons-list-block .table-scrollable-tmp", "#layout").addClass("table-scrollable").removeClass("table-scrollable-tmp");';
 
         //prior to accessing the non-visible element
         $this->execJS($script_show);
-        $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit', 5000, 'jQ')->click();
+        //for better video view
+        $this->execJS("window.$('html, body').animate({scrollLeft: '+=200px'}, 0);");
+
+        $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit_addon', 15000, 'jQ')->click();
         // undo style changes
         $this->execJS($script_hide);
     }
