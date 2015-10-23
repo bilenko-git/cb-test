@@ -254,7 +254,6 @@ class base_addons extends test_restrict{
 
             if (empty($addon_info['charge_for_children'])) {
                 $this->byJQ("[name=charge_for_children][value='0']")->click();
-                $this->check("[name=charge_for_children][value='0']");
                 $charge_different_price_for_children = $this->waitForElement('#layout [name=charge_different_price_for_children]', 15000, 'jQ', false);
                 $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.5 Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
             } else {
@@ -623,8 +622,16 @@ class base_addons extends test_restrict{
         $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
     }
 
-    public function editAddonAction($addonId){
+    public function editAddonAction($addonId)
+    {
+        $script_show = 'jQuery(".table-scrollable:visible", "#layout").addClass(".table-scrollable-tmp").removeClass(".table-scrollable");';
+        $script_hide = 'jQuery(".table-scrollable-tmp:visible", "#layout").addClass(".table-scrollable").removeClass(".table-scrollable-tmp");';
+
+        //prior to accessing the non-visible element
+        $this->execJS($script_show);
         $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit', 5000, 'jQ')->click();
+        // undo style changes
+        $this->execJS($script_hide);
     }
 
     public function createReservation($start, $end)
@@ -841,10 +848,9 @@ class base_addons extends test_restrict{
         foreach($package as $selector => $value){
             if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
             echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.':visible", "#layout").val("'.$value.'");',
-                'args' => array()
-            ));
+            $this->execJS('window.$("'.$selector.'", "#layout").each(function() {
+                $(this).val("'.$value.'");
+            });');
         }
 
         foreach($package['ranges'] as &$range) {
