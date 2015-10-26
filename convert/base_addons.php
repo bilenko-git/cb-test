@@ -254,7 +254,6 @@ class base_addons extends test_restrict{
 
             if (empty($addon_info['charge_for_children'])) {
                 $this->byJQ("[name=charge_for_children][value='0']")->click();
-                $this->check("[name=charge_for_children][value='0']");
                 $charge_different_price_for_children = $this->waitForElement('#layout [name=charge_different_price_for_children]', 15000, 'jQ', false);
                 $this->assertEquals($charge_different_price_for_children->displayed(), false, "addAddon::1.5 Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
             } else {
@@ -583,6 +582,14 @@ class base_addons extends test_restrict{
         $this->waitForElement('.toast-bottom-left', 50000, 'css');
     }
 
+    public function checkUniqueAddonName()
+    {
+        $this->waitForElement('#error_modal', 7000);
+        $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
+        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $this->assertEquals(true, $has_error, 'Check error class for unique add-on name');
+    }
+
     public function cancelAddon()
     {
         $cancel = $this->waitForElement('#panel-save .btn-cancel', 15000, 'css');
@@ -615,8 +622,19 @@ class base_addons extends test_restrict{
         $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
     }
 
-    public function editAddonAction($addonId){
-        $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit', 5000, 'jQ')->click();
+    public function editAddonAction($addonId)
+    {
+        $script_show = 'jQuery(".addons-list-block .table-scrollable", "#layout").addClass("table-scrollable-tmp").removeClass("table-scrollable");';
+        $script_hide = 'jQuery(".addons-list-block .table-scrollable-tmp", "#layout").addClass("table-scrollable").removeClass("table-scrollable-tmp");';
+
+        //prior to accessing the non-visible element
+        $this->execJS($script_show);
+        //for better video view
+        $this->execJS("window.$('html, body').animate({scrollLeft: '+=200px'}, 0);");
+
+        $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit_addon', 15000, 'jQ')->click();
+        // undo style changes
+        $this->execJS($script_hide);
     }
 
     public function createReservation($start, $end)
@@ -767,8 +785,8 @@ class base_addons extends test_restrict{
         if(!$this->waitForElement('#layout .package-edit-block', 15000)){
             $this->fail('Form add package was not opened at time.');
         }
-
-        sleep(2);
+        echo PHP_EOL . "------->Sleep 15". PHP_EOL;
+        sleep(15);
 
         $this->fillPackage($package);
 
@@ -799,15 +817,6 @@ class base_addons extends test_restrict{
         $is_derived = false;
         echo '~~~~~~~~~~~~~~~~ Fill Package ~~~~~~~~~'.PHP_EOL;
 
-        foreach($package as $selector => $value){
-            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
-            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.':visible", "#layout").val("'.$value.'");',
-                'args' => array()
-            ));
-        }
-
         if(isset($package['is_derived'])) {
             $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
             $is_derived = $package['is_derived'];
@@ -837,6 +846,15 @@ class base_addons extends test_restrict{
             $promo_code_input->value($package['promo_code']);
         }
 
+        sleep(1);
+
+        foreach($package as $selector => $value){
+            if(in_array($selector, array('is_derived', 'addons', 'have_promo', 'ranges', 'promo_code'))) continue;
+            echo 'Field '. $selector. ' = ' . $value .PHP_EOL;
+            $this->execJS('window.$("'.$selector.'", "#layout").each(function() {
+                $(this).val("'.$value.'");
+            });');
+        }
 
         foreach($package['ranges'] as &$range) {
             $rm_type_id = $this->addPackageRange($range, $is_derived);

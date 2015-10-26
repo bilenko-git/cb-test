@@ -87,7 +87,7 @@ class calendar_balance_due extends test_restrict{
         $this->byCssSelector('button.finalize')->click();
         
         try {
-            $el = $this->waitForElement('.reserve_number', 20000);
+            $el = $this->waitForElement('.reserve_number', 50000);
         }
         catch (\Exception $e)
         {
@@ -178,8 +178,6 @@ class calendar_balance_due extends test_restrict{
             return true;
         },50000);
 
-        sleep(3);
-        
         //check calendar again
         $this->_checkCalendar(0, false);
         
@@ -345,6 +343,8 @@ class calendar_balance_due extends test_restrict{
         }
         else
         {
+            //need to waite up to 10 secs toll calendar updated from server
+            sleep(11);
             //change date
             $this->execJS("
             $('#layout #calendar-datepicker').datepicker('setDate', '".date('m/d/Y', strtotime($this->startDate))."');
