@@ -96,6 +96,7 @@ class test_restrict extends WebDriverTestCase
         return date($date_format, strtotime($date, strtotime($base_date, mktime(0,0,0))));
     }
     public function save(){
+        sleep(1);
         $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
         $save->click();
         $this->waitForElement('.toast-bottom-left', 50000, 'css');

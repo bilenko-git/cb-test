@@ -9,9 +9,9 @@ trait Rates {
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         $this->waitForElement('#tab_0', 15000, 'css')->click();
-        $add_new_rate_plan = $this->waitForElement('#tab_0 .add_interval', 15000, 'css');
-        $add_new_rate_plan->click();
-        $this->byName('interval_name')->value($interval['name']);
+        $add_new_rate_plan = $this->waitForElement('.add_interval', 15000, 'css');
+        $r = $add_new_rate_plan->click();
+        $this->waitForElement('[name=interval_name]', 15000, 'css')->value($interval['name']);
         $this->byName('start_date')->click();
         $this->byCssSelector('.new_interval_form')->click();
         $value = $this->convertDateToSiteFormat($interval['start']);
@@ -40,10 +40,7 @@ trait Rates {
 
 
         $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
-
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 
     public function rates_remove_rate() {
@@ -53,9 +50,7 @@ trait Rates {
         $this->byJQ('.tab-pane.base.active .intervals-table tr.r_rate:last .interval_delete')->click();
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 
 }

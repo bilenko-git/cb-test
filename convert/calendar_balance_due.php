@@ -271,6 +271,7 @@ class calendar_balance_due extends test_restrict{
                 $this->fail('Waiting for Assignments timeout');
             }
 
+            sleep(2);
             $el->click();
 
             //loading waiting
@@ -304,7 +305,7 @@ class calendar_balance_due extends test_restrict{
             }
             catch (\Exception $e)
             {
-                $this->fail('Waiting for non sssigned rooms timeout');
+                $this->fail('Waiting for non assigned rooms timeout');
             }
 
             //looking for our booking
