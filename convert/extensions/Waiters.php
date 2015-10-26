@@ -46,6 +46,9 @@
                     usleep(500000);
                 return $boolean === true ?: null;
             }, $timeout);
+            if (getenv('SELENIUM_LOCAL')) {
+                sleep(1);
+            }
             echo 'return element: '. ($element?'Object':'false').PHP_EOL;
             return $element;
         }
@@ -55,6 +58,10 @@
                 $bUrl = $testCase->getBrowserUrl() == $url;
                 if (!$bUrl)
                     usleep(500000);
+                if (getenv('SELENIUM_LOCAL')) {
+                   // $this->waitForElement("#layout:visible", 15000, 'jQ');
+                    sleep(1);
+                }
                 return $bUrl;
             }, $timeout);
         }

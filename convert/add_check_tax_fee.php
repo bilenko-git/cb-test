@@ -25,8 +25,7 @@ class add_check_tax_fee extends test_restrict{
         $amount = $this->waitForElement('#layout #fee_amount:visible', 15000, 'jQ');
         $amount->clear();
         $amount->value($am);
-        $this->byCssSelector('.btn-save-panel')->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 
     private function addTax($name, $am){
@@ -40,9 +39,7 @@ class add_check_tax_fee extends test_restrict{
         $amount = $this->waitForElement('#layout #fee_amount:visible', 15000, 'jQ');
         $amount->clear();
         $amount->value($am);
-        $this->byCssSelector('.btn-save-panel')->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
-
+        $this->save();
     }
 }
 ?>

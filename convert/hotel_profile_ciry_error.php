@@ -62,9 +62,7 @@ class add_interval_date_error extends test_restrict
         $element->clear();
         $element->value("123789");
         // clickElement
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
         $this->waitForElement("#error_modal", 15000, 'css');
         $this->waitForElement("#error_modal .default", 15000, 'css')->click();
 
@@ -73,8 +71,6 @@ class add_interval_date_error extends test_restrict
         $element->clear();
         $element->value("Cccc");
 
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 }

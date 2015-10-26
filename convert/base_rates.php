@@ -43,9 +43,7 @@ class base_rates extends test_restrict{
 
         $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
 
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 
     public function delRate(){
@@ -55,18 +53,18 @@ class base_rates extends test_restrict{
         $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
 
     }
 
     public function updateRate($interval, $click = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        $this->waitForElement('#tab_0', 15000, 'css')->click();
-        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
-        $this->byName('end_date')->click();
+        if (getenv('SELENIUM_LOCAL')) {
+            sleep(10);
+        }
+        $this->execute(array('script' => "return window.$('#tab_0  .interval_edit:visible').click()", 'args' => array()));
+        $this->waitForElement('[name=end_date]', 15000, 'css')->click();
         $this->byCssSelector('.new_interval_form')->click();
         $value = $this->convertDateToSiteFormat($interval['end']);
         $this->byName('end_date')->clear();
@@ -97,9 +95,7 @@ class base_rates extends test_restrict{
         }
         $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
 
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
     }
 
     public function avalCheck($interval, $room_type_id, $rate_id, $room_type){

@@ -18,9 +18,7 @@ class invoice extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->invoice_url));
 
         $this->waitForElement("[name='title']", 15000, 'css')->value("Innnnnnnvoice");
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
        // $this->waitForElement('#layout_container>.loading:not(.hide)', 15000, 'jQ');
 
     }

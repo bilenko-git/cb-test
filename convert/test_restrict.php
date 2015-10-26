@@ -76,8 +76,6 @@ class test_restrict extends WebDriverTestCase
             $this->property_id = $property_id;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
-
-        $this->currentWindow()->maximize();
     }
 
     /*
@@ -96,7 +94,9 @@ class test_restrict extends WebDriverTestCase
         return date($date_format, strtotime($date, strtotime($base_date, mktime(0,0,0))));
     }
     public function save(){
-        sleep(1);
+        if (getenv('SELENIUM_LOCAL')) {
+            sleep(1);
+        }
         $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
         $save->click();
         $this->waitForElement('.toast-bottom-left', 50000, 'css');
@@ -104,6 +104,7 @@ class test_restrict extends WebDriverTestCase
 
     public function loginToSite(callable $success = null, callable $fail = null)
     {
+        $this->currentWindow()->maximize();
         $this->url($this->_prepareUrl($this->logout_url));//load url
 
         /*login to site*/

@@ -16,9 +16,7 @@ class guest_status extends test_restrict{
         $this->waitForElement(".add-guest-status-btn", 15000, 'css')->click();
         $this->waitForElement("#status_name", 15000, 'css')->value('selenium status');
 
-        $save = $this->waitForElement('.save-guest-status', 15000, 'css');
-        $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->save();
 
         $this->url($this->_prepareUrl($this->customer_url));
 

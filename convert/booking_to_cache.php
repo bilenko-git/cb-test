@@ -8,7 +8,7 @@ require_once 'test_restrict.php';
 class booking_to_cache extends test_restrict{
     private $testUrl = 'http://{server}/reservas/{property_id}';
     public function testSteps() {
-
+        $this->currentWindow()->maximize();
         $this->setupInfo('', '', '', 366);
 
         $startDate = date('Y-m-d', strtotime('+1 day'));

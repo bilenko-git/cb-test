@@ -53,14 +53,8 @@ class room_block_booking extends test_restrict{
             $url = $this->_prepareUrl($this->roomBlockUrl);
             $this->url($url);
             $this->waitForLocation($url);
-            
-            try {
-                $el = $this->waitForElement('#layout a.add_interval');
-            }
-            catch (\Exception $e)
-            {
-                $this->fail('Cannon navigate Room Block URL');
-            }
+
+            $el = $this->waitForElement('.add_interval', 45000,'css');
             
             $startBlockedIds = $this->_getCurrentBlocksIds();
             
@@ -76,30 +70,13 @@ class room_block_booking extends test_restrict{
             
             //now selecting our test room
             $this->byCssSelector('#layout #period_roomTypes + div.ms-parent > button')->click();
-            $el = $this->waitForElement('input[value="'.$roomTypeId.'"] + label')->click();
+
+        $this->execute(array('script' => "return js=window.$('#layout input[value=".$roomTypeId."]').click()", 'args' => array()));
             
             //submit
             $el = $this->byCssSelector('#layout a[type="submit"]')->click();
-            
-            try {
-                $el = $this->waitForElement('#panel-save .btn-save');
-            }
-            catch (\Exception $e)
-            {
-                $this->fail('Creating RoomBlock. Save btn was not appear');
-            }
-            
-            //Save
-            $el->click();
-            
-            //Waiting for save done
-            try {
-                $this->waitForElement('.toast-bottom-left', 50000, 'css');
-            }
-            catch(\Exception $e)
-            {
-                $this->fail('Creating RoomBlock. Saving problem.');
-            }
+
+        $this->save();
             
             $currentBlockedIds = $this->_getCurrentBlocksIds();
             $newBlocking = array_diff($currentBlockedIds, $startBlockedIds);
@@ -132,26 +109,8 @@ class room_block_booking extends test_restrict{
 
                     $this->waitForElement('#confirm_delete');
                     $this->waitForElement('.btn_delete')->click();
-                    
-                    try {
-                        $el = $this->waitForElement('#panel-save .btn-save');
-                    }
-                    catch (\Exception $e)
-                    {
-                        $this->fail('Deleting RoomBlock. Save btn was not appear');
-                    }
 
-                    //Save
-                    $el->click();
-
-                    //Waiting for save done
-                    try {
-                        $this->waitForElement('.toast-bottom-left', 50000, 'css');
-                    }
-                    catch(\Exception $e)
-                    {
-                        $this->fail('Deleting RoomBlock. Saving problem.');
-                    }
+                    $this->save();
                 }
             }
         //
