@@ -60,11 +60,9 @@ class base_rates extends test_restrict{
     public function updateRate($interval, $click = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        if (getenv('SELENIUM_LOCAL')) {
-            sleep(10);
-        }
-        $this->execute(array('script' => "return window.$('#tab_0  .interval_edit:visible').click()", 'args' => array()));
-        $this->waitForElement('[name=end_date]', 15000, 'css')->click();
+        $this->waitForElement('#tab_0', 15000, 'css')->click();
+        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
+        $this->byName('end_date')->click();
         $this->byCssSelector('.new_interval_form')->click();
         $value = $this->convertDateToSiteFormat($interval['end']);
         $this->byName('end_date')->clear();
