@@ -76,6 +76,8 @@ class test_restrict extends WebDriverTestCase
             $this->property_id = $property_id;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
+
+        $this->currentWindow()->maximize();
     }
 
     /*
