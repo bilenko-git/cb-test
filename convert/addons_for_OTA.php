@@ -934,21 +934,25 @@ class addons_for_OTA extends base_addons {
     public function testAddonBooking()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '~~~~~~~~~~~~~~ Check Add-on for booking page ~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
-        $this->loginToSite();
         $this->createReservation('now', '+2 days');
     }
 
     public function testAddonsForPackages()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '~~~~~~~~~~~~~~TEST ADD-ONS FOR PACKAGES ~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
         $this->loginToSite();
 
         $this->delAllProducts();
-        $product_id = $this->addProduct($this->products[1]);
-        $this->addons[1]['product_id'] = $product_id;
-        $addon_id = $this->addAddon($this->addons[1], true);
+        $product_id = $this->addProduct($this->products[0]);
+        echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
+        if (!$product_id) $this->fail('Added product was not found');
+
+        $this->addons[0]['product_id'] = $product_id;
+        $addon_id = $this->addAddon($this->addons[0], true);
         echo 'Add-on id = ' . $addon_id . PHP_EOL;
         if (!$addon_id) $this->fail('Added add-on was not found');
 
@@ -960,6 +964,15 @@ class addons_for_OTA extends base_addons {
                 $package_id = $this->addPackage($package);
                 echo 'package id = ' . $package_id . PHP_EOL;
                 if (!$package_id) $this->fail('added package was not found');
+
+                $this->editPackageAction($package_id);
+                echo "Selected Add-ons:" . PHP_EOL;
+                $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
+                print_r($selectedAddons);
+                $btns = $this->waitForElement('.edit-package-cancel', 5000);
+                $this->waitUntilVisible($btns, 30000);
+                if($btns) $btns->click();//click Cancel on save panel
+                $this->assertEquals(count($selectedAddons), 1, 'Check number of add-ons');
 
                 // $this->_checkAvailability($package);
                 $this->removePackage($package_id);
