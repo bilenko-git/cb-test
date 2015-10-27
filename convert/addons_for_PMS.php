@@ -958,13 +958,14 @@ class addons_for_PMS extends base_addons {
         }
     }
 
-/*
+
     public function testAddonBooking()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '~~~~~~~~~~~~~~ Check Add-on for booking page ~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
         $this->createReservation('now', '+2 days');
-    }*/
+    }
 
     public function testAddonsForPackages()
     {

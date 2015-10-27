@@ -731,15 +731,18 @@ class base_addons extends test_restrict{
                 $roomTypeId = $this->getAttribute($addon, 'data-room_type_id');
                 $addonPrice = $this->getAttribute($addon, 'data-price');
                 $chargeType = $this->getAttribute($addon, 'data-charge-type');
+                $roomIdentifier = $this->getAttribute($addon, 'data-room_identifier');
                 echo '>>' . $i . PHP_EOL;
                 echo 'Add-on #' . $addonId . ' for room type "' . $roomTypeId . '". Price: "' . $addonPrice . '". Charge Type: ' . $chargeType . PHP_EOL;
+                echo 'Room Identifier: '. $roomIdentifier . PHP_EOL;
                 echo 'Checking...' . PHP_EOL;
                 if ($chargeType == 'quantity') {
                     // Select list needed
-                    $addonBlock = $this->waitForElement('.room_services[data-id="' . $addonId . '"]', 7000, 'jQ', false);
+                    //$addonBlock = $this->waitForElement('.room_services[data-id="' . $addonId . '"][data-room_identifier="' . $roomIdentifier . '"]', 10000, 'jQ', false);
 
                     //select 1 item
-                    $selectList = $addonBlock->byCssSelector('div.addon_count button');
+                    //$selectList = $addonBlock->byCssSelector('div.addon_count button');
+                    $selectList = $addon->byCssSelector('div.addon_count button');
                     $this->assertEquals(false, $selectList->disaplayed(), 'Select list needed');
 
                     $selectList->click();
@@ -748,7 +751,8 @@ class base_addons extends test_restrict{
                     echo 'Success' . PHP_EOL;
                 } else {
                     // Checkbox needed
-                    $addonCheckbox = $this->waitForElement('#addon_checkbox_' . $addonId  . '_' . $i .' + label', 15000, 'jQ', false);
+                    //$addonCheckbox = $this->waitForElement('#addon_checkbox_' . $addonId  . '_' . $i .' + label', 15000, 'jQ', false);
+                    $addonCheckbox = $addon->byCssSelector('#addon_checkbox_' . $addonId  . '_' . $roomIdentifier .' + label');
                     $this->assertEquals(true, $addonCheckbox->displayed(), 'Checkbox needed');
 
                     if (! $addonCheckbox->selected()) {
@@ -786,7 +790,7 @@ class base_addons extends test_restrict{
             $this->fail('Form add package was not opened at time.');
         }
         echo PHP_EOL . "------->Sleep 15". PHP_EOL;
-        sleep(15);
+        sleep(2);
 
         $this->fillPackage($package);
 
