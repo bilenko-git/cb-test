@@ -59,7 +59,6 @@
                 if (!$bUrl)
                     usleep(500000);
                 if (getenv('SELENIUM_LOCAL')) {
-                   // $this->waitForElement("#layout:visible", 15000, 'jQ');
                     sleep(1);
                 }
                 return $bUrl;

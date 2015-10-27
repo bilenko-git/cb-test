@@ -71,10 +71,13 @@ class room_block_booking extends test_restrict{
             //now selecting our test room
             $this->byCssSelector('#layout #period_roomTypes + div.ms-parent > button')->click();
 
-        $this->execute(array('script' => "return js=window.$('#layout input[value=".$roomTypeId."]').click()", 'args' => array()));
-            
+        $el = $this->execute(array('script' => "return window.$('#layout input[value=".$roomTypeId."]').closest('label').get(0)", 'args' => array()));
+        $el = $this->elementFromResponseValue($el);
+        $el->click();
+        sleep(1);
+        $this->byCssSelector('#layout #period_roomTypes + div.ms-parent > button')->click();
             //submit
-            $el = $this->byCssSelector('#layout a[type="submit"]')->click();
+            $this->byCssSelector('a[type="submit"]')->click();
 
         $this->save();
             
