@@ -131,8 +131,10 @@ class test_restrict extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
-        $this->waitForElement(".progress-bar-background:visible", 15000, 'jQ');
-        $this->assertEquals("0", $this->execute(array('script' => "return window.$('body > .progress-bar-background:visible').length", 'args' => array())));
+        if (getenv('SELENIUM_LOCAL')) {  //and if not SADMIN
+            $this->waitForElement(".progress-bar-background:visible", 15000, 'jQ');
+            $this->assertEquals("0", $this->execute(array('script' => "return window.$('body > .progress-bar-background:visible').length", 'args' => array())));
+        }
         return $loggedIn;
     }
 
