@@ -131,9 +131,9 @@ class test_restrict extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
-        if (getenv('SELENIUM_LOCAL')) {  //and if not SADMIN
-            $this->waitForElement(".progress-bar-background:visible", 15000, 'jQ');
-            $this->assertEquals("0", $this->execute(array('script' => "return window.$('body > .progress-bar-background:visible').length", 'args' => array())));
+        if (getenv('SELENIUM_LOCAL') && $this->login !== 'engineering@cloudbeds.com') {  //and if not SADMIN
+            $el = $this->waitForElement(".progress-bar-background:visible", 15000, 'jQ');
+            $this->waitUntilVisible($el, 30000);
         }
         return $loggedIn;
     }
