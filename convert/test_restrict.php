@@ -3,6 +3,8 @@
 namespace MyProject\Tests;
 
 require_once __DIR__ . '/extensions/include.php';
+require_once __DIR__ . '/config.php';
+
 
 use Sauce\Sausage\WebDriverTestCase;
 
@@ -20,6 +22,7 @@ class test_restrict extends WebDriverTestCase
     protected $cbApiPass = 'H_6z5DpJ:H@5$';
     protected $property_id = 366; // 479 for ota
     protected $property_settings = false;
+  //  protected $config = $config;
     protected $delta = 0.0001;//delta for assertEquals to compare float values
 
     public static $browsers = array(
@@ -77,6 +80,22 @@ class test_restrict extends WebDriverTestCase
         if($browsersInfo)
             $this->browsers = $browsersInfo;
     }
+    public function setupInfo1($setup, $setup2){
+        if (!isset($config[$setup])){
+            $setup = $setup2;
+        }
+        if($config[$setup]['server'])
+            $this->server_url = $config[$setup]['server'];
+        if($config[$setup]['login'])
+            $this->login = $config[$setup]['login'];
+        if($config[$setup]['password'])
+            $this->password = $config[$setup]['password'];
+        if($config[$setup]['property_id'])
+            $this->property_id = $config[$setup]['property_id'];
+        if($config[$setup]['browser_info'])
+            $this->browsers = $config[$setup]['browser_info'];
+    }
+
 
     /*
      * @date in format for strtotime function
