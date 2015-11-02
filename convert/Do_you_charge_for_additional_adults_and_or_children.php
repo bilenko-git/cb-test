@@ -5,15 +5,15 @@ use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 
 class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
     private $dashboard_url = 'http://{server}/connect/{property_id}#/dashboard';
-    private $roomrate_url = 'http://{server}/connect/{property_id}#/RoomRate';
+    private $roomrate_url = 'http://{server}/connect/{property_id}#/roomRates';
 
     public function testSteps(){
 
         $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
         $this->loginToSite();
-        $this->url($this->_prepareUrl($this->dashboard_url));
+        /*$this->url($this->_prepareUrl($this->dashboard_url));
         $this->waitForLocation($this->_prepareUrl($this->dashboard_url));
-        $this->waitForElement('.dashboard-current-date', 50000, 'css');
+        $this->waitForElement('.dashboard-current-date', 50000, 'css');*/
         $this->url($this->_prepareUrl($this->roomrate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
 
