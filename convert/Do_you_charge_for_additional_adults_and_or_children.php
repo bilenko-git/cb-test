@@ -27,7 +27,7 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
     $element->clear();
     $element->value("10");
     // setElementText
-        $element = $this->waitForElement("#layout .charge_additional .kids input:first", 15000, 'jQ');
+        $element = $this->waitForElement("#layout .charge_additional .kids input:visible:first", 15000, 'jQ');
         $element->click();
         $element->clear();
     $element->value("99");
