@@ -14,10 +14,7 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
         $this->url($this->_prepareUrl($this->dashboard_url));
         $this->waitForLocation($this->_prepareUrl($this->dashboard_url));
         $this->waitForElement('.dashboard-current-date', 50000, 'css');
-    $this->byName("arates")->click();
-    // clickElement
-      $this->byCssSelector("#main_menu #sroomRates a")->click();
-    // waitForElementAttribute
+        $this->url($this->_prepareUrl($this->roomrate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
 
     // setElementSelected
