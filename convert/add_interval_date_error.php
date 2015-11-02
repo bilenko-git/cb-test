@@ -18,8 +18,8 @@ class add_interval_date_error extends test_restrict{
         $this->url($this->_prepareUrl($this->roomrate_url));
         // waitForElementAttribute
         // clickElement
-        $this->waitForLocation(".add_interval", 15000, 'css')->click();
-        $this->waitForLocation('[name=interval_name]', 15000, 'css')->value('error');
+        $this->waitForElement('.add_interval', 15000, 'css')->click();
+        $this->waitForElement('[name=interval_name]', 15000, 'css')->value('error');
         $this->byClassName('save_add_interval')->click();
         $this->waitForElement("#error_modal", 15000, 'css');
         $this->waitForElement("#error_modal .default", 15000, 'css')->click();
