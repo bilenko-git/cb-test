@@ -21,8 +21,8 @@ class add_check_tax_fee extends test_restrict{
         $new = $this->waitForElement(".add-new-fee", 15000, 'css');
         $fee_count = $this->execute(array('script' => 'window.$("td.fee-name").length', 'args' => array()));
         $new->click();
-        $this->waitForElement('#layout .add-fee-portlet-box [id^=fee_name_]:visible', 15000, 'jQ')->value($name);
-        $amount = $this->waitForElement('#layout #fee_amount:visible', 15000, 'jQ');
+        $this->waitForElement('#layout .add-fee-portlet-box [id^=fee_name_]', 15000, 'jQ')->value($name);
+        $amount = $this->waitForElement('#layout #fee_amount', 15000, 'jQ');
         $amount->clear();
         $amount->value($am);
         $this->save();
@@ -35,8 +35,8 @@ class add_check_tax_fee extends test_restrict{
         $new = $this->waitForElement(".add-new-fee", 15000, 'css');
         $fee_count = $this->execute(array('script' => 'window.$("td.fee-name").length', 'args' => array()));
         $new->click();
-        $this->waitForElement('#layout .add-fee-portlet-box [id^=fee_name_]:visible', 15000, 'jQ')->value($name);
-        $amount = $this->waitForElement('#layout #fee_amount:visible', 15000, 'jQ');
+        $this->waitForElement('#layout .add-fee-portlet-box [id^=fee_name_]', 15000, 'jQ')->value($name);
+        $amount = $this->waitForElement('#layout #fee_amount', 15000, 'jQ');
         $amount->clear();
         $amount->value($am);
         $this->save();

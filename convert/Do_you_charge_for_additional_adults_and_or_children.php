@@ -25,12 +25,12 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
       $element->click();
     // waitForElementPresent
     // setElementText
-    $element = $this->waitForElement("#layout .charge_additional .adults input:visible", 15000, 'jQ');
+    $element = $this->waitForElement("#layout .charge_additional .adults input", 15000, 'jQ');
     $element->click();
     $element->clear();
     $element->value("10");
     // setElementText
-        $element = $this->waitForElement("#layout .charge_additional .kids input:visible:first", 15000, 'jQ');
+        $element = $this->waitForElement("#layout .charge_additional .kids input:first", 15000, 'jQ');
         $element->click();
         $element->clear();
     $element->value("99");
@@ -43,7 +43,7 @@ class Do_you_charge_for_additional_adults_and_or_children extends test_restrict{
     // clickElement
         $this->waitForElement(".hide_show_content_below label:first", 15000, 'jQ');
     // assertElementValue
-    $this->assertEquals("10.00 руб", $this->waitForElement("#layout .charge_additional .adults input:visible", 15000, 'jQ')->value());
+    $this->assertEquals("10.00 руб", $this->waitForElement("#layout .charge_additional .adults input", 15000, 'jQ')->value());
     // setElementSelected
         $element = $this->waitForElement(".hide_show_content_below label:eq(1)", 15000, 'jQ');
         $element->click();

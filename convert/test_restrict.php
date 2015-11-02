@@ -151,7 +151,7 @@ class test_restrict extends WebDriverTestCase
             if ($fail) call_user_func($fail);
         }
         if (getenv('SELENIUM_LOCAL') && $this->login !== 'engineering@cloudbeds.com') {  //and if not SADMIN
-            $el = $this->waitForElement(".progress-bar-background:visible", 15000, 'jQ');
+            $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
             $this->waitUntilVisible($el, 30000);
         }
         return $loggedIn;

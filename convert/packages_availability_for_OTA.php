@@ -661,7 +661,7 @@ class packages_availability extends test_restrict{
             'args' => array()
         ));
         for($i = 0; $i < $intervals_count; $i++){
-            $this->waitForElement('.intervals-table .interval_delete:visible', 1000, 'jQ')->click();
+            $this->waitForElement('.intervals-table .interval_delete', 1000, 'jQ')->click();
             $this->confirmDeleteDialog();
         }
     }
