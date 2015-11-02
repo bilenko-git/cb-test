@@ -29,8 +29,9 @@ class base_rates extends test_restrict{
         $this->waitForElement('[name=end_date]', 15000, 'jQ')->click();
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
         $value = $this->convertDateToSiteFormat($interval['end']);
-        $this->waitForElement('[name=end_date]', 15000, 'jQ')->clear();
-        $this->waitForElement('[name=end_date]', 15000, 'jQ')->value($value);
+        $el = $this->waitForElement('[name=end_date]', 15000, 'jQ');
+        $el->clear();
+        $el->value($value);
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
 
         if (isset($interval['min'])){
@@ -54,11 +55,16 @@ class base_rates extends test_restrict{
         $this->save();
     }
 
-    public function delRate(){
+    public function delRate($type){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        $this->waitForElement('#tab_0', 15000, 'css')->click();
-        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
+        if ($type) {
+            $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
+        } else {
+            $this->waitForElement('#tab_0', 15000, 'css')->click();
+            $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
+        }
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
         $this->save();
@@ -88,17 +94,30 @@ class base_rates extends test_restrict{
     }
 
 
-    public function updateRate($interval, $click = false){
+    public function updateRate($interval, $click = false, $type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        $this->waitForElement('#tab_0', 15000, 'css')->click();
-        $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
-        $this->byName('end_date')->click();
-        $this->byCssSelector('.new_interval_form')->click();
+        if ($type) {
+            $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
+        } else {
+            $this->waitForElement('#tab_0', 15000, 'css')->click();
+            $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
+        }
+        $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
+        $this->waitForElement('[name=start_date]', 15000, 'jQ')->click();
+        $this->waitForElement('.new_interval_form', 15000, 'jQ')->click();
+        $value = $this->convertDateToSiteFormat($interval['start']);
+        $el = $this->waitForElement('[name=start_date]', 15000, 'jQ');
+        $el->clear();
+        $el->value($value);
+        $this->waitForElement('[name=end_date]', 15000, 'jQ')->click();
+        $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
         $value = $this->convertDateToSiteFormat($interval['end']);
-        $this->byName('end_date')->clear();
-        $this->byName('end_date')->value($value);
-        $this->byCssSelector('.new_interval_form')->click();
+        $el = $this->waitForElement('[name=end_date]', 15000, 'jQ');
+        $el->clear();
+        $el->value($value);
+        $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
 
         if (isset($interval['min'])){
             $this->byName('min_los')->value($interval['min']);
@@ -116,13 +135,13 @@ class base_rates extends test_restrict{
                 $check->click();
             }
         }
-        $l = $this->execute(array('script' => "return window.$('#tab_0 .define_week_days td:not(._hide) input').length", 'args' => array()));
+        $l = $this->execute(array('script' => "return window.$('.define_week_days:visible td:not(._hide) input').length", 'args' => array()));
         for($i=0;$i<$l;$i++){
-            $el = $this->byJQ("#tab_0 .define_week_days td:not(._hide) input:eq(".$i.")");
+            $el = $this->byJQ(".define_week_days:visible td:not(._hide) input:eq(".$i.")");
             $el->clear();
             $el->value($interval['value_today']);
         }
-        $this->byCssSelector('.new_interval_form a.save_add_interval')->click();
+        $this->waitForElement('.new_interval_form a.save_add_interval', 1500, 'jQ')->click();
 
         $this->save();
     }

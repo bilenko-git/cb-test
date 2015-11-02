@@ -10,7 +10,9 @@ class Closed_arrival_departure extends base_rates{
         'name' => 'interval',
         'value_today' => '99',
         'start' => '+10 days',
-        'end' => '+15 days'
+        'end' => '+15 days',
+        'arrival' => false,
+        'departure' => false
         //'min' => '2',
         //'edit_end_day' => '+12 days'
     );
@@ -24,7 +26,7 @@ class Closed_arrival_departure extends base_rates{
         'name' => 'interval after',
         'value_today' => '99',
         'start' => '+15 days',
-        'end' => '+30 days'
+        'end' => '+30 days',
     );
     private $roomtype = array(
         'name' => 'arrival_departure',
@@ -38,21 +40,29 @@ class Closed_arrival_departure extends base_rates{
 
        // $this->addRoomtype($this->roomtype);
         $this->addRate($this->interval, $this->roomtype);
-        $room_type_id = $this->execute(array('script' => "return window.$('[name=room_type_id]:visible').val()", 'args' => array()));
+        $room_type_id = $this->execute(array('script' => "return window.$('.tab-content:visible [name=room_type_id]').val()", 'args' => array()));
         $room_type = $this->execute(array('script' => "return window.TAFFY(BET.DB().select('room_types')[0])({room_type_id: String(".$room_type_id.")}).get()[0]", 'args' => array()));
-        $rate_id = $this->execute(array('script' => "return window.$('[name=rate_id]:visible').val()", 'args' => array()));
+        $rate_id = $this->execute(array('script' => "return window.$('.tab-content:visible [name=rate_id]').val()", 'args' => array()));
 
-
+        /*print_r("ddd-".$room_type_id);
+        print_r($room_type);
+        print_r("ddd-".$rate_id);*/
 
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
 
-        $this->interval['end'] =  $this->interval['edit_end_day'];
+        $update_interval = $this->interval;
+        $update_interval['arrival'] = true;
+
+       // $this->addRate($this->interval, $this->roomtype);
+        $this->updateRate($this->interval, false, $this->roomtype);
+
+     /*   $this->interval['end'] =  $this->interval['edit_end_day'];
         $this->interval['max'] =  '5';
 
         $this->updateRate($this->interval, true);
-        $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
+        $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);*/
 
-        $this->delRate();
+        $this->delRate($this->roomtype);
 
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);
     }
