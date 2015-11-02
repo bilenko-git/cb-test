@@ -37,12 +37,11 @@ class Closed_arrival_departure extends base_rates{
         $this->loginToSite();
 
        // $this->addRoomtype($this->roomtype);
-        $room_type_id = $this->execute(array('script' => "return window.$('.nav-tabs a:contains(".$this->roomtype['name'].") [name=room_type_id]').val()", 'args' => array()));
-        $room_type = $this->execute(array('script' => "return window.TAFFY(BET.DB().select('room_types')[0])({room_type_id: String(".$room_type_id.")}).get()[0]", 'args' => array()));
-        $rate_id = $this->execute(array('script' => "return window.$('#tab_0 [name=rate_id]').val()", 'args' => array()));
-
-
         $this->addRate($this->interval, $this->roomtype);
+        $room_type_id = $this->execute(array('script' => "return window.$('[name=room_type_id]:visible').val()", 'args' => array()));
+        $room_type = $this->execute(array('script' => "return window.TAFFY(BET.DB().select('room_types')[0])({room_type_id: String(".$room_type_id.")}).get()[0]", 'args' => array()));
+        $rate_id = $this->execute(array('script' => "return window.$('[name=rate_id]:visible').val()", 'args' => array()));
+
 
 
         $this->avalCheck($this->interval,$room_type_id, $rate_id, $room_type);

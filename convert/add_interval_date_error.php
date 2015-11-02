@@ -15,9 +15,7 @@ class add_interval_date_error extends test_restrict{
         $this->loginToSite();
         // waitForEval
         // clickElement
-        $this->byName("arates")->click();
-        // clickElement
-        $this->byCssSelector("#main_menu #sroomRates a")->click();
+        $this->url($this->_prepareUrl($this->roomrate_url));
         // waitForElementAttribute
         $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
         // clickElement
