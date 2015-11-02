@@ -6,8 +6,13 @@
          * @return type
          */
         public function byJQ($selector){
-            $element = $this->execute(array('script' => 'return window.$("' . $selector . ':visible").get(0)', 'args' => array()));
-            return $this->elementFromResponseValue($element);
+            $pos = strpos($selector, ':');
+            if ($pos === false) {
+                $element = $this->execute(array('script' => 'return window.$("' . $selector . ':visible").get(0)', 'args' => array()));
+            } else {
+                $element = $this->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
+            }
+             return $this->elementFromResponseValue($element);
         }
 
         /**
