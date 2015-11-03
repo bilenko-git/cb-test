@@ -6,6 +6,7 @@ class features_control extends test_restrict
 {
     private $crmAccountsUrl = 'http://wwwcrm.{server}/crm/accounts';
     protected $server_url = 'hotel.acessa.loc';
+    protected $account_features_url = 'http://{server}/api/tests/getFeatures';
     protected $account_filter = array(
         '#status' => '',
         '#hotelName' => 'Ukraine Hotel'
@@ -53,7 +54,7 @@ class features_control extends test_restrict
 
                     $editModal->byCssSelector('.nav.nav-tabs li:nth-child(3) a')->click();//go to features tab
 
-                    $this->toggleFeatures($featureVal);//ON all features
+                    $featuresChanged = $this->toggleFeatures($featureVal);//ON all features
                     sleep(5);
 
                     $editModal->byCssSelector('#mask-save-btn-tab1')->click();
@@ -62,7 +63,7 @@ class features_control extends test_restrict
                     $openedModals = $this->findModals(true);
                     $this->assertEquals(0, count($openedModals), 'Modal still opened, check save server error');
 
-                    $this->checkServerFeatures($account_id, $featureVal);
+                    $this->checkServerFeatures($account_id, $featuresChanged, $featureVal);
                 }
             }
         }
@@ -85,8 +86,59 @@ class features_control extends test_restrict
         }
     */
 
-    public function checkServerFeatures($account_id, $value){
+    public function getAccountFeatures($account_id, $asArray = true){
+        $params = array(
+            'account_id' => $account_id
+        );
 
+        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
+
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+
+        $data = file_get_contents($account_features_url, false, $context);
+
+        return json_decode($data, $asArray);
+    }
+
+    public function checkServerFeatures($account_id, $featuresChanged, $value){
+        $fChanged = array();
+        foreach($featuresChanged as $input){
+            if($input instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
+                $input_id = str_replace(array('acc-m-', '-'), array('', '_'), $input->attribute('id'));
+                $fChanged[$input_id] = $input->value();
+            }
+        }
+
+        echo PHP_EOL . 'fetures changed' . print_r($fChanged, true) . PHP_EOL;
+
+        $features = $this->getAccountFeatures($account_id);
+
+        if($value != 0) {//!AUTO
+            $a_default = 0;
+            $af_default = -1;
+
+            if ($value == 1) {
+                $a_default = 1;
+                $af_default = 1;
+            }
+
+            foreach ($features as $name => $val) {
+                if ($name == 'id' || !isset($fChanged[$name])) continue;
+                $koef = $name == 'myallocator_enabled' ? 4 : 1;
+                if (strpos($name, 'account_') !== FALSE) {
+                    $this->assertEquals($af_default * $koef, $val, '`af`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                } else {
+                    $this->assertEquals($a_default * $koef, $val, '`a`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                }
+            }
+
+        } else {//AUTO
+            //not implemented yet
+        }
     }
 
     public function editAccount($account_row){
@@ -132,6 +184,7 @@ class features_control extends test_restrict
     }
 
     public function toggleFeatures($val = 0){
-        $this->execJS('$(\'.modal:visible .radio-switcher button[value=\"'.$val.'\"]\').click()');
+        $this->execJS('$(\'.modal:visible .radio-switcher button[value=\"'.$val.'\"]\').click();');
+        return $this->elements($this->using('css selector')->value('.modal .row-fluid:not(.hide) .radio-switcher input'));
     }
 }
