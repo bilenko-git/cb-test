@@ -17,7 +17,9 @@ class invoice extends test_restrict{
         $this->url($this->_prepareUrl($this->invoice_url));
         $this->waitForLocation($this->_prepareUrl($this->invoice_url));
 
-        $this->waitForElement("[name='title']", 15000, 'css')->value("Innnnnnnvoice");
+        $el = $this->waitForElement("[name='title']", 15000, 'css');
+        $el->clear();
+        $el->value("Innnnnnnvoice");
         $this->save();
        // $this->waitForElement('#layout_container>.loading:not(.hide)', 15000, 'jQ');
 
