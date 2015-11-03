@@ -17,7 +17,7 @@ switch (getenv('SELENIUM_ENV')) {
         );
         $config['OTA_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
-            'login' => 'selenium@cloudbeds.com',
+            'login' => 'selenium2@cloudbeds.com',
             'password' => 'testTime!',
             'property_id' => '479',
             'browser_info' => '',
@@ -77,7 +77,7 @@ switch (getenv('SELENIUM_ENV')) {
         );
         $config['OTA_user'] = array(
             'server' => 'wwwdev3.ondeficar.com',
-            'login' => 'selenium@cloudbeds.com',
+            'login' => 'selenium2@cloudbeds.com',
             'password' => 'testTime!',
             'property_id' => '479',
             'browser_info' => '',

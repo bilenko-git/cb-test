@@ -29,7 +29,7 @@ class additional_guest_regcard extends test_restrict{
 
         $test = $this;
         //$this->setupInfo('wwwdev.ondeficar.com', 'selenium@test.com', '123qwe', 366);
-        $this->setupInfo('PMS_user');
+        $this->setupInfo('PMS_super_user');
 
         $this->loginToSite();
         
@@ -110,7 +110,7 @@ class additional_guest_regcard extends test_restrict{
         
         $this->reservationNumber = $el->text();
 
-        $this->loginToSite();
+        //$this->loginToSite();
         
         //add payment to make balance due = 0 and check
         $url = $this->_prepareUrl($this->reservationsUrl);
