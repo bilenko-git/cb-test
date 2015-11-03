@@ -8,7 +8,8 @@ class rebuild_cache extends test_restrict{
 
     public function testSteps(){
 
-        $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        // $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        $this->setupInfo('PMS_super_user');
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->dashboard_url));
         $this->waitForLocation($this->_prepareUrl($this->dashboard_url));

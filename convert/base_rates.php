@@ -55,7 +55,7 @@ class base_rates extends test_restrict{
         $this->save();
     }
 
-    public function delRate($type){
+    public function delRate($type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         if ($type) {

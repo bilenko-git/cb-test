@@ -45,6 +45,7 @@ class Closed_arrival_departure extends base_rates{
     public function testSteps(){
         $step = $this;
 
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
 
         $this->addRoomType($this->roomtype);

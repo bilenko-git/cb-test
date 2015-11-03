@@ -14,6 +14,7 @@ class room_block_booking extends test_restrict{
     private $bookingUrl = 'http://{server}/reservas/{property_id}';
     
     public function testSteps() {
+        $this->setupInfo('PMS_user');
         $newBlockingId = false;
       //  $this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 33);
 
@@ -74,7 +75,7 @@ class room_block_booking extends test_restrict{
         $el = $this->execute(array('script' => "return window.$('#layout input[value=".$roomTypeId."]').closest('label').get(0)", 'args' => array()));
         $el = $this->elementFromResponseValue($el);
         $el->click();
-        sleep(1);
+        sleep(2);
         $this->byCssSelector('#layout #period_roomTypes + div.ms-parent > button')->click();
             //submit
             $this->byCssSelector('a[type="submit"]')->click();

@@ -14,6 +14,7 @@ class add_interval_date_error extends test_restrict
                 'platform' => 'Windows 8.1',
             ));
         //$this->setupInfo('', '', '', 366, $br);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         // waitForEval
         // clickElement

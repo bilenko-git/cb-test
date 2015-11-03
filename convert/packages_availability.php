@@ -274,7 +274,7 @@ class packages_availability extends test_restrict{
     public function go_to_package_page(){
         //$this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 31);//for 31 hotel
       //  $this->setupInfo('', 'aleksandr.brus+20150715@cloudbeds.com', 'KNS16111988', 412);//for 412 - my demo hotel on dev3
-
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->packages_list_url));
         $this->waitForLocation($this->_prepareUrl($this->packages_list_url));

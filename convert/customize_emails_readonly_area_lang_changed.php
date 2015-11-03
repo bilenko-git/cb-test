@@ -36,7 +36,7 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
 
 
        // $this->setupInfo('wwwdev3.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 31);//for 31 hotel
-        $this->setupInfo1('PMS_dev3','PMS');
+        $this->setupInfo('PMS_user');
 
         $this->loginToSite();
         $customize_email_page = $this->_prepareUrl($this->customize_email_readonly_section_translation);

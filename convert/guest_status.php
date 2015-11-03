@@ -9,6 +9,7 @@ class guest_status extends test_restrict{
 
     public function testSteps(){
 
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->url($this->_prepareUrl($this->guest_status_url));
         $this->waitForLocation($this->_prepareUrl($this->guest_status_url));
