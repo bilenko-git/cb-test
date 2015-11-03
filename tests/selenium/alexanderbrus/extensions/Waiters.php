@@ -19,7 +19,7 @@
          */
         public function waitForElement($selector, $timeout = 15000, $selType='css', $check_displayed = true){
             $element = null;
-            echo 'Searching element: '. $selector.PHP_EOL;
+            echo PHP_EOL.'Searching element: '. $selector.PHP_EOL;
             $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {
                 try {
                     switch ($selType) {
@@ -46,7 +46,7 @@
                     usleep(500000);
                 return $boolean === true ?: null;
             }, $timeout);
-            echo 'return element: '. ($element?'Object':'false').PHP_EOL;
+            echo PHP_EOL.'return element: '. ($element?'Object':'false').PHP_EOL;
             return $element;
         }
         
