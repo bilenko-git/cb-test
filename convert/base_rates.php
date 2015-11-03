@@ -71,7 +71,18 @@ class base_rates extends test_restrict{
 
     }
 
-    public function addRoomtype($roomtype){
+    public function delRoomType($type){
+        $this->url($this->_prepareUrl($this->roomType_url));
+        $this->waitForLocation($this->_prepareUrl($this->roomType_url));
+        if ($type) {
+            $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
+            $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+        }
+        $this->save();
+
+    }
+
+    public function addRoomType($roomtype){
         $this->url($this->_prepareUrl($this->roomType_url));
         $this->waitForLocation($this->_prepareUrl($this->roomType_url));
         $this->waitForElement('.add-room-type-btn', 15000, 'css')->click();
@@ -120,18 +131,24 @@ class base_rates extends test_restrict{
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
 
         if (isset($interval['min'])){
-            $this->byName('min_los')->value($interval['min']);
+            $this->waitForElement('[name=min_los]', 1500, 'jQ')->value($interval['min']);
         }
 
         if (isset($interval['max'])){
-            $this->byName('max_los')->value($interval['max']);
+            $this->waitForElement('[name=max_los]', 1500, 'jQ')->value($interval['max']);
         }
 
+        if (isset($interval['arrival'])){
+            $this->waitForElement('.new_interval_form .md-radio-inline:visible:eq(0) label:'.($interval['arrival'] ? 'first':'last'), 1500, 'jQ')->click();
+        }
+        if (isset($interval['departure'])){
+            $this->waitForElement('.new_interval_form .md-radio-inline:visible:eq(1) label:'.($interval['departure'] ? 'first':'last'), 1500, 'jQ')->click();
+        }
         if($click) {
             $l = $this->execute(array('script' => "return window.$('.define_week_days td._hide').length", 'args' => array()));
             for ($i = 0; $i < $l; $i++) {
-                $index = $this->execute(array('script' => "return window.$('.define_week_days td._hide:eq(0)').index()", 'args' => array()));
-                $check = $this->byJQ('#tab_0 .define_week_days th:eq('. $index .') .md-checkbox label');
+                $index = $this->execute(array('script' => "return window.$('.define_week_days:visible td._hide:eq(0)').index()", 'args' => array()));
+                $check = $this->byJQ('.define_week_days:visible th:eq('. $index .') .md-checkbox label');
                 $check->click();
             }
         }
@@ -141,7 +158,7 @@ class base_rates extends test_restrict{
             $el->clear();
             $el->value($interval['value_today']);
         }
-        $this->waitForElement('.new_interval_form a.save_add_interval', 1500, 'jQ')->click();
+        $this->waitForElement('.new_interval_form a.save_add_interval', 15000, 'jQ')->click();
 
         $this->save();
     }
