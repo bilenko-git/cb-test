@@ -29,7 +29,8 @@ class calendar_balance_due extends test_restrict{
 
         $test = $this;
         //need SU privileges to remove reservas
-        $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        //$this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        $this->setupInfo('PMS_super_user');
 
         $this->loginToSite();
         $interval_id = $this->rates_add_rate($this->interval);

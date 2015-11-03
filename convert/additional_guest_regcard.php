@@ -28,7 +28,8 @@ class additional_guest_regcard extends test_restrict{
 
 
         $test = $this;
-        $this->setupInfo('wwwdev.ondeficar.com', 'selenium@test.com', '123qwe', 366);
+        //$this->setupInfo('wwwdev.ondeficar.com', 'selenium@test.com', '123qwe', 366);
+        $this->setupInfo('PMS_user');
 
         $this->loginToSite();
         
@@ -146,8 +147,9 @@ class additional_guest_regcard extends test_restrict{
         $flag = strpos($this->source(), 'check ok') !== FALSE ? 1:0;
         
         //need SU privileges to remove reservas
-        $this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);        
-        
+        //$this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
+        $this->setupInfo('PMS_super_user');
+
         //delete reservation
         $url = $this->_prepareUrl($this->reservationsUrl);
         $this->url($url);

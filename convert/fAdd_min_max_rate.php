@@ -18,7 +18,8 @@ class fAdd_min_max_rate extends base_rates{
         $step = $this;
 
 
-        $this->setupInfo('', '', '', 366);
+        //$this->setupInfo('', '', '', 366);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->addRate($this->interval);
 

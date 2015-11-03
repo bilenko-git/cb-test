@@ -5,7 +5,6 @@ namespace MyProject\Tests;
 require_once __DIR__ . '/extensions/include.php';
 require_once __DIR__ . '/config.php';
 
-
 use Sauce\Sausage\WebDriverTestCase;
 
 class test_restrict extends WebDriverTestCase
@@ -45,6 +44,8 @@ class test_restrict extends WebDriverTestCase
 
     public function __construct(){
         parent::__construct();
+        global $config;
+        $this->config = $config;
     }
 
     public function setUp() {
@@ -68,7 +69,7 @@ class test_restrict extends WebDriverTestCase
         });
     }
 
-    public function setupInfo($server_url, $login, $pass, $property_id, $browsersInfo = false){
+    public function setupInfo1($server_url, $login, $pass, $property_id, $browsersInfo = false){
         if($server_url)
             $this->server_url = $server_url;
         if($login)
@@ -80,20 +81,20 @@ class test_restrict extends WebDriverTestCase
         if($browsersInfo)
             $this->browsers = $browsersInfo;
     }
-    public function setupInfo1($setup, $setup2){
-        if (!isset($config[$setup])){
+    public function setupInfo($setup){
+      /*  if (!isset($this->config[$setup])){
             $setup = $setup2;
-        }
-        if($config[$setup]['server'])
-            $this->server_url = $config[$setup]['server'];
-        if($config[$setup]['login'])
-            $this->login = $config[$setup]['login'];
-        if($config[$setup]['password'])
-            $this->password = $config[$setup]['password'];
-        if($config[$setup]['property_id'])
-            $this->property_id = $config[$setup]['property_id'];
-        if($config[$setup]['browser_info'])
-            $this->browsers = $config[$setup]['browser_info'];
+        }*/
+        if($this->config[$setup]['server'])
+            $this->server_url = $this->config[$setup]['server'];
+        if($this->config[$setup]['login'])
+            $this->login = $this->config[$setup]['login'];
+        if($this->config[$setup]['password'])
+            $this->password = $this->config[$setup]['password'];
+        if($this->config[$setup]['property_id'])
+            $this->property_id = $this->config[$setup]['property_id'];
+        if($this->config[$setup]['browser_info'])
+            $this->browsers = $this->config[$setup]['browser_info'];
     }
 
 

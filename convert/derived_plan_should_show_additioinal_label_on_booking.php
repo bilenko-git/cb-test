@@ -17,7 +17,8 @@ class derived_plan_should_show_additioinal_label_on_booking extends test_restric
 
     public function testSteps() {
         $this->init_vars();
-        $this->setupInfo('wwwdev.ondeficar.com', '', '', 366);
+        //$this->setupInfo('wwwdev.ondeficar.com', '', '', 366);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $interval_id = $this->rates_add_rate($this->interval);
         $package_id = $this->packages_add_package($this->package);

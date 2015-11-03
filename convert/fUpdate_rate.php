@@ -16,7 +16,8 @@ class fUpdate_rate extends base_rates{
     public function testSteps(){
         $step = $this;
 
-        $this->setupInfo('', '', '', 366);
+        //$this->setupInfo('', '', '', 366);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->addRate($this->interval);
 

@@ -14,7 +14,8 @@ class additional_payment_methods extends test_restrict
     );
 
     public function testSteps() {
-        $this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
+       // $this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->prepare_data();
     }
