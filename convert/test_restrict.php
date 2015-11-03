@@ -150,7 +150,7 @@ class test_restrict extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
-        if (getenv('SELENIUM_LOCAL') && $this->login !== 'engineering@cloudbeds.com') {  //and if not SADMIN
+        if (getenv('SELENIUM_LOCAL') && $this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
             $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
             $this->waitUntilVisible($el, 30000);
         }
@@ -185,8 +185,10 @@ class test_restrict extends WebDriverTestCase
     public function findModals($visible = null){
         $result = array();
         $modals = $this->elements($this->using('css selector')->value('.modal'));
-        foreach($modals as $modal) {
-            if ($modal instanceof PHPUnit_Extensions_Selenium2TestCase_Element) {
+        echo PHP_EOL . 'find Modals: ' . count($modals) . PHP_EOL;
+        foreach($modals as $i => $modal) {
+            if ($modal instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+                echo PHP_EOL . 'modal#' . $i . '[id='.$modal->attribute('id') . ';class=' .$modal->attribute('class').']: ' . ($modal->displayed() ? 'visible' : 'hidden') . PHP_EOL;
                 if (is_null($visible) || $modal->displayed() === $visible) {
                     $result[] = $modal;
                 }
