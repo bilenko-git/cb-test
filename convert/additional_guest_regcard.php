@@ -81,7 +81,7 @@ class additional_guest_regcard extends test_restrict{
         $this->byId('add_email')->value('fn@ln.com');
         $this->byjQ('.add_guest_btn')->click();
         
-        $this->byCssSelector('.payment_method label[for="card"]')->click();
+        $this->waitForElement('.payment_method label[for=card]', 15000, 'jQ')->click();
         
         try {
             $this->waitForElement('#cardholder_name', 20000);
