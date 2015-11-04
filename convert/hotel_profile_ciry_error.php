@@ -20,7 +20,7 @@ class add_interval_date_error extends test_restrict
         $this->url($this->_prepareUrl($this->hotel_profile_url));
         $this->waitForLocation($this->_prepareUrl($this->hotel_profile_url));
         // clickElement
-        $this->byCssSelector("#layout a[data-tutorial='propertyProfile']")->click();
+        $this->waitForElement("#layout a[data-tutorial='propertyProfile']", 15000, 'jQ')->click();
         // clickElement
         // setElementText
         $element = $this->byId("hotel_name");
