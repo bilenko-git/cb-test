@@ -4,6 +4,12 @@ require_once 'test_restrict.php';
 
 class features_control extends test_restrict
 {
+    public static $browsers = array(
+        array(
+            'browserName' => 'chrome'
+        ),
+    );
+
     private $crmAccountsUrl = 'http://wwwcrm.{server}/crm/accounts';
     protected $server_url = 'hotel.acessa.loc';
     protected $account_features_url = 'http://{server}/api/tests/getFeatures';
@@ -13,19 +19,46 @@ class features_control extends test_restrict
         '#hotelName' => 'Ukraine Hotel'
     );
 
-    public function testOnFeatures() {
+    public function testPMSOnFeatures() {
         $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], 1);
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('PMS');
+        $this->runFeaturesTest($result['id'], $editModal, 1);
     }
 
-    public function testOffFeatures() {
+    /*public function testPMSOffFeatures() {
         $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], -1);
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('PMS');
+        $this->runFeaturesTest($result['id'], $editModal, -1);
     }
 
-    public function testAUTOFeatures() {
+    public function testPMSAUTOFeatures() {
         $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], 0);
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('PMS');
+        $this->runFeaturesTest($result['id'], $editModal, 0);
+    }
+
+    public function testOTAOnFeatures() {
+        $result = $this->prepareTest();
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('OTA');
+        $this->runFeaturesTest($result['id'], $editModal, 1);
+    }
+
+    public function testOTAOffFeatures() {
+        $result = $this->prepareTest();
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('OTA');
+        $this->runFeaturesTest($result['id'], $editModal, -1);
+    }*/
+
+    public function testOTAAUTOFeatures() {
+        $result = $this->prepareTest();
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform('OTA');
+        $this->runFeaturesTest($result['id'], $editModal, 0);
     }
 
     public function prepareTest() {
@@ -34,29 +67,49 @@ class features_control extends test_restrict
         return array('row' => $account_row, 'id' => $this->getAccountId($account_row));
     }
 
-    public function runFeaturesTest($account_id, $account_row, $featureVal) {
-        if($account_id){
-            $editModal = $this->editAccount($account_row);
-            echo PHP_EOL . 'modals: ' . count($editModal) . PHP_EOL;
-            if(!empty($editModal)) {
-                $editModal = $editModal[0];
-                if ($editModal instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
-                    echo PHP_EOL . 'edit account modal found' . PHP_EOL;
+    public function switchPlatform($platform = 'PMS'){
+        $platform_input = $this->waitForElement('#acc-m-ma-platform', 15000, 'jQ');
+        if($platform_input instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
+            $platform_input_value = $platform_input->value();
+            if($platform_input_value != $platform) {
+                $platform_input->value($platform);
+                $this->execJS('$(\'.modal:visible\').focus();');
+                try {
+                    $this->acceptAlert();
+                    sleep(1);
+                } catch (\Exception $e) {
 
-                    $editModal->byCssSelector('.nav.nav-tabs li:nth-child(3) a')->click();//go to features tab
-
-                    $featuresChanged = $this->toggleFeatures($featureVal);//ON all features
-                    sleep(5);
-
-                    $editModal->byCssSelector('#mask-save-btn-tab1')->click();
-                    sleep(10);
-
-                    $openedModals = $this->findModals(true);
-                    $this->assertEquals(0, count($openedModals), 'Modal still opened, check save server error');
-
-                    $this->checkServerFeatures($account_id, $featuresChanged, $featureVal);
                 }
             }
+        }
+    }
+
+    public function openFeaturesTab($account_row){
+        $editModal = false;
+        if(($editModal = $this->editAccount($account_row))) {
+            if ($editModal instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+                echo PHP_EOL . 'edit account modal found' . PHP_EOL;
+
+                $editModal->byCssSelector('.nav.nav-tabs li:nth-child(3) a')->click();//go to features tab
+            }
+        }
+
+        return $editModal;
+    }
+
+    public function runFeaturesTest($account_id, $editModal, $featureVal) {
+        if($account_id){
+            $featuresChanged = $this->toggleFeatures($featureVal);//ON all features
+
+            $editModal->byCssSelector('#mask-save-btn-tab1')->click();
+            sleep(10);
+
+            $openedModals = $this->findModals(true);
+            $this->assertEquals(0, count($openedModals), 'Modal still opened, check save server error');
+
+            $this->checkServerFeatures($account_id, $featuresChanged, $featureVal);
+        } else {
+            $this->fail('Account was not found');
         }
     }
 
@@ -152,8 +205,8 @@ class features_control extends test_restrict
     public function editAccount($account_row) {
         if($account_row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
             $account_row->byCssSelector('.account-edit-lnk')->click();
-            $this->waitForElement('.modal:visible', 15000, 'jQ');
-            return $this->findModals(true);
+            $editModal = $this->waitForElement('.modal:visible', 15000, 'jQ');
+            return $editModal;
         }
 
         return false;
