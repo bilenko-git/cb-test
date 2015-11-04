@@ -87,13 +87,153 @@ class no_collect_deposit extends test_restrict{
         
         $payment = $this->byjQ('div.payment_method');
         
-        $res = $deposit == 0 && ($collectingEnabled && $payment || !$collectingEnabled && !$payment);
+        $bookPageCheck = $deposit == 0 && ($collectingEnabled && $payment || !$collectingEnabled && !$payment);
+        
+        $reservaCheck = $this->_checkReservation($collectingEnabled);
         
         //TO DO
         //NEED to add adding the reservation
         //If collecting enabled need to check if CC data present in the reservation after adding new one
         
-        return $res;
+        return $bookPageCheck && $reservaCheck;
+    }
+    
+    private function _checkReservation($collectingEnabled) {
+        $this->byCssSelector('select[name="country"]')->value('AF');
+        $this->byId('first_name')->value('fn');
+        $this->byId('last_name')->value('ln');
+        $this->byId('email')->value('fn@ln.com');
+        
+        
+        if($collectingEnabled) {
+            $this->byCssSelector('.payment_method label[for="card"]')->click();
+
+            try {
+                $this->waitForElement('#cardholder_name', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Card selecting timeout');
+            }
+
+            $this->byId('cardholder_name')->value('check ok');
+            $this->byId('card_number')->value('4111111111111111');
+            $this->byId('exp_month')->value(3);
+            $this->byId('exp_year')->value(date('Y')+1);
+            $this->byId('cvv')->value('123');
+
+            $this->execute(array('script' => 'window.$("#agree_terms").click()', 'args' => array()));
+            $this->byCssSelector('button.finalize')->click();
+
+            try {
+                $el = $this->waitForElement('.reserve_number', 50000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Waiting for reservation status timeout');
+            }
+
+            $this->reservationNumber = $el->text();
+
+            //add payment to make balance due = 0 and check
+            $url = $this->_prepareUrl($this->reservationsUrl);
+            $this->url($url);
+            $this->waitForLocation($url);
+
+            try {
+                $el = $this->waitForElement('#layout input[name="find_reservations"]', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Cannot get serch element');
+            }
+
+            $el->click();
+            $this->keys($this->reservationNumber.Keys::ENTER);
+            $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+
+            if(!$el)
+                $this->fail('Cannot find the reservation');
+
+            $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+
+            $reservationId = $this->getAttribute($el, 'data-id');
+            $el->click();
+
+            //loading waiting
+            $this->waitUntil(function() use ($test) {
+                try {
+                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+                } catch(\Exception $e) {
+                    return null;
+                }
+                return true;
+            },50000);
+
+            try {
+                $el = $this->waitForElement('#layout #reservation-summary td.remaining_amount', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Cannot get balance due');
+            }
+
+            $balanceDue = floatval(str_replace(',', '.', $el->text()));
+
+            if($collectingEnabled) {
+                //now check if cc data was collected
+                $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
+                
+                //loading waiting
+                $this->waitUntil(function() use ($test) {
+                    try {
+                        $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading').length", 'args' => array())));
+                    } catch(\Exception $e) {
+                        return null;
+                    }
+                    return true;
+                },50000);
+                
+                if($this->byJQ('ul[id="#layout "]')) {
+                    
+                }
+                
+                
+                
+
+                try {
+                $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form select[name=\'payment_type\']', 20000);
+                }
+                catch (\Exception $e)
+                {
+                    $this->fail('Cannot get serch element');
+                }
+
+                $el->value('check');
+
+                $this->byJQ('#layout #reservation-summary .booking-payments-add-form input[name=\'paid\']')->value($balanceDue);
+
+                try {
+                    $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form .btn-save-payment', 20000);
+                }
+                catch (\Exception $e)
+                {
+                    $this->fail('Cannot get search element');
+                }
+
+                $el->click();
+
+                //loading waiting
+                $this->waitUntil(function() use ($test) {
+                    try {
+                        $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+                    } catch(\Exception $e) {
+                        return null;
+                    }
+                    return true;
+                },50000);
+            }
+        }
     }
     
     private function _setNoDepositPolicy($state) {
