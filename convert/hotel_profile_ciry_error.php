@@ -4,7 +4,7 @@ require_once 'test_restrict.php';
 
 class add_interval_date_error extends test_restrict
 {
-    private $roomrate_url = 'http://{server}/connect/{property_id}#/roomRates';
+    private $hotel_profile_url = 'http://{server}/connect/{property_id}#/profileHotel';
 
     public function testSteps()
     {
@@ -16,21 +16,11 @@ class add_interval_date_error extends test_restrict
         //$this->setupInfo('', '', '', 366, $br);
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-        // waitForEval
+
+        $this->url($this->_prepareUrl($this->hotel_profile_url));
+        $this->waitForLocation($this->_prepareUrl($this->hotel_profile_url));
         // clickElement
-     /*   $this->byName("arates")->click();
-        // clickElement
-        $this->byCssSelector("#main_menu #sroomRates a")->click();*/
-        // waitForElementAttribute
-        $this->url($this->_prepareUrl($this->roomrate_url));
-        $this->waitForLocation($this->_prepareUrl($this->roomrate_url));
-        // clickElement
-        $this->byCssSelector("#ssettings > a")->click();
-        // clickElement
-        $this->url("http://wwwdev.ondeficar.com/connect/366#/profileHotel");
-        //$this->byCssSelector("#sprofile1 > a")->click();
-        // clickElement
-        $this->byCssSelector("a[data-tutorial='propertyProfile']")->click();
+        $this->byCssSelector("#layout a[data-tutorial='propertyProfile']")->click();
         // clickElement
         // setElementText
         $element = $this->byId("hotel_name");

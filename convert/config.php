@@ -7,6 +7,7 @@
  */
 
 switch (getenv('SELENIUM_ENV')) {
+    default:
     case 'DEV':
         $config['PMS_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
