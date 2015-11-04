@@ -7,6 +7,7 @@
  */
 
 switch (getenv('SELENIUM_ENV')) {
+    default:
     case 'DEV':
         $config['PMS_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
@@ -79,7 +80,7 @@ switch (getenv('SELENIUM_ENV')) {
             'server' => 'wwwdev3.ondeficar.com',
             'login' => 'selenium2@cloudbeds.com',
             'password' => 'testTime!',
-            'property_id' => '479',
+            'property_id' => '479', //412
             'browser_info' => '',
         );
         $config['PMS_super_user'] = array(

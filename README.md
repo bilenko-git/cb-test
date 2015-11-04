@@ -7,6 +7,10 @@ vendor/bin/sauce_config SAUCE_LABS_USERNAME SAUCE_LABS_ACCESS_KEY
 cloudbeds
 
 # Config file
+export SELENIUM_ENV='DEV', 'DEV3', 'LIVE' ...
+
+In all test need write ENV param to run test 
+$this->setupInfo('PMS_user');  // PMS_user, PMS_super_user, OTA_user, OTA_super_user
 
 # Run Tests Locally
 To run test locally need get latest version WebDriwer http://docs.seleniumhq.org/download/
