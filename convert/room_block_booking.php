@@ -76,9 +76,9 @@ class room_block_booking extends test_restrict{
         $el = $this->elementFromResponseValue($el);
         $el->click();
         sleep(2);
-        $this->byCssSelector('#layout #period_roomTypes + div.ms-parent > button')->click();
+        $this->byCssSelector('#layout #roomblocks_interval_form')->click();
             //submit
-            $this->byCssSelector('a[type="submit"]')->click();
+            $this->waitForElement('a[type=submit]:visible', 15000, 'jQ')->click();
 
         $this->save();
             
