@@ -12,7 +12,7 @@
             } else {
                 $element = $this->execute(array('script' => 'return window.$("' . $selector . '").get(0)', 'args' => array()));
             }
-             return $this->elementFromResponseValue($element);
+             return $element ? $this->elementFromResponseValue($element) : false;
         }
 
         /**
