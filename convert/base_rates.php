@@ -15,7 +15,7 @@ class base_rates extends test_restrict{
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $add_new_rate_plan = $this->waitForElement('#layout .add_interval', 15000, 'jQ');
         } else {
-            $this->waitForElement('#tab_0', 15000, 'css')->click();
+            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
             $add_new_rate_plan = $this->waitForElement('#tab_0 .add_interval', 15000, 'css');
         }
         $add_new_rate_plan->click();
@@ -55,6 +55,21 @@ class base_rates extends test_restrict{
         $this->save();
     }
 
+    public function copy_intervals($type = false){
+        if ($type) {
+            $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
+        } else {
+            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
+        }
+        $this->waitForElement('.copy_section.copy_rates', 15000, 'jQ')->click();
+        $this->waitForElement('.modal-content', 15000, 'jQ');
+        $this->waitForElement('.modal-content .save_changes3', 15000, 'jQ')->click();
+        $this->waitForElement('.room_rate_copy_confirm_modal', 15000, 'jQ');
+        $this->waitForElement('.room_rate_copy_confirm_modal .save_changes3', 15000, 'jQ')->click();
+        $this->waitForElement('.r_rate', 15000, 'jQ');
+        $this->save();
+    }
+
     public function delRate($type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
@@ -62,7 +77,7 @@ class base_rates extends test_restrict{
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
         } else {
-            $this->waitForElement('#tab_0', 15000, 'css')->click();
+            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
             $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
         }
         $this->waitForElement('#confirm_delete', 50000, 'css');
@@ -112,7 +127,7 @@ class base_rates extends test_restrict{
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
         } else {
-            $this->waitForElement('#tab_0', 15000, 'css')->click();
+            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
             $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
         }
         $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);

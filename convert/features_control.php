@@ -7,43 +7,34 @@ class features_control extends test_restrict
     private $crmAccountsUrl = 'http://wwwcrm.{server}/crm/accounts';
     protected $server_url = 'hotel.acessa.loc';
     protected $account_features_url = 'http://{server}/api/tests/getFeatures';
+    protected $account_features_auto_values_url = 'http://{server}/api/tests/getFeaturesAutoValues';
     protected $account_filter = array(
         '#status' => '',
         '#hotelName' => 'Ukraine Hotel'
     );
 
-    public function go_to_crm() {
-        $site_login = $this->login;
-        $site_pass = $this->password;
-        $site_server_url = $this->server_url;
-
-        /*
-            $this->login = 'engineering@cloudbeds.com';
-            $this->password = 'cl0udb3ds';
-        */
-
-        $this->login = 'admin@test.test';
-        $this->password = '123qwe';
-
-        $this->loginToSite();
-
-        $this->server_url = 'acessa.loc';
-        $crm_accounts = $this->_prepareUrl($this->crmAccountsUrl);
-        $this->url($crm_accounts);
-        $this->waitForLocation($crm_accounts);
-
-        $this->login = $site_login;
-        $this->password = $site_pass;
-        $this->server_url = $site_server_url;
+    public function testOnFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], 1);
     }
 
-    public function prepareTest(){
+    public function testOffFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], -1);
+    }
+
+    public function testAUTOFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], 0);
+    }
+
+    public function prepareTest() {
         $this->go_to_crm();
         $account_row = $this->filter_accounts($this->account_filter);
         return array('row' => $account_row, 'id' => $this->getAccountId($account_row));
     }
 
-    public function runFeaturesTest($account_id, $account_row, $featureVal){
+    public function runFeaturesTest($account_id, $account_row, $featureVal) {
         if($account_id){
             $editModal = $this->editAccount($account_row);
             echo PHP_EOL . 'modals: ' . count($editModal) . PHP_EOL;
@@ -69,42 +60,7 @@ class features_control extends test_restrict
         }
     }
 
-    public function testOnFeatures(){
-        $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], 1);
-    }
-
-    /*
-        public function testOffFeatures(){
-            $result = $this->prepareTest();
-            $this->runFeaturesTest($result['id'], $result['row'], -1);
-        }
-
-        public function testAUTOFeatures(){
-            $result = $this->prepareTest();
-            $this->runFeaturesTest($result['id'], $result['row'], 0);
-        }
-    */
-
-    public function getAccountFeatures($account_id, $asArray = true){
-        $params = array(
-            'account_id' => $account_id
-        );
-
-        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
-
-        $context = stream_context_create(array(
-            'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-            )
-        ));
-
-        $data = file_get_contents($account_features_url, false, $context);
-
-        return json_decode($data, $asArray);
-    }
-
-    public function checkServerFeatures($account_id, $featuresChanged, $value){
+    public function checkServerFeatures($account_id, $featuresChanged, $value) {
         $fChanged = array();
         foreach($featuresChanged as $input){
             if($input instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
@@ -138,13 +94,65 @@ class features_control extends test_restrict
 
         } else {//AUTO
             //not implemented yet
+            $af_default = 0;//always - AUTO value in accounts_features table
+            $a_default = 0;//changing value related to next request
+            $featuresAutoValues = $this->getAccountFeaturesAutoValues($account_id);
+
+            foreach ($features as $name => $val) {
+                if ($name == 'id' || !isset($fChanged[$name])) continue;
+
+                $a_default = isset($featuresAutoValues[$name]) ? $featuresAutoValues[$name] : 0;
+
+                $koef = 1;
+                if (strpos($name, 'account_') !== FALSE) {
+                    $this->assertEquals($af_default * $koef, $val, '`af`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                } else {
+                    $this->assertEquals($a_default * $koef, $val, '`a`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                }
+            }
         }
     }
 
-    public function editAccount($account_row){
+    public function getAccountFeaturesAutoValues($account_id, $asArray = true) {
+        $params = array(
+            'account_id' => $account_id
+        );
+
+        $account_features_url = $this->_prepareUrl($this->account_features_auto_values_url) . '?' . http_build_query($params);
+
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+
+        $data = file_get_contents($account_features_url, false, $context);
+
+        return json_decode($data, $asArray);
+    }
+
+    public function getAccountFeatures($account_id, $asArray = true) {
+        $params = array(
+            'account_id' => $account_id
+        );
+
+        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
+
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+
+        $data = file_get_contents($account_features_url, false, $context);
+
+        return json_decode($data, $asArray);
+    }
+
+    public function editAccount($account_row) {
         if($account_row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
             $account_row->byCssSelector('.account-edit-lnk')->click();
-            sleep(10);
+            $this->waitForElement('.modal:visible', 15000, 'jQ');
             return $this->findModals(true);
         }
 
@@ -159,7 +167,7 @@ class features_control extends test_restrict
         return false;
     }
 
-    private function filter_accounts($filter = false){
+    private function filter_accounts($filter = false) {
         if(!empty($filter) && is_array($filter)){
             foreach($filter as $selector => $value){
                 $input = $this->waitForElement($selector, 5000, 'jQ');
@@ -183,8 +191,33 @@ class features_control extends test_restrict
 
     }
 
-    public function toggleFeatures($val = 0){
+    public function toggleFeatures($val = 0) {
         $this->execJS('$(\'.modal:visible .radio-switcher button[value=\"'.$val.'\"]\').click();');
         return $this->elements($this->using('css selector')->value('.modal .row-fluid:not(.hide) .radio-switcher input'));
+    }
+
+    public function go_to_crm() {
+        $site_login = $this->login;
+        $site_pass = $this->password;
+        $site_server_url = $this->server_url;
+
+        /*
+            $this->login = 'engineering@cloudbeds.com';
+            $this->password = 'cl0udb3ds';
+        */
+
+        $this->login = 'admin@test.test';
+        $this->password = '123qwe';
+
+        $this->loginToSite();
+
+        $this->server_url = 'acessa.loc';
+        $crm_accounts = $this->_prepareUrl($this->crmAccountsUrl);
+        $this->url($crm_accounts);
+        $this->waitForLocation($crm_accounts);
+
+        $this->login = $site_login;
+        $this->password = $site_pass;
+        $this->server_url = $site_server_url;
     }
 }

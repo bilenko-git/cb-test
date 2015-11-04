@@ -12,6 +12,7 @@ class reservations extends test_restrict{
     private $reservationsUrl = 'http://{server}/reservas/{property_id}';
 
     public function testSteps() {
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         //check find
         $this->byCssSelector('.search-form a.btn.submit')->click();
