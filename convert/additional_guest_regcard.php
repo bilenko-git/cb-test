@@ -29,7 +29,7 @@ class additional_guest_regcard extends test_restrict{
 
         $test = $this;
         //$this->setupInfo('wwwdev.ondeficar.com', 'selenium@test.com', '123qwe', 366);
-        $this->setupInfo('PMS_super_user');
+        $this->setupInfo('PMS_user');
 
         $this->loginToSite();
         
@@ -149,6 +149,7 @@ class additional_guest_regcard extends test_restrict{
         //need SU privileges to remove reservas
         //$this->setupInfo('wwwdev.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 366);
         $this->setupInfo('PMS_super_user');
+        $this->loginToSite();
 
         //delete reservation
         $url = $this->_prepareUrl($this->reservationsUrl);
@@ -189,6 +190,15 @@ class additional_guest_regcard extends test_restrict{
         $el->click();
         $this->waitForElement('#confirm_delete');
         $this->waitForElement('.btn_delete')->click();
+        
+        //waiting for redirect to reservas page
+        try {
+            $el = $this->waitForElement('#layout input[name="find_reservations"]', 20000);
+        }
+        catch (\Exception $e)
+        {
+            $this->fail('Deleting so long...');
+        }
 
         $this->rates_remove_rate();
         
