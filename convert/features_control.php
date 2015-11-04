@@ -13,38 +13,28 @@ class features_control extends test_restrict
         '#hotelName' => 'Ukraine Hotel'
     );
 
-    public function go_to_crm() {
-        $site_login = $this->login;
-        $site_pass = $this->password;
-        $site_server_url = $this->server_url;
-
-        /*
-            $this->login = 'engineering@cloudbeds.com';
-            $this->password = 'cl0udb3ds';
-        */
-
-        $this->login = 'admin@test.test';
-        $this->password = '123qwe';
-
-        $this->loginToSite();
-
-        $this->server_url = 'acessa.loc';
-        $crm_accounts = $this->_prepareUrl($this->crmAccountsUrl);
-        $this->url($crm_accounts);
-        $this->waitForLocation($crm_accounts);
-
-        $this->login = $site_login;
-        $this->password = $site_pass;
-        $this->server_url = $site_server_url;
+    public function testOnFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], 1);
     }
 
-    public function prepareTest(){
+    public function testOffFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], -1);
+    }
+
+    public function testAUTOFeatures() {
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], 0);
+    }
+
+    public function prepareTest() {
         $this->go_to_crm();
         $account_row = $this->filter_accounts($this->account_filter);
         return array('row' => $account_row, 'id' => $this->getAccountId($account_row));
     }
 
-    public function runFeaturesTest($account_id, $account_row, $featureVal){
+    public function runFeaturesTest($account_id, $account_row, $featureVal) {
         if($account_id){
             $editModal = $this->editAccount($account_row);
             echo PHP_EOL . 'modals: ' . count($editModal) . PHP_EOL;
@@ -70,25 +60,7 @@ class features_control extends test_restrict
         }
     }
 
-    /*
-        public function testOnFeatures(){
-            $result = $this->prepareTest();
-            $this->runFeaturesTest($result['id'], $result['row'], 1);
-        }
-    */
-    /*
-        public function testOffFeatures(){
-            $result = $this->prepareTest();
-            $this->runFeaturesTest($result['id'], $result['row'], -1);
-        }
-    */
-
-    public function testAUTOFeatures(){
-        $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], 0);
-    }
-
-    public function checkServerFeatures($account_id, $featuresChanged, $value){
+    public function checkServerFeatures($account_id, $featuresChanged, $value) {
         $fChanged = array();
         foreach($featuresChanged as $input){
             if($input instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
@@ -141,7 +113,7 @@ class features_control extends test_restrict
         }
     }
 
-    public function getAccountFeaturesAutoValues($account_id, $asArray = true){
+    public function getAccountFeaturesAutoValues($account_id, $asArray = true) {
         $params = array(
             'account_id' => $account_id
         );
@@ -159,7 +131,7 @@ class features_control extends test_restrict
         return json_decode($data, $asArray);
     }
 
-    public function getAccountFeatures($account_id, $asArray = true){
+    public function getAccountFeatures($account_id, $asArray = true) {
         $params = array(
             'account_id' => $account_id
         );
@@ -177,7 +149,7 @@ class features_control extends test_restrict
         return json_decode($data, $asArray);
     }
 
-    public function editAccount($account_row){
+    public function editAccount($account_row) {
         if($account_row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
             $account_row->byCssSelector('.account-edit-lnk')->click();
             $this->waitForElement('.modal:visible', 15000, 'jQ');
@@ -195,7 +167,7 @@ class features_control extends test_restrict
         return false;
     }
 
-    private function filter_accounts($filter = false){
+    private function filter_accounts($filter = false) {
         if(!empty($filter) && is_array($filter)){
             foreach($filter as $selector => $value){
                 $input = $this->waitForElement($selector, 5000, 'jQ');
@@ -219,8 +191,33 @@ class features_control extends test_restrict
 
     }
 
-    public function toggleFeatures($val = 0){
+    public function toggleFeatures($val = 0) {
         $this->execJS('$(\'.modal:visible .radio-switcher button[value=\"'.$val.'\"]\').click();');
         return $this->elements($this->using('css selector')->value('.modal .row-fluid:not(.hide) .radio-switcher input'));
+    }
+
+    public function go_to_crm() {
+        $site_login = $this->login;
+        $site_pass = $this->password;
+        $site_server_url = $this->server_url;
+
+        /*
+            $this->login = 'engineering@cloudbeds.com';
+            $this->password = 'cl0udb3ds';
+        */
+
+        $this->login = 'admin@test.test';
+        $this->password = '123qwe';
+
+        $this->loginToSite();
+
+        $this->server_url = 'acessa.loc';
+        $crm_accounts = $this->_prepareUrl($this->crmAccountsUrl);
+        $this->url($crm_accounts);
+        $this->waitForLocation($crm_accounts);
+
+        $this->login = $site_login;
+        $this->password = $site_pass;
+        $this->server_url = $site_server_url;
     }
 }
