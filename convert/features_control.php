@@ -7,6 +7,7 @@ class features_control extends test_restrict
     private $crmAccountsUrl = 'http://wwwcrm.{server}/crm/accounts';
     protected $server_url = 'hotel.acessa.loc';
     protected $account_features_url = 'http://{server}/api/tests/getFeatures';
+    protected $account_features_auto_values_url = 'http://{server}/api/tests/getFeaturesAutoValues';
     protected $account_filter = array(
         '#status' => '',
         '#hotelName' => 'Ukraine Hotel'
@@ -69,39 +70,22 @@ class features_control extends test_restrict
         }
     }
 
-    public function testOnFeatures(){
-        $result = $this->prepareTest();
-        $this->runFeaturesTest($result['id'], $result['row'], 1);
-    }
-
+    /*
+        public function testOnFeatures(){
+            $result = $this->prepareTest();
+            $this->runFeaturesTest($result['id'], $result['row'], 1);
+        }
+    */
     /*
         public function testOffFeatures(){
             $result = $this->prepareTest();
             $this->runFeaturesTest($result['id'], $result['row'], -1);
         }
-
-        public function testAUTOFeatures(){
-            $result = $this->prepareTest();
-            $this->runFeaturesTest($result['id'], $result['row'], 0);
-        }
     */
 
-    public function getAccountFeatures($account_id, $asArray = true){
-        $params = array(
-            'account_id' => $account_id
-        );
-
-        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
-
-        $context = stream_context_create(array(
-            'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-            )
-        ));
-
-        $data = file_get_contents($account_features_url, false, $context);
-
-        return json_decode($data, $asArray);
+    public function testAUTOFeatures(){
+        $result = $this->prepareTest();
+        $this->runFeaturesTest($result['id'], $result['row'], 0);
     }
 
     public function checkServerFeatures($account_id, $featuresChanged, $value){
@@ -138,13 +122,65 @@ class features_control extends test_restrict
 
         } else {//AUTO
             //not implemented yet
+            $af_default = 0;//always - AUTO value in accounts_features table
+            $a_default = 0;//changing value related to next request
+            $featuresAutoValues = $this->getAccountFeaturesAutoValues($account_id);
+
+            foreach ($features as $name => $val) {
+                if ($name == 'id' || !isset($fChanged[$name])) continue;
+
+                $a_default = isset($featuresAutoValues[$name]) ? $featuresAutoValues[$name] : 0;
+
+                $koef = 1;
+                if (strpos($name, 'account_') !== FALSE) {
+                    $this->assertEquals($af_default * $koef, $val, '`af`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                } else {
+                    $this->assertEquals($a_default * $koef, $val, '`a`.`' . $name . '` wrong! [acc_id='.$account_id.']');
+                }
+            }
         }
+    }
+
+    public function getAccountFeaturesAutoValues($account_id, $asArray = true){
+        $params = array(
+            'account_id' => $account_id
+        );
+
+        $account_features_url = $this->_prepareUrl($this->account_features_auto_values_url) . '?' . http_build_query($params);
+
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+
+        $data = file_get_contents($account_features_url, false, $context);
+
+        return json_decode($data, $asArray);
+    }
+
+    public function getAccountFeatures($account_id, $asArray = true){
+        $params = array(
+            'account_id' => $account_id
+        );
+
+        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
+
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+
+        $data = file_get_contents($account_features_url, false, $context);
+
+        return json_decode($data, $asArray);
     }
 
     public function editAccount($account_row){
         if($account_row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
             $account_row->byCssSelector('.account-edit-lnk')->click();
-            sleep(10);
+            $this->waitForElement('.modal:visible', 15000, 'jQ');
             return $this->findModals(true);
         }
 
