@@ -26,7 +26,7 @@ class features_control extends test_restrict
         $this->runFeaturesTest($result['id'], $editModal, 1);
     }
 
-    /*public function testPMSOffFeatures() {
+    public function testPMSOffFeatures() {
         $result = $this->prepareTest();
         $editModal = $this->openFeaturesTab($result['row']);
         $this->switchPlatform('PMS');
@@ -52,7 +52,7 @@ class features_control extends test_restrict
         $editModal = $this->openFeaturesTab($result['row']);
         $this->switchPlatform('OTA');
         $this->runFeaturesTest($result['id'], $editModal, -1);
-    }*/
+    }
 
     public function testOTAAUTOFeatures() {
         $result = $this->prepareTest();
