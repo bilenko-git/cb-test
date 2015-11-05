@@ -998,7 +998,7 @@ class addons_for_PMS extends base_addons {
                 $selectedAddons = $this->getJSObject("$('select[name=addons]', '#layout').val();");
                 print_r($selectedAddons);
                 $btns = $this->waitForElement('.edit-package-cancel', 5000);
-                $this->waitUntilVisible($btns, 30000);
+                $this->waitToVisible($btns, 30000);
                 if($btns) $btns->click();//click Cancel on save panel
                 $this->assertEquals(count($selectedAddons), 1, 'Check number of add-ons');
 

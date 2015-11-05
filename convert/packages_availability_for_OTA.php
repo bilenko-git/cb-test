@@ -710,7 +710,7 @@ class packages_availability extends test_restrict{
         $this->uploadPackagePhoto();
 
         $btns = $this->waitForElement('.edit-package-save.btn-save-panel', 5000);
-        $this->waitUntilVisible($btns, 30000);
+        $this->waitToVisible($btns, 30000);
         if($btns) $btns->click();//click Save on save panel
 
         $result = $this->waitForElement('#layout .package-list-block', 5000);

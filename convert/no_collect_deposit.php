@@ -11,7 +11,7 @@ require_once 'common/rates.php';
  */
 class no_collect_deposit extends test_restrict{
     use \Rates;
-    private $bookingUrl = 'http://{server}/reservas/{property_id}';
+    private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $reservationsUrl = 'http://{server}/connect/{property_id}#/newreservations';
     private $policiesUrl = 'http://{server}/connect/{property_id}#/terms';
     private $interval = array(
@@ -87,13 +87,120 @@ class no_collect_deposit extends test_restrict{
         
         $payment = $this->byjQ('div.payment_method');
         
-        $res = $deposit == 0 && ($collectingEnabled && $payment || !$collectingEnabled && !$payment);
+        $bookPageCheck = $deposit == 0 && ($collectingEnabled && $payment || !$collectingEnabled && !$payment);
+        
+        $reservaCheck = $this->_checkReservation($collectingEnabled);
         
         //TO DO
         //NEED to add adding the reservation
         //If collecting enabled need to check if CC data present in the reservation after adding new one
         
-        return $res;
+        return $bookPageCheck && $reservaCheck;
+    }
+    
+    private function _checkReservation($collectingEnabled) {
+        $test = $this;
+        $result = false;
+        $this->byCssSelector('select[name="country"]')->value('AF');
+        $this->byId('first_name')->value('fn');
+        $this->byId('last_name')->value('ln');
+        $this->byId('email')->value('fn@ln.com');
+        
+        
+        if($collectingEnabled) {
+            $this->byCssSelector('.payment_method label[for="card"]')->click();
+
+            try {
+                $this->waitForElement('#cardholder_name', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Card selecting timeout');
+            }
+
+            $this->byId('cardholder_name')->value('check ok');
+            $this->byId('card_number')->value('4111111111111111');
+            $this->byId('exp_month')->value(3);
+            $this->byId('exp_year')->value(date('Y')+1);
+            $this->byId('cvv')->value('123');
+
+            $this->execute(array('script' => 'window.$("#agree_terms").click()', 'args' => array()));
+            $this->byCssSelector('button.finalize')->click();
+
+            try {
+                $el = $this->waitForElement('.reserve_number', 50000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Waiting for reservation status timeout');
+            }
+
+            $this->reservationNumber = $el->text();
+
+            //add payment to make balance due = 0 and check
+            $url = $this->_prepareUrl($this->reservationsUrl);
+            $this->url($url);
+            $this->waitForLocation($url);
+            if ($this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
+                $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
+                $this->waitUntilVisible($el, 30000);
+            }
+
+            try {
+                $el = $this->waitForElement('#layout input[name="find_reservations"]', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Cannot get serch element');
+            }
+
+            $el->click();
+            $this->keys($this->reservationNumber.Keys::ENTER);
+            $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+
+            if(!$el)
+                $this->fail('Cannot find the reservation');
+
+            $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+
+            $reservationId = $this->getAttribute($el, 'data-id');
+            $el->click();
+
+            //loading waiting
+            $this->waitUntil(function() use ($test) {
+                try {
+                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+                } catch(\Exception $e) {
+                    return null;
+                }
+                return true;
+            },50000);
+
+            try {
+                $el = $this->waitForElement('#layout #reservation-summary td.remaining_amount', 20000);
+            }
+            catch (\Exception $e)
+            {
+                $this->fail('Cannot get balance due');
+            }
+
+            $balanceDue = floatval(str_replace(',', '.', $el->text()));
+
+            if($collectingEnabled) {
+                //now check if cc data was collected
+                $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
+                
+                $this->waitForElement('.cards-list');
+                
+                if($this->byJQ('ul[id=\'#layout \']')) {
+                    $result = true;
+                }
+            }
+        }
+        else
+            $result = true;
+        
+        return $result;
     }
     
     private function _setNoDepositPolicy($state) {
