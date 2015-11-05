@@ -11,7 +11,7 @@ require_once 'test_restrict.php';
  */
 class room_block_booking extends test_restrict{
     private $roomBlockUrl = 'http://{server}/connect/{property_id}#/roomblocks';
-    private $bookingUrl = 'http://{server}/reservas/{property_id}';
+    private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     
     public function testSteps() {
         $this->setupInfo('PMS_user');

@@ -11,7 +11,7 @@ require_once 'common/rates.php';
  */
 class no_collect_deposit extends test_restrict{
     use \Rates;
-    private $bookingUrl = 'http://{server}/reservas/{property_id}';
+    private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $reservationsUrl = 'http://{server}/connect/{property_id}#/newreservations';
     private $policiesUrl = 'http://{server}/connect/{property_id}#/terms';
     private $interval = array(
@@ -99,6 +99,8 @@ class no_collect_deposit extends test_restrict{
     }
     
     private function _checkReservation($collectingEnabled) {
+        $test = $this;
+        $result = false;
         $this->byCssSelector('select[name="country"]')->value('AF');
         $this->byId('first_name')->value('fn');
         $this->byId('last_name')->value('ln');
@@ -139,6 +141,10 @@ class no_collect_deposit extends test_restrict{
             $url = $this->_prepareUrl($this->reservationsUrl);
             $this->url($url);
             $this->waitForLocation($url);
+            if ($this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
+                $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
+                $this->waitUntilVisible($el, 30000);
+            }
 
             try {
                 $el = $this->waitForElement('#layout input[name="find_reservations"]', 20000);
@@ -184,56 +190,17 @@ class no_collect_deposit extends test_restrict{
                 //now check if cc data was collected
                 $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
                 
-                //loading waiting
-                $this->waitUntil(function() use ($test) {
-                    try {
-                        $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading').length", 'args' => array())));
-                    } catch(\Exception $e) {
-                        return null;
-                    }
-                    return true;
-                },50000);
+                $this->waitForElement('.cards-list');
                 
-                if($this->byJQ('ul[id="#layout "]')) {
-                    
+                if($this->byJQ('ul[id=\'#layout \']')) {
+                    $result = true;
                 }
-                
-                
-                
-
-                try {
-                $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form select[name=\'payment_type\']', 20000);
-                }
-                catch (\Exception $e)
-                {
-                    $this->fail('Cannot get serch element');
-                }
-
-                $el->value('check');
-
-                $this->byJQ('#layout #reservation-summary .booking-payments-add-form input[name=\'paid\']')->value($balanceDue);
-
-                try {
-                    $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form .btn-save-payment', 20000);
-                }
-                catch (\Exception $e)
-                {
-                    $this->fail('Cannot get search element');
-                }
-
-                $el->click();
-
-                //loading waiting
-                $this->waitUntil(function() use ($test) {
-                    try {
-                        $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-                    } catch(\Exception $e) {
-                        return null;
-                    }
-                    return true;
-                },50000);
             }
         }
+        else
+            $result = true;
+        
+        return $result;
     }
     
     private function _setNoDepositPolicy($state) {

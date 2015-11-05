@@ -88,7 +88,7 @@
                             $this->hover($element);
                         }
                     }else{
-                        $this->waitUntilVisible($element, 500);
+                        $this->waitToVisible($element, 500);
                         if(!$element->displayed()) return false;
                     }
                 }
