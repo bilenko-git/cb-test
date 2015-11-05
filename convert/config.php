@@ -14,6 +14,7 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'selenium@cloudbeds.com',
             'password' => 'testTime!',
             'property_id' => '366',
+            'property_reserva_code' => 'ZeRY9J',
             'browser_info' => '',
         );
         $config['OTA_user'] = array(
@@ -28,6 +29,7 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'engineering@cloudbeds.com',
             'password' => 'cl0udb3ds',
             'property_id' => '366',
+            'property_reserva_code' => 'ZeRY9J',
             'browser_info' => '',
         );
         $config['OTA_super_user'] = array(
@@ -74,6 +76,7 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'selenium@cloudbeds.com',
             'password' => 'testTime!',
             'property_id' => '366',
+            'property_reserva_code' => 'QcOmgE',
             'browser_info' => '',
         );
         $config['OTA_user'] = array(
@@ -88,6 +91,7 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'engineering@cloudbeds.com',
             'password' => 'cl0udb3ds',
             'property_id' => '366',
+            'property_reserva_code' => 'QcOmgE',
             'browser_info' => '',
         );
         $config['OTA_super_user'] = array(

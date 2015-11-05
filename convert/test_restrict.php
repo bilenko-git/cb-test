@@ -20,6 +20,7 @@ class test_restrict extends WebDriverTestCase
     protected $cbApiLogin = 'ofc_front';
     protected $cbApiPass = 'H_6z5DpJ:H@5$';
     protected $property_id = 366; // 479 for ota
+    protected $property_reserva_code = 'ZeRY9J'; // 479 for ota
     protected $property_settings = false;
   //  protected $config = $config;
     protected $delta = 0.0001;//delta for assertEquals to compare float values
@@ -78,6 +79,8 @@ class test_restrict extends WebDriverTestCase
             $this->password = $pass;
         if($property_id)
             $this->property_id = $property_id;
+        if($property_reserva_code)
+            $this->property_reserva_code = $property_reserva_code;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
     }
@@ -93,6 +96,8 @@ class test_restrict extends WebDriverTestCase
             $this->password = $this->config[$setup]['password'];
         if($this->config[$setup]['property_id'])
             $this->property_id = $this->config[$setup]['property_id'];
+        if($this->config[$setup]['property_reserva_code'])
+            $this->property_reserva_code = $this->config[$setup]['property_reserva_code'];
         if($this->config[$setup]['browser_info'])
             $this->browsers = $this->config[$setup]['browser_info'];
     }
@@ -114,12 +119,13 @@ class test_restrict extends WebDriverTestCase
         return date($date_format, strtotime($date, strtotime($base_date, mktime(0,0,0))));
     }
     public function save(){
+        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'jQ');
         if (getenv('SELENIUM_LOCAL')) {
+            //It seems the click event handler is not assigned yet in some cases, so we need the delay.
             sleep(1);
         }
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
         $save->click();
-        $this->waitForElement('.toast-bottom-left', 50000, 'css');
+        $this->waitForElement('.toast-bottom-left');
     }
 
     public function loginToSite(callable $success = null, callable $fail = null)
@@ -151,10 +157,12 @@ class test_restrict extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
-        if (getenv('SELENIUM_LOCAL') && $this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
+        
+        if ($this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
             $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
             $this->waitUntilVisible($el, 30000);
         }
+        
         return $loggedIn;
     }
 
@@ -242,11 +250,13 @@ class test_restrict extends WebDriverTestCase
         $url = str_replace(
                 array(
                         '{server}', 
-                        '{property_id}'
+                        '{property_id}',
+                        '{property_reserva_code}'
                      ),
                 array(
                         $this->server_url, 
-                        $this->property_id
+                        $this->property_id,
+                        $this->property_reserva_code
                 ),
                 $url);
         

@@ -25,57 +25,69 @@
         public function waitForElement($selector, $timeout = 15000, $selType='css', $check_displayed = true){
             $element = null;
             echo 'Searching element: '. $selector.PHP_EOL;
-            $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {
-                try {
-                    switch ($selType) {
-                        case 'css':
-                            $element = $testCase->byCssSelector($selector);
-                            break;
-                        case 'xpath':
-                            $element = $testCase->byXPath($selector);
-                            break;
-                        case 'jQ':
-                            $element = $this->byJQ($selector);
-                            break;
-                        
-                        default:
-                            $testCase->fail('Unknown selector type');
+            try {
+                $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {
+                    try {
+                        switch ($selType) {
+                            case 'css':
+                                $element = $testCase->byCssSelector($selector);
+                                break;
+                            case 'xpath':
+                                $element = $testCase->byXPath($selector);
+                                break;
+                            case 'jQ':
+                                $element = $this->byJQ($selector);
+                                break;
+
+                            default:
+                                $testCase->fail('Unknown selector type');
+                        }
+
+                        $boolean = $element?($check_displayed ? $element->displayed() : true):false;
+
+                    } catch (\Exception $e) {
+                        $boolean = false;
                     }
-                    
-                    $boolean = $element?($check_displayed ? $element->displayed() : true):false;
-                    
-                } catch (\Exception $e) {
-                    $boolean = false;
-                }
-                if ($boolean !== true)
-                    usleep(500000);
-                return $boolean === true ?: null;
-            }, $timeout);
-            if (getenv('SELENIUM_LOCAL')) {
-                sleep(1);
+                    /*if ($boolean !== true)
+                        usleep(500000);*/
+                    return $boolean === true ?: null;
+                }, $timeout);
+            } catch (\Exception $e) {
+                $element = null;
             }
+            /*if (getenv('SELENIUM_LOCAL')) {
+                sleep(1);
+            }*/
             echo 'return element: '. ($element?'Object':'false').PHP_EOL;
             return $element;
         }
         
         public function waitForLocation($url, $timeout = 5000){
-            $this->waitUntil(function($testCase) use ($url, $timeout) {
-                $bUrl = $testCase->getBrowserUrl() == $url;
-                if (!$bUrl)
-                    usleep(500000);
-                if (getenv('SELENIUM_LOCAL')) {
-                    sleep(1);
-                }
-                return $bUrl;
+            echo "need:".$url."\n";
+            $this->waitUntil(function($testCase) use ($url) {
+                echo "have:".$testCase->url()."\n";
+                $bUrl = $testCase->url() == $url;
+                return $bUrl ?: null;
             }, $timeout);
         }
 
-        public function waitUntilVisible($element, $timeout = 1000){
+        public function waitToVisible($element, $timeout = 5000){
             $this->waitUntil(function() use($element){
                 $displayed = $element->displayed();
-                if (!$displayed)
-                    usleep(500000);
-                return $displayed;
+                /*if (!$displayed)
+                    usleep(500000);*/
+                return $displayed ?: null;
+            }, $timeout);
+        }
+        
+        public function waitUntilVisible($element, $timeout = 10000){
+            if(!$element)
+                return;
+            $this->waitUntil(function() use($element){
+                $displayed = $element->displayed();
+                /*if ($displayed)
+                    usleep(500000);*/
+                return $displayed ? null: true;
             }, $timeout);
         }
     }

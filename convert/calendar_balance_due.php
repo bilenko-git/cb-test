@@ -11,7 +11,7 @@ require_once 'common/rates.php';
  */
 class calendar_balance_due extends test_restrict{
     use \Rates;
-    private $bookingUrl = 'http://{server}/reservas/{property_id}';
+    private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $calendarUrl = 'http://{server}/connect/{property_id}#/calendar';
     private $reservationsUrl = 'http://{server}/connect/{property_id}#/newreservations';
     private $interval = array(
