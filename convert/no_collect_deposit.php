@@ -218,7 +218,7 @@ class no_collect_deposit extends test_restrict{
         return $result;
     }
     
-    private function _setNoDepositPolicy($state, $collect) {
+    private function _setNoDepositPolicy($state, $collect = null) {
         $url = $this->_prepareUrl($this->policiesUrl);
         $this->url($url);
         $this->waitForLocation($url);
