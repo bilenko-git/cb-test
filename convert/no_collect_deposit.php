@@ -179,7 +179,7 @@ class no_collect_deposit extends test_restrict{
             //loading waiting
             $this->waitUntil(function() use ($test) {
                 try {
-                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading:visible').length", 'args' => array())));
                 } catch(\Exception $e) {
                     return null;
                 }
