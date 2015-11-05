@@ -80,7 +80,7 @@ class test_restrict extends WebDriverTestCase
         if($property_id)
             $this->property_id = $property_id;
         if($property_reserva_code)
-            $this->property_id = $property_reserva_code;
+            $this->property_reserva_code = $property_reserva_code;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
     }
