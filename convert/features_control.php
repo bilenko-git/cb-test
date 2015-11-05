@@ -8,6 +8,7 @@ class features_control extends test_restrict
     protected $server_url = 'hotel.acessa.loc';
     protected $account_features_url = 'http://{server}/api/tests/getFeatures';
     protected $account_features_auto_values_url = 'http://{server}/api/tests/getFeaturesAutoValues';
+    protected $billing_packages_features_auto_values_url = 'http://{server}/api/tests/getBillingPackagesFeaturesAutoValues';
     protected $account_filter = array(
         '#status' => '',
         '#hotelName' => 'Ukraine Hotel'
@@ -53,6 +54,59 @@ class features_control extends test_restrict
         $editModal = $this->openFeaturesTab($result['row']);
         $this->switchPlatform('OTA');
         $this->runFeaturesTest($result['id'], $editModal, 0);
+    }
+
+    public function testPMSAUTOFeaturesColors(){
+        $platform = 'PMS';
+        $result = $this->prepareTest();
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform($platform);
+        $this->runFeaturesAutoColorTest($result['id'], $platform, $editModal);
+    }
+
+    public function testOTAAUTOFeaturesColors(){
+        $platform = 'OTA';
+        $result = $this->prepareTest();
+        $editModal = $this->openFeaturesTab($result['row']);
+        $this->switchPlatform($platform);
+        $this->runFeaturesAutoColorTest($result['id'], $platform, $editModal);
+    }
+
+    public function runFeaturesAutoColorTest($account_id, $platform, $editModal){
+        if($account_id) {
+            $featuresChanged = $this->toggleFeatures(0);
+            $editModal->byCssSelector('.nav.nav-tabs li:nth-child(2) a')->click();
+            $bp_options = $this->elements($this->using('css selector')->value('#enabled_packages option'));
+            $billing_packages = array();
+            foreach($bp_options as $opt){
+                $billing_packages[] = $opt->attribute('value');
+            }
+
+            foreach($billing_packages as $bp_id){
+                $this->execJS('$(\'#enabled_packages\').val(\''.$bp_id.'\');$(\'#enabled_packages\').multipleSelect(\'refresh\');$(\'.modal:visible\').click();$(\'#enabled_packages\').change();');
+                $val = (array)$this->execJS('var $a = $(\'.modal .row-fluid:not(.hide) .radio-switcher\');var $b = {};$a.each(function(i, v){$b[$(v).attr(\'id\')]=$(v).find(\'button[value="0"]\').hasClass(\'danger\') ? 0 : 1;});return $b;');
+
+                $newVal = array();
+                foreach($val as $k => $v){
+                    $k = str_replace(array('account-', '-'), array('', '_'), $k);
+                    $newVal[$k] = $v;
+                }
+
+                echo PHP_EOL . print_r($newVal, true) . PHP_EOL;
+
+                if(!empty($val)) {
+                    $merged_features = $this->getBillingPackageFeaturesAutoValues($bp_id, $platform);
+                    echo PHP_EOL . print_r($merged_features, true) . PHP_EOL;
+
+                    foreach ($newVal as $k => $v) {
+                        if($k == 'myallocator_enabled') $v *= 4;
+                        $this->assertEquals($merged_features[$k], $v);
+                    }
+                } else {
+                    $this->fail('Auto values not loaded.');
+                }
+            }
+        }
     }
 
     public function prepareTest() {
@@ -160,40 +214,28 @@ class features_control extends test_restrict
         }
     }
 
-    public function getAccountFeaturesAutoValues($account_id, $asArray = true) {
-        $params = array(
-            'account_id' => $account_id
-        );
-
-        $account_features_url = $this->_prepareUrl($this->account_features_auto_values_url) . '?' . http_build_query($params);
-
+    public function apiCall($url, $params, $asArray = true){
+        $preparedUrl = $this->_prepareUrl($url) . '?' . http_build_query($params);
         $context = stream_context_create(array(
             'http' => array(
                 'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
             )
         ));
-
-        $data = file_get_contents($account_features_url, false, $context);
-
+        $data = file_get_contents($preparedUrl, false, $context);
         return json_decode($data, $asArray);
     }
 
+    public function getAccountFeaturesAutoValues($account_id, $asArray = true) {
+        $params = array('account_id' => $account_id);
+        return $this->apiCall($this->account_features_auto_values_url, $params, $asArray);
+    }
     public function getAccountFeatures($account_id, $asArray = true) {
-        $params = array(
-            'account_id' => $account_id
-        );
-
-        $account_features_url = $this->_prepareUrl($this->account_features_url) . '?' . http_build_query($params);
-
-        $context = stream_context_create(array(
-            'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-            )
-        ));
-
-        $data = file_get_contents($account_features_url, false, $context);
-
-        return json_decode($data, $asArray);
+        $params = array('account_id' => $account_id);
+        return $this->apiCall($this->account_features_url, $params, $asArray);
+    }
+    public function getBillingPackageFeaturesAutoValues($billing_packages, $platform = 'PMS', $asArray = true){
+        $params = array('billing_packages_id' => $billing_packages, 'platform' => $platform);
+        return $this->apiCall($this->billing_packages_features_auto_values_url, $params, $asArray);
     }
 
     public function editAccount($account_row) {
