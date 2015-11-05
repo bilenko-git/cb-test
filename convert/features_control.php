@@ -4,12 +4,6 @@ require_once 'test_restrict.php';
 
 class features_control extends test_restrict
 {
-    public static $browsers = array(
-        array(
-            'browserName' => 'chrome'
-        ),
-    );
-
     private $crmAccountsUrl = 'http://wwwcrm.{server}/crm/accounts';
     protected $server_url = 'hotel.acessa.loc';
     protected $account_features_url = 'http://{server}/api/tests/getFeatures';
