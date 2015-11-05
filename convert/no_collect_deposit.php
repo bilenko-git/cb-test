@@ -37,9 +37,10 @@ class no_collect_deposit extends test_restrict{
         //without the cc collecting
         $res2 = $this->_checkState(false);
         
+        /*restore policy*/
+        $this->_setNoDepositPolicy('percent');
+        
         /*remove rates*/
-        /*$this->setupInfo('PMS_super_user');
-        $this->loginToSite();*/
         $url = $this->_prepareUrl($this->reservationsUrl);
         $this->url($url);
         $this->waitForLocation($url);
@@ -50,7 +51,7 @@ class no_collect_deposit extends test_restrict{
     
     private function _checkState($collectingEnabled) {
         /*Set no deposit*/
-        $this->_setNoDepositPolicy($collectingEnabled);
+        $this->_setNoDepositPolicy('no_deposit', $collectingEnabled);
         
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
@@ -85,11 +86,18 @@ class no_collect_deposit extends test_restrict{
         $el = $this->byjQ('p.total_deposit');
         $deposit = $s = floatval(str_replace(',', '.', $el->text()));
         
+        echo "Deposit:".$deposit."\n\n";
+        
         $payment = $this->byjQ('div.payment_method');
+        
+        echo "Payment:".($payment?1:0)."\n\n";
         
         $bookPageCheck = $deposit == 0 && ($collectingEnabled && $payment || !$collectingEnabled && !$payment);
         
+        echo 'bookPageCheck:'.($bookPageCheck?1:0)."\n\n";
+        
         $reservaCheck = $this->_checkReservation($collectingEnabled);
+        echo 'reservaCheck'.($reservaCheck?1:0)."\n\n";
         
         //TO DO
         //NEED to add adding the reservation
@@ -153,6 +161,8 @@ class no_collect_deposit extends test_restrict{
             {
                 $this->fail('Cannot get serch element');
             }
+            
+            sleep(1);
 
             $el->click();
             $this->keys($this->reservationNumber.Keys::ENTER);
@@ -184,17 +194,22 @@ class no_collect_deposit extends test_restrict{
                 $this->fail('Cannot get balance due');
             }
 
-            $balanceDue = floatval(str_replace(',', '.', $el->text()));
-
-            if($collectingEnabled) {
-                //now check if cc data was collected
-                $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
-                
-                $this->waitForElement('.cards-list');
-                
-                if($this->byJQ('ul[id=\'#layout \']')) {
-                    $result = true;
+            //now check if cc data was collected
+            $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
+            //loading waiting
+            $this->waitUntil(function() use ($test) {
+                try {
+                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading:visible').length", 'args' => array())));
+                } catch(\Exception $e) {
+                    return null;
                 }
+                return true;
+            },50000);
+
+            $this->waitForElement('.cards-list');
+
+            if($this->byJQ('ul#credit-cards-list')) {
+                $result = true;
             }
         }
         else
@@ -203,19 +218,32 @@ class no_collect_deposit extends test_restrict{
         return $result;
     }
     
-    private function _setNoDepositPolicy($state) {
+    private function _setNoDepositPolicy($state, $collect) {
         $url = $this->_prepareUrl($this->policiesUrl);
         $this->url($url);
         $this->waitForLocation($url);
         
-        /*Just to enable save button if the state the same as we need*/
-        $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\'percent\'] + label', 15000, 'jQ');
-        $element->click();
-        /**/
+        if($state == 'no_deposit') {
+            /*Just to enable save button if the state the same as we need*/
+            $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\'percent\'] + label', 15000, 'jQ');
+            $element->click();
+            /**/
+
+            $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\'no_deposit\'] + label', 15000, 'jQ');
+            $element->click();
+            
+            $this->execute(array('script' => '$(\'#layout input[name="no_deposit_cc_collect"]\').bootstrapSwitch(\'state\', '.($collect?'true':'false').')', 'args' => array()));
+        }
         
-        $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\'no_deposit\'] + label', 15000, 'jQ');
-        $element->click();
-        $this->execute(array('script' => '$(\'#layout input[name="no_deposit_cc_collect"]\').bootstrapSwitch(\'state\', '.($state?'true':'false').')', 'args' => array()));
+        else {
+            /*Just to enable save button if the state the same as we need*/
+            $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\'no_deposit\'] + label', 15000, 'jQ');
+            $element->click();
+            /**/
+
+            $element = $this->waitForElement('#layout input[name=\'terms_deposit_type\'][value=\''.$state.'\'] + label', 15000, 'jQ');
+            $element->click();
+        }
         $this->save();
     }
 }
