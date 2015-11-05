@@ -96,6 +96,8 @@ class test_restrict extends WebDriverTestCase
             $this->password = $this->config[$setup]['password'];
         if($this->config[$setup]['property_id'])
             $this->property_id = $this->config[$setup]['property_id'];
+        if($this->config[$setup]['property_reserva_code'])
+            $this->property_reserva_code = $this->config[$setup]['property_reserva_code'];
         if($this->config[$setup]['browser_info'])
             $this->browsers = $this->config[$setup]['browser_info'];
     }
