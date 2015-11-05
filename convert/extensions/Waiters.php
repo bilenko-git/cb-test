@@ -90,5 +90,13 @@
                 return $displayed ? null: true;
             }, $timeout);
         }
+        
+        public function betLoaderWaiting() {
+            //loading waiting
+            $this->waitUntil(function($test) {
+                $res = $test->execute(array('script' => "return window.$('.layout-loading:visible').length", 'args' => array()));
+                return $res==0 ? true : null;
+            },20000);
+        }
     }
 ?>

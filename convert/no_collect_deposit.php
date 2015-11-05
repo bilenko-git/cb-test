@@ -162,7 +162,8 @@ class no_collect_deposit extends test_restrict{
                 $this->fail('Cannot get serch element');
             }
             
-            sleep(1);
+            //loading waiting
+            $this->betLoaderWaiting();
 
             $el->click();
             $this->keys($this->reservationNumber.Keys::ENTER);
@@ -177,14 +178,7 @@ class no_collect_deposit extends test_restrict{
             $el->click();
 
             //loading waiting
-            $this->waitUntil(function() use ($test) {
-                try {
-                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading:visible').length", 'args' => array())));
-                } catch(\Exception $e) {
-                    return null;
-                }
-                return true;
-            },50000);
+            $this->betLoaderWaiting();
 
             try {
                 $el = $this->waitForElement('#layout #reservation-summary td.remaining_amount', 20000);
@@ -197,14 +191,7 @@ class no_collect_deposit extends test_restrict{
             //now check if cc data was collected
             $this->byJQ('#layout #reservation-summary .btn-view-credit-cards')->click();
             //loading waiting
-            $this->waitUntil(function() use ($test) {
-                try {
-                    $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading:visible').length", 'args' => array())));
-                } catch(\Exception $e) {
-                    return null;
-                }
-                return true;
-            },50000);
+            $this->betLoaderWaiting();
 
             $this->waitForElement('.cards-list');
 
