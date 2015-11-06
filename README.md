@@ -243,3 +243,10 @@ $this->assertThereIsNoCookieNamed('name');
 
 `$this->orientation('LANDSCAPE|PORTRAIT');`
 
+
+# Waiters and Loaders
+
+$this->betLoaderWaiting();
+$this->waitToVisible();
+$this->waitUntilVisible();
+
