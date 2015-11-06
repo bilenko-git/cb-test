@@ -6,7 +6,7 @@ require_once 'test_restrict.php';
  * should be hotel with Bank Transfer(ebanking) activated and available room for tomorrow
  */
 class booking_to_cache extends test_restrict{
-    private $testUrl = 'http://{server}/reservas/{property_id}';
+    private $testUrl = 'http://{server}/reservas/{property_reserva_code}';
     public function testSteps() {
         $this->currentWindow()->maximize();
         //$this->setupInfo('', '', '', 366);

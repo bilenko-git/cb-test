@@ -4,7 +4,7 @@ require_once 'base_rates.php';
 
 class Closed_arrival_departure extends base_rates{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
-    private $reservas_url = 'http://{server}/reservas/{property_id}';
+    private $reservas_url = 'http://{server}/reservas/{property_reserva_code}';
     private $availability_url = 'http://{server}/connect/{property_id}#/availability';
     private $interval = array(
         'name' => 'interval',

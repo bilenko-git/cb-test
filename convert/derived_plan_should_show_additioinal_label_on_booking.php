@@ -7,7 +7,7 @@ require_once 'common/packages.php';
 class derived_plan_should_show_additioinal_label_on_booking extends test_restrict {
     use \Rates, \Packages;
 
-    private $booking_url = 'http://{server}/reservas/{property_id}';
+    private $booking_url = 'http://{server}/reservas/{property_reserva_code}';
     private $start_date_interval = '+121 days';
     private $end_date_interval = '+140 days';
     private $start_date_booking = '+121 days';

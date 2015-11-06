@@ -9,7 +9,7 @@ namespace MyProject\Tests;
 require_once 'test_restrict.php';
 
 class reservations extends test_restrict{
-    private $reservationsUrl = 'http://{server}/reservas/{property_id}';
+    private $reservationsUrl = 'http://{server}/reservas/{property_reserva_code}';
 
     public function testSteps() {
         $this->setupInfo('PMS_user');

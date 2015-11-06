@@ -5,7 +5,7 @@ require_once 'test_restrict.php';
 class base_rates extends test_restrict{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
     private $roomType_url = 'http://{server}/connect/{property_id}#/roomTypes';
-    private $reservas_url = 'http://{server}/reservas/{property_id}';
+    private $reservas_url = 'http://{server}/reservas/{property_reserva_code}';
     private $availability_url = 'http://{server}/connect/{property_id}#/availability';
 
     public function addRate($interval, $type = false){
