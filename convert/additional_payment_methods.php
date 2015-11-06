@@ -19,8 +19,8 @@ class additional_payment_methods extends test_restrict
 
     private function prepare_data() {
         $this->add_additional_payment_method();
-     //   $this->assertEquals($this->payment_method_name, $this->add_payment_on_reservation());
-      //  $this->assertEquals($this->payment_method_name, $this->add_payment_on_house_accounts());
+        $this->assertEquals($this->payment_method_name, $this->add_payment_on_reservation());
+        $this->assertEquals($this->payment_method_name, $this->add_payment_on_house_accounts());
         $this->delete_additional_payment_method();
         $this->assertNotEquals($this->payment_method_name, $this->checking_editing_method_on_reservation());
         $this->assertNotEquals($this->payment_method_name, $this->checking_editing_method_on_house_account());
@@ -35,8 +35,10 @@ class additional_payment_methods extends test_restrict
         //$this->byJQ('.modal_additional_payment_methods #new_payment_method_name')->value($this->payment_method_name['name']);
         $this->waitForElement('.modal_additional_payment_methods .modal-footer .btn-primary', 15000, 'jQ')->click();
 
+        $this->betLoaderWaiting();
+
         $this->waitForElement('#layout .table_additional_payment_methods tbody tr', 15000, 'css');
-        $this->payment_method_name =  $this->byJQ('#layout .table_additional_payment_methods tbody tr:last() .name_method')->text();
+        $this->payment_method_name =  $this->byJQ('#layout .table_additional_payment_methods tbody tr:last .name_method')->text();
 
       /*  if ($record == $this->payment_method_name['name']) {
 
@@ -49,35 +51,38 @@ class additional_payment_methods extends test_restrict
         $this->url($this->_prepareUrl($this->reservation_url));
         $this->waitForLocation($this->_prepareUrl($this->reservation_url));
         $this->waitForElement('.view_summary:visible:first', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
         $this->waitForElement('#layout #reservation-summary', 15000, 'jQ');
-        $this->waitForElement('.payments_block h4', 15000, 'css')->click();
+        $this->waitForElement('#layout .payments_block h4', 15000, 'css')->click();
         $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
 
 /*        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-add-form tr .ch_input');*/
 
-        $element = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last()", 15000, 'jQ');
+        $element = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last", 15000, 'jQ');
         $element->selected();
         $element->click();
 
         $this->waitForElement("#layout .payments_block:eq(0) .booking-payments-add-form tr .autoCurrency", 15000, 'jQ')->value(11);
         $this->waitForElement('#layout .btn-save-payment', 15000, 'jQ')->click();
+
+        $this->betLoaderWaiting();
        // $this->waitForElement('#confirm_modal .btn_ok', 15000, 'jQ')->click();
         //$this->byJQ('#open-cash-drawer-prepare #proceed-without-opening-btn', 15000, 'css')->click();
 
-        $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last() .payment-type', 15000, 'jQ');
-        $record = $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last() .payment-type', 15000, 'jQ')->text();
+        $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last .payment-type', 15000, 'jQ');
+        $record = $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last .payment-type', 15000, 'jQ')->text();
         return $record;
     }
 
     private function add_payment_on_house_accounts() {
         $this->url($this->_prepareUrl($this->house_account_url));
         $this->waitForLocation($this->_prepareUrl($this->house_account_url));
-        $this->waitForElement('.view_details', 15000, 'jQ')->click();
+        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
       //  $this->waitForElement('#layout .add-payment-btn', 15000, 'css');
         $this->waitForElement('#layout .add-payment-btn', 15000, 'css')->click();
 
-        $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last()", 15000, 'jQ');
-        $element = $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last()", 1500, 'jQ');
+        $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last", 15000, 'jQ');
+        $element = $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last", 1500, 'jQ');
         $element->selected();
         $element->click();
 
@@ -86,9 +91,14 @@ class additional_payment_methods extends test_restrict
         $paid->value('14');
 
         $this->waitForElement('#layout .save_ha_payment:eq(0)', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('#layout #back-to-house-accounts', 1500, 'jQ')->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
         //$this->byJQ('#open-cash-drawer-prepare #proceed-without-opening-btn', 15000, 'css')->click();
 
-        $record = $this->waitForElement("#layout #house_accounts_folio .house-account-transactions tbody .payment:eq(-2) td:eq(2)", 20000, 'jQ')->text();
+        $record = $this->waitForElement("#layout #house_accounts_folio .house-account-transactions tbody .payment:last td:eq(2)", 20000, 'jQ')->text();
         return $record;
     }
 
@@ -102,8 +112,7 @@ class additional_payment_methods extends test_restrict
         $this->waitForElement('.table_additional_payment_methods tr:visible:last td:last i', 15000, 'jQ')->click();
         $this->waitForElement('#modal_additional_payment_method_delete', 15000, 'jQ');
         $this->waitForElement('#modal_additional_payment_method_delete .btn_delete', 15000, 'jQ')->click();
-
-        sleep(10);
+        $this->betLoaderWaiting();
        /* if ($name_method == $this->payment_method_name['edit_name']) {
             $this->checking_editing_method_on_reservation();
         }*/
@@ -117,17 +126,20 @@ class additional_payment_methods extends test_restrict
         $this->waitForElement('.payments_block h4', 15000, 'css')->click();
         $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
 
-        $record = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last()", 15000, 'jQ')->text();
+        $record = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last", 15000, 'jQ')->text();
+        $this->waitForElement('.void-booking-payment:visible:last', 15000, 'jQ')->click();
+        $this->waitForElement('.button-void-payment', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
         return $record;
     }
 
     private function checking_editing_method_on_house_account() {
         $this->url($this->_prepareUrl($this->house_account_url));
         $this->waitForLocation($this->_prepareUrl($this->house_account_url));
-        $this->waitForElement('.view_details', 15000, 'jQ')->click();
+        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
         $this->waitForElement('#layout .add-payment-btn', 15000, 'css')->click();
 
-        $record = $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last()", 15000, 'jQ')->text();
+        $record = $this->waitForElement("#layout .house_account #ha_payment_box .portlet-body [name='payment_type'] option:last", 15000, 'jQ')->text();
         return $record;
     }
 /*
@@ -142,7 +154,7 @@ class additional_payment_methods extends test_restrict
 
     private function delete_payment_on_reservation() {
         /*
-        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-table tr:last() .void-booking-payment', 15000, 'css')->click();
+        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-table tr:last .void-booking-payment', 15000, 'css')->click();
         $this->byJQ('#void-modal .button-void-payment', 15000, 'css')->click();
         */
     }
