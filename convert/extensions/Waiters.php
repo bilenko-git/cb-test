@@ -66,7 +66,16 @@
             echo "need:".$url."\n";
             $this->waitUntil(function($testCase) use ($url) {
                 echo "have:".$testCase->url()."\n";
-                $bUrl = $testCase->url() == $url;
+                $pos = strpos($testCase->url(), 'reservas');
+                if ($pos !== false && strpos($url, 'checkin') === false){
+                    $hash = strpos($testCase->url(), '#');
+                    $newurl = substr($testCase->url(), 0, $hash);
+                    echo $hash;
+                    echo 'new-'.$newurl;
+                } else {
+                    $newurl = $testCase->url();
+                }
+                $bUrl = $newurl == $url;
                 return $bUrl ?: null;
             }, $timeout);
         }

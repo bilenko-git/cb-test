@@ -22,6 +22,7 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'selenium2@cloudbeds.com',
             'password' => 'testTime!',
             'property_id' => '479',
+            'property_reserva_code' => 'cUf8la',
             'browser_info' => '',
         );
         $config['PMS_super_user'] = array(

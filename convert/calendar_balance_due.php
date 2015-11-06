@@ -229,14 +229,7 @@ class calendar_balance_due extends test_restrict{
         $this->waitForElement('#confirm_delete', 15000, 'css', true);
         $this->waitForElement('.btn_delete', 15000, 'css', true)->click();
 
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
+        $this->betLoaderWaiting();
 
         $url = $this->_prepareUrl($this->reservationsUrl);
         $this->url($url);
