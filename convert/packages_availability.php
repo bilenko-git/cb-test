@@ -183,7 +183,7 @@ class packages_availability extends test_restrict{
             'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '-',
             '.currency_rate' => 'percentage',
-            '[name=derived_rate]' => 5,
+            '[name=\'derived_rate\']' => 5,
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
