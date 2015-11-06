@@ -214,17 +214,6 @@ class features_control extends test_restrict
         }
     }
 
-    public function apiCall($url, $params, $asArray = true){
-        $preparedUrl = $this->_prepareUrl($url) . '?' . http_build_query($params);
-        $context = stream_context_create(array(
-            'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-            )
-        ));
-        $data = file_get_contents($preparedUrl, false, $context);
-        return json_decode($data, $asArray);
-    }
-
     public function getAccountFeaturesAutoValues($account_id, $asArray = true) {
         $params = array('account_id' => $account_id);
         return $this->apiCall($this->account_features_auto_values_url, $params, $asArray);

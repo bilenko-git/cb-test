@@ -234,16 +234,7 @@ class test_restrict extends WebDriverTestCase
         if($room_type_id) $params['room_type_id'] = $room_type_id;
         if($package_id) $params['package_id'] = $package_id;
 
-        $cache_url = $this->_prepareUrl($this->cache_url) . '?' . http_build_query($params);
-        
-        $context = stream_context_create(array(
-            'http' => array(
-                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
-            )
-        ));
-        $data = file_get_contents($cache_url, false, $context);
-
-        return json_decode($data, $asArray);
+        return $this->apiCall($this->cache_url, $params, $asArray);
     }
 
     function _prepareUrl($url){
@@ -265,6 +256,17 @@ class test_restrict extends WebDriverTestCase
     
     public function _checkLoggedIn(){
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
+    }
+
+    public function apiCall($url, $params, $asArray = true){
+        $preparedUrl = $this->_prepareUrl($url) . '?' . http_build_query($params);
+        $context = stream_context_create(array(
+            'http' => array(
+                'header'  => "Authorization: Basic " . base64_encode($this->cbApiLogin.':'.$this->cbApiPass)
+            )
+        ));
+        $data = file_get_contents($preparedUrl, false, $context);
+        return json_decode($data, $asArray);
     }
 }
 ?>
