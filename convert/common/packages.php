@@ -44,8 +44,8 @@ trait Packages {
         foreach($package as $selector => $value){
             if(in_array($selector, array('is_derived', 'have_promo', 'ranges', 'promo_code'))) continue;
 
-            $this->waitForElement($selector, 15000, 'jQ')->value($value);
-           // $this->execute(array('script' => 'return window.$("'.$selector.'").val("'.$value.'")','args' => array()));
+            //$this->waitForElement($selector, 15000, 'jQ')->value($value);
+            $this->execute(array('script' => 'window.$("'.$selector.'").val("'.$value.'"); return true','args' => array()));
         }
 
         foreach($package['ranges'] as &$range) {

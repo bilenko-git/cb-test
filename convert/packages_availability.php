@@ -183,7 +183,7 @@ class packages_availability extends test_restrict{
             'is_derived' => true,//[name=\'derived\']
             '.action_rate' => '-',
             '.currency_rate' => 'percentage',
-            '[name=\'derived_rate\']' => 5,
+            '[name=derived_rate]' => 5,
             'have_promo' => false,//[name=\'have_promo\']
             '[id^=\'packages_descr_\']' => 'Nothing include. Just test package',
             '[id^=\'packages_wysiwyg_terms_\']' => 'No any policy.',
@@ -202,7 +202,7 @@ class packages_availability extends test_restrict{
         )
     );
 
-    public function test_Range_Min_Max_los(){
+  /*  public function test_Range_Min_Max_los(){
         $this->go_to_package_page();
         $this->_verifyPackage(0);
     }
@@ -221,7 +221,7 @@ class packages_availability extends test_restrict{
       public function test_Promo_code(){
           $this->go_to_package_page();
           $this->_verifyPackage(4);
-      }
+      }*/
       public function test_Derived_fixed_package(){
           $this->go_to_package_page();
           $this->_verifyPackage(5);
@@ -230,10 +230,10 @@ class packages_availability extends test_restrict{
           $this->go_to_package_page();
           $this->_verifyPackage(6);
       }
-      public function test_Package_update(){
+   /*   public function test_Package_update(){
           $this->go_to_package_page();
           $this->_update_and_verifyPackage(0);
-      }
+      }*/
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
@@ -675,14 +675,14 @@ class packages_availability extends test_restrict{
         if(isset($package['is_derived'])) {
             /*$derived_input = $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\']', 5000, 'jQ', false);//->click();
             $this->setAttribute($derived_input, 'checked', 'checked');*/
-            $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label', 5000, 'jQ')->click();
+            $this->waitForElement('[name=\'derived\'][value=\''.($package['is_derived']?1:0).'\'] + label:visible', 5000, 'jQ')->click();
             $is_derived = $package['is_derived'];
         }
 
         if(isset($package['have_promo'])) {
             /*$have_promo_input = $this->waitForElement('[name=\'have_promo\'][value=\''.($package['have_promo']?1:0).'\']', 5000, 'jQ', false);
             $this->setAttribute($have_promo_input, 'checked', 'checked');*/
-            $this->waitForElement('[name=\'have_promo\'][value=\''.($package['have_promo']?1:0).'\'] + label', 5000, 'jQ')->click();
+            $this->waitForElement('[name=\'have_promo\'][value=\''.($package['have_promo']?1:0).'\'] + label:visible', 5000, 'jQ')->click();
         }
 
         if(isset($package['promo_code'])) {
@@ -693,8 +693,8 @@ class packages_availability extends test_restrict{
         foreach($package as $selector => $value){
             if(in_array($selector, array('is_derived', 'have_promo', 'ranges', 'promo_code'))) continue;
 
-            $this->waitForElement($selector, 15000, 'jQ')->value($value);
-           // $this->execute(array('script' => 'return window.$("'.$selector.'", "#layout").val("'.$value.'")','args' => array()));
+           // $this->waitForElement('#layout '.$selector, 15000, 'jQ')->value($value);
+            $this->execute(array('script' => 'window.$("'.$selector.'", "#layout").val("'.$value.'"); return true;','args' => array()));
         }
 
         foreach($package['ranges'] as &$range) {
