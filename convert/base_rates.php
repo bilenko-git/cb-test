@@ -146,11 +146,15 @@ class base_rates extends test_restrict{
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
 
         if (isset($interval['min'])){
-            $this->waitForElement('[name=min_los]', 1500, 'jQ')->value($interval['min']);
+            $el = $this->waitForElement('[name=min_los]', 1500, 'jQ');
+            $el->clear();
+            $el->value($interval['min']);
         }
 
         if (isset($interval['max'])){
-            $this->waitForElement('[name=max_los]', 1500, 'jQ')->value($interval['max']);
+            $el = $this->waitForElement('[name=max_los]', 1500, 'jQ');
+            $el->clear();
+            $el->value($interval['max']);
         }
 
         if (isset($interval['arrival'])){
