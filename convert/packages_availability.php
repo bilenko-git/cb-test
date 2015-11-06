@@ -693,10 +693,7 @@ class packages_availability extends test_restrict{
         foreach($package as $selector => $value){
             if(in_array($selector, array('is_derived', 'have_promo', 'ranges', 'promo_code'))) continue;
 
-            $this->execute(array(
-                'script' => 'return window.$("'.$selector.'", "#layout").val("'.$value.'");',
-                'args' => array()
-            ));
+            $this->execute(array('script' => 'return window.$("'.$selector.'", "#layout").val("'.$value.'")','args' => array()));
         }
 
         foreach($package['ranges'] as &$range) {
