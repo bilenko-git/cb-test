@@ -94,7 +94,7 @@ class additional_payment_methods extends test_restrict
         $this->betLoaderWaiting();
         $this->waitForElement('#layout #back-to-house-accounts', 1500, 'jQ')->click();
         $this->betLoaderWaiting();
-        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
+        $this->waitForElement('#layout .view_details:visible:last', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
         //$this->byJQ('#open-cash-drawer-prepare #proceed-without-opening-btn', 15000, 'css')->click();
 
