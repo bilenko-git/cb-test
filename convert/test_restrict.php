@@ -30,7 +30,7 @@ class test_restrict extends WebDriverTestCase
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '39',
+                'version' => '42',
                 'platform' => 'Windows 8.1',
             )
         ),
