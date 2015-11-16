@@ -92,6 +92,7 @@ class additional_payment_methods extends test_restrict
 
         $this->waitForElement('#layout .save_ha_payment:eq(0)', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
+        $this->refresh();
         $this->waitForElement('#layout #back-to-house-accounts', 1500, 'jQ')->click();
         $this->betLoaderWaiting();
         $this->waitForElement('#layout .view_details:visible:last', 15000, 'jQ')->click();
