@@ -123,7 +123,7 @@ class additional_payment_methods extends test_restrict
         $this->waitForLocation($this->_prepareUrl($this->reservation_url));
         $this->waitForElement('.view_summary:visible:first', 15000, 'jQ')->click();
         $this->waitForElement('#layout #reservation-summary', 15000, 'jQ');
-        $this->waitForElement('.payments_block h4', 15000, 'css')->click();
+        $this->waitForElement('#layout .adjust-block h4', 15000, 'css')->click();
         $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
 
         $record = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last", 15000, 'jQ')->text();
