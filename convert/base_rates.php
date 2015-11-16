@@ -16,7 +16,7 @@ class base_rates extends test_restrict{
             $add_new_rate_plan = $this->waitForElement('#layout .add_interval', 15000, 'jQ');
         } else {
             $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $add_new_rate_plan = $this->waitForElement('#tab_0 .add_interval', 15000, 'css');
+            $add_new_rate_plan = $this->waitForElement('#layout #tab_0 .add_interval', 15000, 'jQ');
         }
         $add_new_rate_plan->click();
         $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
