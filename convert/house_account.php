@@ -14,7 +14,7 @@ class house_account extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->house_accounts_url));
         $this->betLoaderWaiting();
         $this->waitForElement('.add-house-account-btn', 15000, 'jQ')->click();
-        $this->waitForElement('#house_account_name', 15000, 'jQ')->value('selenium test '.rand(1000));
+        $this->waitForElement('#house_account_name', 15000, 'jQ')->value('selenium test '.rand(0, 10000));
         $this->waitForElement('.save_house_account', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
         $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
