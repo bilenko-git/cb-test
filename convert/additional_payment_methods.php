@@ -53,8 +53,8 @@ class additional_payment_methods extends test_restrict
         $this->waitForElement('.view_summary:visible:first', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
         $this->waitForElement('#layout #reservation-summary', 15000, 'jQ');
-        $this->waitForElement('#layout .payments_block h4', 15000, 'css')->click();
-        $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
+        $this->waitForElement('#layout .adjust-block h4', 15000, 'css')->click();
+        $this->waitForElement('#layout #reservation-summary .btn-add-payment', 15000, 'jQ')->click();
 
 /*        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-add-form tr .ch_input');*/
 
