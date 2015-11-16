@@ -23,6 +23,7 @@ export SELENIUM_LOCAL=1
 vendor/bin/phpunit "YOUR_TEST.php"
 
 
+
 # Quick cheat sheet - PHPUnit Selenium Test Examples
 
 ## Standard PHP unit functions.
