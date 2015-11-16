@@ -11,6 +11,7 @@ class base_rates extends test_restrict{
     public function addRate($interval, $type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
+        $this->refresh();
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
         }
