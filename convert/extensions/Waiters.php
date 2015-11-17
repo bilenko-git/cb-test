@@ -7,6 +7,7 @@
          */
         public function byJQ($selector){
             $pos = strpos($selector, ':');
+
             if ($pos === false) {
                 $element = $this->execute(array('script' => 'return window.$("' . $selector . ':visible").get(0)', 'args' => array()));
             } else {
