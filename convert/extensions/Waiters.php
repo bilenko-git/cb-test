@@ -25,6 +25,10 @@
          */
         public function waitForElement($selector, $timeout = 15000, $selType='css', $check_displayed = true){
             $element = null;
+            if (getenv('SELENIUM_LOCAL')) {
+                //It seems the click event handler is not assigned yet in some cases, so we need the delay.
+                sleep(1);
+            }
             echo 'Searching element: '. $selector.PHP_EOL;
             try {
                 $this->waitUntil(function($testCase) use ($selector, $selType, &$element, $check_displayed) {
@@ -64,6 +68,10 @@
         }
         
         public function waitForLocation($url, $timeout = 5000){
+            if (getenv('SELENIUM_LOCAL')) {
+                //It seems the click event handler is not assigned yet in some cases, so we need the delay.
+                sleep(1);
+            }
             echo "need:".$url."\n";
             $this->waitUntil(function($testCase) use ($url) {
                 echo "have:".$testCase->url()."\n";
