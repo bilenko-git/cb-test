@@ -69,7 +69,7 @@ class test_restrict extends WebDriverTestCase
             }
         });
     }
-
+/*
     public function setupInfo1($server_url, $login, $pass, $property_id, $browsersInfo = false){
         if($server_url)
             $this->server_url = $server_url;
@@ -83,7 +83,7 @@ class test_restrict extends WebDriverTestCase
             $this->property_reserva_code = $property_reserva_code;
         if($browsersInfo)
             $this->browsers = $browsersInfo;
-    }
+    }*/
     public function setupInfo($setup){
       /*  if (!isset($this->config[$setup])){
             $setup = $setup2;
