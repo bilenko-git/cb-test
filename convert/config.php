@@ -103,4 +103,36 @@ switch (getenv('SELENIUM_ENV')) {
             'browser_info' => '',
         );
         break;
+    case 'DEV9':
+        $config['PMS_user'] = array(
+            'server' => 'wwwdev9.ondeficar.com',
+            'login' => 'selenium_PMS@cloudbeds.com',
+            'password' => 'Cloudbed$',
+            'property_id' => '3',
+            'property_reserva_code' => 'QcOmgE',
+            'browser_info' => '',
+        );
+        $config['OTA_user'] = array(
+            'server' => 'wwwdev9.ondeficar.com',
+            'login' => 'selenium2@cloudbeds.com',
+            'password' => 'testTime!',
+            'property_id' => '479', //412
+            'browser_info' => '',
+        );
+        $config['PMS_super_user'] = array(
+            'server' => 'wwwdev9.ondeficar.com',
+            'login' => 'admin@test.test',
+            'password' => '123qwe',
+            'property_id' => '3',
+            'property_reserva_code' => 'QcOmgE',
+            'browser_info' => '',
+        );
+        $config['OTA_super_user'] = array(
+            'server' => 'wwwdev9.ondeficar.com',
+            'login' => 'admin@test.test',
+            'password' => '123qwe',
+            'property_id' => '479',
+            'browser_info' => '',
+        );
+        break;
 }
