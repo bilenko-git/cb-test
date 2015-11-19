@@ -704,7 +704,7 @@ class addons_for_OTA extends base_addons {
     public function testDeleteAllAddons()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllAddons();
     }
@@ -712,7 +712,7 @@ class addons_for_OTA extends base_addons {
     public function testDeleteAllProducts()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
     }
@@ -720,7 +720,7 @@ class addons_for_OTA extends base_addons {
     public function testCheckAllErros()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $product =  array(
             'sku' => '',
@@ -746,7 +746,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -763,7 +763,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -780,7 +780,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -797,7 +797,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -814,7 +814,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
         $this->checkAddonsForEmptyProducts();
@@ -834,7 +834,7 @@ class addons_for_OTA extends base_addons {
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room Per Night"~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~A charge will be added for each room night.~~~~~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -850,7 +850,7 @@ class addons_for_OTA extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Night"~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -880,7 +880,7 @@ class addons_for_OTA extends base_addons {
     public function testAddonUpdate()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -901,7 +901,7 @@ class addons_for_OTA extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~~~~ Check Active/Inactive switcher ~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -935,7 +935,7 @@ class addons_for_OTA extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~ Check Add-on for booking page ~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->createReservation('now', '+2 days');
     }
 
@@ -943,7 +943,7 @@ class addons_for_OTA extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~TEST ADD-ONS FOR PACKAGES ~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_OTA@cloudbeds.com', 'Cloudbed$', 4);
+        $this->setupInfo('OTA_user');
         $this->loginToSite();
 
         $this->delAllProducts();

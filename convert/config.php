@@ -109,14 +109,15 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'selenium_PMS@cloudbeds.com',
             'password' => 'Cloudbed$',
             'property_id' => '3',
-            'property_reserva_code' => 'QcOmgE',
+            'property_reserva_code' => 'Zt420y',
             'browser_info' => '',
         );
         $config['OTA_user'] = array(
             'server' => 'wwwdev9.ondeficar.com',
-            'login' => 'selenium2@cloudbeds.com',
-            'password' => 'testTime!',
-            'property_id' => '479', //412
+            'login' => 'selenium_OTA@cloudbeds.com',
+            'password' => 'Cloudbed$',
+            'property_id' => '4',
+            'property_reserva_code' => 'dROicj',
             'browser_info' => '',
         );
         $config['PMS_super_user'] = array(
@@ -124,14 +125,15 @@ switch (getenv('SELENIUM_ENV')) {
             'login' => 'admin@test.test',
             'password' => '123qwe',
             'property_id' => '3',
-            'property_reserva_code' => 'QcOmgE',
+            'property_reserva_code' => 'Zt420y',
             'browser_info' => '',
         );
         $config['OTA_super_user'] = array(
             'server' => 'wwwdev9.ondeficar.com',
             'login' => 'admin@test.test',
             'password' => '123qwe',
-            'property_id' => '479',
+            'property_id' => '4',
+            'property_reserva_code' => 'dROicj',
             'browser_info' => '',
         );
         break;
