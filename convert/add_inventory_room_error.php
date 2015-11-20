@@ -20,21 +20,21 @@ class add_inventory_room_error extends test_restrict{
 
         $el = $this->waitForElement("[name=room_type_capacity]", 15000, 'css');
         $el->clear();
-        $el->value("100");
+        $el->value("10000");
         $this->waitForElement('.inventory_type', 15000, 'css')->click();
         $this->waitForElement('.modal-content', 15000, 'jQ');
         $this->waitForElement('.modal-content .btn_ok', 15000, 'jQ')->click();
 
         $el = $this->waitForElement("[name=room_type_max_rooms]", 15000, 'css');
         $el->clear();
-        $el->value("100");
+        $el->value("10000");
         $this->waitForElement('.inventory_type', 15000, 'css')->click();
         $this->waitForElement('.modal-content', 15000, 'jQ');
         $this->waitForElement('.modal-content .btn_ok', 15000, 'jQ')->click();
 
         $el = $this->waitForElement("[name=room_type_bookable_limit]", 15000, 'css');
         $el->clear();
-        $el->value("100");
+        $el->value("10000");
         $this->waitForElement('.inventory_type', 15000, 'css')->click();
         $this->waitForElement('.modal-content', 15000, 'jQ');
         $this->waitForElement('.modal-content .btn_ok', 15000, 'jQ')->click();
