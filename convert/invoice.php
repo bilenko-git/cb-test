@@ -18,7 +18,7 @@ class invoice extends test_restrict{
         $this->url($this->_prepareUrl($this->invoice_url));
         $this->waitForLocation($this->_prepareUrl($this->invoice_url));
 
-        $el = $this->waitForElement("[name='title']", 15000, 'jQ');
+        $el = $this->waitForElement("[name^='title']", 15000, 'jQ');
         $el->clear();
         $el->value("Innnnnnnvoice");
         $this->save();
