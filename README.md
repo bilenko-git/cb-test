@@ -251,3 +251,4 @@ $this->betLoaderWaiting();
 $this->waitToVisible();
 $this->waitUntilVisible();
 
+
