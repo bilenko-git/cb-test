@@ -763,7 +763,7 @@ class packages_availability extends test_restrict{
             echo "rm_type_id = ".$rm_type_id.PHP_EOL;
             $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
             $avail_button->click();//open
-            $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+            $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
             $avail_button->click();//close
             $form->click();
 
