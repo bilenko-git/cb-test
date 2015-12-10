@@ -20,14 +20,28 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
 
         $this->change_tab('[href=\'#canceled\']');
         $this->checkAllLangs();
+
+        $this->change_tab('[href=\'#invoice\']');
+        $this->checkAllLangs();
     }
 
     public function checkAllLangs(){
         $all_langs = $this->get_langs();
+        $this->execute(array(
+            'script' => "window.$('html, body').animate({scrollTop: '0'}, 0);",
+            'args' => array()
+        ));
         foreach($all_langs as $lang){
             $this->change_language($lang);
             $this->checkReadOnlySectionLang($lang);
         }
+        $this->waitForElement('.dd.ddcommon', 5000, 'jQ', true)->click();
+        sleep(1);
+        $this->execute(array(
+            'script' => "window.$('.ddChild').scrollTop($('._msddli_:eq(0)').position().top);",
+            'args' => array()
+        ));
+        $this->waitForElement('._msddli_:eq(0)', 5000, 'jQ', true)->click();
     }
 
     public function go_to_customize_email_page(){
@@ -37,7 +51,6 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
 
        // $this->setupInfo('wwwdev3.ondeficar.com', 'engineering@cloudbeds.com', 'cl0udb3ds', 31);//for 31 hotel
         $this->setupInfo('PMS_user');
-
         $this->loginToSite();
         $customize_email_page = $this->_prepareUrl($this->customize_email_readonly_section_translation);
         $this->url($customize_email_page);
@@ -47,6 +60,10 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
     public function change_tab($selector){
         $tab = $this->waitForElement($selector, 5000, 'jQ', true);
         $tab->click();
+        $this->execute(array(
+            'script' => "window.$('html, body').animate({scrollTop: '0'}, 0);",
+            'args' => array()
+        ));
     }
 
     public function get_langs(){
@@ -61,6 +78,10 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
 
     public function change_language($lang){
         $this->waitForElement('.dd.ddcommon', 5000, 'jQ', true)->click();
+        $this->execute(array(
+            'script' => "window.$('.ddChild').scrollTop($('li[title=\'".$lang['id']."\']').position().top);",
+            'args' => array()
+        ));
         $this->waitForElement('li[title="'.$lang['id'].'"]')->click();
     }
 
