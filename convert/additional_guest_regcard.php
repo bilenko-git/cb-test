@@ -127,18 +127,25 @@ class additional_guest_regcard extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
+
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
-       
+
         if(!$el)
             $this->fail('Cannot find the reservation');
-        
+
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
-        
+
         $reservationId = $this->getAttribute($el, 'data-id');
         $el->click();
+
+       // $el = $this->waitForElement('#layout .rs-head h4:first:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+
+        $el = $this->waitForElement('#layout .btn-group:visible:first', 20000, 'jQ');
         
-        $el = $this->waitForElement('#layout .additional-guests-container .add_guest_link_reg_card', 20000, 'jQ', true);
+       // $reservationId = $this->getAttribute($el, 'data-id');
+        $el->click();
+        
+        $el = $this->waitForElement('#layout .rs-print-reg-cards', 20000, 'jQ', true);
         
         $el->click();
 
@@ -166,12 +173,16 @@ class additional_guest_regcard extends test_restrict{
         
         $el->click();
         $this->keys($this->reservationNumber.Keys::ENTER);
-        
+
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-number:contains(\''.$this->reservationNumber.'\')', 20000, 'jQ');
+
         if(!$el)
             $this->fail('Cannot find the reservation');
-        
+
         $el = $this->waitForElement('#layout .reservations-table tbody tr:eq(0) td.res-guest a', 20000, 'jQ');
+
+        $reservationId = $this->getAttribute($el, 'data-id');
+
         if(!$el)
             $this->fail('Cannot find the reservation to delete');
         
@@ -180,7 +191,7 @@ class additional_guest_regcard extends test_restrict{
         
        
         try {
-            $el = $this->waitForElement('#layout a.delete-button-reservation', 20000);
+            $el = $this->waitForElement('#layout .delete-button-reservation', 20000, 'jQ');
         }
         catch (\Exception $e)
         {
@@ -188,7 +199,6 @@ class additional_guest_regcard extends test_restrict{
         }
         
         $el->click();
-        $this->waitForElement('#confirm_delete');
         $this->waitForElement('.btn_delete')->click();
         
         //waiting for redirect to reservas page
