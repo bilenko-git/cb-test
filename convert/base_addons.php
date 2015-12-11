@@ -52,7 +52,7 @@ class base_addons extends test_restrict{
 
         // Remove one by one
         while ($num > 0) {
-            $this->waitForElement('.delete_product', 12000, 'css')->click();
+            $this->waitForElement('#layout .delete_product', 12000, 'css')->click();
             $this->confirmDeleteDialog();
             $this->timeouts()->implicitWait(5000);
             $num = count($this->getAllProducts());
@@ -229,14 +229,14 @@ class base_addons extends test_restrict{
         echo 'Availability = ' . $addon_info['available'] . PHP_EOL;
 
         echo '~~~~~~~~~ Max QTY visibility checking ... ~~~~~~~~~'.PHP_EOL;
-        $max_qty = $this->waitForElement('#max_qty_per_res', 15000, 'jQ', false);
+        $max_qty = $this->waitForElement('#layout #max_qty_per_res', 15000, 'jQ', false);
         if ($addon_info['charge_type'] == 'quantity') {
             // we can input max qty
-            $this->assertEquals($max_qty->displayed(), true, 'addAddon::1.1 Check visibility of max qty');
+            $this->assertEquals($max_qty && $max_qty->displayed(), true, 'addAddon::1.1 Check visibility of max qty');
             $this->waitForElement('[name=max_qty_per_res]', 5000, 'jQ', false)->value($addon_info['max_qty_per_res']);
         } else {
             // not visible max qty field
-            $this->assertEquals($max_qty->displayed(), false, 'addAddon::1.2 Check visibility of max qty');
+            $this->assertEquals($max_qty && $max_qty->displayed(), false, 'addAddon::1.2 Check visibility of max qty');
         }
         echo '~~~~~~~~~ Max QTY visibility checked successfully ~~~~~~~~~'.PHP_EOL;
 
@@ -417,32 +417,38 @@ class base_addons extends test_restrict{
         $form = $this->waitForElement('.portlet.interval_form', 10000);
         echo 'Interval Name: ' . $interval['interval_name']. PHP_EOL;
         echo PHP_EOL;
-        $this->byName('interval_name')->value($interval['interval_name']);
-        $this->byName('start_date')->click();
-        $form->click();
+        if($form instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $value = $this->convertDateToSiteFormat($interval['start_date']);
+            $this->byName('start_date')->click();
+            echo 'Start Date:' . $value . PHP_EOL;
+            $this->byName('start_date')->value($value);
+            $this->byName('end_date')->click();
+            $form->click();
 
-        $value = $this->convertDateToSiteFormat($interval['start_date']);
-        echo 'Start Date:' . $value . PHP_EOL;
-        $this->byName('start_date')->value($value);
-        $this->byName('end_date')->click();
-        $form->click();
+            $value = $this->convertDateToSiteFormat($interval['end_date']);
+            $this->byName('end_date')->clear();
+            echo 'End date: ' . $value . PHP_EOL;
+            $this->byName('end_date')->value($value);
+            $form->click();
 
-        $value = $this->convertDateToSiteFormat($interval['end_date']);
-        $this->byName('end_date')->clear();
-        echo 'End date: ' . $value . PHP_EOL;
-        $this->byName('end_date')->value($value);
-        $form->click();
-
+            $interval_name = $this->byName('interval_name');
+            $interval_name->click();
+            $interval_name->clear();
+            $interval_name->value($interval['interval_name']);
+            $form->click();
+        }
         if (isset($interval['min_overlap'])){
             $min_overlap = $this->byName('min_overlap');
             $min_overlap->clear();
             $min_overlap->value($interval['min_overlap']);
+            $min_overlap->click();
         }
 
         if (isset($interval['max_overlap'])){
             $max_overlap = $this->byName('max_overlap');
             $max_overlap->clear();
             $max_overlap->value($interval['max_overlap']);
+            $max_overlap->click();
         }
 
         if (isset($interval['room_types']) && count($interval['room_types'])) {
@@ -451,9 +457,9 @@ class base_addons extends test_restrict{
                 if (isset($room_type['room_type_id'])) {
                     echo PHP_EOL;
                     echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
-                    $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 10000, 'jQ');
+                    $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
                     $avail_button->click();//open
-                    $room_type_checkbox = $this->waitForElement('[name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 25000, 'jQ', false);
+                    $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\'' . $room_type['room_type_id'] . '\'] + label', 16000, 'jQ', false);
                     echo "Room type is visible? " . ($room_type_checkbox->displayed() ? 'Yes' : 'No') . PHP_EOL;
                     $room_type_checkbox->click();
                     $avail_button->click();//close
@@ -573,7 +579,7 @@ class base_addons extends test_restrict{
      */
     public function saveAddon()
     {
-        $save = $this->waitForElement('#panel-save .btn-save', 15000, 'css');
+        $save = $this->waitForElement('#panel-save .btn-html .btn.save_add_ons', 15000, 'css');
         $save->click();
     }
 
@@ -592,7 +598,7 @@ class base_addons extends test_restrict{
 
     public function cancelAddon()
     {
-        $cancel = $this->waitForElement('#panel-save .btn-cancel', 15000, 'css');
+        $cancel = $this->waitForElement('#panel-save .btn-html .btn.cancel_add_ons', 15000, 'css');
         $cancel->click();
     }
 
