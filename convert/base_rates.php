@@ -11,13 +11,13 @@ class base_rates extends test_restrict{
     public function addRate($interval, $type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
+        $this->refresh();
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
-            $add_new_rate_plan = $this->waitForElement('#layout .add_interval', 15000, 'jQ');
-        } else {
-            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $add_new_rate_plan = $this->waitForElement('#tab_0 .add_interval', 15000, 'css');
         }
+        //$this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
+        $add_new_rate_plan = $this->waitForElement('#layout .add_interval', 15000, 'jQ');
+
         $add_new_rate_plan->click();
         $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
         $this->waitForElement('[name=start_date]', 15000, 'jQ')->click();

@@ -52,25 +52,27 @@ class additional_payment_methods extends test_restrict
         $this->waitForLocation($this->_prepareUrl($this->reservation_url));
         $this->waitForElement('.view_summary:visible:first', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
-        $this->waitForElement('#layout #reservation-summary', 15000, 'jQ');
-        $this->waitForElement('#layout .payments_block h4', 15000, 'css')->click();
-        $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
+        $this->waitForElement('[href=\'#rs-folio-tab\']', 5000, 'jQ', true)->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('.add-payment-btn', 5000, 'jQ', true)->click();
 
 /*        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-add-form tr .ch_input');*/
 
-        $element = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last", 15000, 'jQ');
+        $element = $this->waitForElement("#add-new-payment-modal [name='payment_type'] option:last", 15000, 'jQ');
         $element->selected();
         $element->click();
+        $record = $element->text();
 
-        $this->waitForElement("#layout .payments_block:eq(0) .booking-payments-add-form tr .autoCurrency", 15000, 'jQ')->value(11);
-        $this->waitForElement('#layout .btn-save-payment', 15000, 'jQ')->click();
+        $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->clear();
+        $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->value(11);
+        $this->waitForElement('#add-new-payment-modal .add-new-payment-usual', 15000, 'jQ')->click();
 
         $this->betLoaderWaiting();
        // $this->waitForElement('#confirm_modal .btn_ok', 15000, 'jQ')->click();
         //$this->byJQ('#open-cash-drawer-prepare #proceed-without-opening-btn', 15000, 'css')->click();
 
-        $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last .payment-type', 15000, 'jQ');
-        $record = $this->waitForElement('#layout #reservation-summary .payments_block .booking-payments-table tbody tr:last .payment-type', 15000, 'jQ')->text();
+        //$this->waitForElement('#layout rs-transactions-table td:eq(3)', 15000, 'jQ');
+        //$this->waitForElement('#layout .rs-transactions-table tr:first td:eq(4)', 15000, 'jQ')->text();
         return $record;
     }
 
@@ -92,9 +94,10 @@ class additional_payment_methods extends test_restrict
 
         $this->waitForElement('#layout .save_ha_payment:eq(0)', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
-        $this->waitForElement('#layout #back-to-house-accounts', 1500, 'jQ')->click();
+        $this->refresh();
+        $this->waitForElement('#layout #back-to-house-accounts', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
-        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
+        $this->waitForElement('#layout .view_details:visible:last', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
         //$this->byJQ('#open-cash-drawer-prepare #proceed-without-opening-btn', 15000, 'css')->click();
 
@@ -123,12 +126,16 @@ class additional_payment_methods extends test_restrict
         $this->waitForLocation($this->_prepareUrl($this->reservation_url));
         $this->waitForElement('.view_summary:visible:first', 15000, 'jQ')->click();
         $this->waitForElement('#layout #reservation-summary', 15000, 'jQ');
-        $this->waitForElement('.payments_block h4', 15000, 'css')->click();
-        $this->byCssSelector('#layout #reservation-summary .btn-add-payment')->click();
-
-        $record = $this->waitForElement("#layout .payments_block .booking-payments-add-form tr [name='payment_type'] option:last", 15000, 'jQ')->text();
-        $this->waitForElement('.void-booking-payment:visible:last', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('[href=\'#rs-folio-tab\']', 5000, 'jQ', true)->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('.add-payment-btn', 5000, 'jQ', true)->click();
+        $record = $this->waitForElement("#add-new-payment-modal [name='payment_type'] option:last", 15000, 'jQ')->text();
+        $this->waitForElement("#add-new-payment-modal .default", 15000, 'jQ')->click();
+        $this->waitForElement('#layout .rs-transactions-table tr:first td:last .show-popup-vs-dropdown', 15000, 'jQ')->click();
+        $this->waitForElement('.void-transaction', 15000, 'jQ')->click();
         $this->waitForElement('.button-void-payment', 15000, 'jQ')->click();
+
         $this->betLoaderWaiting();
         return $record;
     }

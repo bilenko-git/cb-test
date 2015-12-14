@@ -174,7 +174,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 914,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 11,
@@ -198,7 +198,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 17,
                             'day_0_child_price' => 11,
@@ -231,7 +231,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 919,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -255,7 +255,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -297,7 +297,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 919,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -330,7 +330,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -354,7 +354,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -398,7 +398,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 914,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -431,7 +431,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 919,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -455,7 +455,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 11,
                         ),
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 11,
                             'day_0_child_price' => 10,
@@ -500,7 +500,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 1,
                             'day_0_adult_price' => 15,
                             'day_0_child_price' => 15,
@@ -524,7 +524,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 15,
                         ),
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 919,
                             'day_0' => 1,
                             'day_0_adult_price' => 19,
                             'day_0_child_price' => 15,
@@ -569,7 +569,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 914,
                             'day_0' => 1,
                             'day_0_adult_price' => 15,
                             'day_0_child_price' => 15,
@@ -593,7 +593,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 15,
                         ),
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 919,
                             'day_0' => 1,
                             'day_0_adult_price' => 19,
                             'day_0_child_price' => 15,
@@ -638,7 +638,7 @@ class addons_for_PMS extends base_addons {
                     'max_overlap' => '0',
                     'room_types' => array(
                         array(
-                            'room_type_id' => 11,
+                            'room_type_id' => 920,
                             'day_0' => 0,
                             'day_0_adult_price' => 15,
                             'day_0_child_price' => 15,
@@ -662,7 +662,7 @@ class addons_for_PMS extends base_addons {
                             'day_6_child_price' => 5,
                         ),
                         array(
-                            'room_type_id' => 10,
+                            'room_type_id' => 914,
                             'day_0' => 1,
                             'day_0_adult_price' => 19,
                             'day_0_child_price' => 15,
@@ -723,27 +723,27 @@ class addons_for_PMS extends base_addons {
             )
         )
     );
-
+/*
     public function testDeleteAllAddons()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllAddons();
     }
 
     public function testDeleteAllProducts()
     {
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
         $this->checkAddonsForEmptyProducts();
     }
-
+/*
     public function testCheckAllErros()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $product =  array(
             'sku' => '',
@@ -762,13 +762,13 @@ class addons_for_PMS extends base_addons {
             $this->delAllProducts();
         }
     }
-
+*/
     public function testPerGuestPerNightAddonCreation()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -785,7 +785,7 @@ class addons_for_PMS extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -802,7 +802,7 @@ class addons_for_PMS extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -819,7 +819,7 @@ class addons_for_PMS extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -836,7 +836,7 @@ class addons_for_PMS extends base_addons {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
         $this->checkAddonsForEmptyProducts();
@@ -856,7 +856,7 @@ class addons_for_PMS extends base_addons {
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room Per Night"~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~A charge will be added for each room night.~~~~~~~~~~~~~'.PHP_EOL;
 
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -872,7 +872,7 @@ class addons_for_PMS extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Night"~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -902,7 +902,7 @@ class addons_for_PMS extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~~TEST ADD-ON UPDATE~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -928,7 +928,7 @@ class addons_for_PMS extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~~~~ Check Active/Inactive switcher ~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
 
@@ -963,7 +963,7 @@ class addons_for_PMS extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~ Check Add-on for booking page ~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->createReservation('now', '+2 days');
     }
 
@@ -971,7 +971,7 @@ class addons_for_PMS extends base_addons {
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo PHP_EOL. '~~~~~~~~~~~~~~TEST ADD-ONS FOR PACKAGES ~~~~~~~~~~~~~'.PHP_EOL;
-        $this->setupInfo('wwwdev9.ondeficar.com', 'selenium_PMS@cloudbeds.com', 'Cloudbed$', 3);
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
 
         $this->delAllProducts();
