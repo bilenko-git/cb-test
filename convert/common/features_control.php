@@ -58,8 +58,17 @@ trait FeaturesControl {
         throw new \Exception('Not Implemented yet');
     }
 
-    public function toggleFeature($account_id, $feature, $value) {
-        throw new \Exception('Not Implemented yet');
+    public function getFeatureInput($feature){
+        return $this->element($this->using('css selector')->value('.modal .row-fluid:not(.hide) .radio-switcher#'.$feature.' input'));
+    }
+
+    public function getFeatureIsVisible($feature) {
+        return $this->element($this->using('css selector')->value('.modal .row-fluid .radio-switcher#' . $feature))->displayed();
+    }
+
+    public function toggleFeature($feature, $value) {
+        $this->execJS('$(\'.modal:visible .radio-switcher#'.$feature.' button[value=\"'.$value.'\"]\').click();');
+        return $this->getFeatureInput($feature);
     }
 
     public function toggleFeatures($val = 0) {
@@ -70,6 +79,8 @@ trait FeaturesControl {
     public function openFeaturesTab($account_row){
         $editModal = false;
         if(($editModal = $this->editAccount($account_row))) {
+            if(getenv('SELENIUM_LOCAL') == 1)
+                sleep(2);
             if ($editModal instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
                 echo PHP_EOL . 'edit account modal found' . PHP_EOL;
 
@@ -94,6 +105,15 @@ trait FeaturesControl {
 
                 }
             }
+        }
+    }
+
+    public function saveAccount($editModal, $assert = false){
+        $editModal->byCssSelector('#mask-save-btn-tab1')->click();
+        if($assert) {
+            sleep(10);
+            $openedModals = $this->findModals(true);
+            $this->assertEquals(0, count($openedModals), 'Modal still opened, check save server error');
         }
     }
 }

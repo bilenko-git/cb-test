@@ -119,11 +119,7 @@ class features_control extends test_restrict
         if($account_id){
             $featuresChanged = $this->toggleFeatures($featureVal);//ON all features
 
-            $editModal->byCssSelector('#mask-save-btn-tab1')->click();
-            sleep(10);
-
-            $openedModals = $this->findModals(true);
-            $this->assertEquals(0, count($openedModals), 'Modal still opened, check save server error');
+            $this->saveAccount($editModal, true);
 
             $this->checkServerFeatures($account_id, $featuresChanged, $featureVal);
         } else {
