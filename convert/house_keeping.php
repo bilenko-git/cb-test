@@ -32,6 +32,20 @@ class house_keeping extends test_restrict {
             'Andre Sovgir'
         )
     );
+    protected $checkInspectionChange = array(
+        array(
+            'condition' => 'Dirty',
+            'assign_to' => 0,
+            'do_not_disturb' => 1,
+            'comment' => 'test comment'
+        ),
+        array(
+            'condition' => 'Clean',
+            'assign_to' => 1,
+            'do_not_disturb' => 0,
+            'comment' => 'test comment 2'
+        ),
+    );
     protected $isMiniBase = true;
 
     /*TESTS FUNCTIONS*/
@@ -74,8 +88,31 @@ class house_keeping extends test_restrict {
         //TODO: enabled this after OperationGoCommando in master
         //$this->HKFeatureToggle('OTA', 0);
     }
+    public function testAssignModalsConditionShow() {
+        //TODO: enable this after Hess in master
+    }
 
-    public function testChangeInspections(){}
+    public function testChangeInspections(){
+        $this->_prepare_house_keeping_test(true);
+        usleep(1000000);
+        $this->openHKTabs('house_keeping_inspections');
+        $rowIndex = 0;
+        $housekeepers = $this->getHouseKeepersList();
+
+        print_r($housekeepers);
+
+        foreach($this->checkInspectionChange as $change) {
+            $row = $this->findInspections($rowIndex);
+
+            foreach($change as $name => &$value) {
+                if($name == 'assign_to') $value = isset($housekeepers[$value]) ? $housekeepers[$value] : reset($housekeepers);
+                $this->inspectionChange($row, $name, $value);
+                sleep(1);
+            }
+
+            $this->assertInspection($rowIndex, $change);
+        }
+    }
     public function testChangeRoomsInfo(){}
 
     public function testCron(){}
@@ -92,6 +129,87 @@ class house_keeping extends test_restrict {
     }
 
     /* SYSTEM FUNCTIONS TO REALIZE TESTS */
+    protected function getHouseKeepersList(){
+        return $this->execute(array('script' => 'return _.map(BET.DB().select("house_keepers")[0], function(val, i){return val.name});', 'args' => array()));
+    }
+    protected function assertInspection($rowIndex, $expected) {
+        $this->element($this->using('css selector')->value('.hk_apply_filter'))->click();
+        sleep(3);
+        $row = $this->element($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr:nth-child('.($rowIndex+1).')'));
+        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $row_id = $row->attribute('data-id');
+            foreach ($expected as $name => $value) {
+                switch ($name) {
+                    case 'condition':
+                    case 'assign_to':
+                    case 'do_not_disturb':
+                        $input = $row->byCssSelector('[name="'.$name.'['.$row_id.']"]');
+
+                        $currentValue = false;
+                        if($name == 'assign_to'){
+                            $currentValue = $this->select($input)->selectedLabel();
+                        } else {
+                            $currentValue = $name == 'do_not_disturb' ? $input->selected() : $input->value();
+                        }
+
+                        $this->assertEquals($value, $currentValue);
+                        break;
+                    case 'comment':
+                        $this->assertEquals($value, trim($row->byCssSelector('.notes-truncate')->text()));
+                        break;
+                }
+            }
+        } else {
+            $this->fail('Failed to find inspection row: index = ' . $rowIndex);
+        }
+    }
+
+    protected function inspectionChange($row, $name, $value) {
+        echo PHP_EOL . "Inspection change: [$name : $value]" . PHP_EOL;
+        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $row_id = $row->attribute('data-id');
+
+            switch ($name) {
+                case 'condition':
+                    $input = $row->byCssSelector('select[name="'.$name.'['.$row_id.']"]');
+                    $input->value($value);
+                    break;
+                case 'assign_to':
+                    $input = $row->byCssSelector('select[name="'.$name.'['.$row_id.']"]');
+                    $input->value($value);
+                    break;
+                case 'do_not_disturb':
+                    $input = $row->byCssSelector('input[name="do_not_disturb['.$row_id.']"]');
+                    if((int)$input->selected() != $value) {
+                        $label = $row->byCssSelector('label[for="hk_do_not_disturb_'.$row_id.'"]');
+                        $label->click();
+                    }
+                    break;
+                case 'comment':
+                    $edit = $row->byCssSelector('.edit_notes');
+                    $edit->click();
+                    sleep(1);
+
+                    $modal = $this->waitForElement('#house_keeper_room_notes_modal');
+                    if($modal instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+                        $input = $modal->byCssSelector('#house_keeper_room_notes');
+                        $save = $modal->byCssSelector('.save_house_keeping_note');
+                        $input->clear();
+                        $input->value($value);
+                        $save->click();
+                    }
+                    break;
+            }
+        }
+    }
+
+    protected function findInspections($index = false){
+        $rows = $this->elements($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr'));
+        if($index === false) {
+            return $rows;
+        } else return isset($rows[$index]) ? $rows[$index] : false;
+    }
+
     protected function assertHouseKeeperExists($name, $expected) {
         echo PHP_EOL . 'Running HK Assertion' . PHP_EOL;
         //check house keepers exists/doesn't exists in all places
