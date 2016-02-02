@@ -159,11 +159,16 @@ class test_restrict extends WebDriverTestCase
         }
         
         if ($this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
-            $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
-            $this->waitUntilVisible($el, 30000);
+            $this->waitForBETLoaded();
         }
         
         return $loggedIn;
+    }
+
+    public function waitForBETLoaded(){
+        $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
+        $this->waitUntilVisible($el, 30000);
+        echo PHP_EOL . 'BET loaded' . PHP_EOL;
     }
 
     public function getJSObject($name = ''){
@@ -267,6 +272,11 @@ class test_restrict extends WebDriverTestCase
         ));
         $data = file_get_contents($preparedUrl, false, $context);
         return json_decode($data, $asArray);
+    }
+
+    public function confirm_delete_modal(){
+        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
+        $this->waitForElement('.btn_delete', 5000)->click();
     }
 }
 ?>

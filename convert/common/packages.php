@@ -163,8 +163,7 @@ trait Packages {
     }
 
     public function packages_confirm_delete_dialog() {
-        $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
-        $this->waitForElement('.btn_delete', 5000)->click();
+        $this->confirm_delete_modal();
     }
 
 }
