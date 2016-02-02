@@ -124,60 +124,31 @@ class calendar_balance_due extends test_restrict{
         
         $reservationId = $this->getAttribute($el, 'data-id');
         $el->click();
-        
-        //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
-        
-        try {
-            $el = $this->waitForElement('#layout #reservation-summary td.remaining_amount', 20000);
-        }
-        catch (\Exception $e)
-        {
-            $this->fail('Cannot get balance due');
-        }
-        
+
+        $this->betLoaderWaiting();
+
+        $this->waitForElement('#layout #reservation-summary #rs-totals-container .rs-show-res-totals', 20000, 'jQ')->click();
+        $el = $this->waitForElement('#layout #reservation-summary .rs-totals-table tr:last td:last', 20000, 'jQ');
+
         $balanceDue = preg_replace('/^([0-9.,]+).*$/', "$1", $el->text());
-        
-        $this->byJQ('#layout #reservation-summary .btn-add-payment')->click();
-        
-        try {
-            $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form select[name=\'payment_type\']', 20000);
-        }
-        catch (\Exception $e)
-        {
-            $this->fail('Cannot get serch element');
-        }
-        
-        $el->value('check');
-        
-        $this->byJQ('#layout #reservation-summary .booking-payments-add-form input[name=\'paid\']')->value($balanceDue);
-        
-        try {
-            $el = $this->waitForElement('#layout #reservation-summary .booking-payments-add-form .btn-save-payment', 20000);
-        }
-        catch (\Exception $e)
-        {
-            $this->fail('Cannot get search element');
-        }
-        
-        $el->click();
+
+        $this->waitForElement('[href=\'#rs-folio-tab\']', 5000, 'jQ', true)->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('.add-payment-btn', 5000, 'jQ', true)->click();
+
+        /*        $this->byJQ('#layout .payments_block:eq(0) .booking-payments-add-form tr .ch_input');*/
+
+        $element = $this->waitForElement("#add-new-payment-modal [name='payment_type'] option:last", 15000, 'jQ');
+        $element->selected();
+        $element->click();
         
         //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
+
+        $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->clear();
+        $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->value($balanceDue);
+        $this->waitForElement('#add-new-payment-modal .add-new-payment-usual', 15000, 'jQ')->click();
+
+        $this->betLoaderWaiting();
 
         //check calendar again
         $this->_checkCalendar(0, false);
@@ -207,27 +178,27 @@ class calendar_balance_due extends test_restrict{
         $reservationId = $this->getAttribute($el, 'data-id');
         $el->click();
         
-        //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
-        
+        $this->betLoaderWaiting();
+
         try {
-            $el = $this->waitForElement('#layout a.delete-button-reservation:visible:eq(0)', 20000, 'jQ');
+            $el = $this->waitForElement('#layout .delete-button-reservation', 20000, 'jQ');
         }
         catch (\Exception $e)
         {
             $this->fail('Cannot get serch element');
         }
-        
+
         $el->click();
-        $this->waitForElement('#confirm_delete', 15000, 'css', true);
-        $this->waitForElement('.btn_delete', 15000, 'css', true)->click();
+        $this->waitForElement('.btn_delete')->click();
+
+        //waiting for redirect to reservas page
+        try {
+            $el = $this->waitForElement('#layout input[name="find_reservations"]', 20000);
+        }
+        catch (\Exception $e)
+        {
+            $this->fail('Deleting so long...');
+        }
 
         $this->betLoaderWaiting();
 
