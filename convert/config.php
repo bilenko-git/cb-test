@@ -28,7 +28,7 @@ switch (getenv('SELENIUM_ENV')) {
         $config['PMS_super_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
             'login' => 'engineering@cloudbeds.com',
-            'password' => 'cl0udb3ds',
+            'password' => 'E$4QBY3m&e6e@t*6',
             'property_id' => '366',
             'property_reserva_code' => 'ZeRY9J',
             'browser_info' => '',
@@ -36,7 +36,7 @@ switch (getenv('SELENIUM_ENV')) {
         $config['OTA_super_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
             'login' => 'engineering@cloudbeds.com',
-            'password' => 'cl0udb3ds',
+            'password' => 'E$4QBY3m&e6e@t*6',
             'property_id' => '479',
             'browser_info' => '',
         );
@@ -59,14 +59,14 @@ switch (getenv('SELENIUM_ENV')) {
         $config['PMS_super_user'] = array(
             'server' => 'hotels.cloudbeds.com',
             'login' => 'engineering@cloudbeds.com',
-            'password' => 'cl0udb3ds',
+            'password' => 'E$4QBY3m&e6e@t*6',
             'property_id' => '',
             'browser_info' => '',
         );
         $config['OTA_super_user'] = array(
             'server' => 'hotels.cloudbeds.com',
             'login' => 'engineering@cloudbeds.com',
-            'password' => 'cl0udb3ds',
+            'password' => 'E$4QBY3m&e6e@t*6',
             'property_id' => '',
             'browser_info' => '',
         );
