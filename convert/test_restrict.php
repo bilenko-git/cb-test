@@ -278,5 +278,66 @@ class test_restrict extends WebDriverTestCase
         $this->waitForElement('#confirm_delete', 15000);//delete confirmation almost all over site we can you this method to confim deleting something
         $this->waitForElement('.btn_delete', 5000)->click();
     }
+
+    public function selectPickerValue($name, $val) {
+        $optional = '';
+        if(!is_null($val)) {
+            $optional = ', ["'.implode('","', $val).'"]';
+        }
+
+        $this->execute(array(
+            'script' => '$(\'[name="'.$name.'"]\').selectpicker("val"'.$optional.').trigger(\'change\');',
+            'args' => array()
+        ));
+    }
+
+    protected function getCurrentMonthYear($dt) {
+        if($dt instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $els = $dt->elements($this->using('css selector')->value('[data-year]'));
+            return array($els->attribute('data-year'), $els->attribute('data-month'));
+        }
+
+        return array(date('m'), date('Y'));
+    }
+
+    public function fillDate($name, $val) {
+        $el = $this->waitForElement('[name=\''.$name.'\']');
+        $el->click();
+        $dt = $this->byId('ui-datepicker-div');
+
+        $el->clear();
+        $el->value($val);
+        $dt->byCssSelector('.ui-state-active')->click();
+        /*
+        $prev = $dt->byCssSelector('.ui-datepicker-prev');
+        $next = $dt->byCssSelector('.ui-datepicker-next');
+
+        list($mon, $yr) = $this->getCurrentMonthYear($dt);
+        $nmon = date('m', $val);
+        $nyr = date('Y', $val);
+        $nday = date('d', $val);
+
+        $diffMon = $yr * 12 + $mon - $nyr * 12 - $nmon;
+        $chg_btn = $diffMon > 0 ? $prev : $next;
+        for($i = 0; $i < abs($diffMon); $i++) {
+            $chg_btn->click();
+            usleep(100000);// sleep 100ms
+        }
+
+        $a = $dt->byLinkText($nday);
+        $a->click();
+        */
+
+        /*if($el instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $el->click();
+            $el->clear();
+            $el->value($val);
+        }*/
+
+        /*$this->execute(array(
+            'script' => '$(\'[name="' . $name . '"]\').datepicker("setDate", new Date(\'' . $val . '\')).trigger(\'change\');',
+            'args' => array()
+        ));*/
+    }
 }
 ?>
