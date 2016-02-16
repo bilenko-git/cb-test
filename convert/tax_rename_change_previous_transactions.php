@@ -52,8 +52,8 @@ class tax_rename_change_previous_transactions extends test_restrict {
         $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
         $this->byJQ('#layout .tabs_payments a:first')->click();
         $this->waitForElement('#layout .add-new-fee', 15000, 'css')->click();
-        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->click();
-        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->value($this->fee['name']);
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name_en')->click();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name_en')->value($this->fee['name']);
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->click();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->clear();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->value($this->fee['amount']);
@@ -66,8 +66,8 @@ class tax_rename_change_previous_transactions extends test_restrict {
         $this->waitForLocation($this->_prepareUrl($this->fees_and_taxes_url));
         $this->byJQ('#layout .tabs_payments a:last')->click();
         $this->waitForElement('#layout .add-new-tax', 15000, 'css')->click();
-        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->click();
-        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->value($this->tax['name']);
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name_en')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name_en')->value($this->tax['name']);
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->click();
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->clear();
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->value($this->tax['amount']);
@@ -91,9 +91,9 @@ class tax_rename_change_previous_transactions extends test_restrict {
         $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
         $this->byJQ('#layout .tabs_payments a:first')->click();
         $this->waitForElement('#layout .edit-fee', 15000, 'css')->click();
-        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->click();
-        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->clear();
-        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name')->value($this->fee['name_changed']);
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name_en')->click();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name_en')->clear();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_name_en')->value($this->fee['name_changed']);
         $this->waitForElement('.submit-fee', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
         return false;
@@ -104,9 +104,9 @@ class tax_rename_change_previous_transactions extends test_restrict {
         $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
         $this->byJQ('#layout .tabs_payments a:last')->click();
         $this->waitForElement('#layout .edit-tax', 15000, 'css')->click();
-        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->click();
-        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->clear();
-        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name')->value($this->tax['name_changed']);
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name_en')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name_en')->clear();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_name_en')->value($this->tax['name_changed']);
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
         return false;
@@ -127,6 +127,7 @@ class tax_rename_change_previous_transactions extends test_restrict {
     }
 
     private function remove_tax() {
+        $this->waitForElement('#layout .tabs_payments a', 10000, 'css')->click();
         $this->byJQ('#layout .tabs_payments a:last')->click();
         $this->waitForElement('#layout .delete-tax', 15000, 'css')->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
