@@ -90,7 +90,7 @@ class availability_matrix extends test_restrict {
     );
 
     private $availabilityValuesIndex = 0;
-
+/*
     public function testOverBooking(){
         $this->availabilityValuesIndex = 0;
 
@@ -233,7 +233,7 @@ class availability_matrix extends test_restrict {
             $this->fail('Room types and packages doesn\'t exist on availability matrix');
         }
     }
-
+*/
     public function allowOverBooking($value = true){
         if($value) {
             $this->waitForElement('[for="allow_ovb_1"]')->click();
@@ -246,14 +246,44 @@ class availability_matrix extends test_restrict {
         $this->allowedOverBooking = $value;
     }
 
-    public function getRoomTypes(){
-        $rows = $this->elements($this->using('css selector')->value('.av_rooms .room_block'));
+    public function getRoomTypes($from_matrix = true) {
         $result = array();
-        foreach($rows as $row){
-            $result[] = array(
-                'room_type_id' => $row->attribute('data-room-type-id'),
-                'package_id' => $row->attribute('data-package-id')
-            );
+
+        if($from_matrix) {
+            $rows = $this->elements($this->using('css selector')->value('.av_rooms .room_block'));
+            foreach($rows as $row) {
+                $one = array(
+                    'room_type_id' => $row->attribute('data-room-type-id'),
+                    'package_id' => $row->attribute('data-package-id')
+                );
+
+                if(is_numeric($one['room_type_id']))
+                    $result[] = $one;
+            }
+        } else {
+            $exec = $this->execute(array(
+                'script' => 'return BET.roomTypes.items();',
+                'args' => array()
+            ));
+
+            foreach($exec as $one) {
+                $result[] = array(
+                    'room_type_id' => $one['room_type_id'],
+                    'package_id' => 0
+                );
+            }
+
+            $exec = $this->execute(array(
+                'script' => 'return BET.packages.room_types();',
+                'args' => array()
+            ));
+
+            foreach($exec as $one) {
+                $result[] = array(
+                    'room_type_id' => $one['room_type_id'],
+                    'package_id' => $one['package_id']
+                );
+            }
         }
 
         return $result;
@@ -385,7 +415,8 @@ class availability_matrix extends test_restrict {
 
         $crm_accounts = $this->_prepareUrl($this->availability_matrix_url);
         $this->url($crm_accounts);
-        $this->waitForLocation($crm_accounts);
+        //$this->waitForLocation($crm_accounts);
+        $this->waitForBETLoaded();
 
         $this->login = $site_login;
         $this->password = $site_pass;
