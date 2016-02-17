@@ -89,7 +89,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             )
         )
     );
-    private $split_intervals = array(
+    private $insert_intervals = array(
         'n1-1' => array(
             'intervals' => array(
                 array(
@@ -459,7 +459,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
     public function createRoomType(){
         $rmt = array(
             'name' => 'room type selenium 1',
-            'rooms' => 5,
+            'rooms' => 1,
             'room_type_descr_langs' => 'room types used for selenium testing availability and base rates'
         );
 
@@ -479,12 +479,24 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
 
         $rmt = $this->createRoomType();
 
-        foreach($this->split_intervals as $new_int) {
-            $this->setDefaultRates($rmt);//remove old rates - set 3 default rates for testing
-            $new_int['room_types'] = $rmt['room_type_id'] . ':0:1';
+        try {
 
-            $this->createInterval($new_int);
-            $this->checkIntervalBaseRates($new_int);
+            foreach($this->insert_intervals as $new_int) {
+                $this->setDefaultRates($rmt);//remove old rates - set 3 default rates for testing
+                $this->_go_availability_matrix();
+
+                $new_int['room_types'] = $rmt['room_type_id'] . ':0:1';
+                $new_int['room_type_id'] = $rmt['room_type_id'];
+
+                $this->createInterval($new_int);
+                $this->saveAvailability();
+
+                $this->checkIntervalCache($rmt, date('Y-m-d', strtotime($new_int['start_date'])), date('Y-m-d', strtotime($new_int['end_date'])));
+                $this->checkIntervalBaseRates($new_int);
+            }
+        } catch(Exception $e) {
+            $this->roomtype_delRoomType($rmt);//remove test data on error
+            throw $e;
         }
 
         $this->roomtype_delRoomType($rmt);//finish remove test data
@@ -495,9 +507,14 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         $rate = $this->getRate($rates, $apply['room_type_id']);
         if(!$rate) $this->fail('rate not found');
 
+        print_r($rate);
+
         foreach($rate['intervals'] as $int) {
             $found = false;
             foreach($apply['expected']['intervals'] as $int2) {
+                $int2['start_date'] = date('Y-m-d', strtotime($int2['start_date']));
+                $int2['end_date'] = date('Y-m-d', strtotime($int2['end_date']));
+
                 if($int['start_date'] == $int2['start_date'] && $int['end_date'] == $int2['end_date']) {
                     $found = true;
                 }

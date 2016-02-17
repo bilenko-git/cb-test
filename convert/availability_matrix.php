@@ -414,13 +414,17 @@ class availability_matrix extends test_restrict {
 
         $this->loginToSite();
 
-        $crm_accounts = $this->_prepareUrl($this->availability_matrix_url);
-        $this->url($crm_accounts);
-        //$this->waitForLocation($crm_accounts);
+        $this->_go_availability_matrix();
         $this->waitForBETLoaded();
 
         $this->login = $site_login;
         $this->password = $site_pass;
         $this->server_url = $site_server_url;
+    }
+
+    public function _go_availability_matrix() {
+        $url = $this->_prepareUrl($this->availability_matrix_url);
+        $this->url($url);
+        $this->waitForLocation($url);
     }
 }

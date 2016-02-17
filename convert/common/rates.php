@@ -55,9 +55,14 @@ trait Rates {
     }
 
     public function rate_addRate($interval, $type = false){
-        $this->url($this->_prepareUrl($this->roomRate_url));
-        $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        $this->refresh();
+        $url = $this->_prepareUrl($this->roomRate_url);
+        echo 'U: ' . $this->url() . PHP_EOL;
+        if($this->url() != $url) {
+            $this->url($url);
+            $this->waitForLocation($url);
+            $this->refresh();
+        }
+
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
         }
@@ -140,7 +145,7 @@ trait Rates {
 
         $cnt = $this->execute(array('script' => 'return $(\'#layout .intervals-table:visible tr.r_rate .interval_delete\').length;', 'args' => array()));
         for($i = 0; $i < $cnt; $i++) {
-            $this->waitForElement('#layout .intervals-table tr.r_rate:eq(' . $i . ') .interval_delete', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table:visible tr.r_rate:eq(0) .interval_delete', 15000, 'jQ')->click();
             $this->waitForElement('#confirm_delete', 50000, 'css');
             $this->byCssSelector('#confirm_delete .btn_delete')->click();
         }
