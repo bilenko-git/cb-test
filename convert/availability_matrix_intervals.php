@@ -101,6 +101,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             'set_parameters' => array(
                 'rate' => 2
             ),
+            'need_save' => false,
             'expected' => array(
                 'intervals' => array(
                     array(
@@ -466,6 +467,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         $room_type_id = $this->roomtype_addRoomType($rmt);
         return array_merge($rmt, array('room_type_id' => $room_type_id));
     }
+
     public function setDefaultRates($rmt) {
         $this->rate_delAllRates($rmt);
 
@@ -489,7 +491,8 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                 $new_int['room_type_id'] = $rmt['room_type_id'];
 
                 $this->createInterval($new_int);
-                $this->saveAvailability();
+                if(!empty($new_int['need_save']))
+                    $this->saveAvailability();
 
                 $this->checkIntervalCache($rmt, date('Y-m-d', strtotime($new_int['start_date'])), date('Y-m-d', strtotime($new_int['end_date'])));
                 $this->checkIntervalBaseRates($new_int);
