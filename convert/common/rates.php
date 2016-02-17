@@ -65,7 +65,8 @@ trait Rates {
         $add_new_rate_plan = $this->waitForElement('#layout .add_interval', 15000, 'jQ');
 
         $add_new_rate_plan->click();
-        $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
+        if(isset($interval['name']))
+            $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
         $this->waitForElement('[name=start_date]', 15000, 'jQ')->click();
         $this->waitForElement('.new_interval_form', 15000, 'jQ')->click();
         $value = $this->convertDateToSiteFormat($interval['start']);
@@ -137,14 +138,15 @@ trait Rates {
 
         $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
 
-        $cnt = $this->execute(array('script' => 'return $(\'#layout .intervals-table tr.r_rate:last .interval_delete\').length', 'args' => array()));
+        $cnt = $this->execute(array('script' => 'return $(\'#layout .intervals-table:visible tr.r_rate .interval_delete\').length;', 'args' => array()));
         for($i = 0; $i < $cnt; $i++) {
             $this->waitForElement('#layout .intervals-table tr.r_rate:eq(' . $i . ') .interval_delete', 15000, 'jQ')->click();
+            $this->waitForElement('#confirm_delete', 50000, 'css');
+            $this->byCssSelector('#confirm_delete .btn_delete')->click();
         }
 
-        $this->waitForElement('#confirm_delete', 50000, 'css');
-        $this->byCssSelector('#confirm_delete .btn_delete')->click();
-        $this->save();
+        if($cnt)
+            $this->save();
     }
 
     public function roomtype_delRoomType($type){
@@ -174,7 +176,7 @@ trait Rates {
         $this->save();
 
         return $this->execute(array(
-            'script' => "return $('#layout .roomtype_tabs .tab-pane.active [name=room_type_id]');",
+            'script' => "return $('#layout .roomtype_tabs .tab-pane.active [name=room_type_id]').val();",
             'args' => array()
         ));
     }

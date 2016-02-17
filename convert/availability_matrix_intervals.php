@@ -470,7 +470,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         $this->rate_delAllRates($rmt);
 
         foreach($this->std_intervals as $std_int) {
-            $this->rate_addRate($std_int, $rmt['name']);
+            $this->rate_addRate($std_int, $rmt);
         }
     }
 
