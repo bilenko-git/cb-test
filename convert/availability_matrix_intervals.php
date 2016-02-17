@@ -120,7 +120,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                 'name' => 'n1-1'
             )
         ),
-        /*
         'n1-2' => array(
             'intervals' => array(
                 array(
@@ -131,6 +130,32 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 3
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+1 day'
+                    ),
+                    array(
+                        'start_date' => '+2 day',
+                        'end_date' => '+4 day'
+                    ),
+                    array(
+                        'start_date' => '+5 day',
+                        'end_date' => '+7 day'
+                    ),
+                    array(
+                        'start_date' => '+10 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n1-2'
             )
         ),
         'n1-3' => array(
@@ -144,6 +169,28 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             'set_parameters' => array(
                 'rate' => 2,
                 'min_los' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+4 day'
+                    ),
+                    array(
+                        'start_date' => '+5 day',
+                        'end_date' => '+7 day'
+                    ),
+                    array(
+                        'start_date' => '+10 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n1-3'
             )
         ),
         'n2-1' => array(
@@ -156,31 +203,63 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+7 day'
+                    ),
+                    array(
+                        'start_date' => '+9 day',
+                        'end_date' => '+11 day'
+                    ),
+                    array(
+                        'start_date' => '+12 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n2-1'
             )
         ),
         'n2-2' => array(
             'intervals' => array(
                 array(
-                    'start_date' => '+9 days',
-                    'end_date' => '+11 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 4
-            )
-        ),
-        'n2-3' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+1 days',
-                    'end_date' => '+4 days',
+                    'start_date' => '+2 days',
+                    'end_date' => '+8 days',
                     'days_of_week' => array()
                 )
             ),
             'set_parameters' => array(
                 'rate' => 4,
                 'min_los' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+1 day'
+                    ),
+                    array(
+                        'start_date' => '+2 day',
+                        'end_date' => '+8 day'
+                    ),
+                    array(
+                        'start_date' => '+10 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n2-2'
             )
         ),
         'n4-1' => array(
@@ -193,6 +272,28 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 4
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+4 day'
+                    ),
+                    array(
+                        'start_date' => '+5 day',
+                        'end_date' => '+12 day'
+                    ),
+                    array(
+                        'start_date' => '+13 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n4-1'
             )
         ),
         'n5-1' => array(
@@ -205,6 +306,24 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+8 day'
+                    ),
+                    array(
+                        'start_date' => '+10 day',
+                        'end_date' => '+14 day'
+                    ),
+                    array(
+                        'start_date' => '+18 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n5-1'
             )
         ),
         'n6-1' => array(
@@ -217,6 +336,20 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+6 day'
+                    ),
+                    array(
+                        'start_date' => '+7 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n6-1'
             )
         ),
         'n7-1' => array(
@@ -229,9 +362,27 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             ),
             'set_parameters' => array(
                 'rate' => 2
+            ),
+            'need_save' => true,
+            'expected' => array(
+                'intervals' => array(
+                    array(
+                        'start_date' => '+1 day',
+                        'end_date' => '+4 day'
+                    ),
+                    array(
+                        'start_date' => '+5 day',
+                        'end_date' => '+20 day'
+                    ),
+                    array(
+                        'start_date' => '+21 day',
+                        'end_date' => '+22 day'
+                    )
+                ),
+                'name' => 'n7-1'
             )
         )
-        */
+
     );
     private $std_intervals = array(
         'i1' => array(
@@ -493,6 +644,13 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                 $this->createInterval($new_int);
                 if(!empty($new_int['need_save']))
                     $this->saveAvailability();
+                else {
+                    sleep(5);
+                    $save_btn = $this->waitForElement('.btn-save', 15000, 'jQ', false);
+                    if($save_btn instanceof \PHPUnit_Extensions_Selenium2TestCase_Element)
+                        if($save_btn->displayed())
+                            $this->fail('Save panel should not be displayed.');
+                }
 
                 $this->checkIntervalCache($rmt, date('Y-m-d', strtotime($new_int['start_date'])), date('Y-m-d', strtotime($new_int['end_date'])));
                 $this->checkIntervalBaseRates($new_int);
