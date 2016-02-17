@@ -1,8 +1,10 @@
 <?php
 require_once('availability_matrix.php');
-require_once('base_rates.php');
+require_once('common/rates.php');
 
 class availability_matrix_intervals_editor extends \MyProject\Tests\availability_matrix {
+    use \Rates;
+
     private $intervals = array(
         'one_date_range' => array(
             'room_types' => '*:0:1',
@@ -252,13 +254,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             'value_today' => 6
         )
     );
-    private $base_rates = null;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->base_rates = new \MyProject\Tests\base_rates();
-    }
 
     /**
      * @param $expr *[1] - room type_id, *[2] - package_id, *[3] - count of room types/packages
@@ -468,18 +463,20 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             'room_type_descr_langs' => 'room types used for selenium testing availability and base rates'
         );
 
-        $room_type_id = $this->base_rates->addRoomType($rmt);
+        $room_type_id = $this->roomtype_addRoomType($rmt);
         return array_merge($rmt, array('room_type_id' => $room_type_id));
     }
     public function setDefaultRates($rmt) {
-        $this->base_rates->delAllRates($rmt);
+        $this->rate_delAllRates($rmt);
 
         foreach($this->std_intervals as $std_int) {
-            $this->base_rates->addRate($std_int, $rmt['name']);
+            $this->rate_addRate($std_int, $rmt['name']);
         }
     }
 
-    /*public function test_availability_to_rates() {
+    public function test_availability_to_rates() {
+        $this->prepareTest();
+
         $rmt = $this->createRoomType();
 
         foreach($this->split_intervals as $new_int) {
@@ -490,8 +487,8 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             $this->checkIntervalBaseRates($new_int);
         }
 
-        $this->base_rates->delRoomType($rmt);//finish remove test data
-    }*/
+        $this->roomtype_delRoomType($rmt);//finish remove test data
+    }
 
     public function checkIntervalBaseRates($apply) {
         $rates = $this->getBaseRates();
