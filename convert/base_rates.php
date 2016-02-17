@@ -83,7 +83,22 @@ class base_rates extends test_restrict{
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
         $this->save();
+    }
 
+    public function delAllRates($type) {
+        $this->url($this->_prepareUrl($this->roomRate_url));
+        $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
+
+        $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
+
+        $cnt = $this->execute(array('script' => 'return $(\'#layout .intervals-table tr.r_rate:last .interval_delete\').length', 'args' => array()));
+        for($i = 0; $i < $cnt; $i++) {
+            $this->waitForElement('#layout .intervals-table tr.r_rate:eq(' . $i . ') .interval_delete', 15000, 'jQ')->click();
+        }
+
+        $this->waitForElement('#confirm_delete', 50000, 'css');
+        $this->byCssSelector('#confirm_delete .btn_delete')->click();
+        $this->save();
     }
 
     public function delRoomType($type){
@@ -117,6 +132,11 @@ class base_rates extends test_restrict{
         $el->clear();
         $el->value($roomtype['room_type_descr_langs']);
         $this->save();
+
+        return $this->execute(array(
+            'script' => "return $('#layout .roomtype_tabs .tab-pane.active [name=room_type_id]');",
+            'args' => array()
+        ));
     }
 
 

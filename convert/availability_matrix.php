@@ -3,12 +3,12 @@ namespace MyProject\Tests;
 require_once 'test_restrict.php';
 
 class availability_matrix extends test_restrict {
-    private $availability_matrix_url = 'http://{server}/connect/{property_id}/#/availability';
+    protected $availability_matrix_url = 'http://{server}/connect/{property_id}/#/availability';
     protected $server_url = 'hotel.acessa.loc';
     protected $property_id = 1;
-    private $apiGetAvailability = 'http://{server}/api/tests/getAvailability';
-    private $apiGetCache = 'http://{server}/api/tests/getInventoryCache';
-    private $allowedOverBooking = false;
+    protected $apiGetAvailability = 'http://{server}/api/tests/getAvailability';
+    protected $apiGetCache = 'http://{server}/api/tests/getInventoryCache';
+    protected $allowedOverBooking = false;
 
     private $availaility_fields_map = array(
         'saleable' => 'sell',
@@ -20,8 +20,9 @@ class availability_matrix extends test_restrict {
         'ClosedDeparture' => 'closed_to_departure'
     );
 
-    private $cache_fields_map = array(
+    protected $cache_fields_map = array(
         'saleable' => 'avail',
+        'available' => 'avail',
         'closed' => 'closed',
         'rate' => 'rate',
         'MinLOS' => 'min_los',
