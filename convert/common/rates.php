@@ -157,12 +157,19 @@ trait Rates {
     public function roomtype_delRoomType($type){
         $this->url($this->_prepareUrl($this->roomType_url));
         $this->waitForLocation($this->_prepareUrl($this->roomType_url));
-        if ($type) {
-            $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
-            $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
-        }
-        $this->save();
 
+        if ($type) {
+            $cnt = $this->execute(array(
+                'script' => 'return $(\'.nav-tabs a:contains(' . $type['name'] . ')\').length;',
+                'args' => array()
+            ));
+            for($i = 0; $i < $cnt; $i++) {
+                $this->waitForElement('.nav-tabs a:contains(' . $type['name'] . ')', 15000, 'jQ')->click();
+                $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+            }
+        }
+
+        $this->save();
     }
 
     public function roomtype_addRoomType($roomtype){

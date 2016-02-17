@@ -89,301 +89,339 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             )
         )
     );
-    private $insert_intervals = array(
-        'n1-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+2 days',
-                    'end_date' => '+4 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 2
-            ),
-            'need_save' => false,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+7 day'
+    private $insert_intervals =
+        array(
+            'n1' => array(
+                'n1-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+2 days',
+                            'end_date' => '+4 days',
+                            'days_of_week' => array()
+                        )
                     ),
-                    array(
-                        'start_date' => '+10 day',
-                        'end_date' => '+14 day'
+                    'set_parameters' => array(
+                        'rate' => 2
                     ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
+                    'need_save' => false,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n1-1'
                     )
                 ),
-                'name' => 'n1-1'
-            )
-        ),
-        'n1-2' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+2 days',
-                    'end_date' => '+4 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 3
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+1 day'
+                'n1-2' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+2 days',
+                            'end_date' => '+4 days',
+                            'days_of_week' => array()
+                        )
                     ),
-                    array(
-                        'start_date' => '+2 day',
-                        'end_date' => '+4 day'
+                    'set_parameters' => array(
+                        'rate' => 3
                     ),
-                    array(
-                        'start_date' => '+5 day',
-                        'end_date' => '+7 day'
-                    ),
-                    array(
-                        'start_date' => '+10 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+1 day'
+                            ),
+                            array(
+                                'start_date' => '+2 day',
+                                'end_date' => '+4 day'
+                            ),
+                            array(
+                                'start_date' => '+5 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n1-2'
                     )
                 ),
-                'name' => 'n1-2'
-            )
-        ),
-        'n1-3' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+1 days',
-                    'end_date' => '+4 days',
-                    'days_of_week' => array()
+                'n1-3' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+1 days',
+                            'end_date' => '+4 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 2,
+                        'MinLOS' => 2
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+4 day'
+                            ),
+                            array(
+                                'start_date' => '+5 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n1-3'
+                    )
                 )
             ),
-            'set_parameters' => array(
-                'rate' => 2,
-                'min_los' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+4 day'
+            'n2' => array(
+                'n2-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+9 days',
+                            'end_date' => '+11 days',
+                            'days_of_week' => array()
+                        )
                     ),
-                    array(
-                        'start_date' => '+5 day',
-                        'end_date' => '+7 day'
+                    'set_parameters' => array(
+                        'rate' => 2
                     ),
-                    array(
-                        'start_date' => '+10 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+9 day',
+                                'end_date' => '+11 day'
+                            ),
+                            array(
+                                'start_date' => '+12 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n2-1'
                     )
                 ),
-                'name' => 'n1-3'
-            )
-        ),
-        'n2-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+9 days',
-                    'end_date' => '+11 days',
-                    'days_of_week' => array()
+                'n2-2' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+2 days',
+                            'end_date' => '+8 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 4,
+                        'MinLOS' => 2
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+1 day'
+                            ),
+                            array(
+                                'start_date' => '+2 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+8 day',
+                                'end_date' => '+8 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n2-2'
+                    )
                 )
             ),
-            'set_parameters' => array(
-                'rate' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+7 day'
-                    ),
-                    array(
-                        'start_date' => '+9 day',
-                        'end_date' => '+11 day'
-                    ),
-                    array(
-                        'start_date' => '+12 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n2-1'
-            )
-        ),
-        'n2-2' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+2 days',
-                    'end_date' => '+8 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 4,
-                'min_los' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+1 day'
-                    ),
-                    array(
-                        'start_date' => '+2 day',
-                        'end_date' => '+8 day'
-                    ),
-                    array(
-                        'start_date' => '+10 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n2-2'
-            )
-        ),
-        'n4-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+5 days',
-                    'end_date' => '+12 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 4
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+4 day'
-                    ),
-                    array(
-                        'start_date' => '+5 day',
-                        'end_date' => '+12 day'
-                    ),
-                    array(
-                        'start_date' => '+13 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n4-1'
-            )
-        ),
-        'n5-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+1 days',
-                    'end_date' => '+8 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+8 day'
-                    ),
-                    array(
-                        'start_date' => '+10 day',
-                        'end_date' => '+14 day'
-                    ),
-                    array(
-                        'start_date' => '+18 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n5-1'
-            )
-        ),
-        'n6-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+7 days',
-                    'end_date' => '+22 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+6 day'
-                    ),
-                    array(
-                        'start_date' => '+7 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n6-1'
-            )
-        ),
-        'n7-1' => array(
-            'intervals' => array(
-                array(
-                    'start_date' => '+5 days',
-                    'end_date' => '+20 days',
-                    'days_of_week' => array()
-                )
-            ),
-            'set_parameters' => array(
-                'rate' => 2
-            ),
-            'need_save' => true,
-            'expected' => array(
-                'intervals' => array(
-                    array(
-                        'start_date' => '+1 day',
-                        'end_date' => '+4 day'
-                    ),
-                    array(
-                        'start_date' => '+5 day',
-                        'end_date' => '+20 day'
-                    ),
-                    array(
-                        'start_date' => '+21 day',
-                        'end_date' => '+22 day'
-                    )
-                ),
-                'name' => 'n7-1'
-            )
-        )
+            'n4' => array(
 
-    );
+                'n4-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+5 days',
+                            'end_date' => '+12 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 4
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+4 day'
+                            ),
+                            array(
+                                'start_date' => '+5 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+8 day',
+                                'end_date' => '+9 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+12 day'
+                            ),
+                            array(
+                                'start_date' => '+13 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n4-1'
+                    )
+                )
+            ),
+            'n5' => array(
+                'n5-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+1 days',
+                            'end_date' => '+8 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 2
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+8 day',
+                                'end_date' => '+8 day'
+                            ),
+                            array(
+                                'start_date' => '+10 day',
+                                'end_date' => '+14 day'
+                            ),
+                            array(
+                                'start_date' => '+18 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n5-1'
+                    )
+                )
+            ),
+            'n6' => array(
+                'n6-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+7 days',
+                            'end_date' => '+22 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 2
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+6 day'
+                            ),
+                            array(
+                                'start_date' => '+7 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+8 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n6-1'
+                    )
+                )
+            ),
+            'n7' => array(
+                'n7-1' => array(
+                    'intervals' => array(
+                        array(
+                            'start_date' => '+5 days',
+                            'end_date' => '+20 days',
+                            'days_of_week' => array()
+                        )
+                    ),
+                    'set_parameters' => array(
+                        'rate' => 2
+                    ),
+                    'need_save' => true,
+                    'expected' => array(
+                        'intervals' => array(
+                            array(
+                                'start_date' => '+1 day',
+                                'end_date' => '+4 day'
+                            ),
+                            array(
+                                'start_date' => '+5 day',
+                                'end_date' => '+7 day'
+                            ),
+                            array(
+                                'start_date' => '+8 day',
+                                'end_date' => '+20 day'
+                            ),
+                            array(
+                                'start_date' => '+21 day',
+                                'end_date' => '+22 day'
+                            )
+                        ),
+                        'name' => 'n7-1'
+                    )
+                )
+            )
+        );
+
     private $std_intervals = array(
         'i1' => array(
             'name' => 'rate 1',
@@ -533,13 +571,13 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             $this->saveAvailability();
             foreach($result['room_types'] as $rmt) {
                 foreach($this->intervals[$name]['intervals'] as $interval) {
-                    $this->checkIntervalCache($rmt, date('Y-m-d', strtotime($interval['start_date'])), date('Y-m-d', strtotime($interval['end_date'])));
+                    $this->checkIntervalCache($rmt, $this->intervals[$name], date('Y-m-d', strtotime($interval['start_date'])), date('Y-m-d', strtotime($interval['end_date'])));
                 }
             }
         }
     }
 
-    public function checkIntervalCache($rm_type, $startDate, $endDate)
+    public function checkIntervalCache($rm_type, $range, $startDate, $endDate)
     {
         $cache = $this->apiCall($this->apiGetCache, array(
             'property_id' => $this->property_id,
@@ -548,7 +586,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
             'group_by' => 'room_date'
         ));
 
-        $expectedAvailability = $this->getExpectedValues($this->intervals['one_date_range']);
+        $expectedAvailability = $this->getExpectedValues($range);
         $currentAvailability = $cache[$rm_type['room_type_id'] . '-' . $rm_type['package_id']];
 
         foreach($expectedAvailability as $date => $cell) {
@@ -593,27 +631,14 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         return $result;
     }
 
-/*   TODO: uncomment this
-    public function test_one_interval() {
-        $this->_simple_interval_test('one_date_range');
-    }
-
-    public function test_two_intervals_ni() {
-        $this->_simple_interval_test('two_date_range_not_intersect');
-    }
-
-    public function test_two_intervals_i() {
-        $this->_simple_interval_test('two_date_range_intersect', function(){
-            $this->waitForElement('#error_modal', 20000, 'jQ', true);
-        });
-    }
-*/
     public function createRoomType(){
         $rmt = array(
             'name' => 'room type selenium 1',
             'rooms' => 1,
             'room_type_descr_langs' => 'room types used for selenium testing availability and base rates'
         );
+
+        $this->roomtype_delRoomType($rmt);
 
         $room_type_id = $this->roomtype_addRoomType($rmt);
         return array_merge($rmt, array('room_type_id' => $room_type_id));
@@ -627,48 +652,10 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         }
     }
 
-    public function test_availability_to_rates() {
-        $this->prepareTest();
-
-        $rmt = $this->createRoomType();
-
-        try {
-
-            foreach($this->insert_intervals as $new_int) {
-                $this->setDefaultRates($rmt);//remove old rates - set 3 default rates for testing
-                $this->_go_availability_matrix();
-
-                $new_int['room_types'] = $rmt['room_type_id'] . ':0:1';
-                $new_int['room_type_id'] = $rmt['room_type_id'];
-
-                $this->createInterval($new_int);
-                if(!empty($new_int['need_save']))
-                    $this->saveAvailability();
-                else {
-                    sleep(5);
-                    $save_btn = $this->waitForElement('.btn-save', 15000, 'jQ', false);
-                    if($save_btn instanceof \PHPUnit_Extensions_Selenium2TestCase_Element)
-                        if($save_btn->displayed())
-                            $this->fail('Save panel should not be displayed.');
-                }
-
-                $this->checkIntervalCache($rmt, date('Y-m-d', strtotime($new_int['start_date'])), date('Y-m-d', strtotime($new_int['end_date'])));
-                $this->checkIntervalBaseRates($new_int);
-            }
-        } catch(Exception $e) {
-            $this->roomtype_delRoomType($rmt);//remove test data on error
-            throw $e;
-        }
-
-        $this->roomtype_delRoomType($rmt);//finish remove test data
-    }
-
     public function checkIntervalBaseRates($apply) {
         $rates = $this->getBaseRates();
         $rate = $this->getRate($rates, $apply['room_type_id']);
         if(!$rate) $this->fail('rate not found');
-
-        print_r($rate);
 
         foreach($rate['intervals'] as $int) {
             $found = false;
@@ -695,6 +682,74 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         }
 
         return $rate;
+    }
+
+    public function _base_rates_test($name) {
+        $this->prepareTest();
+
+        $rmt = $this->createRoomType();
+
+        foreach($this->insert_intervals[$name] as $new_int) {
+            $this->setDefaultRates($rmt);//remove old rates - set 3 default rates for testing
+            $this->_go_availability_matrix();
+
+            $new_int['room_types'] = $rmt['room_type_id'] . ':0:1';
+            $new_int['room_type_id'] = $rmt['room_type_id'];
+
+            $this->createInterval($new_int);
+            if(!empty($new_int['need_save']))
+                $this->saveAvailability();
+            else {
+                sleep(5);
+                $save_btn = $this->waitForElement('.btn-save', 15000, 'jQ', false);
+                if($save_btn instanceof \PHPUnit_Extensions_Selenium2TestCase_Element)
+                    if($save_btn->displayed())
+                        $this->fail('Save panel should not be displayed.');
+            }
+
+            $this->checkIntervalCache(array_merge($rmt, array('package_id' => 0)), $new_int, date('Y-m-d', strtotime($new_int['intervals'][0]['start_date'])), date('Y-m-d', strtotime($new_int['intervals'][0]['end_date'])));
+            $this->checkIntervalBaseRates($new_int);
+        }
+
+        $this->roomtype_delRoomType($rmt);//finish remove test data
+    }
+
+    public function test_one_interval() {
+        $this->_simple_interval_test('one_date_range');
+    }
+
+    public function test_two_intervals_ni() {
+        $this->_simple_interval_test('two_date_range_not_intersect');
+    }
+
+    public function test_two_intervals_i() {
+        $this->_simple_interval_test('two_date_range_intersect', function() {
+            $this->waitForElement('#error_modal', 20000, 'jQ', true);
+        });
+    }
+
+    public function test_availability_to_rates_n1() {
+        $this->_base_rates_test('n1');
+    }
+
+    public function test_availability_to_rates_n2() {
+        $this->_base_rates_test('n2');
+    }
+
+    public function test_availability_to_rates_n4() {
+        $this->_base_rates_test('n4');
+    }
+
+    public function test_availability_to_rates_n5() {
+        $this->_base_rates_test('n5');
+    }
+
+    public function test_availability_to_rates_n6() {
+        $this->_base_rates_test('n6');
+    }
+
+    public function test_availability_to_rates_n7() {
+        $this->_base_rates_test('n7');
     }
 
     /*
