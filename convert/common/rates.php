@@ -169,7 +169,8 @@ trait Rates {
             }
         }
 
-        $this->save();
+        if(!$type || $cnt > 0)
+            $this->save();
     }
 
     public function roomtype_addRoomType($roomtype){

@@ -272,7 +272,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                 )
             ),
             'n4' => array(
-
                 'n4-1' => array(
                     'intervals' => array(
                         array(
@@ -301,10 +300,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                             ),
                             array(
                                 'start_date' => '+10 day',
-                                'end_date' => '+12 day'
-                            ),
-                            array(
-                                'start_date' => '+13 day',
                                 'end_date' => '+14 day'
                             ),
                             array(
@@ -369,10 +364,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                         'intervals' => array(
                             array(
                                 'start_date' => '+1 day',
-                                'end_date' => '+6 day'
-                            ),
-                            array(
-                                'start_date' => '+7 day',
                                 'end_date' => '+7 day'
                             ),
                             array(
@@ -401,10 +392,6 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                         'intervals' => array(
                             array(
                                 'start_date' => '+1 day',
-                                'end_date' => '+4 day'
-                            ),
-                            array(
-                                'start_date' => '+5 day',
                                 'end_date' => '+7 day'
                             ),
                             array(
@@ -713,15 +700,15 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         $this->roomtype_delRoomType($rmt);//finish remove test data
     }
 
-    /*public function test_one_interval() {
+    public function test_one_interval() {
         $this->_simple_interval_test('one_date_range');
     }
-*/
+
     public function test_two_intervals_ni() {
         $this->_simple_interval_test('two_date_range_not_intersect');
     }
 
-  /*  public function test_two_intervals_i() {
+    public function test_two_intervals_i() {
         $this->_simple_interval_test('two_date_range_intersect', function() {
             $this->waitForElement('#error_modal', 20000, 'jQ', true);
         });
@@ -750,7 +737,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
     public function test_availability_to_rates_n7() {
         $this->_base_rates_test('n7');
     }
-*/
+
     /*
         public function test_add_interval_with_calendar_custom_price(){}
     */
