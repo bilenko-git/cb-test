@@ -514,13 +514,12 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
                     $this->fillDate($k, $v);
                     $form->click();//to lose focus from datepickers
                 } else {
-                    $this->execute(array(
-                        'script' => '$(arguments[0]).prop("checked", arguments[1]);',
-                        'args' => array(
-                            $rmt_input->toWebDriverObject(),
-                            $v ? 1 : 0
-                        )
-                    ));
+                    $is_checked = $this->execute(array('script' => 'return $(\'input[name="'.$k.'"]\').is(\':checked\');', 'args' => array()));
+                    $label_for_checkbox = $this->byCssSelector('label[data-for="'.$k.'"]');
+
+                    if($is_checked != (bool)$v) {
+                        $label_for_checkbox->click();
+                    }
                 }
             }
 
@@ -714,15 +713,15 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
         $this->roomtype_delRoomType($rmt);//finish remove test data
     }
 
-    public function test_one_interval() {
+    /*public function test_one_interval() {
         $this->_simple_interval_test('one_date_range');
     }
-
+*/
     public function test_two_intervals_ni() {
         $this->_simple_interval_test('two_date_range_not_intersect');
     }
 
-    public function test_two_intervals_i() {
+  /*  public function test_two_intervals_i() {
         $this->_simple_interval_test('two_date_range_intersect', function() {
             $this->waitForElement('#error_modal', 20000, 'jQ', true);
         });
@@ -751,7 +750,7 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
     public function test_availability_to_rates_n7() {
         $this->_base_rates_test('n7');
     }
-
+*/
     /*
         public function test_add_interval_with_calendar_custom_price(){}
     */
