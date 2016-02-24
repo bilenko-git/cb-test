@@ -22,6 +22,7 @@ class invoice extends test_restrict{
         $el->clear();
         $el->value("Innnnnnnvoice");
         $this->save();
+
        // $this->waitForElement('#layout_container>.loading:not(.hide)', 15000, 'jQ');
 
     }
