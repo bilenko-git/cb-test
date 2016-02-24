@@ -134,10 +134,10 @@ class base_rates extends test_restrict{
         $el->value($roomtype['room_type_descr_langs']);
         $this->save();
 
-        return $this->execute(array(
+      /*  return $this->execute(array(
             'script' => "return $('#layout .roomtype_tabs .tab-pane.active [name=room_type_id]');",
             'args' => array()
-        ));
+        ));*/
     }
 
 
