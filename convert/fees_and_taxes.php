@@ -17,20 +17,6 @@ class fees_and_taxes extends test_restrict {
         'amount' => '10'
     );
 
-    public function test_rename_and_change_transactions_descriptions() {
-        //$this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
-        $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->prepare_data();
-        $this->change_fee_name($this->fee);
-        $this->check_transactions();
-        $this->change_tax_name($this->tax);
-        $this->check_transactions();
-        $this->add_adjustments();
-        $this->check_transactions();
-        $this->clear_data();
-    }
-
     private function prepare_data() {
         $this->add_fee($this->fee);
         $this->add_tax($this->tax);
@@ -40,7 +26,6 @@ class fees_and_taxes extends test_restrict {
 
     private function clear_data() {
         $this->remove_fee();
-        $this->waitForElement('#layout .tabs_payments a', 10000, 'css')->click();
         $this->remove_tax();
         $this->remove_reservation();
         $this->remove_transactions();
@@ -71,6 +56,35 @@ class fees_and_taxes extends test_restrict {
 
     private function remove_transactions() {
         return false;
+    }
+
+    /* SECTION OF TESTS */
+
+    public function test_rename_and_change_transactions_descriptions() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->prepare_data();
+        $this->change_fee_name($this->fee);
+        $this->check_transactions();
+        $this->change_tax_name($this->tax);
+        $this->check_transactions();
+        $this->add_adjustments();
+        $this->check_transactions();
+        $this->clear_data();
+    }
+
+    public function test_fee_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->add_fee($this->fee);
+        $this->remove_fee();
+    }
+
+    public function test_tax_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->add_tax($this->tax);
+        $this->remove_tax();
     }
 
 }
