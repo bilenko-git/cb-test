@@ -3,7 +3,7 @@ namespace MyProject\Tests;
 require_once 'test_restrict.php';
 require_once 'common/taxes.php';
 
-class tax_rename_change_previous_transactions extends test_restrict {
+class fees_and_taxes extends test_restrict {
     use \Taxes;
 
     private $fee = array(
@@ -17,7 +17,7 @@ class tax_rename_change_previous_transactions extends test_restrict {
         'amount' => '10'
     );
 
-    public function testSteps() {
+    public function test_rename_and_change_transactions_descriptions() {
         //$this->setupInfo('wwwdev3.ondeficar.com', '', '', 366);
         $this->setupInfo('PMS_user');
         $this->loginToSite();
