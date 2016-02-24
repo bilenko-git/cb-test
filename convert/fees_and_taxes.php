@@ -1,16 +1,18 @@
 <?php
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
+require_once 'common/fees.php';
 require_once 'common/taxes.php';
 
 class fees_and_taxes extends test_restrict {
-    use \Taxes;
+    use \Fees, \Taxes;
 
     private $fee = array(
         'name' => 'Fee Transactions #1',
         'name_changed' => 'Fee Transactions #1 changed',
         'amount' => '10'
     );
+
     private $tax = array(
         'name' => 'Tax Transactions #1',
         'name_changed' => 'Tax Transactions #1 changed',
@@ -18,15 +20,15 @@ class fees_and_taxes extends test_restrict {
     );
 
     private function prepare_data() {
-        $this->add_fee($this->fee);
-        $this->add_tax($this->tax);
+        $this->fees_add_fee($this->fee);
+        $this->taxes_add_tax($this->tax);
         $this->add_reservation();
         $this->add_transactions();
     }
 
     private function clear_data() {
-        $this->remove_fee();
-        $this->remove_tax();
+        $this->fees_remove_fee();
+        $this->taxes_remove_tax();
         $this->remove_reservation();
         $this->remove_transactions();
     }
@@ -64,28 +66,28 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->prepare_data();
-        $this->change_fee_name($this->fee);
+        $this->fees_change_fee_name($this->fee);
         $this->check_transactions();
-        $this->change_tax_name($this->tax);
+        $this->taxes_change_tax_name($this->tax);
         $this->check_transactions();
         $this->add_adjustments();
         $this->check_transactions();
         $this->clear_data();
     }
 
-    public function test_fee_percentage_per_night() {
-        $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->add_fee($this->fee);
-        $this->remove_fee();
-    }
-
-    public function test_tax_percentage_per_night() {
-        $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->add_tax($this->tax);
-        $this->remove_tax();
-    }
+    // public function test_fee_percentage_per_night() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->fees_add_fee($this->fee);
+    //     $this->fees_remove_fee();
+    // }
+    //
+    // public function test_tax_percentage_per_night() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->taxes_add_tax($this->tax);
+    //     $this->taxes_remove_tax();
+    // }
 
 }
 ?>
