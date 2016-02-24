@@ -126,8 +126,9 @@ class base_rates extends test_restrict{
         $el->clear();
         $el->value($roomtype['rooms']);
         $el = $this->waitForElement('[name=\'room_type_bookable_limit\']', 15000, 'jQ');
-        $el->clear();*/
+        $el->clear();
         $el->value($roomtype['rooms']);
+      */
         $el = $this->waitForElement('[name^=\'room_type_descr_langs\']', 15000, 'jQ');
         $el->clear();
         $el->value($roomtype['room_type_descr_langs']);
