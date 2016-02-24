@@ -7,21 +7,63 @@ require_once 'common/taxes.php';
 class fees_and_taxes extends test_restrict {
     use \Fees, \Taxes;
 
-    private $fee = array(
-        'name' => 'Fee Transactions #1',
-        'name_changed' => 'Fee Transactions #1 changed',
-        'amount' => '10'
+    private $fees = array(
+        'percentage' => array(
+            'name' => 'Fee Transactions #1',
+            'name_changed' => 'Fee Transactions #1 changed',
+            'amount_type' => 'percentage',
+            'amount' => '10'
+        ),
+        'fixed' => array(
+            'name' => 'Fee Transactions #1',
+            'name_changed' => 'Fee Transactions #1 changed',
+            'amount_type' => 'fixed',
+            'amount' => '10'
+        ),
+        'fixed_per_accomodation' => array(
+            'name' => 'Fee Transactions #1',
+            'name_changed' => 'Fee Transactions #1 changed',
+            'amount_type' => 'fixed_per_accomodation',
+            'amount' => '10'
+        ),
+        'fixed_per_reservation' => array(
+            'name' => 'Fee Transactions #1',
+            'name_changed' => 'Fee Transactions #1 changed',
+            'amount_type' => 'fixed_per_reservation',
+            'amount' => '10'
+        )
     );
 
-    private $tax = array(
-        'name' => 'Tax Transactions #1',
-        'name_changed' => 'Tax Transactions #1 changed',
-        'amount' => '10'
+    private $taxes = array(
+        'percentage' => array(
+            'name' => 'Tax Transactions #1',
+            'name_changed' => 'Tax Transactions #1 changed',
+            'amount_type' => 'percentage',
+            'amount' => '10'
+        ),
+        'fixed' => array(
+            'name' => 'Tax Transactions #1',
+            'name_changed' => 'Tax Transactions #1 changed',
+            'amount_type' => 'fixed',
+            'amount' => '10'
+        ),
+        'fixed_per_accomodation' => array(
+            'name' => 'Tax Transactions #1',
+            'name_changed' => 'Tax Transactions #1 changed',
+            'amount_type' => 'fixed_per_accomodation',
+            'amount' => '10'
+        ),
+        'fixed_per_reservation' => array(
+            'name' => 'Tax Transactions #1',
+            'name_changed' => 'Tax Transactions #1 changed',
+            'amount_type' => 'fixed_per_reservation',
+            'amount' => '10'
+        )
     );
 
     private function prepare_data() {
-        $this->fees_add_fee($this->fee);
-        $this->taxes_add_tax($this->tax);
+        $this->fees_add_fee($this->fees['percentage']);
+        $this->taxes_add_tax($this->taxes['percentage']);
         $this->add_reservation();
         $this->add_transactions();
     }
@@ -34,9 +76,6 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function add_reservation() {
-        // $index = $this->execute(array('script' => "return BET.newreservations.newReservation(false)", 'args' => array()));
-        // $this->waitForLocation($this->_prepareUrl($this->$reservation_url));
-        // $this->waitForElement('.submit-tax', 15000, 'css')->click();
         return false;
     }
 
@@ -62,32 +101,32 @@ class fees_and_taxes extends test_restrict {
 
     /* SECTION OF TESTS */
 
-    public function test_rename_and_change_transactions_descriptions() {
+    // public function test_rename_and_change_transactions_descriptions() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->prepare_data();
+    //     $this->fees_change_fee_name($this->fees['percentage']);
+    //     $this->check_transactions();
+    //     $this->taxes_change_tax_name($this->taxes['percentage']);
+    //     $this->check_transactions();
+    //     $this->add_adjustments();
+    //     $this->check_transactions();
+    //     $this->clear_data();
+    // }
+
+    public function test_fee_percentage_per_night() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-        $this->prepare_data();
-        $this->fees_change_fee_name($this->fee);
-        $this->check_transactions();
-        $this->taxes_change_tax_name($this->tax);
-        $this->check_transactions();
-        $this->add_adjustments();
-        $this->check_transactions();
-        $this->clear_data();
+        $this->fees_add_fee($this->fees['percentage']);
+        $this->fees_remove_fee();
     }
 
-    // public function test_fee_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->fees_add_fee($this->fee);
-    //     $this->fees_remove_fee();
-    // }
-    //
-    // public function test_tax_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->taxes_add_tax($this->tax);
-    //     $this->taxes_remove_tax();
-    // }
+    public function test_tax_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->taxes_add_tax($this->taxes['percentage']);
+        $this->taxes_remove_tax();
+    }
 
 }
 ?>

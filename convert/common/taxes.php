@@ -31,7 +31,7 @@ trait Taxes {
     }
 
     private function taxes_remove_tax() {
-        $this->waitForElement('#layout .tabs_payments a', 10000, 'css');
+        $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
         $this->byJQ('#layout .tabs_payments a:last')->click();
         $this->waitForElement('#layout .delete-tax', 15000, 'css')->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();

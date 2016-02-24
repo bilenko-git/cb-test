@@ -14,6 +14,8 @@ trait Fees {
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->click();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->clear();
         $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #fee_amount')->value($fee['amount']);
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #amount_type')->click();
+        $this->byJQ('#layout .add-fee-portlet-box:not(.clonable) #amount_type')->value($fee['amount_type']);
         $this->waitForElement('.submit-fee', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
