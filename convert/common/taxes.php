@@ -12,6 +12,8 @@ trait Taxes {
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->click();
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->clear();
         $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #tax_amount')->value($tax['amount']);
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #amount_type')->click();
+        $this->byJQ('#layout .add-tax-portlet-box:not(.clonable) #amount_type')->value($tax['amount_type']);
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
