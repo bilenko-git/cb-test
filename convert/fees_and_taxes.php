@@ -3,9 +3,11 @@ namespace MyProject\Tests;
 require_once 'test_restrict.php';
 require_once 'common/fees.php';
 require_once 'common/taxes.php';
+require_once 'common/rates.php';
+require_once 'common/inventory.php';
 
 class fees_and_taxes extends test_restrict {
-    use \Fees, \Taxes;
+    use \Fees, \Taxes, \Rates, \Inventory;
 
     private $fees = array(
         'percentage' => array(
@@ -59,6 +61,12 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed_per_reservation',
             'amount' => '10'
         )
+    );
+
+    private $room_type = array(
+        'name' => 'Room Type Fees And Taxes Check',
+        'rooms' => 10,
+        'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description'
     );
 
     private function prepare_data() {
@@ -117,15 +125,19 @@ class fees_and_taxes extends test_restrict {
     public function test_fee_percentage_per_night() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
+        $this->inventory_create_room_type($this->room_type, true);
         $this->fees_add_fee($this->fees['percentage']);
         $this->fees_remove_fee($this->fees['percentage']['name']);
+        $this->inventory_delete_room_type($this->room_type);
     }
 
     public function test_tax_percentage_per_night() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
+        $this->inventory_create_room_type($this->room_type, true);
         $this->taxes_add_tax($this->taxes['percentage']);
         $this->taxes_remove_tax($this->taxes['percentage']['name']);
+        $this->inventory_delete_room_type($this->room_type);
     }
 
 }
