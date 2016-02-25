@@ -69,6 +69,17 @@ class fees_and_taxes extends test_restrict {
         'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description'
     );
 
+    private $std_intervals = array(
+        'i1' => array(
+            'name' => 'rate 1',
+            'start' => '+1 day',
+            'end' => '+7 day',
+            'min' => 1,
+            'max' => 5,
+            'value_today' => 2
+        )
+    );
+
     private function prepare_data() {
         $this->fees_add_fee($this->fees['percentage']);
         $this->taxes_add_tax($this->taxes['percentage']);
@@ -107,6 +118,14 @@ class fees_and_taxes extends test_restrict {
         return false;
     }
 
+    private function set_default_rates($room_type) {
+        $this->rate_delAllRates($room_type);
+
+        foreach($this->std_intervals as $std_int) {
+            $this->rate_addRate($std_int, $room_type);
+        }
+    }
+
     /* SECTION OF TESTS */
 
     public function test_rename_and_change_transactions_descriptions() {
@@ -126,6 +145,7 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->inventory_create_room_type($this->room_type, true);
+        $this->set_default_rates($this->room_type);
         $this->fees_add_fee($this->fees['percentage']);
         $this->fees_remove_fee($this->fees['percentage']['name']);
         $this->inventory_delete_room_type($this->room_type);
@@ -135,6 +155,7 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->inventory_create_room_type($this->room_type, true);
+        $this->set_default_rates($this->room_type);
         $this->taxes_add_tax($this->taxes['percentage']);
         $this->taxes_remove_tax($this->taxes['percentage']['name']);
         $this->inventory_delete_room_type($this->room_type);
