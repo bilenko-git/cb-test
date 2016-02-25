@@ -101,18 +101,18 @@ class fees_and_taxes extends test_restrict {
 
     /* SECTION OF TESTS */
 
-    // public function test_rename_and_change_transactions_descriptions() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->prepare_data();
-    //     $this->fees_change_fee_name($this->fees['percentage']);
-    //     $this->check_transactions();
-    //     $this->taxes_change_tax_name($this->taxes['percentage']);
-    //     $this->check_transactions();
-    //     $this->add_adjustments();
-    //     $this->check_transactions();
-    //     $this->clear_data();
-    // }
+    public function test_rename_and_change_transactions_descriptions() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->prepare_data();
+        $this->fees_change_fee_name($this->fees['percentage']);
+        $this->check_transactions();
+        $this->taxes_change_tax_name($this->taxes['percentage']);
+        $this->check_transactions();
+        $this->add_adjustments();
+        $this->check_transactions();
+        $this->clear_data();
+    }
 
     public function test_fee_percentage_per_night() {
         $this->setupInfo('PMS_user');
