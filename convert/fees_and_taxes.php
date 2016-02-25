@@ -114,19 +114,19 @@ class fees_and_taxes extends test_restrict {
         $this->clear_data();
     }
 
-    // public function test_fee_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->fees_add_fee($this->fees['percentage']);
-    //     $this->fees_remove_fee($this->fees['percentage']['name']);
-    // }
-    //
-    // public function test_tax_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->taxes_add_tax($this->taxes['percentage']);
-    //     $this->taxes_remove_tax($this->taxes['percentage']['name']);
-    // }
+    public function test_fee_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->fees_add_fee($this->fees['percentage']);
+        $this->fees_remove_fee($this->fees['percentage']['name']);
+    }
+
+    public function test_tax_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->taxes_add_tax($this->taxes['percentage']);
+        $this->taxes_remove_tax($this->taxes['percentage']['name']);
+    }
 
 }
 ?>
