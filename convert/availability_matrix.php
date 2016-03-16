@@ -4,7 +4,7 @@ require_once 'test_restrict.php';
 
 class availability_matrix extends test_restrict {
     protected $availability_matrix_url = 'http://{server}/connect/{property_id}#/availability';
-    protected $server_url = 'hotel.acessa.loc';
+    //protected $server_url = 'hotel.acessa.loc';
     protected $property_id = 1;
     protected $apiGetAvailability = 'http://{server}/api/tests/getAvailability';
     protected $apiGetCache = 'http://{server}/api/tests/getInventoryCache';
