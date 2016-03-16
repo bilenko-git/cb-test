@@ -91,7 +91,7 @@ class availability_matrix extends test_restrict {
     );
 
     private $availabilityValuesIndex = 0;
-/*
+
     public function testOverBooking(){
         $this->availabilityValuesIndex = 0;
 
@@ -234,7 +234,7 @@ class availability_matrix extends test_restrict {
             $this->fail('Room types and packages doesn\'t exist on availability matrix');
         }
     }
-*/
+
     public function allowOverBooking($value = true){
         if($value) {
             $this->waitForElement('[for="allow_ovb_1"]')->click();
@@ -405,21 +405,21 @@ class availability_matrix extends test_restrict {
     }
 
     public function go_to_availability_page(){
-        $site_login = $this->login;
+        /*$site_login = $this->login;
         $site_pass = $this->password;
         $site_server_url = $this->server_url;
 
         $this->login = 'admin@test.test';
-        $this->password = '123qwe';
+        $this->password = '123qwe';*/
 
         $this->loginToSite();
 
         $this->_go_availability_matrix();
         $this->waitForBETLoaded();
 
-        $this->login = $site_login;
+        /*$this->login = $site_login;
         $this->password = $site_pass;
-        $this->server_url = $site_server_url;
+        $this->server_url = $site_server_url;*/
     }
 
     public function _go_availability_matrix() {

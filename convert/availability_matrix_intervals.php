@@ -737,8 +737,4 @@ class availability_matrix_intervals_editor extends \MyProject\Tests\availability
     public function test_availability_to_rates_n7() {
         $this->_base_rates_test('n7');
     }
-
-    /*
-        public function test_add_interval_with_calendar_custom_price(){}
-    */
 }
