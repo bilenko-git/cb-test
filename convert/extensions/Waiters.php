@@ -67,7 +67,7 @@
             return $element;
         }
         
-        public function waitForLocation($url, $timeout = 5000){
+        public function waitForLocation($url, $timeout = 50000){
             if (getenv('SELENIUM_LOCAL')) {
                 //It seems the click event handler is not assigned yet in some cases, so we need the delay.
                 sleep(1);
