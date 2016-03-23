@@ -12,7 +12,9 @@ class test_restrict extends WebDriverTestCase
     use \Waiters, \Manipulations;
 
     protected $login_url = 'http://{server}/auth/login';
+    protected $login_url_ma = 'https://{server_ma}/en/login';
     protected $logout_url = 'http://{server}/auth/logout';
+    protected $logout_url_ma = 'http://{server_ma}/en/loggedOut';
     protected $cache_url = 'http://{server}/api/tests/getCache';
     protected $server_url = 'wwwdev.ondeficar.com';
     protected $login = 'selenium@cloudbeds.com'; // selenium@cloudbeds.com for OTA
@@ -100,6 +102,12 @@ class test_restrict extends WebDriverTestCase
             $this->property_reserva_code = $this->config[$setup]['property_reserva_code'];
         if($this->config[$setup]['browser_info'])
             $this->browsers = $this->config[$setup]['browser_info'];
+        if($this->config[$setup]['server_ma'])
+            $this->server_url_ma = $this->config[$setup]['server_ma'];
+        if($this->config[$setup]['login_ma'])
+            $this->login_ma = $this->config[$setup]['login_ma'];
+        if($this->config[$setup]['password_ma'])
+            $this->password_ma = $this->config[$setup]['password_ma'];
     }
 
 
@@ -163,6 +171,30 @@ class test_restrict extends WebDriverTestCase
         }
         
         return $loggedIn;
+    }
+
+
+    public function loginToMA(callable $success = null, callable $fail = null)
+    {
+        $this->currentWindow()->maximize();
+        $this->url($this->_prepareUrl($this->login_url_ma));//load url
+
+        /*login to site*/
+        $this->waitForLocation($this->_prepareUrl($this->login_url_ma));
+
+        if (($emailField = $this->waitForElement('#Username'))) {
+            $emailField->value($this->login_ma);
+        }
+
+        if (($passField = $this->waitForElement('#Password'))) {
+            $passField->value($this->password_ma);
+        }
+
+        $this->waitForElement(".login_btn")->click();
+
+        $this->waitForElement(".username");
+
+       // return $loggedIn;
     }
 
     public function waitForBETLoaded(){
@@ -245,14 +277,16 @@ class test_restrict extends WebDriverTestCase
     function _prepareUrl($url){
         $url = str_replace(
                 array(
-                        '{server}', 
-                        '{property_id}',
-                        '{property_reserva_code}'
+                    '{server}',
+                    '{server_ma}',
+                    '{property_id}',
+                    '{property_reserva_code}'
                      ),
                 array(
-                        $this->server_url, 
-                        $this->property_id,
-                        $this->property_reserva_code
+                    $this->server_url,
+                    $this->server_url_ma,
+                    $this->property_id,
+                    $this->property_reserva_code
                 ),
                 $url);
         

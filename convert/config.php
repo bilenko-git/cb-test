@@ -16,6 +16,9 @@ switch (getenv('SELENIUM_ENV')) {
             'property_id' => '366',
             'property_reserva_code' => 'ZeRY9J',
             'browser_info' => '',
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => 'ofc_server_dev_366',
+            'password_ma' => 'zKNVwxsLcnY5'
         );
         $config['OTA_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
@@ -24,6 +27,9 @@ switch (getenv('SELENIUM_ENV')) {
             'property_id' => '479',
             'property_reserva_code' => 'cUf8la',
             'browser_info' => '',
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => 'ofc_server_dev_366',
+            'password_ma' => 'zKNVwxsLcnY5'
         );
         $config['PMS_super_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
@@ -32,6 +38,9 @@ switch (getenv('SELENIUM_ENV')) {
             'property_id' => '366',
             'property_reserva_code' => 'ZeRY9J',
             'browser_info' => '',
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => 'ofc_server_dev_366',
+            'password_ma' => 'zKNVwxsLcnY5'
         );
         $config['OTA_super_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
@@ -39,6 +48,9 @@ switch (getenv('SELENIUM_ENV')) {
             'password' => 'E$4QBY3m&e6e@t*6',
             'property_id' => '479',
             'browser_info' => '',
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => 'ofc_server_dev_366',
+            'password_ma' => 'zKNVwxsLcnY5'
         );
         break;
     case 'LIVE':
