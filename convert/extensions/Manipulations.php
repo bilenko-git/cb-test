@@ -74,6 +74,13 @@
             ));
         }
 
+        public function isChecked($element){
+            return $this->execute(array(
+                'script' => 'return arguments[0].checked',
+                'args' => array($element->toWebDriverObject())
+            ));
+        }
+
         public function goToLocation($location){
             $path = $this->getLocationPath($location);
 

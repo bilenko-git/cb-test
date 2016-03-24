@@ -42,6 +42,13 @@ class base_rates extends test_restrict{
             $this->waitForElement('[name=max_los]', 15000, 'jQ')->value($interval['max']);
         }
 
+        if (isset($interval['arrival'])){
+            $this->waitForElement('.new_interval_form .md-radio-inline:visible:eq(0) label:'.($interval['arrival'] ? 'first':'last'), 1500, 'jQ')->click();
+        }
+        if (isset($interval['departure'])){
+            $this->waitForElement('.new_interval_form .md-radio-inline:visible:eq(1) label:'.($interval['departure'] ? 'first':'last'), 1500, 'jQ')->click();
+        }
+
         $l = $this->execute(array('script' => "return window.$('.define_week_days td:not(._hide) input:visible').length", 'args' => array()));
         for($i=0;$i<$l;$i++){
             $el = $this->byJQ(".define_week_days td:not(._hide) input:visible:eq(".$i.")");
@@ -230,7 +237,7 @@ class base_rates extends test_restrict{
         $days = intval((strtotime($this->convertDateToSiteFormat($interval['end'],'Y-m-d')) - strtotime($this->convertDateToSiteFormat($interval['start'],'Y-m-d'))) / 86400);
         echo 'start='.$this->convertDateToSiteFormat($interval['start'],'Y-m-d');
         echo 'start='.$this->convertDateToSiteFormat($interval['end'],'Y-m-d');
-       echo "day=".$days;
+        echo "day=".$days;
         if (((isset($interval['min']) && $days < $interval['min']) || (isset($interval['max']) && $days > $interval['max']))){
             $bool = true;
             echo "+++++++++day=".$days;

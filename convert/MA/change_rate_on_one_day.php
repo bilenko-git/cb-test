@@ -14,17 +14,12 @@ class change_rate_on_one_day extends base_rates{
         'min' => '2',
         'edit_end_day' => '+12 days'
     );
-
     private $price = 778;
+
     public function testSteps(){
         $test = $this;
-
-
-        //$this->setupInfo('', '', '', 366);
         $this->setupInfo('PMS_user');
-
         $this->loginToSite();
-
         $url = $this->_prepareUrl($this->calendar_url);
         $this->url($url);
         $this->waitForLocation($url);
@@ -37,19 +32,14 @@ class change_rate_on_one_day extends base_rates{
             }
             return true;
         },50000);
-
-
         $el = $this->waitForElement('.room_type.selected td.today .day_price a', 15000, 'jQ');
         $el->click();
         $input = $this->waitForElement('.room_type.selected td.today .day_price .change-price-input', 15000, 'jQ');
         $input->clear();
         $input->value($this->price);
         $popover = $this->getAttribute($input, 'aria-describedby');
-        print_r($popover);
-
         $click_price = $this->waitForElement('#'.$popover.' .confirm-change-price', 15000, 'jQ');
         $click_price->click();
-
         /*     $this->addRate($this->interval);
 
              $room_type_id = $this->execute(array('script' => "return window.$('#tab_0 [name=room_type_id]').val()", 'args' => array()));
@@ -68,7 +58,7 @@ class change_rate_on_one_day extends base_rates{
         $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
         $el->click();
         $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
 
         $test->assertEquals($rate->value(), $this->price);
         $this->delRate();
@@ -76,7 +66,7 @@ class change_rate_on_one_day extends base_rates{
         $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
         $el->click();
         $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
         $test->assertEquals($rate->value(), '0');
     }
 
