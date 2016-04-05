@@ -3,13 +3,14 @@ namespace MyProject\Tests;
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 require_once 'test_restrict.php';
 require_once 'common/rates.php';
+require_once 'base_rates.php';
 
 /**
  * Test restrictions:
  * - Should be at minimum 1 available room
  *
  */
-class booking_availability extends test_restrict{
+class booking_availability extends base_rates{
     use \Rates;
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $bookingSettings = 'http://{server}/connect/{property_id}#/bookingSettings';
@@ -33,11 +34,16 @@ class booking_availability extends test_restrict{
 
         $this->loginToSite();
 
+        $this->addRate($this->interval);
+
       //  $interval_id = $this->rates_add_rate($this->interval);
 
 
-        $this->startDate = date('Y-m-d', strtotime('+20'));
+        $this->startDate = date('Y-m-d', strtotime('+10 days'));
         $this->endDate = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
+
+        print_r($this->startDate);
+        print_r($this->endDate);
 
         $url = $this->_prepareUrl($this->bookingUrl).'#checkin='.$this->startDate.'&checkout='.$this->endDate;
         $this->url($url);
@@ -56,12 +62,13 @@ class booking_availability extends test_restrict{
 
         $id = $this->execute(array('script' => "return window.$('.room_types div:first').data('room_type_id');", 'args' => array()));
 
-/*        print_r("-------------".$count);
-
-        print_r('---------------'.$id);*/
-
+       print_r("-------------".$count);
+        print_r('---------------'.$id);
         $this->url($this->_prepareUrl($this->bookingSettings));
         $this->waitForLocation($this->_prepareUrl($this->bookingSettings));
+
+        $this->waitForElement('#layout [name=booking_max_quantity]', 20000, 'jQ');
+        $this->waitForElement('[name=booking_max_quantity]', 20000, 'css');
 
         $this->execute(array('script' => "window.$('#layout [name=booking_max_quantity]').click(); return false", 'args' => array()));
 
@@ -95,6 +102,7 @@ class booking_availability extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->bookingSettings));
 
         $this->waitForElement('#layout [name=booking_max_quantity]', 20000, 'jQ');
+        $this->waitForElement('[name=booking_max_quantity]', 20000, 'css');
 
         $this->execute(array('script' => "window.$('#layout [name=booking_max_quantity]').click(); return false", 'args' => array()));
 
@@ -110,5 +118,7 @@ class booking_availability extends test_restrict{
 
 
       //  $this->rates_remove_rate();
+        $this->delRate();
+
     }
 }
