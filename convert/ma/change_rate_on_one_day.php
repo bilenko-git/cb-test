@@ -1,6 +1,6 @@
 <?php
 namespace MyProject\Tests;
-require_once 'base_rates.php';
+require_once  'base_rates.php';
 
 class change_rate_on_one_day extends base_rates{
     private $roomRate_url = 'http://{server}/connect/{property_id}#/roomRates';
