@@ -244,7 +244,14 @@ class base_rates extends test_restrict{
         }
         //////////////////////////////////////
 
+         if(!$this->execute(array('script' => "return BET.DB().select('booking_quantity_to_sell')[0] - 0", 'args' => array()))){
+             $room_type['room_type_max_rooms'] = $room_type['room_type_capacity'];
+        }
+
         $booking_room_real = $room_type['room_type_max_rooms']  - ($room_type['room_type_capacity'] - $availability);
+       /* print_r('--------------------------------');
+        print_r($this->execute(array('script' => "return BET.DB().select('booking_quantity_to_sell')[0]", 'args' => array())));
+        print_r('--------------------');*/
 
         $this->url($this->_prepareUrl($this->reservas_url));
         $this->waitForLocation($this->_prepareUrl($this->reservas_url));

@@ -29,5 +29,8 @@ class import_bulk_reservation extends test_restrict{
         $el->click();
         $length = $this->execute(array('script' => "return window.$('.bulk-import-table table tr').length", 'args' => array()));
         $this->assertEquals($length, 0);
+        $el = $this->waitForElement('.add-reserva-btn', 15000, 'css');
+        $el->click();
+        $this->waitForElement('.bulk-import-table table tr', 15000, 'css');
     }
 }

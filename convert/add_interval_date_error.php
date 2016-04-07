@@ -6,11 +6,7 @@ class add_interval_date_error extends test_restrict{
         private $roomrate_url = 'http://{server}/connect/{property_id}#/roomRates';
 
     public function testSteps(){
-        $br =  array(
-            'browserName' => 'chrome',
-            'desiredCapabilities' => array(
-                'platform' => 'Windows 8.1',
-            ));
+        $this->setupInfo('PMS_user');
         //$this->setupInfo('', '', '', 366, $br);
         $this->loginToSite();
         // waitForEval
