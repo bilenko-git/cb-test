@@ -13,8 +13,8 @@ class house_keeping extends test_restrict {
     protected $property_id = 2;
     protected $account_filter = array(
         '#status' => '',
-        '#hotelName' => 'Test Hotel 2');
-
+        '#hotelName' => 'Test Hotel 2'
+    );
 
     protected $house_keeping_crm_js_name = 'account-house-keeping-enabled';
     protected $room_names_crm_js_name = 'account-room-names-enabled';
