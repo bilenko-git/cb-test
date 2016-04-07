@@ -48,6 +48,7 @@ class house_keeping extends test_restrict {
     );
     protected $isMiniBase = true;
 
+
     /*TESTS FUNCTIONS*/
     public function testAddHouseKeeper() {
         $this->_prepare_house_keeping_test(true);
