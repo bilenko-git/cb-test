@@ -15,6 +15,7 @@ class house_keeping extends test_restrict {
         '#status' => '',
         '#hotelName' => 'Test Hotel 2'
     );
+
     protected $house_keeping_crm_js_name = 'account-house-keeping-enabled';
     protected $room_names_crm_js_name = 'account-room-names-enabled';
     protected $house_keepers = array(
