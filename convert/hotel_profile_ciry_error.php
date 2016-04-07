@@ -8,19 +8,13 @@ class add_interval_date_error extends test_restrict
 
     public function testSteps()
     {
-        $br = array(
-            'browserName' => 'chrome',
-            'desiredCapabilities' => array(
-                'platform' => 'Windows 8.1',
-            ));
-        //$this->setupInfo('', '', '', 366, $br);
         $this->setupInfo('PMS_user');
         $this->loginToSite();
 
         $this->url($this->_prepareUrl($this->hotel_profile_url));
         $this->waitForLocation($this->_prepareUrl($this->hotel_profile_url));
         // clickElement
-        $this->waitForElement("#layout a[data-tutorial='propertyProfile']", 15000, 'jQ')->click();
+        $this->waitForElement("#layout #hotel_name", 15000, 'jQ')->click();
         // clickElement
         // setElementText
         $element = $this->byId("hotel_name");
