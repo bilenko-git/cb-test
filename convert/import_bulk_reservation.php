@@ -32,5 +32,39 @@ class import_bulk_reservation extends test_restrict{
         $el = $this->waitForElement('.add-reserva-btn', 15000, 'css');
         $el->click();
         $this->waitForElement('.bulk-import-table table tr', 15000, 'css');
+
+        $el = $this->waitForElement('[name^=first_name_]', 15000, 'css');
+        $el->value('test');
+        $el = $this->waitForElement('[name^=last_name_]', 15000, 'css');
+        $el->value('name');
+        $el = $this->waitForElement('[name^=email_]', 15000, 'css');
+        $el->value('test@gmail.com');
+        $el = $this->waitForElement('[name^=checkin_date_]', 15000, 'css');
+        $el->value($this->startDate);
+        $el = $this->waitForElement('[name^=checkout_date_]', 15000, 'css');
+        $el->value($this->endDate);
+        $el = $this->waitForElement('[name^=room_rate_]', 15000, 'css');
+        $el->clear();
+        $el->value('10');
+        $element = $this->waitForElement("[name^=room-type_] option:eq(1)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+        $element = $this->waitForElement("[name^=adults_] option:eq(1)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+        $element = $this->waitForElement("[name^=children_] option:eq(1)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+        $element = $this->waitForElement("[name^=source_] option:eq(3)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+        $element = $this->waitForElement("[name^=status_] option:eq(3)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+        $element = $this->waitForElement("[name^=country_] option:eq(3)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+
+        $this->save();
     }
 }
