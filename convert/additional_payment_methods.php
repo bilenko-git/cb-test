@@ -63,6 +63,9 @@ class additional_payment_methods extends test_restrict
         $element->click();
         $record = $element->text();
 
+        $element = $this->waitForElement("#add-new-payment-modal select.payment_inputs.payment_base option:eq(0)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
         $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->clear();
         $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->value(11);
         $this->waitForElement('#add-new-payment-modal .add-new-payment-usual', 15000, 'jQ')->click();
@@ -92,10 +95,11 @@ class additional_payment_methods extends test_restrict
         $paid->clear();
         $paid->value('14');
 
-        $this->waitForElement('#layout .save_ha_payment:eq(0)', 15000, 'jQ')->click();
+        $this->execute(array('script' => 'window.$("#ha_payment_box .save_ha_payment").click(); return false;', 'args' => array()));
         $this->betLoaderWaiting();
         $this->refresh();
-        $this->waitForElement('#layout #back-to-house-accounts', 15000, 'jQ')->click();
+        $this->url($this->_prepareUrl($this->house_account_url));
+        $this->waitForLocation($this->_prepareUrl($this->house_account_url));
         $this->betLoaderWaiting();
         $this->waitForElement('#layout .view_details:visible:last', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
