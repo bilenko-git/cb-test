@@ -3,25 +3,59 @@ namespace MyProject\Tests;
 require_once 'base_rates.php';
 
 class bulk_action_reservation extends base_rates{
-    private $reservation_url = 'http://{server}/connect/{property_id}#/reservations';
+    private $reservations_url = 'http://{server}/connect/{property_id}#/reservations';
+    private $reservation_url = 'http://{server}/connect/{property_id}#/reservations/';
 
-    public function testSteps(){
+    public function testTryAction(){
 
         $this->setupInfo('PMS_user');
         //$this->setupInfo('', '', '', 366, $br);
         $this->loginToSite();
-        $this->url($this->_prepareUrl($this->reservation_url));
-        $this->waitForLocation($this->_prepareUrl($this->reservation_url));
+        $this->url($this->_prepareUrl($this->reservations_url));
+        $this->waitForLocation($this->_prepareUrl($this->reservations_url));
+
+        // click action with no checked reservation
         $this->waitForElement('.list_reservation_table', 15000, 'css');
         $this->waitForElement('.assign-text a:first', 15000, 'jQ')->click();
         $this->execute(array('script' => 'window.$("#layout .assign-text .assign_action:last").click(); return false;', 'args' => array()));
         $this->waitForElement('#validation_error', 15000, 'css');
         $this->waitForElement('#validation_error .btn_ok', 15000, 'css')->click();
+
+        // delete last reservation
         $this->waitForElement('.data_booked_wid.res-booking', 15000, 'css')->click();
         $this->betLoaderWaiting();
         $this->waitForElement('.data_booked_wid.res-booking', 15000, 'css')->click();
         $this->betLoaderWaiting();
         $this->execute(array('script' => 'window.$("[id^=rs_quick_assign_]:eq(1)").click(); return false;', 'args' => array()));
+
+        $id = $this->execute(array('script' => 'return window.$("#layout .reservations-table tbody tr:first .view_summary").data("id");', 'args' => array()));
+
+        $this->waitForElement('.assign-text a:first', 15000, 'jQ')->click();
+        $this->execute(array('script' => 'window.$("#layout .assign-text .assign_action:last").click(); return false;', 'args' => array()));
+        $this->waitForElement('#assign-actions-modal .btn-action', 15000, 'jQ')->click();
+        $this->url($this->_prepareUrl($this->reservation_url.$id));
+        $this->waitForElement('#validation_error', 15000, 'jQ');
+
+        // add payment to last reservation
+
+        $this->execute(array('script' => 'window.$("[id^=rs_quick_assign_]:eq(1)").click(); return false;', 'args' => array()));
+
+        $id = $this->execute(array('script' => 'return window.$("#layout .reservations-table tbody tr:first .view_summary").data("id");', 'args' => array()));
+
+        $this->waitForElement('.assign-text a:first', 15000, 'jQ')->click();
+        $this->execute(array('script' => 'window.$("#layout .assign-text .assign_action:eq(2)").click(); return false;', 'args' => array()));
+        $el = $this->waitForElement('#assign-actions-modal #as_payment_amount', 15000, 'jQ');
+        $el->clear();
+        $el->value('1');
+        $this->waitForElement('#assign-actions-modal .btn-action', 15000, 'jQ')->click();
+        $this->url($this->_prepareUrl($this->reservation_url.$id));
+        $this->waitForElement('#reservation-tabs li:eq(1)', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
+        $val = $this->waitForElement('.rs-transactions-table tbody tr:first .credit', 15000, 'jQ')->text();
+        $this->assertEquals(1, $val);
+
+
+
     }
 
 }
