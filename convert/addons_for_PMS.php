@@ -723,7 +723,7 @@ class addons_for_PMS extends base_addons {
             )
         )
     );
-/*
+
     public function testDeleteAllAddons()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -739,7 +739,7 @@ class addons_for_PMS extends base_addons {
         $this->delAllProducts();
         $this->checkAddonsForEmptyProducts();
     }
-/*
+
     public function testCheckAllErros()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -762,7 +762,7 @@ class addons_for_PMS extends base_addons {
             $this->delAllProducts();
         }
     }
-*/
+/*
     public function testPerGuestPerNightAddonCreation()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -779,7 +779,7 @@ class addons_for_PMS extends base_addons {
         $this->addons[0]['product_id'] = $product_id;
         $this->addAddon($this->addons[0], true);
     }
-
+/*
     public function testPerAccommodationAddonCreation()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
@@ -1008,6 +1008,6 @@ class addons_for_PMS extends base_addons {
                 $this->fail('Package with such index for test doesn\'t exists, myabe data was corrupted.');
             }
         }
-    }
+    }*/
 }
 ?>
