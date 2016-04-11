@@ -53,9 +53,6 @@ class bulk_action_reservation extends base_rates{
         $this->betLoaderWaiting();
         $val = $this->waitForElement('.rs-transactions-table tbody tr:first .credit', 15000, 'jQ')->text();
         $this->assertEquals(1, $val);
-
-
-
     }
 
 }
