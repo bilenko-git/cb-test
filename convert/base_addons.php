@@ -4,6 +4,8 @@ require_once 'test_restrict.php';
 
 class base_addons extends test_restrict{
     private $products_url = 'http://{server}/connect/{property_id}#/products';
+    private $product_categories_url = 'http://{server}/connect/{property_id}#/product_categories';
+    private $addons_url = 'http://{server}/connect/{property_id}#/addons';
     private $booking_url = 'http://{server}/reservas/{property_id}';
     private $fees_and_taxes_url = 'http://{server}/connect/{property_id}#/fees_and_taxes';
     private $room_types_url = 'http://{server}/connect/{property_id}#/roomTypes';
@@ -26,6 +28,14 @@ class base_addons extends test_restrict{
         $this->url($this->_prepareUrl($this->products_url));
         $this->waitForLocation($this->_prepareUrl($this->products_url));
     }
+    /**
+     * Go to Products Page
+     */
+    public function go_to_addons_page()
+    {
+        $this->url($this->_prepareUrl($this->addons_url));
+        $this->waitForLocation($this->_prepareUrl($this->addons_url));
+    }
 
     /**
      * Confirm Delete dialog
@@ -46,13 +56,11 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~ Started Del All Products function~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->go_to_products_page();
-        $this->waitForElement('#open_product', 25000, 'css')->click();
-
         $num = count($this->getAllProducts()); // check number before save and after
 
         // Remove one by one
         while ($num > 0) {
-            $this->waitForElement('#layout .delete_product', 12000, 'css')->click();
+            $this->waitForElement('#layout #products_list .delete_product', 12000, 'css')->click();
             $this->confirmDeleteDialog();
             $this->timeouts()->implicitWait(5000);
             $num = count($this->getAllProducts());
@@ -69,16 +77,15 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~ Started Del All Add-ons function~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->go_to_products_page();
-        $this->waitForElement('#open_addon', 15000, 'css')->click();
-
+        $this->go_to_addons_page();
         $num = count($this->getAllAddons()); // check number before save and after
         // Remove one by one
         while ($num > 0) {
             $this->waitForElement('#addons_list .delete_addon', 10000, 'css')->click();
             $this->confirmDeleteDialog();
 
-            $this->timeouts()->implicitWait(5000);
+            $this->timeouts()->implicitWait(10000);
+            sleep(0);
             $num = count($this->getAllAddons());
         }
 
@@ -91,15 +98,13 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~ Check Addons for empty Products ~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->go_to_products_page();
-        $this->waitForElement('#open_addon', 15000, 'css')->click();
-        $add_new_product = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
+        $this->go_to_addons_page();
+        $add_new_product = $this->waitForElement('.add-new-addon', 15000, 'css');
         $add_new_product->click();
 
         $this->waitForElement('#no_items', 7000);
         $this->waitForElement('#no_items .btn[type=submit]', 30000, 'jQ')->click();
         $this->waitForLocation($this->_prepareUrl($this->products_url));
-        $this->waitForElement('#tab_products', 15000, 'css');
         echo '~~~~~~~~~~~~~~~  Checked successfully  ~~~~~~~~~~~~~~~' . PHP_EOL;
     }
 
@@ -115,12 +120,13 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo 'New Product name = ' . $product['product_name'] . PHP_EOL;
         $this->go_to_products_page();
-        $this->waitForElement('#open_product', 15000, 'jQ')->click();
-        $add_new_product = $this->waitForElement('#tab_products .add-new-product', 15000, 'css');
+        $add_new_product = $this->waitForElement('.add-new-product', 15000, 'css');
         $add_new_product->click();
 
         $this->waitForElement('#product_modal', 7000);
-        $this->byName('product_name')->value($product['product_name']);
+        $el = $this->waitForElement('[name^=\'product_name\']', 15000, 'jQ');
+        $el->click();
+        $el->value($product['product_name']);
 
         $sku = $this->byName('sku');
         $sku->click();
@@ -128,12 +134,17 @@ class base_addons extends test_restrict{
         echo 'SKU = ' . $sku_new . PHP_EOL;
 
         $this->byName('product_code')->value($product['product_code']);
-        $this->byName('product_description')->value($product['product_description']);
+
+        $el = $this->waitForElement('[name^=\'product_description\']', 15000, 'jQ');
+        $el->click();
+        $el->value($product['product_description']);
+
         $this->byName('product_price')->value($product['product_price']);
         $btn = $this->waitForElement('#product_modal .btn.save_product', 30000);
 
         $this->getAllProducts(); // check number before save and after
         $btn->click();//click Save & Continue;
+        sleep(2);
         $this->getAllProducts();
 
         $saved_product = $this->checkSavedProduct($sku_new);
@@ -160,7 +171,7 @@ class base_addons extends test_restrict{
      */
     public function getAllAddons()
     {
-        $addons = $this->getJSObject("BET.products.addons({is_deleted: '0'})");
+        $addons = $this->getJSObject("BET.addons.addons({is_deleted: '0'})");
         echo 'Number of add-ons = ' . count($addons) . PHP_EOL;
         return $addons;
     }
@@ -188,7 +199,7 @@ class base_addons extends test_restrict{
     public function checkSavedAddon($addon_name, $with_assert = false)
     {
         echo 'Checked Add-on name: ' . $addon_name . PHP_EOL;
-        $saved_addon = $this->execute(array('script' => "return window.BET.products.addons({is_deleted: '0', addon_name: '" . $addon_name . "'})", 'args' => array()));
+        $saved_addon = $this->execute(array('script' => "return window.BET.addons.addons({is_deleted: '0', addon_name: '" . $addon_name . "'})", 'args' => array()));
         $with_assert && $this->assertEquals(1, count($saved_addon), 'Check saved add-on with the following name: '. $addon_name);
 
         return $saved_addon && count($saved_addon) ? $saved_addon[0] : false;
@@ -206,11 +217,14 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~ Started Add Add-on function~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo 'New Add-on name = ' . $addon_info['addon_name'] . PHP_EOL;
-        $this->go_to_products_page();
-        $this->waitForElement('#open_addon', 15000, 'css')->click();
-        $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
+        $this->go_to_addons_page();
+        $add_new_addon = $this->waitForElement('.add-new-addon', 15000, 'css');
         $add_new_addon->click();
-        $this->byName('addon_name')->value($addon_info['addon_name']);
+
+        $el = $this->waitForElement('[name^=\'addon_name\']', 15000, 'jQ');
+        $el->click();
+        $el->value($addon_info['addon_name']);
+
         $product_id = $this->byName('product_id');
         $this->select($product_id)->selectOptionByValue($addon_info['product_id']);
         $this->byName('transaction_code')->value($addon_info['transaction_code']);
@@ -218,9 +232,9 @@ class base_addons extends test_restrict{
         $charge_type = $this->byName('charge_type');
         $this->select($charge_type)->selectOptionByValue($addon_info['charge_type']);
         echo 'Charge Type = ' . $addon_info['charge_type'] . PHP_EOL;
-        $this->execute(array('script' => "window.$('#tab_addons [name=charge_type]').trigger('change');", 'args' => array()));
+        $this->execute(array('script' => "window.$('[name=charge_type]').trigger('change');", 'args' => array()));
         $this->moveto(array(
-            'element' => $this->byId('open_addon'), // If this is missing then the move will be from top left.
+            'element' => $el, // If this is missing then the move will be from top left.
             'xoffset' => 10,
             'yoffset' => 10,
         ));
@@ -307,30 +321,30 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add-on Validation ~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->go_to_products_page();
-        $this->waitForElement('#open_addon', 15000, 'css')->click();
+        $this->go_to_addons_page();
 
-        $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
+        $add_new_addon = $this->waitForElement('.add-new-addon', 15000, 'css');
         $add_new_addon->click();
-        $this->byName('transaction_code')->value('TEST'); // need to change something for showing panel
+        $code = $this->byName('transaction_code');
+        $code->value('TEST'); // need to change something for showing panel
         $this->saveAddon();
 
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name^=\'addon_name\']').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(true, $has_error, 'Check error class for addon name');
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=product_id]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=product_id]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(true, $has_error, 'Check error class for product');
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=charge_type]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=charge_type]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(true, $has_error, 'Check error class for charge type');
 
         $charge_type = $this->byName('charge_type');
         // Check QTY charge type
         $this->select($charge_type)->selectOptionByValue('quantity');
         echo 'Checking of QTY Charge Type' . PHP_EOL;
-        $this->execute(array('script' => "window.$('#tab_addons [name=charge_type]').trigger('change');", 'args' => array()));
+        $this->execute(array('script' => "window.$('[name=charge_type]').trigger('change');", 'args' => array()));
         $this->moveto(array(
-            'element' => $this->byId('open_addon'), // If this is missing then the move will be from top left.
+            'element' => $code, // If this is missing then the move will be from top left.
             'xoffset' => 10,
             'yoffset' => 10,
         ));
@@ -345,7 +359,7 @@ class base_addons extends test_restrict{
         $this->saveAddon();
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         // Max qty not required. We can set 0 or live empty
         $this->assertEquals(false, $has_error, 'Check error class for max qty');
 
@@ -354,7 +368,7 @@ class base_addons extends test_restrict{
         $this->saveAddon();
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for empty max qty');
 
         echo 'Max QTY with correct number checking ... '.PHP_EOL;
@@ -363,19 +377,19 @@ class base_addons extends test_restrict{
         $this->saveAddon();
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=max_qty_per_res]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for correct max qty');
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for not empty add-on name');
 
         $this->cancelAddon();
         $add_new_addon->click();
 
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for addon name');
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=product_id]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=product_id]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for product');
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=charge_type]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=charge_type]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(false, $has_error, 'Check error class for charge type');
 
         echo '~~~~~~~~~~~~~ Add-on Validation checked successfully ~~~~~~~~~~~~~'.PHP_EOL;
@@ -411,7 +425,7 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~ Start of Add Add-on Interval function ~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $add_new_interval_btn = $this->waitForElement('#tab_addons .add_date_range', 15000, 'css');
+        $add_new_interval_btn = $this->waitForElement('.add_date_range', 15000, 'css');
         $add_new_interval_btn->click();
 
         $form = $this->waitForElement('.portlet.interval_form', 10000);
@@ -550,19 +564,17 @@ class base_addons extends test_restrict{
      */
     public function delAddonInterval()
     {
-        $this->go_to_products_page();
-        $this->waitForElement('a[href="#tab_addon]', 15000, 'jQ')->click();
-
+        $this->go_to_addons_page();
         $script_show = 'jQuery(".addon_form .intervals-table .btn-group", "#layout").css("cssText", "display: block !important;");';
         $script_hide = 'jQuery(".addon_form .intervals-table .btn-group", "#layout").css("cssText", "display: none !important;");';
 
         //prior to accessing the non-visible element
         $this->execute( array( 'script' => $script_show , 'args'=>array() ) );
-        $this->waitForElement('#tab_addon .intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle', 15000, 'jQ');
-        $this->byJQ('#tab_addon .intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle')->click();
+        $this->waitForElement('.intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle', 15000, 'jQ');
+        $this->byJQ('#.intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle')->click();
 
         // Click Delete button
-        $this->byJQ('#tab_addon .intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle .interval_delete')->click();
+        $this->byJQ('.intervals-table tr[data-temp_id]:last .btn-group .dropdown-toggle .interval_delete')->click();
 
         $this->waitForElement('#confirm_delete', 50000, 'jQ');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
@@ -592,7 +604,7 @@ class base_addons extends test_restrict{
     {
         $this->waitForElement('#error_modal', 7000);
         $this->waitForElement('#error_modal button.close', 30000)->click();//click Done
-        $has_error = $this->execute(array('script' => "return window.$('#tab_addons [name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
+        $has_error = $this->execute(array('script' => "return window.$('[name=addon_name]').closest('.form-group').hasClass('has-error');", 'args' => array()));
         $this->assertEquals(true, $has_error, 'Check error class for unique add-on name');
     }
 
@@ -607,8 +619,7 @@ class base_addons extends test_restrict{
      */
     public function delAddon($addon_id)
     {
-        $this->go_to_products_page();
-        $this->waitForElement('a[href="#tab_addon]', 15000, 'jQ')->click();
+        $this->go_to_addons_page();
 
         $script_show = 'jQuery("#addons_list .btn-group", "#layout").css("cssText", "display: block !important;");';
         $script_hide = 'jQuery("#addons_list .btn-group", "#layout").css("cssText", "display: none !important;");';
