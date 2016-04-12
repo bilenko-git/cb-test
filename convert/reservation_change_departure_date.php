@@ -3,11 +3,11 @@ namespace MyProject\Tests;
 require_once 'test_restrict.php';
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 
-class reservation_edit_price extends test_restrict{
+class reservation_change_departure_date extends test_restrict{
     private $reservations_url = 'http://{server}/connect/{property_id}#/reservations';
     private $reservation_url = 'http://{server}/connect/{property_id}#/reservations/';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
-    private $price = 10;
+    private $day = 2;
     private $interval = array(
         'end' => '+5 days',
         'start' => '+0 days',
@@ -103,25 +103,28 @@ class reservation_edit_price extends test_restrict{
         $id = $this->execute(array('script' => 'return window.$("#layout .reservations-table tbody tr:first .view_summary").data("id");', 'args' => array()));
         $this->url($this->_prepareUrl($this->reservation_url.$id));
         $this->waitForElement('#rs-accomodations-tab', 15000, 'css');
+
+        $el = $this->waitForElement('.booking-room-row td:eq(6)', 15000, 'jQ');
+        $old_night = $el->text();
         $this->waitForElement('#rs-accomodations-tab .edit_btn', 15000, 'css')->click();
-        $this->waitForElement('#rs-accomodations-tab .edit-room-price-btn', 15000, 'css')->click();
+        $this->waitForElement('#rs-accomodations-tab .edit-room-dates-btn', 15000, 'css')->click();
 
-        $this->waitForElement('#edit-room-price-modal', 15000, 'css');
+        $this->waitForElement('#edit-room-dates-modal', 15000, 'css');
 
-        $l = $this->execute(array('script' => "return window.$('#edit-room-price-modal .day-rate-cell.date-by-interval:not(.disabled) input:visible').length", 'args' => array()));
-        for($i=0;$i<$l;$i++){
-            $el = $this->waitForElement('#edit-room-price-modal .day-rate-cell.date-by-interval:eq('.$i.') input', 15000, 'jQ');
-            $el->clear();
-            $el->value($this->price);
+        //$l = $this->execute(array('script' => "return window.$('#edit-room-price-modal .day-rate-cell.date-by-interval:not(.disabled) input:visible').length", 'args' => array()));
+        for($i=0;$i < $this->day;$i++){
+            print_r("+++++++++++++++++");
+            print_r($i);
+            print_r("+++++++++++++++++");
+            $this->execute(array('script' => 'window.$("#edit-room-dates-modal .day-prices td:not(.selected):eq(0) input").click(); return false;', 'args' => array()));
         }
 
-        $this->waitForElement('#edit-room-price-modal .update-room-prices', 15000, 'css')->click();
+        $this->waitForElement('#edit-room-dates-modal .update-room-dates', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
-        $el = $this->waitForElement('.booking-room-row td:eq(7)', 15000, 'jQ');
-        $new_price = $el->text();
-        $new_price = $this->execute(array('script' => 'return window.BET.langs.parseCurrency("'.$new_price.'");', 'args' => array()));
-        $this->assertEquals($this->price * $l, $new_price);
+        $el = $this->waitForElement('.booking-room-row td:eq(6)', 15000, 'jQ');
+        $new_night= $el->text();
+        $this->assertEquals($this->day + $old_night, $new_night);
 
         $this->waitForElement('.delete-button-reservation', 15000, 'css')->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
