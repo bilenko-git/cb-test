@@ -122,9 +122,26 @@ class reservation_change_departure_date extends test_restrict{
         $this->waitForElement('#edit-room-dates-modal .update-room-dates', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
+        $this->waitForElement('#rs-accomodations-tab .edit_btn', 15000, 'css')->click();
+        $this->waitForElement('#rs-accomodations-tab .edit-room-dates-btn', 15000, 'css')->click();
+
+        $this->waitForElement('#edit-room-dates-modal', 15000, 'css');
+
+
+        //$l = $this->execute(array('script' => "return window.$('#edit-room-price-modal .day-rate-cell.date-by-interval:not(.disabled) input:visible').length", 'args' => array()));
+        for($i=0;$i < $this->day;$i++){
+            print_r("+++++++++++++++++");
+            print_r($i);
+            print_r("+++++++++++++++++");
+            $this->execute(array('script' => 'window.$("#edit-room-dates-modal .day-prices td.selected:eq(0) input").click(); return false;', 'args' => array()));
+        }
+
+        $this->waitForElement('#edit-room-dates-modal .update-room-dates', 15000, 'css')->click();
+        $this->betLoaderWaiting();
+
         $el = $this->waitForElement('.booking-room-row td:eq(6)', 15000, 'jQ');
         $new_night= $el->text();
-        $this->assertEquals($this->day + $old_night, $new_night);
+        $this->assertEquals($old_night, $new_night);
 
         $this->waitForElement('.delete-button-reservation', 15000, 'css')->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
