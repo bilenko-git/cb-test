@@ -715,23 +715,27 @@ class addons_for_OTA extends base_addons {
 
     public function testDeleteAllAddons()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllAddons();
     }
 
-    public function testDeleteAllProducts()
+    public function testCheckAddonsForEmptyProducts()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
+        $this->checkAddonsForEmptyProducts();
     }
 
     public function testCheckAllErros()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $product =  array(
@@ -747,7 +751,7 @@ class addons_for_OTA extends base_addons {
         if (!$product_id) $this->fail('Added product was not found');
         
         if ($product_id) {
-            $this->checkAddonErrors();
+            $this->checkAddonErrors($product_id);
             $this->delAllProducts();
         }
     }
@@ -755,8 +759,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerGuestPerNightAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -772,8 +776,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerAccommodationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -789,8 +793,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerReservationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -806,8 +810,8 @@ class addons_for_OTA extends base_addons {
 
     public function testQuantityAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -823,8 +827,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerGuestAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();

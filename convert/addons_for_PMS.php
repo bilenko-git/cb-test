@@ -744,14 +744,17 @@ class addons_for_PMS extends base_addons {
 
         public function testDeleteAllAddons()
         {
-            echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+            echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+            echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
             $this->setupInfo('PMS_user');
             $this->loginToSite();
             $this->delAllAddons();
         }
 
-        public function testDeleteAllProducts()
+        public function testCheckAddonsForEmptyProducts()
         {
+            echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+            echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
             $this->setupInfo('PMS_user');
             $this->loginToSite();
             $this->delAllProducts();
@@ -760,8 +763,8 @@ class addons_for_PMS extends base_addons {
 
         public function testCheckAllErros()
         {
-            echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-            echo PHP_EOL. '~~~~~~~~ CHECK ALL ADD_ON ERRORS ~~~~~'.PHP_EOL;
+            echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+            echo '~~~~~~~~ CHECK ALL ADD_ON ERRORS ~~~~~'.PHP_EOL;
             $this->setupInfo('PMS_user');
             $this->loginToSite();
             $product =  array(
@@ -773,21 +776,19 @@ class addons_for_PMS extends base_addons {
             );
 
             $product_id = $this->addProduct($product);
-            $product_id = 542;
             echo 'Inventory Item (product_id) = ' . $product_id . PHP_EOL;
             if (!$product_id) $this->fail('Added product was not found');
 
             if ($product_id) {
-                $this->checkAddonErrors();
+                $this->checkAddonErrors($product_id);
                 $this->delAllProducts();
             }
         }
 
-
     public function testAddonCreationWithoutInterval()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~Add-on without Intervals~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo  '>>>>>>>>>>>>>> Add-on without Intervals <<<<<<<<<<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -816,8 +817,8 @@ class addons_for_PMS extends base_addons {
 
     public function testPerGuestPerNightAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>>> Add-on with charge type "Per Guest Per Night <<<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -833,8 +834,8 @@ class addons_for_PMS extends base_addons {
 
     public function testPerAccommodationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>> Add-on with charge type "Per Room/Bed" <<<<<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -850,8 +851,8 @@ class addons_for_PMS extends base_addons {
 
     public function testPerReservationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>> Add-on with charge type "Per Reservation" <<<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -867,8 +868,8 @@ class addons_for_PMS extends base_addons {
 
     public function testQuantityAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>>> Add-on with charge type "Quantity" <<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -884,8 +885,8 @@ class addons_for_PMS extends base_addons {
 
     public function testPerGuestAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>>>>>>> Add-on with charge type "Per Guest" <<<<<<<<<<'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -903,8 +904,8 @@ class addons_for_PMS extends base_addons {
 
     public function testPerAccommodationPerNightAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room Per Night"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>>>>Add-on with charge type "Per Room Per Night"<<<<<<<<<<<'.PHP_EOL;
         echo '~~~~~~~~~~~~A charge will be added for each room night.~~~~~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('PMS_user');
@@ -922,7 +923,7 @@ class addons_for_PMS extends base_addons {
     public function testPerNightAddonCreationWithCheckingUniqueName()
     {
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Night"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. '>>>>>>>>>>>>>> Add-on with charge type "Per Night"<<<<<<<<<<<<<<<<'.PHP_EOL;
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
