@@ -664,6 +664,18 @@ class addons_for_OTA extends base_addons {
                 )
             )
         ),
+        array(
+            'addon_name' => 'LAY\'S® Classic Potato Chips',
+            'product_id' => '0',
+            'transaction_code' => 'CHIPS00145',
+            'available' => 'n/a',
+            'charge_type' => 'quantity',
+            'charge_for_children' => '0',
+            'charge_different_price_for_children' => '0',
+            'with_image' => true,
+            'intervals' => array(),
+        )
+
     );
 
 
@@ -703,23 +715,27 @@ class addons_for_OTA extends base_addons {
 
     public function testDeleteAllAddons()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllAddons();
     }
 
-    public function testDeleteAllProducts()
+    public function testCheckAddonsForEmptyProducts()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $this->delAllProducts();
+        $this->checkAddonsForEmptyProducts();
     }
 
     public function testCheckAllErros()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('OTA_user');
         $this->loginToSite();
         $product =  array(
@@ -735,7 +751,7 @@ class addons_for_OTA extends base_addons {
         if (!$product_id) $this->fail('Added product was not found');
         
         if ($product_id) {
-            $this->checkAddonErrors();
+            $this->checkAddonErrors($product_id);
             $this->delAllProducts();
         }
     }
@@ -743,8 +759,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerGuestPerNightAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Guest Per Night~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -760,8 +776,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerAccommodationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Room/Bed"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -777,8 +793,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerReservationAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Reservation"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -794,8 +810,8 @@ class addons_for_OTA extends base_addons {
 
     public function testQuantityAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Quantity"~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -811,8 +827,8 @@ class addons_for_OTA extends base_addons {
 
     public function testPerGuestAddonCreation()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~Add-on with charge type "Per Guest" ~~~~~~~~~'.PHP_EOL;
 
         $this->setupInfo('OTA_user');
         $this->loginToSite();
@@ -861,11 +877,13 @@ class addons_for_OTA extends base_addons {
         $this->addons[6]['product_id'] = $product_id;
         $this->addAddon($this->addons[6], true);
         echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~ Check Unique Add-on Name ~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $this->waitForElement('#open_addon', 15000, 'css')->click();
-        $add_new_addon = $this->waitForElement('#tab_addons .add-new-addon', 15000, 'css');
+        $add_new_addon = $this->waitForElement('.add-new-addon', 15000, 'css');
         $add_new_addon->click();
 
-        $this->byName('addon_name')->value($this->addons[6]['addon_name']);
+        $el = $this->waitForElement('[name^=\'addon_name\']', 15000, 'jQ');
+        $el->click();
+        $el->value($this->addons[6]['addon_name']);
+
         $product_id = $this->byName('product_id');
         $this->select($product_id)->selectOptionByValue($this->addons[6]['product_id']);
         $charge_type = $this->byName('charge_type');
@@ -915,14 +933,13 @@ class addons_for_OTA extends base_addons {
             sleep(1);
             $this->execJS("$('#addons_list #addon_' . $addon_id . ' [name=is_active]', '#layout').click()");
             sleep(1);
-            $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
+            $saved_addon = $this->getJSObject("window.BET.addons.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
             $this->assertEquals(1, count($saved_addon), 'Check addon');
             $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
             echo 'Refresh Page and check add-on state' . PHP_EOL;
             $this->refresh();
-            $this->go_to_products_page();
-            $this->waitForElement('#open_addon', 15000, 'css')->click();
-            $saved_addon = $this->getJSObject("window.BET.products.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
+            $this->go_to_addons_page();
+            $saved_addon = $this->getJSObject("window.BET.addons.addons({is_deleted: '0', addon_id: '" . $addon_id . "'})");
             $this->assertEquals(1, count($saved_addon), 'Check addon');
             $this->assertEquals(0, (int)$saved_addon[0]['is_active'], 'Check addon active state');
 
