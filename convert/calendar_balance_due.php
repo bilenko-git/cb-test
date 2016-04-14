@@ -144,6 +144,10 @@ class calendar_balance_due extends test_restrict{
         
         //loading waiting
 
+        $element = $this->waitForElement("#add-new-payment-modal select.payment_inputs.payment_base option:eq(0)", 15000, 'jQ');
+        $element->selected();
+        $element->click();
+
         $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->clear();
         $this->waitForElement("#add-new-payment-modal [name='paid']", 15000, 'jQ')->value($balanceDue);
         $this->waitForElement('#add-new-payment-modal .add-new-payment-usual', 15000, 'jQ')->click();

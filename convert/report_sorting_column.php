@@ -8,14 +8,14 @@ class report_sorting_column extends test_restrict{
     private $reports_url = array(
         'http://{server}/connect/{property_id}#/report_transactions',
         'http://{server}/connect/{property_id}#/report_adjustments',
-/*        'http://{server}/connect/{property_id}#/report_paymentLedger',
+        'http://{server}/connect/{property_id}#/report_paymentLedger',
         'http://{server}/connect/{property_id}#/rates_plans_report',
         'http://{server}/connect/{property_id}#/account_balances_report',
         'http://{server}/connect/{property_id}#/cashier_report',
         'http://{server}/connect/{property_id}#/front_desk_report/arrivals',
-      'http://{server}/connect/{property_id}#/account_balances_report',
         'http://{server}/connect/{property_id}#/account_balances_report',
-        'http://{server}/connect/{property_id}#/account_balances_report',*/
+        'http://{server}/connect/{property_id}#/account_balances_report',
+        'http://{server}/connect/{property_id}#/account_balances_report',
     );
 
     public function testSteps(){
