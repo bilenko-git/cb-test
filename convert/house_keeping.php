@@ -7,13 +7,10 @@ require_once 'common/features_control.php';
 class house_keeping extends test_restrict {
     use \FeaturesControl;
 
-    /* TESTS SETTINGS*/
     private $house_keeping_url = 'http://{server}/connect/{property_id}/#/house_keeping';
-    protected $server_url = 'hotel.acessa.loc';
-    protected $property_id = 2;
     protected $account_filter = array(
         '#status' => '',
-        '#hotelName' => 'Test Hotel 2'
+        '#hotelName' => 'SeleniumTest Hotel'
     );
 
     protected $house_keeping_crm_js_name = 'account-house-keeping-enabled';
@@ -49,59 +46,37 @@ class house_keeping extends test_restrict {
     );
     protected $isMiniBase = true;
 
-
-    /*TESTS FUNCTIONS*/
-    public function testAddHouseKeeper() {
+    public function testAddHouseKeeper(){
         $this->_prepare_house_keeping_test(true);
-        usleep(1000000);
         $this->openHKTabs('house_keepers');
+
         $this->removeAllHouseKeepers();
-        foreach($this->house_keepers['insert'] as $hk_name) {
+        foreach ($this->house_keepers['insert'] as $hk_name) {
             $this->openHKTabs('house_keepers');
             $this->addHouseKeeper($hk_name);
+            $this->betLoaderWaiting();
         }
-    }
-    public function testRenameHouseKeeper() {
-        $this->_prepare_house_keeping_test(true);
+
         foreach($this->house_keepers['update'] as $hk_name => $hk_name_replace_to) {
             $this->openHKTabs('house_keepers');
             $this->editHouseKeeper($hk_name, $hk_name_replace_to);
+            $this->betLoaderWaiting();
         }
-    }
-    public function testRemoveHouseKeeper() {
-        $this->_prepare_house_keeping_test(true);
-        $this->openHKTabs('house_keepers');
+
         foreach ($this->house_keepers['delete'] as $hk_name) {
+            $this->openHKTabs('house_keepers');
             $this->removeHouseKeeper($hk_name);
+            $this->betLoaderWaiting();
         }
-    }
 
-    public function testHKFeatureOn() {
-        $this->HKFeatureToggle('PMS', 1);
-    }
-    public function testHKFeatureOff() {
-        $this->HKFeatureToggle('PMS', 0);
-    }
-
-    public function testChangeRoomNamesFeature() {
-        throw new \Exception('Not implemented yet');
-    }
-    public function testDisabledForOTA() { //SPRINT: OperationGoCommando
-        //TODO: enabled this after OperationGoCommando in master
-        //$this->HKFeatureToggle('OTA', 0);
-    }
-    public function testAssignModalsConditionShow() {
-        //TODO: enable this after Hess in master
     }
 
     public function testChangeInspections(){
         $this->_prepare_house_keeping_test(true);
-        usleep(1000000);
         $this->openHKTabs('house_keeping_inspections');
+
         $rowIndex = 0;
         $housekeepers = $this->getHouseKeepersList();
-
-        print_r($housekeepers);
 
         foreach($this->checkInspectionChange as $change) {
             $row = $this->findInspections($rowIndex);
@@ -115,55 +90,12 @@ class house_keeping extends test_restrict {
             $this->assertInspection($rowIndex, $change);
         }
     }
-    public function testChangeRoomsInfo(){}
 
-    public function testCron(){}
-    public function testCalendarMoveInHouse(){}
-    public function testBlocksOnCalendar(){}
-    public function testOutOfOrderOnCalendar(){}
-
-    public function testPrintInspections(){}
-    public function testPDFInspections(){
-        throw new \Exception('Not implemented yet.');
-    }
-    public function testXLSInspections(){
-        throw new \Exception('Not implemented yet.');
-    }
-
-    /* SYSTEM FUNCTIONS TO REALIZE TESTS */
-    protected function getHouseKeepersList(){
-        return $this->execute(array('script' => 'return _.map(BET.DB().select("house_keepers")[0], function(val, i){return val.name});', 'args' => array()));
-    }
-    protected function assertInspection($rowIndex, $expected) {
-        $this->element($this->using('css selector')->value('.hk_apply_filter'))->click();
-        sleep(3);
-        $row = $this->element($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr:nth-child('.($rowIndex+1).')'));
-        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
-            $row_id = $row->attribute('data-id');
-            foreach ($expected as $name => $value) {
-                switch ($name) {
-                    case 'condition':
-                    case 'assign_to':
-                    case 'do_not_disturb':
-                        $input = $row->byCssSelector('[name="'.$name.'['.$row_id.']"]');
-
-                        $currentValue = false;
-                        if($name == 'assign_to'){
-                            $currentValue = $this->select($input)->selectedLabel();
-                        } else {
-                            $currentValue = $name == 'do_not_disturb' ? $input->selected() : $input->value();
-                        }
-
-                        $this->assertEquals($value, $currentValue);
-                        break;
-                    case 'comment':
-                        $this->assertEquals($value, trim($row->byCssSelector('.notes-truncate')->text()));
-                        break;
-                }
-            }
-        } else {
-            $this->fail('Failed to find inspection row: index = ' . $rowIndex);
-        }
+    protected function findInspections($index = false){
+        $rows = $this->elements($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr'));
+        if($index === false) {
+            return $rows;
+        } else return isset($rows[$index]) ? $rows[$index] : false;
     }
 
     protected function inspectionChange($row, $name, $value) {
@@ -205,11 +137,108 @@ class house_keeping extends test_restrict {
         }
     }
 
-    protected function findInspections($index = false){
-        $rows = $this->elements($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr'));
-        if($index === false) {
-            return $rows;
-        } else return isset($rows[$index]) ? $rows[$index] : false;
+    protected function assertInspection($rowIndex, $expected) {
+        $this->element($this->using('css selector')->value('.hk_apply_filter'))->click();
+        sleep(3);
+        $row = $this->element($this->using('css selector')->value('#layout .housekeeping-inspections-table tbody tr:nth-child('.($rowIndex+1).')'));
+        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $row_id = $row->attribute('data-id');
+            foreach ($expected as $name => $value) {
+                switch ($name) {
+                    case 'condition':
+                    case 'assign_to':
+                    case 'do_not_disturb':
+                        $input = $row->byCssSelector('[name="'.$name.'['.$row_id.']"]');
+
+                        $currentValue = false;
+                        if($name == 'assign_to'){
+                            $currentValue = $this->select($input)->selectedLabel();
+                        } else {
+                            $currentValue = $name == 'do_not_disturb' ? $input->selected() : $input->value();
+                        }
+
+                        $this->assertEquals($value, $currentValue);
+                        break;
+                    case 'comment':
+                        $this->assertEquals($value, trim($row->byCssSelector('.notes-truncate')->text()));
+                        break;
+                }
+            }
+        } else {
+            $this->fail('Failed to find inspection row: index = ' . $rowIndex);
+        }
+    }
+
+    public function go_to_house_keeping_page() {
+        $this->_customLoginToSite();
+
+        $hk_page = $this->_prepareUrl($this->house_keeping_url);
+        $this->url($hk_page);
+        $this->waitForBETLoaded();
+    }
+
+    protected function _prepare_house_keeping_test($skip_crm = false) {
+        if($skip_crm) $this->go_to_house_keeping_page();
+        //else $this->HKFeatureToggle('PMS', 1);
+    }
+
+    protected function removeAllHouseKeepers() {
+        while($rows = $this->findHouseKeepers()) {
+            foreach($rows as $i => $row) {
+                if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+                    $element = $this->waitForElement('.housekeeper-list-table tbody tr:eq('.$i.')', 15000, 'jQ');
+                    $this->hover($element);
+
+                    $element = $this->waitForElement('.housekeeper-list-table tbody tr:eq('.$i.') .hoverable-actions >a', 15000, 'jQ');
+                    $element->click();
+                    $this->waitForElement('.housekeeper-list-table tbody tr:eq('.$i.') .hoverable-actions .delete', 15000, 'jQ')->click();
+
+                    $this->confirm_delete_modal();
+                }
+                break;
+            }
+            $this->waitIfLocal(1000000);
+        }
+    }
+
+    protected function addHouseKeeper($name){
+        $this->waitForElement('#layout .add-new-housekeeper')->click();
+
+        $this->waitIfLocal(500000);
+        $this->fillHouseKeeperForm($name);
+
+        $this->waitIfLocal(3000000);
+        $this->assertHouseKeeperExists($name, true);
+    }
+
+    protected function editHouseKeeper($name, $new_name){
+        $row = $this->findHouseKeepers($name);
+        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $row->byCssSelector('.hoverable-actions [data-toggle="dropdown"]')->click();
+            $row->byCssSelector('.hoverable-actions .edit')->click();
+            $this->betLoaderWaiting();
+            $this->waitIfLocal(500000);
+            $this->fillHouseKeeperForm($new_name);
+        }
+
+        $this->waitIfLocal(3000000);
+        $this->assertHouseKeeperExists($new_name, true);
+    }
+
+    protected function removeHouseKeeper($name){
+        $row = $this->findHouseKeepers($name);
+        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
+            $row->byCssSelector('[data-toggle="dropdown"]')->click();
+            $row->byCssSelector('.dropdown-menu.export_report li:nth-child(2)')->click();
+            $this->confirm_delete_modal();
+        }
+
+        $this->waitIfLocal(3000000);
+        $this->assertHouseKeeperExists($name, false);
+    }
+
+    protected function getHouseKeepersList(){
+        return $this->execute(array('script' => 'return _.map(BET.DB().select("house_keepers")[0], function(val, i){return val.name});', 'args' => array()));
     }
 
     protected function assertHouseKeeperExists($name, $expected) {
@@ -278,60 +307,6 @@ class house_keeping extends test_restrict {
         }
     }
 
-    protected function addHouseKeeper($name){
-        $this->waitForElement('#layout .add-new-housekeeper')->click();
-
-        $this->waitIfLocal(500000);
-        $this->fillHouseKeeperForm($name);
-
-        $this->waitIfLocal(3000000);
-        $this->assertHouseKeeperExists($name, true);
-    }
-
-    protected function editHouseKeeper($name, $new_name){
-        $row = $this->findHouseKeepers($name);
-        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
-            $row->byCssSelector('[data-toggle="dropdown"]')->click();
-            $row->byCssSelector('.dropdown-menu.export_report li:nth-child(1)')->click();
-
-            $this->waitIfLocal(500000);
-            $this->fillHouseKeeperForm($new_name);
-        }
-
-        $this->waitIfLocal(3000000);
-        $this->assertHouseKeeperExists($name, false);
-        $this->assertHouseKeeperExists($new_name, true);
-    }
-
-    protected function removeHouseKeeper($name){
-        $row = $this->findHouseKeepers($name);
-        if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
-            $row->byCssSelector('[data-toggle="dropdown"]')->click();
-            $row->byCssSelector('.dropdown-menu.export_report li:nth-child(2)')->click();
-            $this->confirm_delete_modal();
-        }
-
-        $this->waitIfLocal(3000000);
-        $this->assertHouseKeeperExists($name, false);
-    }
-
-    protected function removeAllHouseKeepers() {
-        //need to find house keeper, remove and re-new find because table reloading
-        while($rows = $this->findHouseKeepers()) {
-            foreach($rows as $row) {
-                if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element) {
-                    $row->byCssSelector('[data-toggle="dropdown"]')->click();
-                    $row->byCssSelector('.dropdown-menu.export_report li:nth-child(2)')->click();
-                    $this->confirm_delete_modal();
-                }
-
-                break;
-            }
-
-            $this->waitIfLocal();
-        }
-    }
-
     protected function findHouseKeepers($name = ''){
         $rows = $this->elements($this->using('css selector')->value('#layout .housekeeper-list-table tr.data-row'));//$this->execute(array( 'script' => 'return $("#layout .housekeeper-list-table tbody tr.data-row");', 'args' => array()));
         $result = $rows;
@@ -339,17 +314,28 @@ class house_keeping extends test_restrict {
         if(!empty($name)) {
             echo PHP_EOL . ' filtering house keepers by name: ' . $name . PHP_EOL;
             foreach($rows as $row) {
-               if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
-                   $td = $row->byCssSelector('td:nth-child(1)');
-                   if($td && $td->text() == $name) {
-                       $result = $row;
-                       break;
-                   }
-               }
+                if($row instanceof \PHPUnit_Extensions_Selenium2TestCase_Element){
+                    $td = $row->byCssSelector('td:nth-child(1)');
+                    if($td && $td->text() == $name) {
+                        $result = $row;
+                        break;
+                    }
+                }
             }
         }
 
         return $result;
+    }
+
+    protected function openHKTabs($tabName = 'house_keepers') {
+        if($tabName == 'house_keepers') $tabName = 'tab_hk_2'; else $tabName = 'tab_hk_1';
+        $tab = $this->waitForElement('#layout [href=\'#'.$tabName.'\']', 50000, 'jQ');
+
+        if($tab instanceof \PHPUnit_Extensions_Selenium2TestCase_Element)
+            $tab->click();
+        else $this->fail('Tab ' . $tabName . ' wasn\'t found.');
+
+        sleep(2);
     }
 
     protected function fillHouseKeeperForm($name) {
@@ -368,94 +354,12 @@ class house_keeping extends test_restrict {
         $this->waitUntilVisible($modal);
     }
 
-    protected function openHKTabs($tabName = 'house_keepers') {
-        if($tabName == 'house_keepers') $tabName = 'tab_hk_2'; else $tabName = 'tab_hk_1';
-        $tab = $this->waitForElement('#layout [href=\'#'.$tabName.'\']', 30000, 'jQ');
-
-        if($tab instanceof \PHPUnit_Extensions_Selenium2TestCase_Element)
-            $tab->click();
-        else $this->fail('Tab ' . $tabName . ' wasn\'t found.');
-    }
-
-    protected function HKFeatureToggle($platform, $val) {
-        $isPMS = $platform == 'PMS';
-        $result = $this->_prepare_crm_test();
-        $editModal = $this->openFeaturesTab($result['row']);
-        $this->switchPlatform($platform);
-        //check visibility, have to be visible only for PMS (SPRINT OperationGoCommando)
-        $this->assertEquals($isPMS, $this->getFeatureIsVisible($this->house_keeping_crm_js_name), 'Wrong Feature visibility "House Keeping"');
-
-        if($isPMS) {
-            $this->toggleFeature($this->house_keeping_crm_js_name, $val);
-        }
-
-        $this->saveAccount($editModal);
-
-        $this->assertPageExists($this->house_keeping_url, $val && $isPMS);
-    }
-
-    protected function assertPageExists($url, $expected) {
-        $this->_customLoginToSite();
-
-        $url = $this->_prepareUrl($url);
-        $this->url($url);
-        $this->waitForBETLoaded();
-
-        $href = $this->execJS('return window.location.href');
-        $isExists = $href == $url;
-
-        $this->assertEquals($expected, $isExists, "Page: $url have " . ($expected ? ' to be ' : 'not to be') . " exists, but currently it does" . ($isExists ? '' : ' not'));
-    }
-
-    protected function _prepare_crm_test() {
-        $this->go_to_crm_page();
-        $account_row = $this->filter_accounts($this->account_filter);
-        return array('row' => $account_row, 'id' => $this->getAccountId($account_row));
-    }
-
-    protected function _prepare_house_keeping_test($skip_crm = false) {
-        if($skip_crm) $this->go_to_house_keeping_page();
-        else $this->HKFeatureToggle('PMS', 1);
-    }
-
     public function _customLoginToSite() {
-        if($this->isMiniBase) {
-            $site_login = $this->login;
-            $site_pass = $this->password;
-
-            $this->login = 'admin@test.test';
-            $this->password = '123qwe';
-        }
-
+        $this->setupInfo('PMS_user');
         $this->loginToSite();
-
-        if($this->isMiniBase) {
-            $this->login = $site_login;
-            $this->password = $site_pass;
-        }
     }
 
-    public function go_to_house_keeping_page() {
-        $this->_customLoginToSite();
-
-        $hk_page = $this->_prepareUrl($this->house_keeping_url);
-        $this->url($hk_page);
-        $this->waitForBETLoaded();
-    }
-
-    public function go_to_crm_page() {
-        $this->_customLoginToSite();
-
-        $server_url = $this->server_url;
-        $this->server_url = 'acessa.loc';
-        $crm_accounts = $this->_prepareUrl($this->crmAccountsUrl);
-        $this->url($crm_accounts);
-        $this->waitForLocation($crm_accounts);
-        $this->server_url = $server_url;
-    }
-
-    public function waitIfLocal($time = 1000000) {
-        if(getenv('SELENIUM_LOCAL') == 1)
-            usleep($time);
+    public function waitIfLocal($time) {
+        usleep($time);
     }
 }
