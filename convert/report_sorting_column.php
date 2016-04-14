@@ -27,9 +27,9 @@ class report_sorting_column extends test_restrict{
             $this->waitForLocation($this->_prepareUrl($this->reports_url[$i]));
             $this->betLoaderWaiting();
             $this->waitForElement('.table', 15000, 'css');
-            $l = $this->execute(array('script' => "return window.$('#layout .table thead tr th').length", 'args' => array()));
+            $l = $this->execute(array('script' => "return window.$('#layout .table:visible thead tr th').length", 'args' => array()));
             for ($j= 0; $j < $l; $j++) {
-                $this->waitForElement('.table thead tr th:eq('.$j.')', 15000, 'jQ')->click();
+                $this->waitForElement('#layout .table:visible thead tr th:eq('.$j.')', 15000, 'jQ')->click();
                 $this->betLoaderWaiting();
             }
         }
