@@ -59,7 +59,7 @@ class dashboard_for_PMS extends test_restrict{
         return $this->execute(array('script' => 'var cnt = 0; window.$("'.$table_name.'").find("tr").each(function(){ if(!$(this).find(\'td.dataTables_empty\').length) cnt++;}); return cnt;', 'args' => array()));
     }
     private function _checkArrivalsTableElements($table_name){
-        return $this->execute(array('script' => 'var cnt = 0; window.$("'.$table_name.'").find("tr").each(function(){ if($(this).find(\'td .status_color_confirmed, td .status_color_not_confirmed\').length > 0) cnt++;}); return cnt;', 'args' => array()));
+        return $this->execute(array('script' => 'var cnt = 0; window.$("'.$table_name.'").find("tr").each(function(){ if($(this).find(\'td .status_color_confirmed, td .status_color_not_confirmed, td .status_color_arrival\').length > 0) cnt++;}); return cnt;', 'args' => array()));
     }
     private function _checkDeparturesTableElements($table_name){
         return $this->execute(array('script' => 'var cnt = 0; window.$("'.$table_name.'").find("tr").each(function(){ if($(this).find(\'td .status_color_confirmed, td .status_color_not_confirmed, td .status_color_checked_in\').length > 0) cnt++;}); return cnt;', 'args' => array()));
