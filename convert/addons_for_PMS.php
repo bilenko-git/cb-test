@@ -702,6 +702,7 @@ class addons_for_PMS extends base_addons {
             'transaction_code' => 'CHIPS00145',
             'available' => 'n/a',
             'charge_type' => 'quantity',
+            'max_qty_per_res' => '20',
             'charge_for_children' => '0',
             'charge_different_price_for_children' => '0',
             'with_image' => true,
@@ -780,7 +781,7 @@ class addons_for_PMS extends base_addons {
             if (!$product_id) $this->fail('Added product was not found');
 
             if ($product_id) {
-                $this->checkAddonErrors($product_id);
+                $this->checkAddonErrors();
                 $this->delAllProducts();
             }
         }
@@ -922,8 +923,9 @@ class addons_for_PMS extends base_addons {
 
     public function testPerNightAddonCreationWithCheckingUniqueName()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '>>>>>>>>>>>>>> Add-on with charge type "Per Night"<<<<<<<<<<<<<<<<'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~~~~~~Checking Unique Name~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '>>>>>>>>>>>>>> Add-on with charge type "Per Night"<<<<<<<<<<<<<<<<'.PHP_EOL;
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
@@ -933,8 +935,8 @@ class addons_for_PMS extends base_addons {
         if (!$product_id) $this->fail('Added product was not found');
         $this->addons[6]['product_id'] = $product_id;
         $this->addAddon($this->addons[6], true);
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~ Check Unique Add-on Name ~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        $add_new_addon = $this->waitForElement('.add-new-addon', 15000, 'css');
+        echo PHP_EOL. '~~~~~~~~~~~~~~~~~~ Check Unique Add-on Name ~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        $add_new_addon = $this->waitForElement('.add-new-addon', 20000, 'jQ');
         $add_new_addon->click();
 
         $this->byName('addon_name')->value($this->addons[6]['addon_name']);
@@ -944,6 +946,7 @@ class addons_for_PMS extends base_addons {
         $this->select($charge_type)->selectOptionByValue($this->addons[6]['charge_type']);
 
         $this->saveAddon();
+        echo 'Compare Name..' . PHP_EOL;
         $this->checkUniqueAddonName();
         $this->cancelAddon();
     }
@@ -951,8 +954,8 @@ class addons_for_PMS extends base_addons {
 
     public function testAddonUpdate()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~~~~TEST ADD-ON UPDATE~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~TEST ADD-ON UPDATE~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();
@@ -980,8 +983,8 @@ class addons_for_PMS extends base_addons {
 
     public function testAddonActiveState()
     {
-        echo PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
-        echo PHP_EOL. '~~~~~~~~~~~~~~~~~ Check Active/Inactive switcher ~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo PHP_EOL. PHP_EOL. PHP_EOL. '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
+        echo '~~~~~~~~~~~~~~~~~ Check Active/Inactive switcher ~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->delAllProducts();

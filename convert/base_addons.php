@@ -43,7 +43,7 @@ class base_addons extends test_restrict{
     public function confirmDeleteDialog()
     {
         $this->waitForElement('#confirm_delete', 20000);//delete confirmation almost all over site we can you this method to confim deleting something
-        $this->waitForElement('.btn_delete', 5000)->click();
+        $this->byJQ('#confirm_delete .btn_delete')->click();
         echo '~~~~~~~~~~Confirmed Delete operation~~~~~~~~~~~~~~~~~~'.PHP_EOL;
     }
 
@@ -58,10 +58,10 @@ class base_addons extends test_restrict{
 
         // Remove one by one
         while ($num > 0) {
-            $this->waitForElement('#layout #products_list .delete_product', 12000, 'css')->click();
+            $this->focusOnActions();
+            $this->byJQ('#layout #products_list .delete_product')->click();
             $this->confirmDeleteDialog();
-            $this->timeouts()->implicitWait(5000);
-            sleep(1);
+            sleep(3);
             $num = count($this->getAllProducts());
         }
         $this->assertEquals($num, 0);
@@ -76,13 +76,14 @@ class base_addons extends test_restrict{
         echo '~~~~~~~~~~~ Started Del All Add-ons function~~~~~~~~~'.PHP_EOL;
         $this->go_to_addons_page();
         $num = count($this->getAllAddons()); // check number before save and after
+
         // Remove one by one
         while ($num > 0) {
+            $this->focusOnActions();
             $this->waitForElement('#addons_list .delete_addon', 10000, 'css')->click();
             $this->confirmDeleteDialog();
 
-            $this->timeouts()->implicitWait(10000);
-            sleep(1);
+            sleep(3);
             $num = count($this->getAllAddons());
         }
 
@@ -118,7 +119,7 @@ class base_addons extends test_restrict{
         $add_new_product->click();
 
         $this->waitForElement('#product_modal', 7000);
-        $el = $this->waitForElement('[name^=\'product_name\']', 15000, 'jQ');
+        $el = $this->byJQ('[name^=\'product_name\']');
         $el->click();
         $el->value($product['product_name']);
 
@@ -138,14 +139,21 @@ class base_addons extends test_restrict{
 
         $this->getAllProducts(); // check number before save and after
         $btn->click();//click Save & Continue;
-        sleep(2);
+        sleep(5);
+        try {
+            $this->waitForElement('.add-new-product', 20000, 'css');
+        }
+        catch (\Exception $e)
+        {
+            $this->fail('Something wrong. Cannot save product');
+        }
         $this->getAllProducts();
 
-        $saved_product = $this->checkSavedProduct($sku_new);
-
-        echo $saved_product ? 'Saved product id = ' . $saved_product['id'] . PHP_EOL : '';
-        echo ($saved_product ? '~~~~~~~~~ Product saved successfully ~~~~~~~~~' : '~~~~~~~~~ Product NOT saved ~~~~~~~~~') . PHP_EOL;
-        return $saved_product ? $saved_product['id'] : false;
+        $saved_product_id = $this->checkSavedProduct();
+        if (!$saved_product_id) $this->fail('Added product was not found');
+        echo $saved_product_id ? 'Saved product id = ' . $saved_product_id . PHP_EOL : '';
+        echo ('~~~~~~~~~ Product saved successfully ~~~~~~~~~') . PHP_EOL;
+        return $saved_product_id;
     }
 
     /**
@@ -172,16 +180,20 @@ class base_addons extends test_restrict{
 
     /**
      * Get product by sku & check it
-     * @param string $product_sku
      * @param bool $with_assert
      * @return bool
      */
-    public function checkSavedProduct($product_sku, $with_assert = false)
+    public function checkSavedProduct($with_assert = false)
     {
-        $saved_product = $this->execute(array('script' => "return window.BET.products.products({is_active: '1', sku: '" . $product_sku . "'})", 'args' => array()));
-        $with_assert && $this->assertEquals(1, count($saved_product), 'Check saved product id by sku = '. $product_sku);
+        echo 'Check saved product...' . PHP_EOL;
+        echo 'Num rows ' . $this->execJS("return $('#products_list tr', '#layout').length;") . PHP_EOL;
+        $id = $this->execJS("return $('#products_list tr:visible:last', '#layout').data('id');");
+        echo "Last id: " . $id. PHP_EOL;
+        $with_assert && $this->assertEquals(true, $id > 0, 'Check saved product id');
+        $saved_product = $this->getJSObject('window.BET.products.products({id: "' . $id . '"})');
+        echo !empty($saved_product) ? 'Saved product name: ' . $saved_product[0]['name'] : '' . PHP_EOL;
 
-        return $saved_product && count($saved_product) ? $saved_product[0] : false;
+        return $id;
     }
 
     /**
@@ -193,10 +205,14 @@ class base_addons extends test_restrict{
     public function checkSavedAddon($addon_name, $with_assert = false)
     {
         echo 'Checked Add-on name: ' . $addon_name . PHP_EOL;
-        $saved_addon = $this->execJS("return window.BET.addons.addons({is_deleted: '0', name: '" . $addon_name . "'})");
-        $with_assert && $this->assertEquals(1, count($saved_addon), 'Check saved add-on with the following name: '. $addon_name);
+        echo 'Num rows ' . $this->execJS("return $('#products_list tr', '#layout').length;") . PHP_EOL;
+        $id = $this->execJS("return $('#addons_list > tr:visible:first > tr', '#layout').data('id');");
+        echo "Last id: " . $id. PHP_EOL;
+        $with_assert && $this->assertEquals(true, $id > 0, 'Check saved addon id for "'. $addon_name . '"');
+        $saved_addon = $this->getJSObject('window.BET.addons.addons({id: "' . $id . '"})');
+        echo !empty($saved_addon) ? 'Saved product name: ' . $saved_addon[0]['name'] : '' . PHP_EOL;
 
-        return $saved_addon && count($saved_addon) ? $saved_addon[0] : false;
+        return $id;
     }
 
     /**
@@ -221,21 +237,13 @@ class base_addons extends test_restrict{
 
         $product_id = $this->byName('product_id');
         $this->select($product_id)->selectOptionByValue($addon_info['product_id']);
-        $this->byName('transaction_code')->value($addon_info['transaction_code']);
+        $this->execJS("window.$('html, body').animate({scrollTop: '+=400px'}, 0);");
 
         $charge_type = $this->byName('charge_type');
         $this->select($charge_type)->selectOptionByValue($addon_info['charge_type']);
         echo 'Charge Type = ' . $addon_info['charge_type'] . PHP_EOL;
         $this->execJS("window.$('#layout [name=charge_type]').trigger('change');");
-        $this->moveto(array(
-            'element' => $el, // If this is missing then the move will be from top left.
-            'xoffset' => 0,
-            'yoffset' => 0,
-        ));
 
-        $available = $this->byName('available');
-        $this->select($available)->selectOptionByValue($addon_info['available']);
-        echo 'Availability = ' . $addon_info['available'] . PHP_EOL;
         sleep(2);
         echo '~~~~~~~~~ Max QTY visibility checking ... ~~~~~~~~~'.PHP_EOL;
         $max_qty = $this->byJQ('#max_qty_per_res');
@@ -243,7 +251,7 @@ class base_addons extends test_restrict{
             $this->assertEquals($max_qty && $max_qty->displayed() , true, 'addAddon::1.1 Check visibility of max qty. Should be visible');
             // we can input max qty
             $max_qty = $this->byJQ('#layout [name=max_qty_per_res]');
-            $max_qty->value($addon_info['max_qty_per_res']);
+            $max_qty->value(isset($addon_info['max_qty_per_res']) ? $addon_info['max_qty_per_res'] : 1);
         } else {
             // not visible max qty field
             $this->assertEquals($max_qty && $max_qty->displayed() , false, 'addAddon::1.2 Check visibility of max qty. Should be hidden');
@@ -257,7 +265,7 @@ class base_addons extends test_restrict{
         $script_hide = 'jQuery(".md-radio input[type=radio]", "#layout").css("cssText", "visibility: hidden;");';
 
         //prior to accessing the non-visible radio element
-        $this->execute( array( 'script' => $script_show , 'args'=>array() ) );
+        //$this->execute( array( 'script' => $script_show , 'args'=>array() ) );
 
         if ($addon_info['charge_type'] == 'per_guest' || $addon_info['charge_type'] == 'per_guest_per_night') {
             $this->assertEquals($charge_for_children && $charge_for_children->displayed(), true, "addAddon::1.3 Check charge for children visibility for add-on with charge type = " . $addon_info['charge_type']);
@@ -267,35 +275,36 @@ class base_addons extends test_restrict{
                 echo 'Add-on does not have charge for children' . PHP_EOL;
                 $charge_for_children = $this->byJQ('#layout [name=charge_for_children][value=\'0\'] + label');
                 $charge_for_children->click();
+                $this->execJS("window.$('#layout [name=charge_for_children]').trigger('change');");
                 echo 'Charge For Children not selected' . PHP_EOL;
                 $charge_different_price_for_children = $this->byJQ('#layout [name=charge_different_price_for_children]');
                 $this->assertEquals($charge_different_price_for_children && $charge_different_price_for_children->displayed(), false, "addAddon::1.5 Check different charge visibility when charge for children = 0 for add-on with charge type = " . $addon_info['charge_type']);
             } else {
                 echo 'Add-on has charge for children' . PHP_EOL;
-                $charge_for_children = $this->byJQ('#layout [name=charge_for_children][value=\'1\'] + label', 15000, 'jQ', false);
-                $charge_for_children->click();
-
                 //for better video view
-                $this->execJS("window.$('html, body').animate({scrollTop: '+=200px'}, 0);");
-                $this->moveto(array(
-                    'element' => $charge_for_children, // If this is missing then the move will be from top left.
-                    'xoffset' => 0,
-                    'yoffset' => 0,
-                ));
-
-                $this->execJS("window.$('#layout [name=charge_for_children][value=\'1\']').prop('checked', true);");
-                $checked = $this->execJS("window.$('#layout [name=charge_for_children][value=\'1\']').prop('checked');");
+                $this->execJS("window.$('html, body').animate({scrollTop: '+=400px'}, 0);");
+                $charge_for_children = $this->byJQ('#layout [name=charge_for_children][value=\'0\'] + label');
+                $charge_for_children->click();
+                $this->execJS("window.$('#layout [name=charge_for_children]').trigger('change');");
+                echo 'Set Off' . PHP_EOL;
+                $charge_for_children = $this->byJQ('#layout [name=charge_for_children][value=\'1\'] + label');
+                $charge_for_children->click();
+                $this->execJS("window.$('#layout [name=charge_for_children]').trigger('change');");
+                echo 'Set On' . PHP_EOL;
+                $this->execJS("window.$('#layout [name=charge_for_children][value=\'1\']').prop('checked', 'checked');");
+                $checked = $this->execJS("return window.$('#layout [name=charge_for_children][value=\'1\']').prop('checked');");
+                var_dump($checked);
                 sleep(2);
                 echo 'Charge For Children ' . ($checked ? 'selected' : 'not selected') . PHP_EOL;
-                $charge_different_price_for_children = $this->byJQ('#layout [name=charge_different_price_for_children] + label');
+                $charge_different_price_for_children = $this->byJQ('#layout #charge_different_price_for_children');
                 $this->assertEquals($charge_different_price_for_children && $charge_different_price_for_children->displayed(), true, "addAddon::1.6 Check different charge visibility for add-on with charge type = " . $addon_info['charge_type']);
 
                 if (empty($addon_info['charge_different_price_for_children'])) {
                     $this->byJQ("#layout [name=charge_different_price_for_children][value='0']")->click();
-                    // TODO-natali ckeck intervals
+                    $this->execJS("window.$('#layout [name=charge_different_price_for_children]').trigger('change');");
                 } else {
                     $this->byJQ("#layout [name=charge_different_price_for_children][value='1']")->click();
-                    // TODO-natali ckeck intervals
+                    $this->execJS("window.$('#layout [name=charge_different_price_for_children]').trigger('change');");
                 }
             }
         } else {
@@ -304,6 +313,11 @@ class base_addons extends test_restrict{
         }
         $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
         echo '~~~~~~~~~ Charge for children & different charge checked successfully~~~~~~~~~'.PHP_EOL;
+
+        $this->byName('transaction_code')->value($addon_info['transaction_code']);
+        $available = $this->byName('available');
+        $this->select($available)->selectOptionByValue($addon_info['available']);
+        echo 'Availability = ' . $addon_info['available'] . PHP_EOL;
 
         if (isset($addon_info['with_image'])) {
             $this->uploadAddonPhoto();
@@ -319,19 +333,19 @@ class base_addons extends test_restrict{
         }
         $this->getAllAddons();
         $this->saveAddon();
-        $this->checkSavedMessage();
-        $result = $this->checkSavedAddon($addon_info['addon_name']);
+        $id = $this->checkSavedAddon($addon_info['addon_name']);
+        sleep(1);
         $this->getAllAddons();
-        echo $result ? 'Saved add-on id = ' . $result['id'] . PHP_EOL : '';
-        echo ($result ? '~~~~~~~~~ Add-on saved successfully ~~~~~~~~~' : '~~~~~~~~~ Add-on NOT saved ~~~~~~~~~') . PHP_EOL;
-        return $result ? $result['id'] : false;
+        echo $id ? 'Saved add-on id = ' . $id . PHP_EOL : '';
+        echo '~~~~~~~~~ Add-on saved successfully ~~~~~~~~~' . PHP_EOL;
+        return $id;
 
     }
 
     /**
      * Check all fields & errors
      */
-    public function checkAddonErrors($product_id)
+    public function checkAddonErrors()
     {
         echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.PHP_EOL;
         echo '~~~~~~~~~~~~~ Started Add-on Validation ~~~~~~~~~~~~~'.PHP_EOL;
@@ -372,7 +386,7 @@ class base_addons extends test_restrict{
         echo 'Max QTY default value checking ... '.PHP_EOL;
         $default_value = $this->byName('max_qty_per_res')->value();
         $this->assertEquals($default_value, 0, 'Check default value of max qty');
-        $this->saveAddon();
+        $this->saveAddon(false);
 
         $this->waitForElement('#error_modal', 7000);
         $this->byJQ('#error_modal button.close')->click();//click Done
@@ -382,7 +396,7 @@ class base_addons extends test_restrict{
 
         echo 'Max QTY with empty string checking ... '.PHP_EOL;
         $this->byName('max_qty_per_res')->value('');
-        $this->saveAddon();
+        $this->saveAddon(false);
 
         $this->waitForElement('#error_modal', 7000);
         $this->byJQ('#error_modal button.close')->click();//click Done
@@ -402,7 +416,7 @@ class base_addons extends test_restrict{
             'yoffset' => 10,
         ));
 
-        $this->saveAddon();
+        $this->saveAddon(false);
         $err_modal = $this->byJQ('#error_modal');
         $this->assertEquals(true, $err_modal->displayed(), 'Check error modal visibility');
         $btn_close = $this->byJQ('#error_modal button.close');
@@ -497,7 +511,7 @@ class base_addons extends test_restrict{
 
         if (isset($interval['room_types']) && count($interval['room_types'])) {
             echo "Number of selected room types = " . count($interval['room_types']) . PHP_EOL;
-            foreach($interval['room_types'] as $room_type) {
+            foreach($interval['room_types'] as $i => $room_type) {
                 if (isset($room_type['room_type_id'])) {
                     echo PHP_EOL;
                     echo "Room type id = " . $room_type['room_type_id'] . PHP_EOL;
@@ -510,10 +524,7 @@ class base_addons extends test_restrict{
                     $form->click();
 
                     //for better video view
-                    $this->execute(array(
-                        'script' => "window.$('html, body').animate({scrollTop: '+=200px'}, 0);",
-                        'args' => array()
-                    ));
+                    $this->execJS("window.$('html, body').animate({scrollTop: '+=" . ($i * 200) . "px'}, 0);");
                     $script_show = 'jQuery(".addon_form .table-scrollable.border", "#layout").removeClass("table-scrollable");';
 
                     //prior to accessing the non-visible element
@@ -525,7 +536,7 @@ class base_addons extends test_restrict{
                     // 'day_0_child_price' => 10, // price for child
                     for($i = 0; $i <= 6; $i++) {
 
-                        echo 'Day ' . $i . ' checking...' . PHP_EOL;
+                        echo 'Day ' . $i . ' for ' . $room_type['room_type_id'] . ' room type checking...' . PHP_EOL;
                         $checkbox_selector = '[name=\'day_' . $i . '_' . $room_type['room_type_id'] . '\']';
                         $room_type_checkbox_label = $this->byJQ($checkbox_selector . ' + label');
                         $room_type_checkbox = $this->byJQ($checkbox_selector);
@@ -621,18 +632,22 @@ class base_addons extends test_restrict{
     /**
      * Check Save panel & Save Add-on
      */
-    public function saveAddon()
+    public function saveAddon($with_toast = true)
     {
         echo 'Save...' . PHP_EOL;
         $save = $this->waitForElement('#panel-save .btn-html .btn.save_add_ons', 15000, 'css');
         if (getenv('SELENIUM_LOCAL')) {
             //It seems the click event handler is not assigned yet in some cases, so we need the delay.
-            sleep(1);
+            sleep(3);
         }
         $save->click();
-        if (getenv('SELENIUM_LOCAL')) {
-            //It seems the click event handler is not assigned yet in some cases, so we need the delay.
-            sleep(1);
+        if ($with_toast) {
+            $this->waitForElement('.toast-bottom-left');
+        } else {
+            if (getenv('SELENIUM_LOCAL')) {
+                //It seems the click event handler is not assigned yet in some cases, so we need the delay.
+                sleep(3);
+            }
         }
     }
 
@@ -661,12 +676,7 @@ class base_addons extends test_restrict{
     public function delAddon($addon_id)
     {
         $this->go_to_addons_page();
-
-        $script_show = 'jQuery("#addons_list .btn-group", "#layout").css("cssText", "display: block !important;");';
-        $script_hide = 'jQuery("#addons_list .btn-group", "#layout").css("cssText", "display: none !important;");';
-
-        //prior to accessing the non-visible element
-        $this->execute( array( 'script' => $script_show , 'args'=>array() ) );
+        $this->focusOnActions();
         $this->waitForElement('#addon_' . $addon_id . ' .btn-group .dropdown-toggle', 15000, 'jQ');
         $this->byJQ('#addon_' . $addon_id . ' .btn-group .dropdown-toggle')->click();
 
@@ -675,24 +685,22 @@ class base_addons extends test_restrict{
 
         $this->waitForElement('#confirm_delete', 50000, 'jQ');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
+    }
 
-        //after it no longer needs to be visible
-        $this->execute( array( 'script' => $script_hide , 'args'=>array() ) );
+    public function focusOnActions()
+    {
+        $script_show = 'window.$(".table-scrollable", "#layout").addClass("table-scrollable-tmp").removeClass("table-scrollable");';
+        //prior to accessing the non-visible element
+        $this->execJS($script_show);
+        echo 'Count of changed tables: ' . $this->execJS('window.$(".table-scrollable-tmp", "#layout").length');
+        //for better video view
+        $this->execJS("window.$('html, body').animate({scrollLeft: '+=400px'}, 0);");
     }
 
     public function editAddonAction($addonId)
     {
-        $script_show = 'jQuery(".addons-list-block .table-scrollable", "#layout").addClass("table-scrollable-tmp").removeClass("table-scrollable");';
-        $script_hide = 'jQuery(".addons-list-block .table-scrollable-tmp", "#layout").addClass("table-scrollable").removeClass("table-scrollable-tmp");';
-
-        //prior to accessing the non-visible element
-        $this->execJS($script_show);
-        //for better video view
-        $this->execJS("window.$('html, body').animate({scrollLeft: '+=200px'}, 0);");
-
+        $this->focusOnActions();
         $this->waitForElement('#layout #addons_list #addon_'. $addonId . ' .action-btn.edit_addon', 15000, 'jQ')->click();
-        // undo style changes
-        $this->execJS($script_hide);
     }
 
     public function createReservation($start, $end)
@@ -725,11 +733,14 @@ class base_addons extends test_restrict{
         echo 'Search start date = ' . $startDate . PHP_EOL;
         echo 'Search end date = ' . $endDate . PHP_EOL;
 
+        echo 'Check availability...';
         //get cache before booking
         $beforeAvailability = $this->getAvailability($startDate, $endDate, $roomTypeId, false, true);
-
+        echo 'Select first room' . PHP_EOL;
+        sleep(3);
         //select 1 room
-        $el->byCssSelector('div.rooms_select button')->click();
+        $btn = $el->byCssSelector('div.rooms_select button');
+        $btn->click();
         $this->byjQ('div.rooms_select ul.dropdown-menu li:eq(1) a')->click();
 
         //waiting for folio js execution
