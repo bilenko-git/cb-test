@@ -76,15 +76,17 @@ class house_keeping extends test_restrict {
         $this->openHKTabs('house_keeping_inspections');
 
         $rowIndex = 0;
-        $housekeepers = $this->getHouseKeepersList();
+
+        $housekeepers = $this->execute(array('script' => 'return BET.DB().select("house_keepers")[0][0].id;', 'args' => array()));
 
         foreach($this->checkInspectionChange as $change) {
             $row = $this->findInspections($rowIndex);
 
             foreach($change as $name => &$value) {
-                if($name == 'assign_to') $value = isset($housekeepers[$value]) ? $housekeepers[$value] : reset($housekeepers);
-                $this->inspectionChange($row, $name, $value);
-                sleep(1);
+                if($name == 'assign_to') $value = $housekeepers;
+
+              $this->inspectionChange($row, $name, $value);
+              sleep(1);
             }
 
             $this->assertInspection($rowIndex, $change);
@@ -109,8 +111,9 @@ class house_keeping extends test_restrict {
                     $input->value($value);
                     break;
                 case 'assign_to':
-                    $input = $row->byCssSelector('select[name="'.$name.'['.$row_id.']"]');
-                    $input->value($value);
+                    $element = $this->waitForElement('[data-id='.$row_id.'] .assign_select option:eq(1)', 15000, 'jQ');
+                    $element->selected();
+                    $element->click();
                     break;
                 case 'do_not_disturb':
                     $input = $row->byCssSelector('input[name="do_not_disturb['.$row_id.']"]');
@@ -149,10 +152,11 @@ class house_keeping extends test_restrict {
                     case 'assign_to':
                     case 'do_not_disturb':
                         $input = $row->byCssSelector('[name="'.$name.'['.$row_id.']"]');
+                        $element = $this->waitForElement('[data-id='.$row_id.'] .assign_select option:selected', 15000, 'jQ');
 
                         $currentValue = false;
                         if($name == 'assign_to'){
-                            $currentValue = $this->select($input)->selectedLabel();
+                            $currentValue = $element->value();
                         } else {
                             $currentValue = $name == 'do_not_disturb' ? $input->selected() : $input->value();
                         }
@@ -235,10 +239,6 @@ class house_keeping extends test_restrict {
 
         $this->waitIfLocal(3000000);
         $this->assertHouseKeeperExists($name, false);
-    }
-
-    protected function getHouseKeepersList(){
-        return $this->execute(array('script' => 'return _.map(BET.DB().select("house_keepers")[0], function(val, i){return val.name});', 'args' => array()));
     }
 
     protected function assertHouseKeeperExists($name, $expected) {
