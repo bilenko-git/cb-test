@@ -13,9 +13,10 @@ class report_sorting_column extends test_restrict{
         'http://{server}/connect/{property_id}#/account_balances_report',
         'http://{server}/connect/{property_id}#/cashier_report',
         'http://{server}/connect/{property_id}#/front_desk_report/arrivals',
-        'http://{server}/connect/{property_id}#/account_balances_report',
-        'http://{server}/connect/{property_id}#/account_balances_report',
-        'http://{server}/connect/{property_id}#/account_balances_report',
+        'http://{server}/connect/{property_id}#/front_desk_report/departures',
+        'http://{server}/connect/{property_id}#/front_desk_report/inhouse',
+        'http://{server}/connect/{property_id}#/front_desk_report/noshow',
+        'http://{server}/connect/{property_id}#/front_desk_report/cancellations',
     );
 
     public function testSteps(){

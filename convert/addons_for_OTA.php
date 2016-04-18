@@ -670,6 +670,7 @@ class addons_for_OTA extends base_addons {
             'transaction_code' => 'CHIPS00145',
             'available' => 'n/a',
             'charge_type' => 'quantity',
+            'max_qty_per_res' => '20',
             'charge_for_children' => '0',
             'charge_different_price_for_children' => '0',
             'with_image' => true,
