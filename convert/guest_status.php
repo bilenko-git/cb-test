@@ -30,6 +30,10 @@ class guest_status extends test_restrict{
 
         $this->waitForElement('.customer_status > button', 15000, 'css')->click();
 
+        $status_count = $this->execute(array('script' => "return js=window.BET.guest_status.getActiveStatus().length", 'args' => array()));
+        $count = $this->execute(array('script' => 'return window.$(".customer_status li").length', 'args' => array()));
+        $this->assertEquals($status_count, $count - 1);
+
         $el = $this->execute(array('script' => 'return window.$(".customer_status li .text:contains(selenium status)").closest("a").get(0)', 'args' => array()));
         $element = $this->elementFromResponseValue($el);
         $element->click();
