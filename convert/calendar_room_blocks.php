@@ -30,7 +30,7 @@ class calendar_room_blocks extends test_restrict{
         $this->setupInfo('PMS_user');
         $this->loginToSite();
 
-        $this->addRate($this->interval);
+       // $this->addRate($this->interval);
         //going to calendar page
         $url = $this->_prepareUrl($this->calendarUrl);
         $this->url($url);
