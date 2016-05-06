@@ -35,6 +35,7 @@ class bulk_action_reservation extends base_rates{
         $this->waitForElement('#assign-actions-modal .btn-action', 15000, 'jQ')->click();
         $this->url($this->_prepareUrl($this->reservation_url.$id));
         $this->waitForElement('#validation_error', 15000, 'jQ');
+        $this->waitForElement('#validation_error .btn_ok', 15000, 'jQ')->click();
 
         // add payment to last reservation
         // add  custom payment to last reservation
