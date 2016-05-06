@@ -85,7 +85,7 @@ class base_rates extends test_restrict{
             $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
         } else {
             //$this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_delete')->click();
+            $this->waitForElement('#tab_0 .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
         }
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
