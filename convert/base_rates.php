@@ -151,6 +151,7 @@ class base_rates extends test_restrict{
     public function updateRate($interval, $click = false, $type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
+        sleep(2);
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
