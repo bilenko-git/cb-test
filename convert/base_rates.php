@@ -155,8 +155,8 @@ class base_rates extends test_restrict{
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
         } else {
-            $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $this->byJQ('#tab_0 .intervals-table tr.r_rate:last .interval_edit')->click();
+            //$this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
+            $this->waitForElement('#tab_0 .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
         }
         $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
         $this->waitForElement('[name=start_date]', 15000, 'jQ')->click();
