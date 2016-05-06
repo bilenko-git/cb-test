@@ -18,32 +18,26 @@ class add_interval_date_error extends test_restrict
         // clickElement
         // setElementText
         $element = $this->byId("hotel_name");
-        $element->click();
         $element->clear();
         $element->value("SeleniumTest Hotel");
         // setElementText
         $element = $this->byId("hotel_phone");
-        $element->click();
         $element->clear();
         $element->value("(111)555-8899");
         // setElementText
         $element = $this->byId("hotel_contact_name");
-        $element->click();
         $element->clear();
         $element->value("Selenium hotelier");
         // setElementText
         $element = $this->byId("hotel_address1");
-        $element->click();
         $element->clear();
         $element->value("1 selenium st. Good City");
         // setElementText
         $element = $this->byId("hotel_address_city");
-        $element->click();
         $element->clear();
         $element->value("C");
         // setElementText
         $element = $this->byId("hotel_address_zip");
-        $element->click();
         $element->clear();
         $element->value("123789");
         // clickElement
@@ -52,7 +46,6 @@ class add_interval_date_error extends test_restrict
         $this->waitForElement("#error_modal .default", 15000, 'css')->click();
 
         $element = $this->byId("hotel_address_city");
-        $element->click();
         $element->clear();
         $element->value("Cccc");
 
