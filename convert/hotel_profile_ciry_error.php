@@ -14,7 +14,7 @@ class add_interval_date_error extends test_restrict
         $this->url($this->_prepareUrl($this->hotel_profile_url));
         $this->waitForLocation($this->_prepareUrl($this->hotel_profile_url));
         // clickElement
-        $this->waitForElement("#layout #hotel_name", 15000, 'jQ')->click();
+        $this->waitForElement("#layout #hotel_name", 15000, 'jQ');
         // clickElement
         // setElementText
         $element = $this->byId("hotel_name");
