@@ -34,6 +34,7 @@ class test_restrict extends WebDriverTestCase
             'desiredCapabilities' => array(
                 'version' => '42',
                 'platform' => 'Windows 8.1',
+                'seleniumVersion' => '2.48.0'
             )
         ),
         // run Chrome on Linux on Sauce
