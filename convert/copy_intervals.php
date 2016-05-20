@@ -6,7 +6,7 @@ class copy_intervals extends base_rates{
     private $invoice_url = 'http://{server}/connect/{property_id}#/setupInvoicing';
     private $roomtype = array(
         'name' => 'arrival_departure',
-        'rooms' => 10,
+        'rooms' => 1,
         'room_type_descr_langs' =>'test'
     );
     private $interval = array(
