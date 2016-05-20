@@ -82,10 +82,10 @@ class base_rates extends test_restrict{
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
-            $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:visible:last .interval_delete', 15000, 'jQ')->click();
         } else {
             //$this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $this->waitForElement('#tab_0 .intervals-table tr.r_rate:last .interval_delete', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:visible:last .interval_delete', 15000, 'jQ')->click();
         }
         $this->waitForElement('#confirm_delete', 50000, 'css');
         $this->byCssSelector('#confirm_delete .btn_delete')->click();
