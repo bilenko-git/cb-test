@@ -57,6 +57,9 @@
                     usleep(500000);
                 return $bUrl;
             }, $timeout);
+
+            $el = $this->waitForElement(".progress-bar-background", 15000, 'jQ');
+            $this->waitUntilVisible($el, 30000);
         }
 
         public function waitUntilVisible($element, $timeout = 1000){
