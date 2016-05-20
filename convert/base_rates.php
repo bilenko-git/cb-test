@@ -154,10 +154,10 @@ class base_rates extends test_restrict{
         sleep(2);
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
-            $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:visible:last .interval_edit', 15000, 'jQ')->click();
         } else {
             //$this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
-            $this->waitForElement('#layout .intervals-table tr.r_rate:last .interval_edit', 15000, 'jQ')->click();
+            $this->waitForElement('#layout .intervals-table tr.r_rate:visible:last .interval_edit', 15000, 'jQ')->click();
         }
         $this->waitForElement('[name=interval_name]', 15000, 'jQ' )->value($interval['name']);
         $this->waitForElement('[name=start_date]', 15000, 'jQ')->click();
