@@ -115,6 +115,7 @@ class base_rates extends test_restrict{
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+            $this->waitForElement('#confirm_modal btn_ok', 15000, 'jQ')->click();
         }
         $this->save();
 
