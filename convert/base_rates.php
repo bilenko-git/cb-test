@@ -68,7 +68,8 @@ class base_rates extends test_restrict{
         } else {
             $this->waitForElement('.nav-tabs li.base:first a', 15000, 'jQ')->click();
         }
-        $this->waitForElement('.copy_section.copy_rates', 15000, 'jQ')->click();
+        sleep(2);
+        $this->waitForElement('.copy_section.copy_rates:visible', 15000, 'jQ')->click();
         $this->waitForElement('.modal-content', 15000, 'jQ');
         $this->waitForElement('.modal-content .save_changes3', 15000, 'jQ')->click();
         $this->waitForElement('.room_rate_copy_confirm_modal', 15000, 'jQ');
