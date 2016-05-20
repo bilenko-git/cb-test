@@ -127,7 +127,7 @@ class base_rates extends test_restrict{
         $el->click();
         $el->value($roomtype['name']);
         $el = $this->waitForElement('[name=\'room_type_capacity\']', 15000, 'jQ');
-        //$el->clear();
+        $el->clear();
         $el->value($roomtype['rooms']);
       /*  $el = $this->waitForElement('[name=\'room_type_max_rooms\']', 15000, 'jQ');
         $el->clear();
