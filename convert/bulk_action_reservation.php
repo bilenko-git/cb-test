@@ -55,7 +55,6 @@ class bulk_action_reservation extends base_rates{
         $this->betLoaderWaiting();
         $val = $this->waitForElement('.rs-transactions-table tbody tr:first .credit', 15000, 'jQ')->text();
         $this->assertEquals(1, $val);
-
         // add full payment to last reservation
 
         $this->url($this->_prepareUrl($this->reservations_url));
