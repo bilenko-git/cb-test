@@ -88,8 +88,10 @@
                 return $bUrl ?: null;
             }, $timeout);
 
-            $el = $this->byJQ(".progress-bar-background");
-            $this->waitUntilVisible($el, 30000);
+            if (strpos($url, 'myallocator') == false) {
+                $el = $this->byJQ(".progress-bar-background");
+                $this->waitUntilVisible($el, 30000);
+            }
         }
 
         public function waitToVisible($element, $timeout = 5000){
