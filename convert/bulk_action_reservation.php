@@ -80,7 +80,7 @@ class bulk_action_reservation extends base_rates{
 
         $amount = $this->waitForElement("#assign-actions-modal .modal_res_table tbody tr:first td:eq(3) span", 15000, 'jQ')->text();
         $amount = $this->execute(array('script' => 'return window.BET.langs.parseCurrency("'.$amount.'");', 'args' => array()));
-        if ($amount !== 0) {
+        if ((int)$amount !== 0) {
             $this->waitForElement('#assign-actions-modal .btn-action', 15000, 'jQ')->click();
             $this->url($this->_prepareUrl($this->reservation_url . $id));
             $this->waitForElement('#reservation-tabs li:eq(1)', 15000, 'jQ')->click();
