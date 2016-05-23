@@ -82,7 +82,7 @@ class base_rates extends test_restrict{
     public function delRate($type = false){
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
-        sleep(4);
+        sleep(2);
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
             $this->waitForElement('#layout .intervals-table tr.r_rate:visible:last .interval_delete', 15000, 'jQ')->click();
