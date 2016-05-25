@@ -24,6 +24,31 @@ class calendar_room_blocks extends base_rates{
         'edit_end_day' => '+12 days'
     );
 
+    private function check_ma($rooms){
+
+        $test = $this;
+        $this->loginToMA();
+        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
+        $el->click();
+        $el->click();
+        $this->waitForElement('.availTableWrapper', 15000, 'css');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
+        $test->assertEquals($rate->value(), $rooms);
+
+        $url = $this->_prepareUrl($this->calendarUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        //loading waiting
+        $this->waitUntil(function() use ($test) {
+            try {
+                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+            } catch(\Exception $e) {
+                return null;
+            }
+            return true;
+        },50000);
+    }
+
 
     public function testSteps() {
 
@@ -77,26 +102,7 @@ class calendar_room_blocks extends base_rates{
         $text = $el->text();
         $this->assertEquals($this->endDate, $text);
 
-        $this->loginToMA();
-        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
-        $el->click();
-        $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
-        $test->assertEquals($rate->value(), $rooms);
-
-        $url = $this->_prepareUrl($this->calendarUrl);
-        $this->url($url);
-        $this->waitForLocation($url);
-        //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
-
+        $this->check_ma($rooms);
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $el->click();
@@ -147,26 +153,7 @@ class calendar_room_blocks extends base_rates{
         $text = $el->text();
         $this->assertEquals($this->startDate.' '.$this->endDate, $text);
 
-        $this->loginToMA();
-        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
-        $el->click();
-        $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
-        $test->assertEquals($rate->value(), $rooms);
-
-        $url = $this->_prepareUrl($this->calendarUrl);
-        $this->url($url);
-        $this->waitForLocation($url);
-        //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
-
+        $this->check_ma($rooms);
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $el->click();
@@ -204,25 +191,7 @@ class calendar_room_blocks extends base_rates{
         $text = $el->text();
         $this->assertEquals($this->endDate, $text);
 
-        $this->loginToMA();
-        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
-        $el->click();
-        $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
-        $test->assertEquals($rate->value(), $rooms);
-
-        $url = $this->_prepareUrl($this->calendarUrl);
-        $this->url($url);
-        $this->waitForLocation($url);
-        //loading waiting
-        $this->waitUntil(function() use ($test) {
-            try {
-                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
-            } catch(\Exception $e) {
-                return null;
-            }
-            return true;
-        },50000);
+        $this->check_ma($rooms);
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $el->click();
