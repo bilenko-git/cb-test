@@ -3,13 +3,14 @@ namespace MyProject\Tests;
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 require_once 'test_restrict.php';
 require_once 'common/rates.php';
+require_once 'base_rates.php';
 
 /**
  * Test restrictions:
  * - Should be at minimum 1 available room
  *
  */
-class calendar_room_blocks extends test_restrict{
+class calendar_room_blocks extends base_rates{
     use \Rates;
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $calendarUrl = 'http://{server}/connect/{property_id}#/calendar';
@@ -30,7 +31,7 @@ class calendar_room_blocks extends test_restrict{
         $this->setupInfo('PMS_user');
         $this->loginToSite();
 
-       // $this->addRate($this->interval);
+        $this->addRate($this->interval);
         //going to calendar page
         $url = $this->_prepareUrl($this->calendarUrl);
         $this->url($url);
@@ -69,11 +70,36 @@ class calendar_room_blocks extends test_restrict{
         $this->waitForElement('#block-dates-group-modal #save-blocked-dates-group', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $rooms = $el->text();
+
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $text = $el->text();
         $this->assertEquals($this->endDate, $text);
-        $el->click();
 
+        $this->loginToMA();
+        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
+        $el->click();
+        $this->waitForElement('.availTableWrapper', 15000, 'css');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
+        $test->assertEquals($rate->value(), $rooms);
+
+        $url = $this->_prepareUrl($this->calendarUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        //loading waiting
+        $this->waitUntil(function() use ($test) {
+            try {
+                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+            } catch(\Exception $e) {
+                return null;
+            }
+            return true;
+        },50000);
+
+
+        $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
+        $el->click();
         $this->waitForElement('.popover.blocked_dates', 15000, 'jQ');
         $this->waitForElement('.popover.blocked_dates .actions-list li:first a', 15000, 'jQ')->click();
 
@@ -113,11 +139,37 @@ class calendar_room_blocks extends test_restrict{
         $this->waitForElement('#courtesy-hold-group-modal #save-courtesy-hold-group', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
+
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $rooms = $el->text();
+
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $text = $el->text();
         $this->assertEquals($this->startDate.' '.$this->endDate, $text);
-        $el->click();
 
+        $this->loginToMA();
+        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
+        $el->click();
+        $this->waitForElement('.availTableWrapper', 15000, 'css');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
+        $test->assertEquals($rate->value(), $rooms);
+
+        $url = $this->_prepareUrl($this->calendarUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        //loading waiting
+        $this->waitUntil(function() use ($test) {
+            try {
+                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+            } catch(\Exception $e) {
+                return null;
+            }
+            return true;
+        },50000);
+
+
+        $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
+        $el->click();
         $this->waitForElement('.popover.courtesy_hold', 15000, 'jQ');
         $this->waitForElement('.popover.courtesy_hold .actions-list li:eq(1) a', 15000, 'jQ')->click();
 
@@ -145,13 +197,41 @@ class calendar_room_blocks extends test_restrict{
         $this->waitForElement('#block-dates-group-modal #save-blocked-dates-group', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $rooms = $el->text();
+
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $text = $el->text();
         $this->assertEquals($this->endDate, $text);
+
+        $this->loginToMA();
+        $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
+        $el->click();
+        $this->waitForElement('.availTableWrapper', 15000, 'css');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[1]', 15000, 'xpath');
+        $test->assertEquals($rate->value(), $rooms);
+
+        $url = $this->_prepareUrl($this->calendarUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        //loading waiting
+        $this->waitUntil(function() use ($test) {
+            try {
+                $test->assertEquals("0", $test->execute(array('script' => "return window.$('#layout .loading.locked').length", 'args' => array())));
+            } catch(\Exception $e) {
+                return null;
+            }
+            return true;
+        },50000);
+
+        $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
         $el->click();
 
         $this->waitForElement('.popover.blocked_dates', 15000, 'jQ');
         $this->waitForElement('.popover.blocked_dates .actions-list li:first a', 15000, 'jQ')->click();
+
+        //////////
+        $this->delRate();
 
     }
 }
