@@ -153,7 +153,8 @@ class test_restrict extends WebDriverTestCase
             $passField->value($this->password);
         }
 
-        $this->byXPath("//div[@class='form-actions']//button[normalize-space(.)='Login']")->click();
+
+        $this->waitForElement('.login_btn')->click();
 
         $loggedIn = false;
         $this->waitUntil(function () use (&$loggedIn) {
