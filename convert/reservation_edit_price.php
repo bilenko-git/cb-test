@@ -1,13 +1,21 @@
 <?php
 namespace MyProject\Tests;
-require_once 'test_restrict.php';
+require_once  'base_rates.php';
 use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 
-class reservation_edit_price extends test_restrict{
+class reservation_edit_price extends base_rates{
     private $reservations_url = 'http://{server}/connect/{property_id}#/reservations';
     private $reservation_url = 'http://{server}/connect/{property_id}#/reservations/';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $price = 10;
+    private $intervals = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'start' => 'now',
+        'end' => '+40 days',
+        'min' => '2',
+        'edit_end_day' => '+12 days'
+    );
     private $interval = array(
         'end' => '+5 days',
         'start' => '+0 days',
@@ -15,6 +23,9 @@ class reservation_edit_price extends test_restrict{
 
     public function testSteps(){
         $this->setupInfo('PMS_user');
+        $this->loginToSite();
+
+        $this->addRate($this->intervals);
 
         $this->startDate = date('Y-m-d', strtotime('+0 days'));
         $this->endDate = date('Y-m-d', strtotime('+4 day', strtotime($this->startDate)));
@@ -127,6 +138,7 @@ class reservation_edit_price extends test_restrict{
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
         $this->waitForLocation($this->_prepareUrl($this->reservations_url));
 
+        $this->delRate();
     }
 }
 ?>
