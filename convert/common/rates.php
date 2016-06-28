@@ -25,10 +25,12 @@ trait Rates {
         $this->byCssSelector('#layout #tab_0 .new_interval_form')->click();
 
         if (isset($interval['min'])){
+            $this->waitForElement('[name=min_los]')->clear();
             $this->waitForElement('[name=min_los]')->value($interval['min']);
         }
 
         if (isset($interval['max'])){
+            $this->waitForElement('[name=max_los]')->clear();
             $this->waitForElement('[name=max_los]')->value($interval['max']);
         }
 
