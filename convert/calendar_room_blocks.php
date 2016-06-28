@@ -94,7 +94,7 @@ class calendar_room_blocks extends base_rates{
         $this->waitForElement('#block-dates-group-modal #save-blocked-dates-group', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
-        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free-rooms:first', 15000, 'jQ');
         $rooms = $el->text();
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
@@ -145,7 +145,7 @@ class calendar_room_blocks extends base_rates{
         $this->betLoaderWaiting();
 
 
-        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free-rooms:first', 15000, 'jQ');
         $rooms = $el->text();
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
@@ -183,7 +183,7 @@ class calendar_room_blocks extends base_rates{
         $this->waitForElement('#block-dates-group-modal #save-blocked-dates-group', 15000, 'css')->click();
         $this->betLoaderWaiting();
 
-        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free_rooms:first', 15000, 'jQ');
+        $el =  $this->waitForElement('.rt_'.$this->startDate.' .free-rooms:first', 15000, 'jQ');
         $rooms = $el->text();
 
         $el = $this->waitForElement('.calendar-table .content:contains('.$this->endDate.')', 15000, 'jQ');
