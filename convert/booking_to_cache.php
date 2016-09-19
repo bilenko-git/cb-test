@@ -1,16 +1,29 @@
 <?php
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
+require_once 'base_rates.php';
 
 /**
  * should be hotel with Bank Transfer(ebanking) activated and available room for tomorrow
  */
-class booking_to_cache extends test_restrict{
+class booking_to_cache extends base_rates{
     private $testUrl = 'http://{server}/reservas/{property_reserva_code}';
+    private $interval = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+100 days',
+        'start' => '+0 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
     public function testSteps() {
         $this->currentWindow()->maximize();
         //$this->setupInfo('', '', '', 366);
         $this->setupInfo('PMS_user');
+
+        $this->loginToSite();
+
+        $this->addRate($this->interval);
 
         $startDate = date('Y-m-d', strtotime('+1 day'));
         $endDate = date('Y-m-d', strtotime('+2 day'));
@@ -82,6 +95,8 @@ class booking_to_cache extends test_restrict{
         echo "Before:$availBefore, After:$availAfter";
         
         $this->assertEquals($availBefore, $availAfter + 1);
+
+        $this->delRate();
     }
 }
 ?>
