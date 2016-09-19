@@ -93,7 +93,6 @@ class booking_availability extends base_rates{
             $this->fail('No rooms to booking');
         }
 
-
         $count = $this->execute(array('script' => "return window.$('.room_types .rooms_select:first option').length ", 'args' => array()));
 
         $id = $this->execute(array('script' => "return window.$('.room_types div:first').data('room_type_id');", 'args' => array()));
