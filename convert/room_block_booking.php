@@ -1,6 +1,7 @@
 <?php
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
+require_once 'base_rates.php';
 
 /**
  * Test restrictions:
@@ -9,15 +10,27 @@ require_once 'test_restrict.php';
  * - basic availability should be activated(CRM)
  * 
  */
-class room_block_booking extends test_restrict{
+class room_block_booking extends  base_rates{
     private $roomBlockUrl = 'http://{server}/connect/{property_id}#/roomblocks';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
+    private $interval = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+100 days',
+        'start' => '+0 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
     
     public function testSteps() {
         $this->setupInfo('PMS_user');
         $newBlockingId = false;
       //  $this->setupInfo('', 'engineering@cloudbeds.com', 'cl0udb3ds', 33);
 
+
+        $this->loginToSite();
+
+        $this->addRate($this->interval);
         //will check next week
         $startDate = date('Y-m-d', strtotime('next monday'));
         $endDate = date('Y-m-d', strtotime('+7 day', strtotime($startDate)));
@@ -125,6 +138,8 @@ class room_block_booking extends test_restrict{
 
             $this->assertEquals($availCheck, 1);
         //
+
+        $this->delRate();
     }
     
     private function _getCurrentBlocksIds() {
