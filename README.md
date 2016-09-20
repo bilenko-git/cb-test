@@ -21,6 +21,8 @@ and run it java -jar selenium-server-standalone-*.jar
 
 If we see error some thing unable to connect, then probably you has old version WebDriver
 
+for FF 48 use server 2.53.1
+
 export SELENIUM_LOCAL=1 
 
 vendor/bin/phpunit "YOUR_TEST.php"
