@@ -27,6 +27,7 @@ class cash_drawers extends test_restrict
         $this->waitForElement("#save_drawer_btn", 15000, 'css')->click();
         $this->betLoaderWaiting();
 
+
         $id = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains(' . $this->name . ')").closest("tr").attr("rel");', 'args' => array()));
 
         $this->waitForElement("[name='acashier_system']", 15000, 'css')->click();
