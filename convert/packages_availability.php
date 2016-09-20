@@ -1,12 +1,29 @@
 <?php
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
+require_once 'base_rates.php';
 
-class packages_availability extends test_restrict{
+class packages_availability extends base_rates{
     private $packages_list_url = 'http://{server}/connect/{property_id}#/packages';
     /*protected $booking_url = 'http://{server}/reservas/{property_id}#checkin={date_from}&checkout={date_to}';*/
     protected $booking_rooms_url = 'http://{server}/booking/rooms';
 
+    private $interval = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+120 days',
+        'start' => '+101 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
+    private $interval1 = array(
+        'name' => 'interval today',
+        'value_today' => '99',
+        'end' => '+140 days',
+        'start' => '+121 days',
+        'min' => '0',
+        'edit_end_day' => '+12 days'
+    );
     private $packages = array(
         array(
             '[name ^=\'package_name\']' => 'Selenium Pack 1',
@@ -203,8 +220,8 @@ class packages_availability extends test_restrict{
     );
 
     public function test_Range_Min_Max_los(){
-        //$this->go_to_package_page();
-        //$this->_verifyPackage(0);
+        $this->go_to_package_page();
+        $this->_verifyPackage(0);
     }
     public function test_Cut_off(){
         $this->go_to_package_page();
@@ -224,11 +241,20 @@ class packages_availability extends test_restrict{
     }
     public function test_Derived_fixed_package(){
         $this->go_to_package_page();
+        $this->addRate($this->interval);
+        $this->url($this->_prepareUrl($this->packages_list_url));
+        $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
         $this->_verifyPackage(5);
+        $this->delRate();
     }
-    public function test_Derived_percentage_package(){
+
+   public function test_Derived_percentage_package(){
         $this->go_to_package_page();
+        $this->addRate($this->interval1);
+        $this->url($this->_prepareUrl($this->packages_list_url));
+        $this->waitForLocation($this->_prepareUrl($this->packages_list_url));
         $this->_verifyPackage(6);
+        $this->delRate();
     }
     public function test_Package_update(){
         $this->go_to_package_page();
@@ -752,7 +778,7 @@ class packages_availability extends test_restrict{
 
             // TODO:   $rm_type_index = rand(0, 1000) % count($rm_types);????????
           //  $rm_type_index = rand(0, 1000) % count($rm_types);
-            $rm_type = $rm_types[1];
+            $rm_type = $rm_types[0];
             $rm_type_id = $rm_type['room_type_id'];
         }
 
@@ -760,7 +786,9 @@ class packages_availability extends test_restrict{
             echo "rm_type_id = ".$rm_type_id.PHP_EOL;
             $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
             $avail_button->click();//open
-            $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+            //$room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\']', 16000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\']").click(); return true;','args' => array()));
+
             $avail_button->click();//close
             $form->click();
 
@@ -779,7 +807,9 @@ class packages_availability extends test_restrict{
                 }
             }
 
-            $this->waitForElement('.save_add_interval', 5000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("#layout .save_add_interval").click(); return true;','args' => array()));
+
+            //  $this->waitForElement('#layout .save_add_interval', 5000, 'jQ')->click();
         } else {
             $this->fail('room type id can not be selected');
         }
@@ -788,7 +818,7 @@ class packages_availability extends test_restrict{
     }
 
     public function uploadPackagePhoto() {
-        $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload');
+        $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload', 10000, 'jQ');
         $upload_button->click();
 
         $modal = $this->waitForElement('#photo_upload_modal', 7000);
