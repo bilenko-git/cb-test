@@ -2,11 +2,13 @@
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
 
-class cash_drawers extends test_restrict{
+class cash_drawers extends test_restrict
+{
     private $invoice_url = 'http://{server}/connect/{property_id}#/setupInvoicing';
     private $name = 'new cash drawer';
 
-    public function testSteps(){
+    public function testSteps()
+    {
 
         $this->setupInfo('PMS_user');
         $this->loginToSite();
@@ -25,16 +27,15 @@ class cash_drawers extends test_restrict{
         $this->waitForElement("#save_drawer_btn", 15000, 'css')->click();
         $this->betLoaderWaiting();
 
-        $id = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains('.$this->name.')").closest("tr").attr("rel");', 'args' => array()));
-
+        $id = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains(' . $this->name . ')").closest("tr").attr("rel");', 'args' => array()));
 
         $this->waitForElement("[name='acashier_system']", 15000, 'css')->click();
         $this->waitForElement("#sopen_cash_drawer a", 15000, 'css')->click();
 
         $this->waitForElement("#open-cash-drawer .single-multiple-select button", 15000, 'css')->click();
 
-        $this->execute(array('script' => 'window.$("#open-cash-drawer .single-multiple-select li input[value='.$id.']").click(); return false', 'args' => array()));
-        $this->execute(array('script' => 'window.$("#open-cash-drawer .single-multiple-select li input[value='.$id.']").click(); return false', 'args' => array()));
+        $this->execute(array('script' => 'window.$("#open-cash-drawer .single-multiple-select li input[value=' . $id . ']").click(); return false', 'args' => array()));
+        $this->execute(array('script' => 'window.$("#open-cash-drawer .single-multiple-select li input[value=' . $id . ']").click(); return false', 'args' => array()));
 
         $this->waitForElement("#open-cash-drawer #open-cash-drawer-btn", 15000, 'css')->click();
         $this->betLoaderWaiting();
@@ -53,14 +54,15 @@ class cash_drawers extends test_restrict{
         $this->waitForElement("#close-cash-drawer #close-drawer", 15000, 'css')->click();
         $this->betLoaderWaiting();
 
-        $el = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains('.$this->name.')").closest("tr").find(".actions-column a:eq(1)").get(0);', 'args' => array()));
+        $el = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains(' . $this->name . ')").closest("tr").find(".actions-column a:eq(1)").get(0);', 'args' => array()));
         $el = $this->elementFromResponseValue($el);
         $el->click();
         $this->waitForElement("#delete-cash-drawer-btn", 15000, 'css')->click();
         $this->betLoaderWaiting();
-        $l = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains('.$this->name.')").length;', 'args' => array()));
-        $this->assertEquals(0,$l);
+        $l = $this->execute(array('script' => 'return window.$(".table-cash-drawers .cd-name:contains(' . $this->name . ')").length;', 'args' => array()));
+        $this->assertEquals(0, $l);
     }
 
 }
+
 ?>
