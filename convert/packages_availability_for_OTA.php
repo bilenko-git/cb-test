@@ -215,18 +215,23 @@ class packages_availability extends test_restrict{
         $this->go_to_package_page();
         $this->_verifyPackage(2);
     }
-    public function test_Closed_to_arrival(){
-        $this->go_to_package_page();
-        $this->_verifyPackage(3);
-    }
-    public function test_Promo_code(){
-      //  $this->go_to_package_page();
-      //  $this->_verifyPackage(4);
-    }
-   /* public function test_Package_update(){
-        $this->go_to_package_page();
-        $this->_update_and_verifyPackage(0);
-    }*/
+
+
+     public function test_Closed_to_arrival(){
+         $this->go_to_package_page();
+         $this->_verifyPackage(3);
+     }
+
+
+  /* public function test_Promo_code(){
+       $this->go_to_package_page();
+       $this->_verifyPackage(4);
+   }*/
+
+    public function test_Package_update(){
+         $this->go_to_package_page();
+         $this->_update_and_verifyPackage(0);
+     }
 
     public function _update_and_verifyPackage($index){
         if(!empty($this->packages[$index])) {
@@ -735,6 +740,7 @@ class packages_availability extends test_restrict{
                     $input = $form->byName($selector);
                     $input->click();
                     $form->click();
+                    $input->clear();
                     $input->value($value);
                 }
             }
@@ -754,8 +760,8 @@ class packages_availability extends test_restrict{
 
             // TODO:   $rm_type_index = rand(0, 1000) % count($rm_types);????????
 
-            $rm_type_index = rand(0, 1000) % count($rm_types);
-            $rm_type = $rm_types[$rm_type_index];
+           // $rm_type_index = rand(0, 1000) % count($rm_types);
+            $rm_type = $rm_types[1];
             $rm_type_id = $rm_type['room_type_id'];
         }
 
@@ -763,7 +769,8 @@ class packages_availability extends test_restrict{
             echo "rm_type_id = ".$rm_type_id.PHP_EOL;
             $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
             $avail_button->click();//open
-            $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+           // $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\']").click(); return true;','args' => array()));
             $avail_button->click();//close
             $form->click();
 
@@ -782,7 +789,7 @@ class packages_availability extends test_restrict{
                 }
             }
 
-            $this->waitForElement('.save_add_interval', 5000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("#layout .save_add_interval").click(); return true;','args' => array()));
         } else {
             $this->fail('room type id can not be selected');
         }
