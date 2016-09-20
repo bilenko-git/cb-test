@@ -89,11 +89,16 @@
             }, $timeout);
 
             if (strpos($url, 'myallocator') == false && strpos($url, 'reservas') == false ) {
-                $el = $this->byJQ(".progress-bar-background");
-                $this->waitUntilVisible($el, 30000);
+
                 if (getenv('SELENIUM_LOCAL')) {
-                    sleep(3);
+                    // need re-write to more good code.
+                    // If delete it we get error Element is not clickable at point (66, 285).
+                    // Other element would receive the click: <div class="progress-bar-background"
+                    $el = $this->waitForElement(".progress-bar-background", 5000, 'jQ');
+                } else {
+                    $el = $this->byJQ(".progress-bar-background");
                 }
+                $this->waitUntilVisible($el, 30000);
             }
         }
 
