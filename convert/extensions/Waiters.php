@@ -88,9 +88,12 @@
                 return $bUrl ?: null;
             }, $timeout);
 
-            if (strpos($url, 'myallocator') == false && strpos($url, 'reservas') == false) {
+            if (strpos($url, 'myallocator') == false && strpos($url, 'reservas') == false ) {
                 $el = $this->byJQ(".progress-bar-background");
                 $this->waitUntilVisible($el, 30000);
+                if (getenv('SELENIUM_LOCAL')) {
+                    sleep(3);
+                }
             }
         }
 

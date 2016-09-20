@@ -12,6 +12,10 @@ class base_rates extends test_restrict{
         $this->url($this->_prepareUrl($this->roomRate_url));
         $this->waitForLocation($this->_prepareUrl($this->roomRate_url));
         $this->refresh();
+        if (getenv('SELENIUM_LOCAL')) {
+            $el = $this->byJQ(".progress-bar-background");
+            $this->waitUntilVisible($el, 30000);
+        }
         if ($type) {
             $this->waitForElement('.nav-tabs a:contains('.$type['name'].')', 15000, 'jQ')->click();
         } else {
