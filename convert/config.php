@@ -186,14 +186,14 @@ switch (getenv('SELENIUM_ENV')) {
     case 'DIMA':
         $config['PMS_user'] = array(
             'server' => 'hotels.accessa.loc',
-            'login' => 'admin@test.test',
-            'password' => '123qwe',
+            'login' => 'dima@dima.dima',
+            'password' => 'z8n2ADeinP8s',
             'property_id' => '1',
             'property_reserva_code' => 'Eki5mf',
             'browser_info' => '',
-//            'server_ma' => 'inbox.myallocator.com',
-//            'login_ma' => 'ofc_server_dev_366',
-//            'password_ma' => 'zKNVwxsLcnY5'
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => '',
+            'password_ma' => ''
         );
         $config['OTA_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
@@ -213,9 +213,9 @@ switch (getenv('SELENIUM_ENV')) {
             'property_id' => '1',
             'property_reserva_code' => 'Eki5mf',
             'browser_info' => '',
-//            'server_ma' => 'inbox.myallocator.com',
-//            'login_ma' => 'ofc_server_dev_366',
-//            'password_ma' => 'zKNVwxsLcnY5'
+            'server_ma' => 'inbox.myallocator.com',
+            'login_ma' => '',
+            'password_ma' => ''
         );
         $config['OTA_super_user'] = array(
             'server' => 'wwwdev.ondeficar.com',
