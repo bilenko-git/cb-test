@@ -3,15 +3,16 @@
 trait Fees {
     private $fees_url = 'http://{server}/connect/{property_id}#/fees_and_taxes';
 
-    private function fees_add($fee, $type) {
+    private function fees_add($fee) {
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
         $this->waitForElement('#layout .add-new-fee-or-tax', 15000, 'css')->click();
         $context = '#layout .add-fee-or-tax-portlet-box:not(.clonable) ';
         $this->fillForm(array(
-            '#type_of' => $type,
+            '#type_of' => $fee['type_of'],
             '#tax_name_en' => $fee['name'],
             '#amount_type' => $fee['amount_type'],
-            '#amount' => [$fee['amount'], true]
+            '#amount' => [$fee['amount'], true],
+            '.type_'.$fee['type'] => [$fee['type'], false, true]
         ), $context);
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();

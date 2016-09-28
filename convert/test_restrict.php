@@ -378,13 +378,17 @@ class test_restrict extends WebDriverTestCase
 
     public function fillForm($args, $context = '') {
         foreach($args as $selector => $value) {
+            // 0 item - value
+            // 1 item true/false - clear input is needed
+            // 2 item true/false - click only
             if (!is_array($value)) {
                 $value = array($value);
             }
             $this->byJQ($context . $selector)->click();
-            if (isset($value[1]))
+            if (!empty($value[1]))
                 $this->byJQ($context . $selector)->clear();
-            $this->byJQ($context . $selector)->value($value[0]);
+            if (empty($value[2]))
+                $this->byJQ($context . $selector)->value($value[0]);
         }
     }
 }
