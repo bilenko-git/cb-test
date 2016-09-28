@@ -187,6 +187,13 @@ class fees_and_taxes extends test_restrict {
         return false;
     }
 
+    private function remove_data_booking() {
+        foreach ($this->fees as $fee) {
+            $this->fees_remove($fee['name']);
+        }
+        return false;
+    }
+
     /* SECTION OF TESTS */
 
     // public function test_rename_and_change_transactions_descriptions() {
@@ -208,6 +215,7 @@ class fees_and_taxes extends test_restrict {
         $this->prepare_data_booking();
         $this->go_to_the_booking_page();
         $this->check_booking_fees();
+        $this->remove_data_booking();
     }
 
     // public function test_fee_percentage_per_night() {
