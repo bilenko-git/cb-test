@@ -19,13 +19,11 @@ trait Taxes {
 
     private function taxes_change_tax_name($old_name, $new_name) {
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
-        $this->waitForElement('#layout .tabs_payments a', 15000, 'css');
-        $this->byJQ('#layout .tabs_payments a:last')->click();
-        $this->waitForElement('#layout .taxes-table tr .edit-tax', 15000, 'css');
-        $this->byJQ("#layout .taxes-table tr:contains('".$old_name."') .edit-tax")->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #tax_name_en')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #tax_name_en')->clear();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #tax_name_en')->value($new_name);
+        $this->waitForElement('#layout .fees-and-taxes-table tr .edit-tax', 15000, 'css');
+        $this->byJQ("#layout .fees-and-taxes-table tr:contains('".$old_name."') .edit-tax")->click();
+        $this->fillForm(array(
+            '#tax_name_en' => [$new_name, true]
+        ), '#layout .add-fee-or-tax-portlet-box:not(.clonable) ');
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
