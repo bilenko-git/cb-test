@@ -9,6 +9,7 @@ class fees_and_taxes extends test_restrict {
     use \Fees, \Rates, \Inventory;
 
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
+    private $sourceUrl = 'http://{server}/connect/{property_id}#/sources';
 
     private $fees = array(
         'fee_percentage_exl' => array(
@@ -176,6 +177,16 @@ class fees_and_taxes extends test_restrict {
         foreach ($this->fees as $fee) {
             $this->fees_add($fee);
         }
+        sleep(3);
+    }
+
+    private function link_taxes_on_the_source_page() {
+        $this->execute(array('script' => "return BET.navigation.url('sources');", 'args' => array()));
+        $this->waitForElement("#layout .sources-table tr:contains('Website') .configure_taxes_fees", 15000, 'jQ')->click();
+        sleep(3);
+        $this->execute(array('script' => 'return $("#apply_tax_to_primary option").prop("checked", true);', 'args' => array()));
+        $this->byJQ('#modal_primary_source .btn-primary.edit')->click();
+        $this->waitForElement("#layout .sources-table", 15000, 'css');
         return false;
     }
 
@@ -191,7 +202,6 @@ class fees_and_taxes extends test_restrict {
         foreach ($this->fees as $fee) {
             $this->fees_remove($fee['name']);
         }
-        return false;
     }
 
     /* SECTION OF TESTS */
@@ -213,6 +223,7 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->prepare_data_booking();
+        $this->link_taxes_on_the_source_page();
         $this->go_to_the_booking_page();
         $this->check_booking_fees();
         $this->remove_data_booking();
