@@ -30,9 +30,8 @@ trait Fees {
 
     private function fees_remove($name) {
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
-        $this->byJQ('#layout .tabs_payments a:first')->click();
-        $this->waitForElement('#layout .fees-table tr .delete-fee', 15000, 'css');
-        $this->byJQ("#layout .fees-table tr:contains('".$name."') .delete-fee")->click();
+        $this->waitForElement('#layout .fees-and-taxes-table tr .delete-tax', 15000, 'css');
+        $this->byJQ("#layout .fees-and-taxes-table tr:contains('".$name."') .delete-tax")->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
     }
 
