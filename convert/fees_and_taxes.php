@@ -2,12 +2,11 @@
 namespace MyProject\Tests;
 require_once 'test_restrict.php';
 require_once 'common/fees.php';
-require_once 'common/taxes.php';
 require_once 'common/rates.php';
 require_once 'common/inventory.php';
 
 class fees_and_taxes extends test_restrict {
-    use \Fees, \Taxes, \Rates, \Inventory;
+    use \Fees, \Rates, \Inventory;
 
     private $fees = array(
         'percentage' => array(
@@ -81,15 +80,15 @@ class fees_and_taxes extends test_restrict {
     );
 
     private function prepare_data() {
-        $this->fees_add_fee($this->fees['percentage']);
-        $this->taxes_add_tax($this->taxes['percentage']);
+        $this->fees_add($this->fees['percentage'], 'fee');
+        $this->fees_add($this->taxes['percentage'], 'tax');
         $this->add_reservation();
         $this->add_transactions();
     }
 
     private function clear_data() {
-        $this->fees_remove_fee($this->fees['percentage']['name'], $this->fees['percentage']['name_changed']);
-        $this->taxes_remove_tax($this->taxes['percentage']['name'], $this->taxes['percentage']['name_changed']);
+        $this->fees_remove($this->fees['percentage']['name_changed']);
+        $this->fees_remove($this->taxes['percentage']['name_changed']);
         $this->remove_reservation();
         $this->remove_transactions();
     }
@@ -132,9 +131,9 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->prepare_data();
-        $this->fees_change_fee_name($this->fees['percentage']['name'], $this->fees['percentage']['name_changed']);
+        $this->fees_change_name($this->fees['percentage']['name'], $this->fees['percentage']['name_changed']);
         $this->check_transactions();
-        $this->taxes_change_tax_name($this->taxes['percentage']['name'], $this->taxes['percentage']['name_changed']);
+        $this->fees_change_name($this->taxes['percentage']['name'], $this->taxes['percentage']['name_changed']);
         $this->check_transactions();
         $this->add_adjustments();
         $this->check_transactions();
