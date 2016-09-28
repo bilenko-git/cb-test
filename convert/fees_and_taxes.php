@@ -139,26 +139,26 @@ class fees_and_taxes extends test_restrict {
         $this->check_transactions();
         $this->clear_data();
     }
-//
-//    public function test_fee_percentage_per_night() {
-//        $this->setupInfo('PMS_user');
-//        $this->loginToSite();
-//        $this->inventory_create_room_type($this->room_type, true);
-//        $this->set_default_rates($this->room_type);
-//        $this->fees_add_fee($this->fees['percentage']);
-//        $this->fees_remove_fee($this->fees['percentage']['name']);
-//        $this->inventory_delete_room_type($this->room_type);
-//    }
-//
-//    public function test_tax_percentage_per_night() {
-//        $this->setupInfo('PMS_user');
-//        $this->loginToSite();
-//        $this->inventory_create_room_type($this->room_type, true);
-//        $this->set_default_rates($this->room_type);
-//        $this->taxes_add_tax($this->taxes['percentage']);
-//        $this->taxes_remove_tax($this->taxes['percentage']['name']);
-//        $this->inventory_delete_room_type($this->room_type);
-//    }
+
+    public function test_fee_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->inventory_create_room_type($this->room_type, true);
+        $this->set_default_rates($this->room_type);
+        $this->fees_add($this->fees['percentage'], 'fee');
+        $this->fees_remove($this->fees['percentage']['name']);
+        $this->inventory_delete_room_type($this->room_type);
+    }
+
+    public function test_tax_percentage_per_night() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->inventory_create_room_type($this->room_type, true);
+        $this->set_default_rates($this->room_type);
+        $this->fees_add($this->taxes['percentage'], 'tax');
+        $this->fees_remove($this->taxes['percentage']['name']);
+        $this->inventory_delete_room_type($this->room_type);
+    }
 
 }
 ?>

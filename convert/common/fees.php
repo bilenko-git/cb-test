@@ -33,6 +33,7 @@ trait Fees {
         $this->waitForElement('#layout .fees-and-taxes-table tr .delete-tax', 15000, 'css');
         $this->byJQ("#layout .fees-and-taxes-table tr:contains('".$name."') .delete-tax")->click();
         $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
+        $this->waitForElement('#layout .fees-and-taxes-table', 15000, 'css');
     }
 
 }
