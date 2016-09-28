@@ -167,11 +167,11 @@ class test_restrict extends WebDriverTestCase
         } else {
             if ($fail) call_user_func($fail);
         }
-        
+
         if ($this->login !== 'engineering@cloudbeds.com' && $this->login !== 'admin@test.test') {  //and if not SADMIN engineering@cloudbeds.com and not SADMIN minidb
             $this->waitForBETLoaded();
         }
-        
+
         return $loggedIn;
     }
 
@@ -215,7 +215,7 @@ class test_restrict extends WebDriverTestCase
 
         return false;
     }
-    
+
     public function execJS($script = ''){
         if($script){
             return $this->execute(array(
@@ -291,10 +291,10 @@ class test_restrict extends WebDriverTestCase
                     $this->property_reserva_code
                 ),
                 $url);
-        
+
         return $url;
     }
-    
+
     public function _checkLoggedIn(){
         return !in_array($this->getBrowserUrl(), array($this->_prepareUrl($this->login_url), $this->_prepareUrl($this->logout_url)));
     }
@@ -374,6 +374,18 @@ class test_restrict extends WebDriverTestCase
             'script' => '$(\'[name="' . $name . '"]\').datepicker("setDate", new Date(\'' . $val . '\')).trigger(\'change\');',
             'args' => array()
         ));*/
+    }
+
+    public function fillForm($args, $context = '') {
+        foreach($args as $selector => $value) {
+            if (!is_array($value)) {
+                $value = array($value);
+            }
+            $this->byJQ($context . $selector)->click();
+            if (isset($value[1]))
+                $this->byJQ($context . $selector)->clear();
+            $this->byJQ($context . $selector)->value($value[0]);
+        }
     }
 }
 ?>

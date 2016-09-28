@@ -6,15 +6,13 @@ trait Taxes {
     private function taxes_add_tax($tax) {
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
         $this->waitForElement('#layout .add-new-fee-or-tax', 15000, 'css')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #type_of')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #type_of')->value('tax');
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #tax_name_en')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #tax_name_en')->value($tax['name']);
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #amount')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #amount')->clear();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #amount')->value($tax['amount']);
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #amount_type')->click();
-        $this->byJQ('#layout .add-fee-or-tax-portlet-box:not(.clonable) #amount_type')->value($tax['amount_type']);
+        $context = '#layout .add-fee-or-tax-portlet-box:not(.clonable) ';
+        $this->fillForm(array(
+            '#type_of' => 'tax',
+            '#tax_name_en' => $tax['name'],
+            '#amount_type' => $tax['amount_type'],
+            '#amount' => [$tax['amount'], true]
+        ), $context);
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
