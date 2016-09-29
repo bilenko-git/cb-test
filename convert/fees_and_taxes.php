@@ -193,6 +193,10 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function go_to_the_booking_page() {
+        $url = $this->_prepareUrl($this->bookingUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        sleep(10);
         return false;
     }
 
