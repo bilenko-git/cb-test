@@ -177,16 +177,18 @@ class fees_and_taxes extends test_restrict {
         foreach ($this->fees as $fee) {
             $this->fees_add($fee);
         }
-        sleep(3);
     }
 
     private function link_taxes_on_the_source_page() {
         $this->execute(array('script' => "return BET.navigation.url('sources');", 'args' => array()));
         $this->waitForElement("#layout .sources-table tr:contains('Website') .configure_taxes_fees", 15000, 'jQ')->click();
-        sleep(3);
-        $this->execute(array('script' => 'return $("#apply_tax_to_primary option").prop("checked", true);', 'args' => array()));
+        $this->waitForElement("#modal_primary_source .ms-parent.source_taxes button.ms-choice", 15000, 'jQ')->click();
+        for ($i = 0; $i < 12; $i++) {
+            $this->execute(array('script' => "return $($('#modal_primary_source .ms-parent.source_taxes .md-checkbox input')[".$i."]).click();", 'args' => array()));
+        }
         $this->byJQ('#modal_primary_source .btn-primary.edit')->click();
         $this->waitForElement("#layout .sources-table", 15000, 'css');
+        sleep(2);
         return false;
     }
 
@@ -223,6 +225,7 @@ class fees_and_taxes extends test_restrict {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->prepare_data_booking();
+        $this->loginToSite();
         $this->link_taxes_on_the_source_page();
         $this->go_to_the_booking_page();
         $this->check_booking_fees();
