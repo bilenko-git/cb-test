@@ -8,6 +8,152 @@ require_once 'common/inventory.php';
 class fees_and_taxes extends test_restrict {
     use \Fees, \Rates, \Inventory;
 
+    public function test_booking_page_calculations() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->prepare_data_booking();
+        $this->loginToSite();
+        $this->link_taxes_on_the_source_page();
+        $this->go_to_the_booking_page();
+        $this->check_booking_fees();
+        $this->goToSite();
+        $this->remove_data_booking();
+    }
+
+    private function prepare_data_booking() {
+        $this->create_booking_fees();
+        $this->create_booking_intervals();
+    }
+
+    private function create_booking_fees() {
+        foreach ($this->fees as $fee) {
+            $this->fees_add($fee);
+        }
+    }
+
+    private function create_booking_intervals() {
+        return false;
+    }
+
+    private function link_taxes_on_the_source_page() {
+        $this->execute(array('script' => "return BET.navigation.url('sources');", 'args' => array()));
+        $this->waitForElement("#layout .sources-table tr:contains('Website') .configure_taxes_fees", 15000, 'jQ')->click();
+        $this->waitForElement("#modal_primary_source .ms-parent.source_taxes button.ms-choice", 15000, 'jQ')->click();
+        for ($i = 0; $i < 12; $i++) {
+            $this->execute(array('script' => "return $($('#modal_primary_source .ms-parent.source_taxes .md-checkbox input')[".$i."]).click();", 'args' => array()));
+        }
+        $this->byJQ('#modal_primary_source .btn-primary.edit')->click();
+        $this->waitForElement("#layout .sources-table", 15000, 'css');
+        sleep(5);
+    }
+
+    private function go_to_the_booking_page() {
+        $this->startDate = date('Y-m-d', strtotime('next monday'));
+        $this->endDate = date('Y-m-d', strtotime('+3 day', strtotime($this->startDate)));
+        $url = $this->_prepareUrl($this->bookingUrl).'#checkin='.$this->startDate.'&checkout='.$this->endDate;
+        $this->url($url);
+        $this->waitForLocation($url);
+    }
+
+    private function check_booking_fees() {
+        return false;
+    }
+
+    private function goToSite() {
+        $url = $this->_prepareUrl($this->siteUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        $this->waitForBETLoaded();
+    }
+
+    private function remove_data_booking() {
+        foreach ($this->fees as $fee) {
+            $this->fees_remove($fee['name']);
+        }
+    }
+
+
+    private function prepare_data() {
+        $this->fees_add($this->fees['fee_percentage_exl']);
+        $this->fees_add($this->fees['tax_percentage_exl']);
+        $this->add_reservation();
+        $this->add_transactions();
+    }
+
+    private function clear_data() {
+        $this->fees_remove($this->fees['fee_percentage_exl']['name_changed']);
+        $this->fees_remove($this->fees['tax_percentage_exl']['name_changed']);
+        $this->remove_reservation();
+        $this->remove_transactions();
+    }
+
+    private function add_reservation() {
+        return false;
+    }
+
+    private function add_transactions() {
+        return false;
+    }
+
+    private function check_transactions() {
+        return false;
+    }
+
+    private function add_adjustments() {
+        return false;
+    }
+
+    private function remove_reservation() {
+        return false;
+    }
+
+    private function remove_transactions() {
+        return false;
+    }
+
+    private function set_default_rates($room_type) {
+        $this->rate_delAllRates($room_type);
+
+        foreach($this->std_intervals as $std_int) {
+            $this->rate_addRate($std_int, $room_type);
+        }
+    }
+
+    /* SECTION OF TESTS */
+
+    // public function test_rename_and_change_transactions_descriptions() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->prepare_data();
+    //     $this->fees_change_name($this->fees['fee_percentage_exl']['name'], $this->fees['fee_percentage_exl']['name_changed']);
+    //     $this->check_transactions();
+    //     $this->fees_change_name($this->taxes['tax_percentage_exl']['name'], $this->taxes['tax_percentage_exl']['name_changed']);
+    //     $this->check_transactions();
+    //     $this->add_adjustments();
+    //     $this->check_transactions();
+    //     $this->clear_data();
+    // }
+
+    // public function test_fee_percentage_per_night() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->inventory_create_room_type($this->room_type, true);
+    //     $this->set_default_rates($this->room_type);
+    //     $this->fees_add($this->fees['percentage'], 'fee');
+    //     $this->fees_remove($this->fees['percentage']['name']);
+    //     $this->inventory_delete_room_type($this->room_type);
+    // }
+    //
+    // public function test_tax_percentage_per_night() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->inventory_create_room_type($this->room_type, true);
+    //     $this->set_default_rates($this->room_type);
+    //     $this->fees_add($this->taxes['percentage'], 'tax');
+    //     $this->fees_remove($this->taxes['percentage']['name']);
+    //     $this->inventory_delete_room_type($this->room_type);
+    // }
+
     private $siteUrl = 'http://{server}/connect/{property_id}';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $sourceUrl = 'http://{server}/connect/{property_id}#/sources';
@@ -85,7 +231,7 @@ class fees_and_taxes extends test_restrict {
             'amount' => '10',
             'type' => 'exclusive'
         ),
-        'tax_fixed_exl' => array(
+        'tax_fixed_inc' => array(
             'type_of' => 'tax',
             'name' => 'Tax Fixed Inc',
             'name_changed' => 'Tax Fixed Inc Changed',
@@ -127,152 +273,5 @@ class fees_and_taxes extends test_restrict {
             'value_today' => 2
         )
     );
-
-    private function prepare_data() {
-        $this->fees_add($this->fees['fee_percentage_exl']);
-        $this->fees_add($this->fees['tax_percentage_exl']);
-        $this->add_reservation();
-        $this->add_transactions();
-    }
-
-    private function clear_data() {
-        $this->fees_remove($this->fees['fee_percentage_exl']['name_changed']);
-        $this->fees_remove($this->fees['tax_percentage_exl']['name_changed']);
-        $this->remove_reservation();
-        $this->remove_transactions();
-    }
-
-    private function add_reservation() {
-        return false;
-    }
-
-    private function add_transactions() {
-        return false;
-    }
-
-    private function check_transactions() {
-        return false;
-    }
-
-    private function add_adjustments() {
-        return false;
-    }
-
-    private function remove_reservation() {
-        return false;
-    }
-
-    private function remove_transactions() {
-        return false;
-    }
-
-    private function set_default_rates($room_type) {
-        $this->rate_delAllRates($room_type);
-
-        foreach($this->std_intervals as $std_int) {
-            $this->rate_addRate($std_int, $room_type);
-        }
-    }
-
-    private function prepare_data_booking() {
-        $this->create_booking_fees();
-        $this->create_booking_intervals();
-    }
-
-    private function create_booking_fees() {
-        foreach ($this->fees as $fee) {
-            $this->fees_add($fee);
-        }
-        sleep(5);
-    }
-
-    private function create_booking_intervals() {
-        return false;
-    }
-
-    private function link_taxes_on_the_source_page() {
-        $this->execute(array('script' => "return BET.navigation.url('sources');", 'args' => array()));
-        $this->waitForElement("#layout .sources-table tr:contains('Website') .configure_taxes_fees", 15000, 'jQ')->click();
-        $this->waitForElement("#modal_primary_source .ms-parent.source_taxes button.ms-choice", 15000, 'jQ')->click();
-        for ($i = 0; $i < 12; $i++) {
-            $this->execute(array('script' => "return $($('#modal_primary_source .ms-parent.source_taxes .md-checkbox input')[".$i."]).click();", 'args' => array()));
-        }
-        $this->byJQ('#modal_primary_source .btn-primary.edit')->click();
-        $this->waitForElement("#layout .sources-table", 15000, 'css');
-    }
-
-    private function go_to_the_booking_page() {
-        $this->startDate = date('Y-m-d', strtotime('next monday'));
-        $this->endDate = date('Y-m-d', strtotime('+3 day', strtotime($this->startDate)));
-        $url = $this->_prepareUrl($this->bookingUrl).'#checkin='.$this->startDate.'&checkout='.$this->endDate;
-        $this->url($url);
-        $this->waitForLocation($url);
-    }
-
-    private function check_booking_fees() {
-        return false;
-    }
-
-    private function remove_data_booking() {
-        foreach ($this->fees as $fee) {
-            $this->fees_remove($fee['name']);
-        }
-        sleep(5);
-    }
-
-    /* SECTION OF TESTS */
-
-    // public function test_rename_and_change_transactions_descriptions() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->prepare_data();
-    //     $this->fees_change_name($this->fees['fee_percentage_exl']['name'], $this->fees['fee_percentage_exl']['name_changed']);
-    //     $this->check_transactions();
-    //     $this->fees_change_name($this->taxes['tax_percentage_exl']['name'], $this->taxes['tax_percentage_exl']['name_changed']);
-    //     $this->check_transactions();
-    //     $this->add_adjustments();
-    //     $this->check_transactions();
-    //     $this->clear_data();
-    // }
-
-    public function test_booking_page_calculations() {
-        $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->prepare_data_booking();
-        $this->loginToSite();
-        $this->link_taxes_on_the_source_page();
-        $this->go_to_the_booking_page();
-        $this->check_booking_fees();
-        $this->goToSite();
-        $this->remove_data_booking();
-    }
-
-    private function goToSite() {
-        $url = $this->_prepareUrl($this->siteUrl);
-        $this->url($url);
-        $this->waitForLocation($url);
-        $this->waitForBETLoaded();
-    }
-
-    // public function test_fee_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->inventory_create_room_type($this->room_type, true);
-    //     $this->set_default_rates($this->room_type);
-    //     $this->fees_add($this->fees['percentage'], 'fee');
-    //     $this->fees_remove($this->fees['percentage']['name']);
-    //     $this->inventory_delete_room_type($this->room_type);
-    // }
-    //
-    // public function test_tax_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->inventory_create_room_type($this->room_type, true);
-    //     $this->set_default_rates($this->room_type);
-    //     $this->fees_add($this->taxes['percentage'], 'tax');
-    //     $this->fees_remove($this->taxes['percentage']['name']);
-    //     $this->inventory_delete_room_type($this->room_type);
-    // }
-
 }
 ?>
