@@ -8,6 +8,7 @@ require_once 'common/inventory.php';
 class fees_and_taxes extends test_restrict {
     use \Fees, \Rates, \Inventory;
 
+    private $siteUrl = 'http://{server}/connect/{property_id}';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $sourceUrl = 'http://{server}/connect/{property_id}#/sources';
 
@@ -174,9 +175,19 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function prepare_data_booking() {
+        $this->create_booking_fees();
+        $this->create_booking_intervals();
+    }
+
+    private function create_booking_fees() {
         foreach ($this->fees as $fee) {
             $this->fees_add($fee);
         }
+        sleep(5);
+    }
+
+    private function create_booking_intervals() {
+        return false;
     }
 
     private function link_taxes_on_the_source_page() {
@@ -188,16 +199,14 @@ class fees_and_taxes extends test_restrict {
         }
         $this->byJQ('#modal_primary_source .btn-primary.edit')->click();
         $this->waitForElement("#layout .sources-table", 15000, 'css');
-        sleep(2);
-        return false;
     }
 
     private function go_to_the_booking_page() {
-        $url = $this->_prepareUrl($this->bookingUrl);
+        $this->startDate = date('Y-m-d', strtotime('next monday'));
+        $this->endDate = date('Y-m-d', strtotime('+3 day', strtotime($this->startDate)));
+        $url = $this->_prepareUrl($this->bookingUrl).'#checkin='.$this->startDate.'&checkout='.$this->endDate;
         $this->url($url);
         $this->waitForLocation($url);
-        sleep(10);
-        return false;
     }
 
     private function check_booking_fees() {
@@ -208,6 +217,7 @@ class fees_and_taxes extends test_restrict {
         foreach ($this->fees as $fee) {
             $this->fees_remove($fee['name']);
         }
+        sleep(5);
     }
 
     /* SECTION OF TESTS */
@@ -233,7 +243,15 @@ class fees_and_taxes extends test_restrict {
         $this->link_taxes_on_the_source_page();
         $this->go_to_the_booking_page();
         $this->check_booking_fees();
+        $this->goToSite();
         $this->remove_data_booking();
+    }
+
+    private function goToSite() {
+        $url = $this->_prepareUrl($this->siteUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        $this->waitForBETLoaded();
     }
 
     // public function test_fee_percentage_per_night() {
