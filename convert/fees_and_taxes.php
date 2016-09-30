@@ -22,6 +22,7 @@ class fees_and_taxes extends test_restrict {
 
     private function prepare_data_booking() {
         $this->create_booking_fees();
+        $this->create_booking_room_types();
         $this->create_booking_intervals();
     }
 
@@ -31,8 +32,12 @@ class fees_and_taxes extends test_restrict {
         }
     }
 
+    private function create_booking_room_types() {
+        $this->inventory_create_room_type($this->room_type, true);
+    }
+
     private function create_booking_intervals() {
-        return false;
+        $this->set_default_rates($this->room_type);
     }
 
     private function link_taxes_on_the_source_page() {
@@ -56,7 +61,7 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function check_booking_fees() {
-        return false;
+
     }
 
     private function goToSite() {
@@ -67,11 +72,19 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function remove_data_booking() {
+        $this->remove_booking_fees();
+        $this->remove_booking_room_types();
+    }
+
+    private function remove_booking_fees() {
         foreach ($this->fees as $fee) {
             $this->fees_remove($fee['name']);
         }
     }
 
+    private function remove_booking_room_types() {
+        $this->inventory_delete_room_type($this->room_type);
+    }
 
     private function prepare_data() {
         $this->fees_add($this->fees['fee_percentage_exl']);
@@ -266,8 +279,8 @@ class fees_and_taxes extends test_restrict {
     private $std_intervals = array(
         'i1' => array(
             'name' => 'rate 1',
-            'start' => '+1 day',
-            'end' => '+7 day',
+            'start' => '+0 day',
+            'end' => '+30 day',
             'min' => 1,
             'max' => 5,
             'value_today' => 2
