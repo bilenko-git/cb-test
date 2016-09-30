@@ -132,41 +132,6 @@ class fees_and_taxes extends test_restrict {
         }
     }
 
-    /* SECTION OF TESTS */
-
-    // public function test_rename_and_change_transactions_descriptions() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->prepare_data();
-    //     $this->fees_change_name($this->fees['fee_percentage_exl']['name'], $this->fees['fee_percentage_exl']['name_changed']);
-    //     $this->check_transactions();
-    //     $this->fees_change_name($this->taxes['tax_percentage_exl']['name'], $this->taxes['tax_percentage_exl']['name_changed']);
-    //     $this->check_transactions();
-    //     $this->add_adjustments();
-    //     $this->check_transactions();
-    //     $this->clear_data();
-    // }
-
-    // public function test_fee_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->inventory_create_room_type($this->room_type, true);
-    //     $this->set_default_rates($this->room_type);
-    //     $this->fees_add($this->fees['percentage'], 'fee');
-    //     $this->fees_remove($this->fees['percentage']['name']);
-    //     $this->inventory_delete_room_type($this->room_type);
-    // }
-    //
-    // public function test_tax_percentage_per_night() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->inventory_create_room_type($this->room_type, true);
-    //     $this->set_default_rates($this->room_type);
-    //     $this->fees_add($this->taxes['percentage'], 'tax');
-    //     $this->fees_remove($this->taxes['percentage']['name']);
-    //     $this->inventory_delete_room_type($this->room_type);
-    // }
-
     private $siteUrl = 'http://{server}/connect/{property_id}';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
     private $sourceUrl = 'http://{server}/connect/{property_id}#/sources';
@@ -281,9 +246,7 @@ class fees_and_taxes extends test_restrict {
             'name' => 'rate 1',
             'start' => '+0 day',
             'end' => '+30 day',
-            'min' => 1,
-            'max' => 5,
-            'value_today' => 2
+            'value_today' => 100
         )
     );
 }
