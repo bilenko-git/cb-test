@@ -61,7 +61,13 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function check_booking_fees() {
-
+        $this->waitForElement(".rooms_select .btn.dropdown-toggle", 15000, 'css')->click();
+        $this->waitForElement(".rooms_select li[data-original-index=3]", 15000, 'jQ')->click();
+        $this->waitForElement(".general_info .book_now", 15000, 'css')->click();
+        foreach($this->fees as $fee) {
+            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text());', 'args' => array()));
+            $this->assertEquals($fee_amount, $fee['booking_value']);
+        }
     }
 
     private function goToSite() {
@@ -143,7 +149,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Percentage Exc Changed',
             'amount_type' => 'percentage',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'fee_percentage_inc' => array(
             'type_of' => 'fee',
@@ -151,7 +158,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Percentage Inc Changed',
             'amount_type' => 'percentage',
             'amount' => '10',
-            'type' => 'inclusive'
+            'type' => 'inclusive',
+            'booking_value' => 90
         ),
         'fee_fixed_exl' => array(
             'type_of' => 'fee',
@@ -159,7 +167,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Fixed Exc Changed',
             'amount_type' => 'fixed',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'fee_fixed_inc' => array(
             'type_of' => 'fee',
@@ -167,7 +176,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Fixed Inc Changed',
             'amount_type' => 'fixed',
             'amount' => '10',
-            'type' => 'inclusive'
+            'type' => 'inclusive',
+            'booking_value' => 90
         ),
         'fee_fixed_accm' => array(
             'type_of' => 'fee',
@@ -175,7 +185,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Per Accomodations Changed',
             'amount_type' => 'fixed_per_accomodation',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'fee_fixed_res' => array(
             'type_of' => 'fee',
@@ -183,7 +194,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Fee Per Reservations Changed',
             'amount_type' => 'fixed_per_reservation',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'tax_percentage_exl' => array(
             'type_of' => 'tax',
@@ -191,7 +203,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Percentage Exc Changed',
             'amount_type' => 'percentage',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'tax_percentage_inc' => array(
             'type_of' => 'tax',
@@ -199,7 +212,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Percentage Inc Changed',
             'amount_type' => 'percentage',
             'amount' => '10',
-            'type' => 'inclusive'
+            'type' => 'inclusive',
+            'booking_value' => 90
         ),
         'tax_fixed_exl' => array(
             'type_of' => 'tax',
@@ -207,7 +221,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Fixed Exc Changed',
             'amount_type' => 'fixed',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'tax_fixed_inc' => array(
             'type_of' => 'tax',
@@ -215,7 +230,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Fixed Inc Changed',
             'amount_type' => 'fixed',
             'amount' => '10',
-            'type' => 'inclusive'
+            'type' => 'inclusive',
+            'booking_value' => 90
         ),
         'tax_fixed_accm' => array(
             'type_of' => 'tax',
@@ -223,7 +239,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Per Accomodations Changed',
             'amount_type' => 'fixed_per_accomodation',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         ),
         'tax_fixed_res' => array(
             'type_of' => 'tax',
@@ -231,7 +248,8 @@ class fees_and_taxes extends test_restrict {
             'name_changed' => 'Tax Per Reservations Changed',
             'amount_type' => 'fixed_per_reservation',
             'amount' => '10',
-            'type' => 'exclusive'
+            'type' => 'exclusive',
+            'booking_value' => 90
         )
     );
 
