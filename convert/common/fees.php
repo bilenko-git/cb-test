@@ -12,7 +12,7 @@ trait Fees {
             '#tax_name_en' => $fee['name'],
             '#amount_type' => $fee['amount_type'],
             '#amount' => [$fee['amount'], true],
-            '.type_'.$fee['type'] => [$fee['type'], false, true]
+            '.type_'.$fee['type'] => [$fee['type'], false, true],
         ), $context);
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
