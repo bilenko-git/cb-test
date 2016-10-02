@@ -10,14 +10,14 @@ class fees_and_taxes extends test_restrict {
 
     public function test_booking_page_calculations() {
         $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->prepare_data_booking();
-        $this->loginToSite();
-        $this->link_taxes_on_the_source_page();
+        // $this->loginToSite();
+        // $this->prepare_data_booking();
+        // $this->loginToSite();
+        // $this->link_taxes_on_the_source_page();
         $this->go_to_the_booking_page();
         $this->check_booking_fees();
-        $this->goToSite();
-        $this->remove_data_booking();
+        // $this->goToSite();
+        // $this->remove_data_booking();
     }
 
     private function prepare_data_booking() {
@@ -33,11 +33,15 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function create_booking_room_types() {
-        $this->inventory_create_room_type($this->room_type, true);
+        foreach($this->room_types as $room_type) {
+            $this->inventory_create_room_type($room_type, true);
+        }
     }
 
     private function create_booking_intervals() {
-        $this->set_default_rates($this->room_type);
+        foreach($this->room_types as $room_type) {
+            $this->set_default_rates($room_type);
+        }
     }
 
     private function link_taxes_on_the_source_page() {
@@ -61,8 +65,14 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function check_booking_fees() {
-        $this->waitForElement(".rooms_select .btn.dropdown-toggle", 15000, 'css')->click();
-        $this->waitForElement(".rooms_select li[data-original-index=3]", 15000, 'jQ')->click();
+        $this->waitForElement(".rooms_select .btn.dropdown-toggle", 15000, 'css');
+        foreach($this->room_types as $room_type) {
+            $this->execute(array('script' => 'return $(".room_types .room:contains(\''.$room_type['name'].'\') .rooms_select").addClass("open");', 'args' => array()));
+            $this->waitForElement(".rooms_select li[data-original-index=3]", 15000, 'jQ')->click();
+            // $this->execute(array('script' => 'return $(".room_types .room:contains(\''.$room_type['name'].'\') .rooms_select li[data-original-index=3]").click();', 'args' => array()));
+            // $this->waitForElement(".room_types .room:contain('".$room_type['name']."') .rooms_select .btn.dropdown-toggle", 15000, 'css')->click();
+            // $this->waitForElement(".room_types .room:contain('".$room_type['name']."') .rooms_select li[data-original-index=3]", 15000, 'jQ')->click();
+        }
         $this->waitForElement(".general_info .book_now", 15000, 'css')->click();
         foreach($this->fees as $fee) {
             $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text());', 'args' => array()));
@@ -89,45 +99,9 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function remove_booking_room_types() {
-        $this->inventory_delete_room_type($this->room_type);
-    }
-
-    private function prepare_data() {
-        $this->fees_add($this->fees['fee_percentage_exl']);
-        $this->fees_add($this->fees['tax_percentage_exl']);
-        $this->add_reservation();
-        $this->add_transactions();
-    }
-
-    private function clear_data() {
-        $this->fees_remove($this->fees['fee_percentage_exl']['name_changed']);
-        $this->fees_remove($this->fees['tax_percentage_exl']['name_changed']);
-        $this->remove_reservation();
-        $this->remove_transactions();
-    }
-
-    private function add_reservation() {
-        return false;
-    }
-
-    private function add_transactions() {
-        return false;
-    }
-
-    private function check_transactions() {
-        return false;
-    }
-
-    private function add_adjustments() {
-        return false;
-    }
-
-    private function remove_reservation() {
-        return false;
-    }
-
-    private function remove_transactions() {
-        return false;
+        foreach($this->room_types as $room_type) {
+            $this->inventory_delete_room_type($room_type);
+        }
     }
 
     private function set_default_rates($room_type) {
@@ -253,10 +227,16 @@ class fees_and_taxes extends test_restrict {
         )
     );
 
-    private $room_type = array(
-        'name' => 'Room Type Fees And Taxes Check',
-        'rooms' => 10,
-        'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description'
+    private $room_types = array(
+        array(
+            'name' => 'Room Type Fees And Taxes Check 1',
+            'rooms' => 10,
+            'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description 1'
+        ) , array(
+            'name' => 'Room Type Fees And Taxes Check 2',
+            'rooms' => 10,
+            'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description 2'
+        )
     );
 
     private $std_intervals = array(
