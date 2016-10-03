@@ -17,6 +17,7 @@ class fees_and_taxes extends test_restrict {
         $this->goToTheBookingPage();
         $this->checkBookingFees();
         $this->makeBookingReservation();
+        $this->checkBookingReservationTaxes();
         // $this->goToSite();
         // $this->removeDataBooking();
     }
@@ -92,7 +93,14 @@ class fees_and_taxes extends test_restrict {
         $this->execJS('$("#ebanking").click();');
         $this->execJS('$("#agree_terms").click();');
         $this->execJS('$(".finalize").click();');
-        sleep(5);
+    }
+
+    private function checkBookingReservationTaxes() {
+        $this->waitForElement(".for_saved_items", 15000, 'css');
+        foreach($this->fees as $fee) {
+            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text());', 'args' => array()));
+            $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
+        }
     }
 
     private function goToSite() {
@@ -245,11 +253,11 @@ class fees_and_taxes extends test_restrict {
     private $room_types = array(
         array(
             'name' => 'Room Type Fees And Taxes Check 1',
-            'rooms' => 10,
+            'rooms' => 30,
             'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description 1'
         ) , array(
             'name' => 'Room Type Fees And Taxes Check 2',
-            'rooms' => 10,
+            'rooms' => 30,
             'room_type_descr_langs' => 'Room Type Fees And Taxes Check Description 2'
         )
     );
