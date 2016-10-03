@@ -10,41 +10,42 @@ class fees_and_taxes extends test_restrict {
 
     public function test_booking_page_calculations() {
         $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->prepare_data_booking();
-        $this->loginToSite();
-        $this->link_taxes_on_the_source_page();
-        $this->go_to_the_booking_page();
-        $this->check_booking_fees();
-        $this->goToSite();
-        $this->remove_data_booking();
+        // $this->loginToSite();
+        // $this->prepareDataBooking();
+        // $this->loginToSite();
+        // $this->linkTaxesOnTheSourcePage();
+        $this->goToTheBookingPage();
+        $this->checkBookingFees();
+        $this->makeBookingReservation();
+        // $this->goToSite();
+        // $this->removeDataBooking();
     }
 
-    private function prepare_data_booking() {
-        $this->create_booking_fees();
-        $this->create_booking_room_types();
-        $this->create_booking_intervals();
+    private function prepareDataBooking() {
+        $this->createBookingFees();
+        $this->createBookingRoomTypes();
+        $this->createBookingIntervals();
     }
 
-    private function create_booking_fees() {
+    private function createBookingFees() {
         foreach ($this->fees as $fee) {
             $this->fees_add($fee);
         }
     }
 
-    private function create_booking_room_types() {
+    private function createBookingRoomTypes() {
         foreach($this->room_types as $room_type) {
             $this->inventory_create_room_type($room_type, true);
         }
     }
 
-    private function create_booking_intervals() {
+    private function createBookingIntervals() {
         foreach($this->room_types as $room_type) {
-            $this->set_default_rates($room_type);
+            $this->setDefaultRates($room_type);
         }
     }
 
-    private function link_taxes_on_the_source_page() {
+    private function linkTaxesOnTheSourcePage() {
         $this->execute(array('script' => "return BET.navigation.url('sources');", 'args' => array()));
         $this->waitForElement("#layout .sources-table tr:contains('Website') .configure_taxes_fees", 15000, 'jQ')->click();
         $this->waitForElement("#modal_primary_source .ms-parent.source_taxes button.ms-choice", 15000, 'jQ')->click();
@@ -56,7 +57,7 @@ class fees_and_taxes extends test_restrict {
         sleep(5);
     }
 
-    private function go_to_the_booking_page() {
+    private function goToTheBookingPage() {
         $this->startDate = date('Y-m-d', strtotime('next monday'));
         $this->endDate = date('Y-m-d', strtotime('+10 day', strtotime($this->startDate)));
         $url = $this->_prepareUrl($this->bookingUrl).'#checkin='.$this->startDate.'&checkout='.$this->endDate;
@@ -64,7 +65,7 @@ class fees_and_taxes extends test_restrict {
         $this->waitForLocation($url);
     }
 
-    private function check_booking_fees() {
+    private function checkBookingFees() {
         $this->waitForElement(".rooms_select .btn.dropdown-toggle", 15000, 'css');
         foreach($this->room_types as $room_type) {
             $this->execute(array('script' => 'return $(".room_types .room:contains(\''.$room_type['name'].'\') .rooms_select").addClass("open");', 'args' => array()));
@@ -77,6 +78,23 @@ class fees_and_taxes extends test_restrict {
         }
     }
 
+    private function makeBookingReservation() {
+        $context = '#reservationDetailsForm ';
+        $this->fillForm(array(
+            '#first_name' => $this->reservation['first_name'],
+            '#last_name' => $this->reservation['last_name'],
+            '#email' => $this->reservation['email'],
+            '#phone' => $this->reservation['phone'],
+            '#country' => $this->reservation['country'],
+            // '.payment_method ' => [$this->reservation['payment'], false, true],
+            // '#agree_terms' => ['checked', false, true]
+        ), $context);
+        $this->execJS('$("#ebanking").click();');
+        $this->execJS('$("#agree_terms").click();');
+        $this->execJS('$(".finalize").click();');
+        sleep(5);
+    }
+
     private function goToSite() {
         $url = $this->_prepareUrl($this->siteUrl);
         $this->url($url);
@@ -84,24 +102,24 @@ class fees_and_taxes extends test_restrict {
         $this->waitForBETLoaded();
     }
 
-    private function remove_data_booking() {
-        $this->remove_booking_fees();
-        $this->remove_booking_room_types();
+    private function removeDataBooking() {
+        $this->removeBookingFees();
+        $this->removeBookingRoomTypes();
     }
 
-    private function remove_booking_fees() {
+    private function removeBookingFees() {
         foreach ($this->fees as $fee) {
             $this->fees_remove($fee['name']);
         }
     }
 
-    private function remove_booking_room_types() {
+    private function removeBookingRoomTypes() {
         foreach($this->room_types as $room_type) {
             $this->inventory_delete_room_type($room_type);
         }
     }
 
-    private function set_default_rates($room_type) {
+    private function setDefaultRates($room_type) {
         $this->rate_delAllRates($room_type);
 
         foreach($this->std_intervals as $std_int) {
@@ -243,6 +261,15 @@ class fees_and_taxes extends test_restrict {
             'end' => '+30 day',
             'value_today' => 100
         )
+    );
+
+    private $reservation = array(
+        'first_name' => 'SE First Name',
+        'last_name' => 'SE Last Name',
+        'email' => 'selenium@test.test',
+        'phone' => '+1234567890',
+        'country' => 'UA',
+        'payment' => 'ebanking'
     );
 }
 ?>
