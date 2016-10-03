@@ -43,6 +43,7 @@ trait Inventory {
             for($i = 0; $i < $cnt; $i++) {
                 $this->waitForElement('.nav-tabs a:contains(' . $room_type['name'] . ')', 15000, 'jQ')->click();
                 $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+                $this->waitForElement('.modal-apply-modification .btn_ok', 15000, 'jQ')->click();
             }
         }
 
