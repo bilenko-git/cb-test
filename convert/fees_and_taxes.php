@@ -18,7 +18,7 @@ class fees_and_taxes extends test_restrict {
         $this->checkBookingFees();
         $this->makeBookingReservation();
         $this->checkBookingReservationTaxes();
-        $this->goToSite();
+        $this->goToReservation();
         $this->removeDataBooking();
     }
 
@@ -95,22 +95,34 @@ class fees_and_taxes extends test_restrict {
 
     private function checkBookingReservationTaxes() {
         $this->waitForElement(".for_saved_items", 30000, 'css');
+        $url = $this->_prepareUrl($this->bookingDoneUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
+        $this->waitForElement(".for_saved_items", 30000, 'css');
+        $this->reservation_id = $this->execute(array('script' => 'return $(".reserve_number").text();', 'args' => array()));
         foreach($this->fees as $fee) {
-            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".reserve_total .row.sub_fees:contains(\''.$fee['name'].'\')").find(".sum").text(), true);', 'args' => array()));
+            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".reserve_total .row.sub_fees:contains(\''.$fee['name'].'\')").find(".grand_total").text(), true);', 'args' => array()));
             $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
         }
     }
 
-    private function goToSite() {
-        $url = $this->_prepareUrl($this->siteUrl);
+    private function goToReservation() {
+        $url = $this->_prepareUrl($this->siteUrl).'#/reservations/r'.$this->reservation_id;
         $this->url($url);
         $this->waitForLocation($url);
         $this->waitForBETLoaded();
     }
 
     private function removeDataBooking() {
+        $this->removeBookingReservation();
         $this->removeBookingFees();
         $this->removeBookingRoomTypes();
+    }
+
+    private function removeBookingReservation() {
+        $this->waitForElement('#layout .delete-button-reservation', 30000, 'css')->click();
+        $this->waitForElement('#confirm_delete .btn_delete', 30000, 'css')->click();
+        $this->waitForElement('#layout #list-reservations', 30000, 'css');
     }
 
     private function removeBookingFees() {
@@ -135,6 +147,7 @@ class fees_and_taxes extends test_restrict {
 
     private $siteUrl = 'http://{server}/connect/{property_id}';
     private $bookingUrl = 'http://{server}/reservas/{property_reserva_code}';
+    private $bookingDoneUrl = 'http://{server}/reservation/confirmation';
     private $sourceUrl = 'http://{server}/connect/{property_id}#/sources';
 
     private $fees = array(
