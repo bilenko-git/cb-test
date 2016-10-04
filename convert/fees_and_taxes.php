@@ -74,7 +74,7 @@ class fees_and_taxes extends test_restrict {
         }
         $this->waitForElement(".general_info .book_now", 15000, 'css')->click();
         foreach($this->fees as $fee) {
-            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text());', 'args' => array()));
+            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text(), true);', 'args' => array()));
             $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
         }
     }
@@ -86,9 +86,7 @@ class fees_and_taxes extends test_restrict {
             '#last_name' => $this->reservation['last_name'],
             '#email' => $this->reservation['email'],
             '#phone' => $this->reservation['phone'],
-            '#country' => $this->reservation['country'],
-            // '.payment_method ' => [$this->reservation['payment'], false, true],
-            // '#agree_terms' => ['checked', false, true]
+            '#country' => $this->reservation['country']
         ), $context);
         $this->execJS('$("#ebanking").click();');
         $this->execJS('$("#agree_terms").click();');
@@ -96,9 +94,9 @@ class fees_and_taxes extends test_restrict {
     }
 
     private function checkBookingReservationTaxes() {
-        $this->waitForElement(".for_saved_items", 15000, 'css');
+        $this->waitForElement(".for_saved_items", 30000, 'css');
         foreach($this->fees as $fee) {
-            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".taxes_and_fees .row:contains(\''.$fee['name'].'\')").find(".sum").text());', 'args' => array()));
+            $fee_amount = $this->execute(array('script' => 'return CBBooking.parseCurrency($(".reserve_total .row.sub_fees:contains(\''.$fee['name'].'\')").find(".sum").text(), true);', 'args' => array()));
             $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
         }
     }
