@@ -18,7 +18,8 @@ class fees_and_taxes extends test_restrict {
         $this->checkBookingFees();
         $this->makeBookingReservation();
         $this->checkBookingReservationTaxes();
-        $this->goToReservation();
+        $this->goToTheReservation();
+        $this->checkFolioAfterBooking();
         $this->removeDataBooking();
     }
 
@@ -106,11 +107,19 @@ class fees_and_taxes extends test_restrict {
         }
     }
 
-    private function goToReservation() {
+    private function goToTheReservation() {
         $url = $this->_prepareUrl($this->siteUrl).'#/reservations/r'.$this->reservation_id;
         $this->url($url);
         $this->waitForLocation($url);
         $this->waitForBETLoaded();
+    }
+
+    private function checkFolioAfterBooking() {
+        $this->waitForElement('#rs-totals-container .rs-show-res-totals')->click();
+        foreach($this->fees as $fee) {
+            $fee_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($("#rs-totals-container .rs-totals-dropdown tr:contains(\''.$fee['name'].'\')").find(".price").text(), true);', 'args' => array()));
+            $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
+        }
     }
 
     private function removeDataBooking() {
