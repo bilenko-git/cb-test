@@ -10,16 +10,16 @@ class fees_and_taxes extends test_restrict {
 
     public function test_booking_page_calculations() {
         $this->setupInfo('PMS_user');
-        // $this->loginToSite();
-        // $this->prepareDataBooking();
-        // $this->loginToSite();
-        // $this->linkTaxesOnTheSourcePage();
+        $this->loginToSite();
+        $this->prepareDataBooking();
+        $this->loginToSite();
+        $this->linkTaxesOnTheSourcePage();
         $this->goToTheBookingPage();
         $this->checkBookingFees();
         $this->makeBookingReservation();
         $this->checkBookingReservationTaxes();
-        // $this->goToSite();
-        // $this->removeDataBooking();
+        $this->goToSite();
+        $this->removeDataBooking();
     }
 
     private function prepareDataBooking() {
