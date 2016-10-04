@@ -23,6 +23,17 @@ class fees_and_taxes extends test_restrict {
         $this->removeDataBooking();
     }
 
+    public function test_frontdesk_page_calculations() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->prepareDataBooking();
+        $this->loginToSite();
+        $this->linkTaxesOnTheSourcePage();
+        $this->makeFrontDeskReservation();
+        $this->checkFolioAfterBooking();
+        $this->removeDataBooking();
+    }
+
     private function prepareDataBooking() {
         $this->createBookingFees();
         $this->createBookingRoomTypes();
@@ -94,6 +105,54 @@ class fees_and_taxes extends test_restrict {
         $this->execJS('$(".finalize").click();');
     }
 
+    private function makeFrontDeskReservation() {
+        $this->startDate = date('Y-m-d', strtotime('next monday'));
+        $this->endDate = date('Y-m-d', strtotime('+10 day', strtotime($this->startDate)));
+        $this->execute(array('script' => "return BET.navigation.url('reservations/create');", 'args' => array()));
+        $this->waitForElement("#layout .sources-groups .dropdown-toggle", 15000, 'css')->click();
+        $this->waitForElement("#layout .sources-groups .dropdown-menu li:contains('Website')", 15000, 'jQ')->click();
+        $this->execJS('$("[name=\'checkin_date\']", "#layout .find-availability-stage .res-controls-header").val(BET.langs.date.format("'.$this->startDate.'"));');
+        $this->execJS('$("[name=\'checkout_date\']", "#layout .find-availability-stage .res-controls-header").val(BET.langs.date.format("'.$this->endDate.'"));');
+        $this->waitForElement('#layout .find-availability')->click();
+        foreach($this->room_types as $room_type) {
+            $this->waitForElement('#layout .rooms-content .availability-row');
+            $this->execute(array('script' => 'return $("#layout .rooms-content .availability-row:contains(\''.$room_type['name'].'\') .selected-rooms").addClass("open");', 'args' => array()));
+            $this->waitForElement(".selected-rooms li[data-original-index=2]", 15000, 'jQ')->click();
+            $this->execute(array('script' => 'return $("#layout .rooms-content .availability-row:contains(\''.$room_type['name'].'\') .selected-rooms").removeClass("open");', 'args' => array()));
+            $this->execute(array('script' => 'return $("#layout .rooms-content .availability-row:contains(\''.$room_type['name'].'\') .add-rooms-to-cart").click();', 'args' => array()));
+        }
+        $this->waitForElement('.totals-footer .total-item.fees i')->click();
+        foreach($this->fees as $fee) {
+            if ($fee['type_of'] == 'fee') {
+                $fee_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($(".fee-tax-tooltip-table tr:contains(\''.$fee['name'].'\')").find("td:eq(1)").text(), true);', 'args' => array()));
+                $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
+            }
+        }
+
+        $this->waitForElement('.totals-footer .total-item.taxes i')->click();
+        foreach($this->fees as $fee) {
+            if ($fee['type_of'] == 'tax') {
+                $fee_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($(".fee-tax-tooltip-table tr:contains(\''.$fee['name'].'\')").find("td:eq(1)").text(), true);', 'args' => array()));
+                $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
+            }
+        }
+
+        $this->waitForElement('.find-availability-footer .reservation-stage-forward')->click();
+        $this->execJS("$('#layout .customer-form #first_name_primary').val('".$this->reservation['first_name']."');");
+        $this->execJS("$('#layout .customer-form #last_name_primary').val('".$this->reservation['last_name']."');");
+        $this->execJS("$('#layout .customer-form #guest_email_primary').val('".$this->reservation['email']."');");
+        $this->waitForElement(".reservation-stage-forward[data-stage='confirm-and-pay']", 15000, 'jQ')->click();
+
+        foreach($this->fees as $fee) {
+            $fee_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($(".confirm-pay-totals .rs-totals-table tr:contains(\''.$fee['name'].'\')").find(".price").text(), true);', 'args' => array()));
+            $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
+        }
+
+        $this->execJS('$(".confirm-and-pay-footer .confirm-reservation:visible").click();');
+        $this->waitForElement(".confirm-reservation[data-send-email=0]", 15000, 'jQ')->click();
+        sleep(30);
+    }
+
     private function checkBookingReservationTaxes() {
         $this->waitForElement(".for_saved_items", 30000, 'css');
         $url = $this->_prepareUrl($this->bookingDoneUrl);
@@ -120,6 +179,8 @@ class fees_and_taxes extends test_restrict {
             $fee_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($("#rs-totals-container .rs-totals-dropdown tr:contains(\''.$fee['name'].'\')").find(".price").text(), true);', 'args' => array()));
             $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
         }
+        $this->waitForElement('#reservation-tabs [data-action-name="show_folio_tab"]')->click();
+        sleep(5);
     }
 
     private function removeDataBooking() {
