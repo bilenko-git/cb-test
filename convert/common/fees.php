@@ -6,6 +6,10 @@ trait Fees {
     private function fees_add($fee) {
         $this->execJS('window.$.scrollTo(0, 0);');
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
+        $exist_fee = $this->waitForElement("#layout .fees-and-taxes-table tr:contains('".$fee['name']."') .delete-tax", 1000, 'jQ');
+        if ($exist_fee) {
+            $this->fees_remove($fee['name']);
+        }
         $this->waitForElement('#layout .add-new-fee-or-tax', 15000, 'css')->click();
         $context = '#layout .add-fee-or-tax-portlet-box:not(.clonable) ';
         $this->fillForm(array(

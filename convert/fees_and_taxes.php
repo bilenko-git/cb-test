@@ -20,20 +20,19 @@ class fees_and_taxes extends test_restrict {
         $this->checkBookingReservationTaxes();
         $this->goToTheReservation();
         $this->checkFolioAfterBooking();
-        $this->removeBookingReservation();
+        $this->removeDataBooking();
+    }
+
+    public function test_frontdesk_page_calculations() {
+        $this->setupInfo('PMS_user');
+        $this->loginToSite();
+        $this->prepareDataBooking();
+        $this->loginToSite();
+        $this->linkTaxesOnTheSourcePage();
         $this->makeFrontDeskReservation();
         $this->checkFolioAfterBooking();
         $this->removeDataBooking();
     }
-
-    // public function test_frontdesk_page_calculations() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     // $this->prepareDataBooking();
-    //     // $this->loginToSite();
-    //     // $this->linkTaxesOnTheSourcePage();
-    //     // $this->removeDataBooking();
-    // }
 
     private function prepareDataBooking() {
         $this->createBookingFees();
