@@ -78,14 +78,16 @@ trait Rates {
         $this->waitForElement('.new_interval_form', 15000, 'jQ')->click();
         $value = $this->convertDateToSiteFormat($interval['start']);
         $el = $this->waitForElement('[name=start_date]', 15000, 'jQ');
-        $el->clear();
-        $el->value($value);
+        // $el->clear();
+        // $el->value($value);
+        $this->execJS('$(".new_interval_form [name=start_date]").val("'.$value.'");');
         $this->waitForElement('[name=end_date]', 15000, 'jQ')->click();
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
         $value = $this->convertDateToSiteFormat($interval['end']);
         $el = $this->waitForElement('[name=end_date]', 15000, 'jQ');
-        $el->clear();
-        $el->value($value);
+        // $el->clear();
+        // $el->value($value);
+        $this->execJS('$(".new_interval_form [name=end_date]").val("'.$value.'");');
         $this->waitForElement('.new_interval_form', 1500, 'jQ')->click();
 
         if (isset($interval['min'])){

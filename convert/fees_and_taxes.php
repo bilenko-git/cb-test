@@ -8,30 +8,49 @@ require_once 'common/inventory.php';
 class fees_and_taxes extends test_restrict {
     use \Fees, \Rates, \Inventory;
 
-    public function test_booking_page_calculations() {
-        $this->setupInfo('PMS_user');
+    // public function test_booking_page_calculations() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->prepareDataBooking();
+    //     $this->loginToSite();
+    //     $this->linkTaxesOnTheSourcePage();
+    //     $this->goToTheBookingPage();
+    //     $this->checkBookingFees();
+    //     $this->makeBookingReservation();
+    //     $this->checkBookingReservationTaxes();
+    //     $this->goToTheReservation();
+    //     $this->checkFolioAfterBooking();
+    //     $this->removeDataBooking();
+    // }
+    //
+    // public function test_frontdesk_page_calculations() {
+    //     $this->setupInfo('PMS_user');
+    //     $this->loginToSite();
+    //     $this->prepareDataBooking();
+    //     $this->loginToSite();
+    //     $this->linkTaxesOnTheSourcePage();
+    //     $this->makeFrontDeskReservation();
+    //     $this->checkFolioAfterBooking();
+    //     $this->removeDataBooking();
+    // }
+
+    public function test_transactions_calculations() {
+        $this->setupInfo('PMS_super_user');
         $this->loginToSite();
+        $this->goToSite();
         $this->prepareDataBooking();
         $this->loginToSite();
+        $this->goToSite();
         $this->linkTaxesOnTheSourcePage();
-        $this->goToTheBookingPage();
-        $this->checkBookingFees();
-        $this->makeBookingReservation();
-        $this->checkBookingReservationTaxes();
-        $this->goToTheReservation();
+        $this->makeFrontDeskReservation(true);
         $this->checkFolioAfterBooking();
         $this->removeDataBooking();
     }
 
-    public function test_frontdesk_page_calculations() {
-        $this->setupInfo('PMS_user');
-        $this->loginToSite();
-        $this->prepareDataBooking();
-        $this->loginToSite();
-        $this->linkTaxesOnTheSourcePage();
-        $this->makeFrontDeskReservation();
-        $this->checkFolioAfterBooking();
-        $this->removeDataBooking();
+    private function goToSite() {
+        $url = $this->_prepareUrl($this->siteUrl);
+        $this->url($url);
+        $this->waitForLocation($url);
     }
 
     private function prepareDataBooking() {
@@ -105,8 +124,8 @@ class fees_and_taxes extends test_restrict {
         $this->execJS('$(".finalize").click();');
     }
 
-    private function makeFrontDeskReservation() {
-        $this->startDate = date('Y-m-d', strtotime('next monday'));
+    private function makeFrontDeskReservation($is_super_user = false) {
+        $this->startDate = date('Y-m-d', strtotime('next monday', strtotime($is_super_user ? '-20 days' : 'today')));
         $this->endDate = date('Y-m-d', strtotime('+10 day', strtotime($this->startDate)));
         $this->execute(array('script' => "return BET.navigation.url('reservations/create');", 'args' => array()));
         $this->waitForElement("#layout .sources-groups .dropdown-toggle", 15000, 'css')->click();
@@ -180,7 +199,25 @@ class fees_and_taxes extends test_restrict {
             $this->assertEquals($fee['expecting_booking_value'], $fee_amount);
         }
         $this->waitForElement('#reservation-tabs [data-action-name="show_folio_tab"]')->click();
-        sleep(5);
+        $this->waitForElement(".rs-transactions-table tr", 15000, 'css');
+        $this->execJS('$("#rs-folio-tab-content .posted-or-not .bootstrap-select").addClass("open");');
+        $this->waitForElement("#rs-folio-tab-content .posted-or-not .bootstrap-select li[data-original-index=1]", 15000, 'jQ')->click();
+        $this->execJS('$("#rs-folio-tab-content .posted-or-not .bootstrap-select").removeClass("open");');
+        $this->waitForElement("#layout #apply-folio-filter")->click();
+        $this->waitForElement(".rs-transactions-table tr", 15000, 'css');
+        foreach($this->fees as $fee) {
+            $fee_assert = $this->execJS("
+                var assert_flag = true;
+                $('.rs-transactions-table tr:contains(\"".$fee['name']."\")').each(function(index, value) {
+                    var fee_amount = $(this).find('td.debit').text();
+                    if (parseFloat(fee_amount).toFixed(2) != parseFloat(\"".$fee['expecting_every_day_value']."\").toFixed(2)) {
+                        assert_flag = false;
+                    }
+                });
+                return assert_flag;
+            ");
+            $this->assertEquals($fee_assert, true);
+        }
     }
 
     private function removeDataBooking() {
@@ -228,7 +265,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'fee_percentage_inc' => array(
             'type_of' => 'fee',
@@ -237,7 +275,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_booking_value' => '400.00'
+            'expecting_booking_value' => '400.00',
+            'expecting_every_day_value' => '6,67'
         ),
         'fee_fixed_exl' => array(
             'type_of' => 'fee',
@@ -246,7 +285,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'fee_fixed_inc' => array(
             'type_of' => 'fee',
@@ -255,7 +295,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'fee_fixed_accm' => array(
             'type_of' => 'fee',
@@ -264,7 +305,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed_per_accomodation',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '60.00'
+            'expecting_booking_value' => '60.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'fee_fixed_res' => array(
             'type_of' => 'fee',
@@ -273,7 +315,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed_per_reservation',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '10.00'
+            'expecting_booking_value' => '10.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'tax_percentage_exl' => array(
             'type_of' => 'tax',
@@ -282,7 +325,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'tax_percentage_inc' => array(
             'type_of' => 'tax',
@@ -291,7 +335,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_booking_value' => '400.00'
+            'expecting_booking_value' => '400.00',
+            'expecting_every_day_value' => '6,67'
         ),
         'tax_fixed_exl' => array(
             'type_of' => 'tax',
@@ -300,7 +345,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'tax_fixed_inc' => array(
             'type_of' => 'tax',
@@ -309,7 +355,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_booking_value' => '600.00'
+            'expecting_booking_value' => '600.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'tax_fixed_accm' => array(
             'type_of' => 'tax',
@@ -318,7 +365,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed_per_accomodation',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '60.00'
+            'expecting_booking_value' => '60.00',
+            'expecting_every_day_value' => '10,00'
         ),
         'tax_fixed_res' => array(
             'type_of' => 'tax',
@@ -327,7 +375,8 @@ class fees_and_taxes extends test_restrict {
             'amount_type' => 'fixed_per_reservation',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_booking_value' => '10.00'
+            'expecting_booking_value' => '10.00',
+            'expecting_every_day_value' => '10,00'
         )
     );
 
@@ -346,7 +395,7 @@ class fees_and_taxes extends test_restrict {
     private $std_intervals = array(
         'i1' => array(
             'name' => 'rate 1',
-            'start' => '+0 day',
+            'start' => '-30 day',
             'end' => '+30 day',
             'value_today' => 100
         )
