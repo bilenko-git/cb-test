@@ -12,11 +12,11 @@ class room_revenue extends test_restrict {
     public function test_room_revenue() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-        $this->preparation();
+        /*$this->preparation();
 
         $this->RoomRevenue_with_default_taxes_and_fees();
         $this->RoomRevenue_with_customs_taxes_and_fees();
-        $this->RoomRevenue_without_taxes_and_fees();
+        $this->RoomRevenue_without_taxes_and_fees();*/
 
         $this->add_house_account();
         $this->HouseAccount_test_room_revenue_with_TX();
@@ -60,7 +60,7 @@ class room_revenue extends test_restrict {
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
 
 
-        $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl .dropup button').click();", 'args' => array()));
+        $this->execute(array('script' => "$('#ha_add_room_revenue_box .fees_and_taxes_tpl .dropup button').click(); return false;", 'args' => array()));
         for ($i = 0; $i < 6; $i++) {
             $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl li a')[".$i."].click();", 'args' => array()));
         }
