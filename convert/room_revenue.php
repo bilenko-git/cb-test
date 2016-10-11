@@ -7,8 +7,9 @@ require_once 'common/inventory.php';
 
 class room_revenue extends test_restrict {
     use \Fees, \Rates, \Inventory;
+    private $house_accounts_url = 'http://{server}/connect/{property_id}#/house_accounts';
 
-    public function test_room_revenue_reservation() {
+    public function test_room_revenue() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
         $this->preparation();
@@ -17,7 +18,102 @@ class room_revenue extends test_restrict {
         $this->RoomRevenue_with_customs_taxes_and_fees();
         $this->RoomRevenue_without_taxes_and_fees();
 
+        $this->add_house_account();
+        $this->HouseAccount_test_room_revenue_with_TX();
+        $this->HouseAccount_test_room_revenue_without_TX();
+
         $this->all_remove();
+    }
+
+    private function HouseAccount_test_room_revenue_with_TX() {
+        $this->house_add_room_revenue_with_TX();
+        $this->house_check_room_revenue($this->room_revenue['expecting_value'], $this->room_revenue['name']);
+        $this->house_check_room_revenue_with_taxes_and_fees();
+        $this->house_remove_room_revenue();
+    }
+
+    private function HouseAccount_test_room_revenue_without_TX() {
+        $this->house_add_room_revenue_without_TX();
+        $this->house_check_room_revenue($this->room_revenue['value'], $this->room_revenue['name']);
+        $this->house_remove_room_revenue();
+    }
+
+    private function house_check_room_revenue($amount, $name) {
+        $room_revenue_amount = $this->execute(array('script' => 'return $(".house-account-transactions tr td:contains(\'' . $name . '\')").last().closest("tr").find(".credit").text();', 'args' => array()));
+        $this->assertEquals($amount, $room_revenue_amount);
+        sleep(10);
+    }
+
+    private function house_remove_room_revenue() {
+        $el = $this->execute(array('script' => 'return window.$(".house-account-transactions tr td:contains('.$this->room_revenue['name'].')").closest("tr").find(".void-transaction").get(0);', 'args' => array()));
+        $el = $this->elementFromResponseValue($el);
+        $el->click();
+
+        $this->waitForElement("#void_ha_transaction .btn-void", 15000, 'jQ')->click();
+        sleep(5);
+    }
+
+    private function house_add_room_revenue_with_TX() {
+        $this->waitForElement(".add_or_adjust_charge i", 15000, 'css')->click();
+        $this->waitForElement(".add_or_adjust_charge .add-room-revenue-btn", 15000, 'css')->click();
+        $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->clear();
+        $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
+
+        for ($i = 0; $i < 6; $i++) {
+            $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl li a')[".$i."].click();", 'args' => array()));
+        }
+
+        $this->waitForElement("#ha_add_room_revenue_box .add_room_revenue", 15000, 'css')->click();
+        sleep(5);
+    }
+
+    private function house_add_room_revenue_without_TX() {
+        $this->waitForElement(".add_or_adjust_charge i", 15000, 'css')->click();
+        $this->waitForElement(".add_or_adjust_charge .add-room-revenue-btn", 15000, 'css')->click();
+        $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->clear();
+        $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
+
+        $this->waitForElement("#ha_add_room_revenue_box .add_room_revenue", 15000, 'css')->click();
+        sleep(10);
+    }
+
+    private function house_check_room_revenue_with_taxes_and_fees() {
+        foreach ($this->taxes_and_fees as $tax_or_fee) {
+            $this->house_check_taxes_and_fess($tax_or_fee);
+
+            if(!empty($tax_or_fee['tax_on_fee'])) {
+                foreach ($tax_or_fee['tax_on_fee'] as $tax_on_fee) {
+                    $this->house_check_taxes_and_fess($tax_on_fee);
+                }
+            }
+        }
+        sleep(10);
+    }
+
+    private function house_check_taxes_and_fess($tax_or_fee) {
+        $amount = $this->execJS("
+            var amount = '';
+            $('.house-account-transactions tr td:contains(\"".$tax_or_fee['name']."\")').each(function(index, value) {
+                var name_tax_or_fee = $(this).text();
+                if (name_tax_or_fee == \"".$tax_or_fee['name']."\") {
+                    amount = $(this).closest('tr').find('td.credit').text();
+                }
+            });
+            return amount;
+        ");
+
+        $this->assertEquals($amount, $tax_or_fee['expecting_room_revenue_value']);
+    }
+
+    private function add_house_account() {
+        $this->url($this->_prepareUrl($this->house_accounts_url));
+        $this->waitForLocation($this->_prepareUrl($this->house_accounts_url));
+        $this->betLoaderWaiting();
+        $this->waitForElement('.add-house-account-btn', 15000, 'jQ')->click();
+        $this->waitForElement('#house_account_name', 15000, 'jQ')->value('selenium test '.rand(0, 10000));
+        $this->waitForElement('.save_house_account', 15000, 'jQ')->click();
+        $this->betLoaderWaiting();
+        $this->waitForElement('.view_details:visible:last', 15000, 'jQ')->click();
     }
 
     private function all_remove() {
@@ -125,6 +221,7 @@ class room_revenue extends test_restrict {
     }
 
     private function remove_room_revenue($name) {
+        sleep(5);
         $el = $this->execute(array('script' => 'return window.$("#layout #rs-folio-tab-content tr td:contains('.$name.')").closest("tr").find(".show-popup-vs-dropdown").get(0);', 'args' => array()));
         $el = $this->elementFromResponseValue($el);
         $el->click();
@@ -137,6 +234,7 @@ class room_revenue extends test_restrict {
 
     private function check_invoices() {
         $this->waitForElement("#rs-totals-container button", 15000, 'jQ')->click();
+        sleep(3);
 
         foreach ($this->taxes_and_fees as $tax_or_fee) {
             $total = $this->execJS("
@@ -144,7 +242,7 @@ class room_revenue extends test_restrict {
                 $('#rs-totals-container .rs-totals-table tr td:contains(\"" . $tax_or_fee['name'] . "\")').each(function(index, value) {
                     var name_tax_or_fee = $(this).text();
                     if (name_tax_or_fee == \"" . $tax_or_fee['name'] . "\") {
-                        amount = BET.langs.parseCurrency($(this).closest('tr').find('td.price').text(), true);
+                        total = BET.langs.parseCurrency($(this).closest('tr').find('td.price').text(), true);
                     }
                 });
                 return total;
