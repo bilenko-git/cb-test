@@ -12,16 +12,37 @@ trait Fees {
         }
         $this->waitForElement('#layout .add-new-fee-or-tax', 15000, 'css')->click();
         $context = '#layout .add-fee-or-tax-portlet-box:not(.clonable) ';
-        $this->fillForm(array(
-            '#type_of' => $fee['type_of'],
+
+        $this->waitForElement($context . ' #type_of')->click();
+        $this->waitForElement($context . ' #type_of option[value="'.$fee['type_of'].'"]')->selected();
+        $this->waitForElement($context . ' #type_of option[value="'.$fee['type_of'].'"]')->click();
+
+        $fillForm = array(
             '#tax_name_en' => $fee['name'],
             '#amount' => [$fee['amount'], true],
             '.type_'.$fee['type'] => [$fee['type'], false, true],
-        ), $context);
+        );
+
+        $this->fillForm($fillForm, $context);
+
+
         $this->waitForElement($context . ' #amount_type')->click();
         $this->waitForElement($context . ' #amount_type option[value="'.$fee['amount_type'].'"]')->selected();
         $this->waitForElement($context . ' #amount_type option[value="'.$fee['amount_type'].'"]')->click();
         $this->waitForElement($context . ' #amount_type')->click();
+
+
+        if(!empty($fee['tax_on_fee'])) {
+            $this->waitForElement("#layout .add-fee-or-tax-portlet-box:not(.clonable) .tax_charge_fees input[value='Y'] + label", 15000, 'jQ')->click();
+
+            $this->waitForElement('#layout .add-fee-or-tax-portlet-box:not(.clonable) .ms-parent button', 15000, 'jQ')->click();
+            foreach ($fee['tax_on_fee'] as $type) {
+                if(!empty($type['type'])) {
+                    $this->waitForElement("#layout .add-fee-or-tax-portlet-box:not(.clonable) .ms-parent label:contains(".$type['type'].") .mselect-label", 15000, 'jQ')->click();
+                }
+            }
+        }
+
         $this->waitForElement('.submit-tax', 15000, 'css')->click();
         $this->waitForElement('.toast-close-button', 15000, 'css')->click();
     }
