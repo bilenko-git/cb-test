@@ -170,6 +170,7 @@ trait Rates {
             for($i = 0; $i < $cnt; $i++) {
                 $this->waitForElement('.nav-tabs a:contains(' . $type['name'] . ')', 15000, 'jQ')->click();
                 $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+                $this->waitForElement('#confirm_modal .btn_ok', 15000, 'jQ')->click();
             }
         }
 

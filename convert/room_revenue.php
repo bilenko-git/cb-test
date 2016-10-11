@@ -11,40 +11,56 @@ class room_revenue extends test_restrict {
     public function test_room_revenue_reservation() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-
-        /*
-                $this->createRoomType();
-                $this->createBookingIntervals();
-                $this->createBookingTaxes_and_Fees();
-                $this->linkTaxesOnTheSourcePage();
-                $this->create_reservation();
-
-                $this->create_room_revenue_with_custom_taxes_and_fees();
-                $this->create_room_revenue_with_default_taxes_and_fees();
-                $this->create_room_revenue_without_taxes_and_fees();
-        */
-
-
-        /*temporary*/
-        $this->url($this->_prepareUrl('http://{server}/connect/{property_id}#/fees_and_taxes'));
-        $this->waitForLocation($this->_prepareUrl('http://{server}/connect/{property_id}#/fees_and_taxes'));
-        /*end*/
-
-
-
-        //$this->all_remove();
-
-
-        $this->execute(array('script' => "return BET.navigation.url('reservations');", 'args' => array()));
-        $this->waitForElement(".reservations-table .res-guest a", 15000, 'jQ')->click();
-        $this->waitForElement('[href=\'#rs-folio-tab\']', 15000, 'jQ')->click();
-        sleep(3);
-
+        $this->preparation();
 
         $this->RoomRevenue_with_default_taxes_and_fees();
+        $this->RoomRevenue_with_customs_taxes_and_fees();
+        $this->RoomRevenue_without_taxes_and_fees();
+
+        $this->all_remove();
     }
 
-    private function create_room_revenue_with_custom_taxes_and_fees($amount) {
+    private function all_remove() {
+        $this->execute(array('script' => "return BET.navigation.url('reservations');", 'args' => array()));
+        $this->waitForElement(".reservations-table .res-action i", 15000, 'jQ')->click();
+        $this->waitForElement('#confirm_delete .btn_delete', 30000, 'css')->click();
+        sleep(5);
+
+        $this->fees_and_taxes_remove();
+        $this->rate_delAllRates($this->room_types);
+        $this->roomtype_delRoomType($this->rmt);
+        sleep(5);
+    }
+
+    private function RoomRevenue_with_default_taxes_and_fees() {
+        $this->create_room_revenue_with_default_taxes_and_fees($this->room_revenue['value']);
+        $this->check_room_revenue($this->room_revenue['name'], $this->room_revenue['expecting_value']);
+        $this->check_invoices();
+        $this->check_room_revenue_with_taxes_and_fees();
+        $this->remove_room_revenue($this->room_revenue['name']);
+    }
+
+    private function RoomRevenue_with_customs_taxes_and_fees() {
+        $this->create_room_revenue_with_customs_taxes_and_fees($this->room_revenue['value']);
+        $this->check_room_revenue($this->room_revenue['name'], $this->room_revenue['expecting_value']);
+        $this->check_invoices();
+        $this->check_room_revenue_with_taxes_and_fees();
+        $this->remove_room_revenue($this->room_revenue['name']);
+    }
+
+    private function RoomRevenue_without_taxes_and_fees() {
+        $this->create_room_revenue_without_taxes_and_fees($this->room_revenue['value']);
+        $this->check_room_revenue($this->room_revenue['name'], $this->room_revenue['value']);
+        $this->remove_room_revenue($this->room_revenue['name']);
+    }
+
+    private function create_room_revenue_without_taxes_and_fees($amount) {
+        $this->create_room_revenue($amount);
+        $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
+        sleep(10);
+    }
+
+    private function create_room_revenue_with_customs_taxes_and_fees($amount) {
         $this->create_room_revenue($amount);
 
         for ($i = 0; $i < 6; $i++) {
@@ -52,30 +68,8 @@ class room_revenue extends test_restrict {
         }
 
         $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
-        sleep(30);
+        sleep(10);
     }
-
-    private function create_room_revenue_without_taxes_and_fees($amount) {
-        $this->create_room_revenue($amount);
-        $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
-    }
-
-    private function RoomRevenue_with_default_taxes_and_fees() {
-        $this->create_room_revenue_with_default_taxes_and_fees($this->room_revenue['value']);
-        $this->check_room_revenue($this->room_revenue['name'], $this->room_revenue['expecting_value']);
-        $this->check_room_revenue_with_default_taxes_and_fees();
-        $this->remove_room_revenue($this->room_revenue['name']);
-    }
-
-
-
-
-
-
-
-
-
-
 
     private function create_room_revenue_with_default_taxes_and_fees($amount) {
         $this->create_room_revenue($amount);
@@ -89,7 +83,7 @@ class room_revenue extends test_restrict {
         $this->execute(array('script' => "return BET.navigation.url('reservations');", 'args' => array()));
         $this->waitForElement(".reservations-table .res-guest a", 15000, 'jQ')->click();
         $this->waitForElement('[href=\'#rs-folio-tab\']', 15000, 'jQ')->click();
-        sleep(3);
+        sleep(5);
         $this->waitForElement('#layout #rs-folio-tab-content .btn-group:eq(1)', 15000, 'jQ')->click();
         $this->waitForElement("#layout #rs-folio-tab-content .add-room-revenue-btn", 15000, 'css')->click();
         $this->waitForElement("#add-new-room-revenue-modal [name='amount']", 15000, 'jQ')->clear();
@@ -102,7 +96,7 @@ class room_revenue extends test_restrict {
         sleep(10);
     }
 
-    private function check_room_revenue_with_default_taxes_and_fees() {
+    private function check_room_revenue_with_taxes_and_fees() {
         foreach ($this->taxes_and_fees as $tax_or_fee) {
             $this->check_taxes_and_fess($tax_or_fee);
 
@@ -139,6 +133,26 @@ class room_revenue extends test_restrict {
         $this->waitForElement("#void_transaction .btn-add-new-product-save-void", 15000, 'jQ')->click();
 
         sleep(5);
+    }
+
+    private function check_invoices() {
+        $this->waitForElement("#rs-totals-container button", 15000, 'jQ')->click();
+
+        foreach ($this->taxes_and_fees as $tax_or_fee) {
+            $total = $this->execJS("
+                var total = '';
+                $('#rs-totals-container .rs-totals-table tr td:contains(\"" . $tax_or_fee['name'] . "\")').each(function(index, value) {
+                    var name_tax_or_fee = $(this).text();
+                    if (name_tax_or_fee == \"" . $tax_or_fee['name'] . "\") {
+                        amount = BET.langs.parseCurrency($(this).closest('tr').find('td.price').text(), true);
+                    }
+                });
+                return total;
+            ");
+
+            $this->assertEquals($total, $tax_or_fee['total']);
+        }
+        sleep(3);
     }
 
     private $room_types = array(
@@ -184,7 +198,8 @@ class room_revenue extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_room_revenue_value' => '1,20'
+            'expecting_room_revenue_value' => '1,20',
+            'total' => '11.20'
         ),
         'fee_percentage_inc' => array(
             'type_of' => 'fee',
@@ -192,7 +207,8 @@ class room_revenue extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_room_revenue_value' => '0,92'
+            'expecting_room_revenue_value' => '0,92',
+            'total' => '8.55'
         ),
         'tax_percentage_exl' => array(
             'type_of' => 'tax',
@@ -200,7 +216,8 @@ class room_revenue extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'exclusive',
-            'expecting_room_revenue_value' => '1,20'
+            'expecting_room_revenue_value' => '1,20',
+            'total' => '11.20'
         ),
         'tax_percentage_inc' => array(
             'type_of' => 'tax',
@@ -208,7 +225,8 @@ class room_revenue extends test_restrict {
             'amount_type' => 'percentage',
             'amount' => '10',
             'type' => 'inclusive',
-            'expecting_room_revenue_value' => '0,92'
+            'expecting_room_revenue_value' => '0,92',
+            'total' => '8.55'
         ),
         'tax_fixed_exl' => array(
             'type_of' => 'tax',
@@ -217,6 +235,7 @@ class room_revenue extends test_restrict {
             'amount' => '10',
             'type' => 'exclusive',
             'expecting_room_revenue_value' => '1,20',
+            'total' => '12.32',
             'tax_on_fee' => array(
                 array(
                     'name' => 'Tax Percentage Exc on Fee Percentage Exc->Fee Percentage Exc',
@@ -232,6 +251,7 @@ class room_revenue extends test_restrict {
             'amount' => '10',
             'type' => 'inclusive',
             'expecting_room_revenue_value' => '0,92',
+            'total' => '9.40',
             'tax_on_fee' => array(
                 array(
                     'name' => 'Tax Percentage Inc on Fee Percentage Inc->Fee Percentage Inc',
@@ -241,6 +261,14 @@ class room_revenue extends test_restrict {
             )
         ),
     );
+
+    private function preparation() {
+        $this->createRoomType();
+        $this->createBookingIntervals();
+        $this->createBookingTaxes_and_Fees();
+        $this->linkTaxesOnTheSourcePage();
+        $this->create_reservation();
+    }
 
     public function createRoomType(){
         $room_type_id = $this->roomtype_addRoomType($this->rmt);
@@ -252,8 +280,6 @@ class room_revenue extends test_restrict {
     }
 
     private function setDefaultRates($room_type) {
-        //$this->rate_delAllRates($room_type);
-
         foreach($this->std_intervals as $std_int) {
             $this->rate_addRate($std_int, $room_type);
         }
@@ -295,21 +321,19 @@ class room_revenue extends test_restrict {
         sleep(30);
     }
 
-    private function all_remove() {
-        $this->roomtype_delRoomType($this->rmt);
-
-        foreach ($this->taxes_and_fees as $taxes_and_fees) {
-            $this->fees_remove($taxes_and_fees['name']);
-        }
-    }
-
-    private function fees_remove($name) {
+    private function fees_and_taxes_remove() {
         $this->execute(array('script' => "return BET.navigation.url('fees_and_taxes');", 'args' => array()));
         $this->waitForElement('#layout .fees-and-taxes-table tr .delete-tax', 15000, 'css');
-        $this->byJQ("#layout .fees-and-taxes-table tr:contains('".$name."') .delete-tax")->click();
-        $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
-        $this->waitForElement('#confirm_modal .btn_ok', 15000, 'css')->click();
-        $this->waitForElement('#layout .fees-and-taxes-table', 15000, 'css');
-        sleep(5);
+
+        $cnt = $this->execute(array(
+            'script' => 'return $("#layout .fees-and-taxes-table .delete-tax").length;',
+            'args' => array()
+        ));
+
+        for ($i = $cnt-1; $i > -1; $i--) {
+            $this->execute(array('script' => "return $('#layout .fees-and-taxes-table .delete-tax')[".$i."].click();", 'args' => array()));
+            $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
+            $this->waitForElement('#layout .fees-and-taxes-table', 15000, 'css');
+        }
     }
 }
