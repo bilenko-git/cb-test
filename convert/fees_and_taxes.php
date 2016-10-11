@@ -8,31 +8,31 @@ require_once 'common/inventory.php';
 class fees_and_taxes extends test_restrict {
     use \Fees, \Rates, \Inventory;
 
-    // public function test_booking_page_calculations() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->prepareDataBooking();
-    //     $this->loginToSite();
-    //     $this->linkTaxesOnTheSourcePage();
-    //     $this->goToTheBookingPage();
-    //     $this->checkBookingFees();
-    //     $this->makeBookingReservation();
-    //     $this->checkBookingReservationTaxes();
-    //     $this->goToTheReservation();
-    //     $this->checkFolioAfterBooking();
-    //     $this->removeDataBooking();
-    // }
-    //
-    // public function test_frontdesk_page_calculations() {
-    //     $this->setupInfo('PMS_user');
-    //     $this->loginToSite();
-    //     $this->prepareDataBooking();
-    //     $this->loginToSite();
-    //     $this->linkTaxesOnTheSourcePage();
-    //     $this->makeFrontDeskReservation();
-    //     $this->checkFolioAfterBooking();
-    //     $this->removeDataBooking();
-    // }
+     public function test_booking_page_calculations() {
+         $this->setupInfo('PMS_user');
+         $this->loginToSite();
+         $this->prepareDataBooking();
+         $this->loginToSite();
+         $this->linkTaxesOnTheSourcePage();
+         $this->goToTheBookingPage();
+         $this->checkBookingFees();
+         $this->makeBookingReservation();
+         $this->checkBookingReservationTaxes();
+         $this->goToTheReservation();
+         $this->checkFolioAfterBooking();
+         $this->removeDataBooking();
+     }
+
+     public function test_frontdesk_page_calculations() {
+         $this->setupInfo('PMS_user');
+         $this->loginToSite();
+         $this->prepareDataBooking();
+         $this->loginToSite();
+         $this->linkTaxesOnTheSourcePage();
+         $this->makeFrontDeskReservation();
+         $this->checkFolioAfterBooking();
+         $this->removeDataBooking();
+     }
 
     public function test_transactions_calculations() {
         $this->setupInfo('PMS_super_user');
