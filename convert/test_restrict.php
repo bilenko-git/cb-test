@@ -16,8 +16,8 @@ class test_restrict extends WebDriverTestCase
     protected $logout_url = 'http://{server}/auth/logout';
     protected $logout_url_ma = 'http://{server_ma}/en/loggedOut';
     protected $cache_url = 'http://{server}/api/tests/getCache';
- //   protected $server_url = 'wwwdev.ondeficar.com';
-  //  protected $login = 'selenium@cloudbeds.com'; // selenium@cloudbeds.com for OTA
+    protected $server_url = 'wwwdev.ondeficar.com';
+    protected $login = 'selenium@cloudbeds.com'; // selenium@cloudbeds.com for OTA
     protected $password = 'testTime!';
     protected $cbApiLogin = 'ofc_front';
     protected $cbApiPass = 'H_6z5DpJ:H@5$';
