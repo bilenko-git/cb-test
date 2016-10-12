@@ -59,6 +59,8 @@ class room_revenue extends test_restrict {
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->clear();
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
 
+
+        $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl .dropup button').click();", 'args' => array()));
         for ($i = 0; $i < 6; $i++) {
             $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl li a')[".$i."].click();", 'args' => array()));
         }
