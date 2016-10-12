@@ -423,7 +423,7 @@ class room_revenue extends test_restrict {
         $this->waitForElement(".reservation-stage-forward[data-stage='confirm-and-pay']", 15000, 'jQ')->click();
         $this->execJS('$(".confirm-and-pay-footer .confirm-reservation:visible").click();');
         $this->waitForElement(".confirm-reservation[data-send-email=0]", 15000, 'jQ')->click();
-        sleep(30);
+        sleep(5);
     }
 
     private function fees_and_taxes_remove() {
@@ -437,8 +437,9 @@ class room_revenue extends test_restrict {
 
         for ($i = $cnt-1; $i > -1; $i--) {
             $this->execute(array('script' => "return $('#layout .fees-and-taxes-table .delete-tax')[".$i."].click();", 'args' => array()));
-            $this->waitForElement('#confirm_delete .btn_delete', 15000, 'css')->click();
-            $this->waitForElement('#layout .fees-and-taxes-table', 15000, 'css');
+            $this->waitForElement('#confirm_delete .btn_delete', 15000, 'jQ')->click();
+            $this->betLoaderWaiting();
+            /*$this->waitForElement('#layout .fees-and-taxes-table', 15000, 'css');*/
         }
     }
 }
