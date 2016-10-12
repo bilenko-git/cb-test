@@ -79,7 +79,7 @@ class room_revenue extends test_restrict {
 
         $this->execute(array('script' => "window.$('#ha_add_room_revenue_box .add_room_revenue').click(); return false;", 'args' => array()));
 
-        sleep(10);
+        sleep(5);
     }
 
     private function house_check_room_revenue_with_taxes_and_fees() {
@@ -92,7 +92,7 @@ class room_revenue extends test_restrict {
                 }
             }
         }
-        sleep(10);
+        sleep(5);
     }
 
     private function house_check_taxes_and_fess($tax_or_fee) {
@@ -158,7 +158,7 @@ class room_revenue extends test_restrict {
     private function create_room_revenue_without_taxes_and_fees($amount) {
         $this->create_room_revenue($amount);
         $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
-        sleep(10);
+        sleep(5);
     }
 
     private function create_room_revenue_with_customs_taxes_and_fees($amount) {
@@ -169,7 +169,7 @@ class room_revenue extends test_restrict {
         }
 
         $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
-        sleep(10);
+        sleep(5);
     }
 
     private function create_room_revenue_with_default_taxes_and_fees($amount) {
@@ -177,11 +177,12 @@ class room_revenue extends test_restrict {
 
         $this->execJS('$("#add-new-room-revenue-modal #checkbox-set_as_default").click();');
         $this->waitForElement("#add-new-room-revenue-modal #add-room-revenue-btn", 15000, 'css')->click();
-        sleep(10);
+        sleep(5);
     }
 
     private function create_room_revenue($amount) {
         $this->execute(array('script' => "return BET.navigation.url('reservations');", 'args' => array()));
+        sleep(5);
         $this->waitForElement(".reservations-table .res-guest a", 15000, 'jQ')->click();
         $this->waitForElement('[href=\'#rs-folio-tab\']', 15000, 'jQ')->click();
         sleep(5);
@@ -194,7 +195,7 @@ class room_revenue extends test_restrict {
     private function check_room_revenue($name, $amount) {
         $room_revenue_amount = $this->execute(array('script' => 'return BET.langs.parseCurrency($("#rs-folio-tab-content tr td:contains(\''.$name.'\')").closest("tr").find(".debit").text(), true);', 'args' => array()));
         $this->assertEquals($amount, $room_revenue_amount);
-        sleep(10);
+        sleep(5);
     }
 
     private function check_room_revenue_with_taxes_and_fees() {
