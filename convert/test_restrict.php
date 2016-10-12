@@ -32,9 +32,9 @@ class test_restrict extends WebDriverTestCase
         array(
             'browserName' => 'firefox',
             'desiredCapabilities' => array(
-                'version' => '48',
+                'version' => '42',
                 'platform' => 'Windows 8.1',
-                'seleniumVersion' => '2.53.1'
+                'seleniumVersion' => '2.48.0'
             )
         ),
         // run Chrome on Linux on Sauce
