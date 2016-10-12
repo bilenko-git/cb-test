@@ -12,11 +12,11 @@ class room_revenue extends test_restrict {
     public function test_room_revenue() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-       /* $this->preparation();
+        $this->preparation();
 
         $this->RoomRevenue_with_default_taxes_and_fees();
         $this->RoomRevenue_with_customs_taxes_and_fees();
-        $this->RoomRevenue_without_taxes_and_fees();*/
+        $this->RoomRevenue_without_taxes_and_fees();
 
         $this->add_house_account();
         $this->HouseAccount_test_room_revenue_with_TX();
