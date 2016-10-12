@@ -12,7 +12,7 @@ class room_revenue extends test_restrict {
     public function test_room_revenue() {
         $this->setupInfo('PMS_user');
         $this->loginToSite();
-        /*$this->preparation();
+       /* $this->preparation();
 
         $this->RoomRevenue_with_default_taxes_and_fees();
         $this->RoomRevenue_with_customs_taxes_and_fees();
@@ -41,13 +41,14 @@ class room_revenue extends test_restrict {
     private function house_check_room_revenue($amount, $name) {
         $room_revenue_amount = $this->execute(array('script' => 'return $(".house-account-transactions tr td:contains(\'' . $name . '\')").last().closest("tr").find(".credit").text();', 'args' => array()));
         $this->assertEquals($amount, $room_revenue_amount);
-        sleep(10);
+        sleep(5);
     }
 
     private function house_remove_room_revenue() {
-        $el = $this->execute(array('script' => 'return window.$(".house-account-transactions tr td:contains('.$this->room_revenue['name'].')").closest("tr").find(".void-transaction").get(0);', 'args' => array()));
-        $el = $this->elementFromResponseValue($el);
-        $el->click();
+        sleep(5);
+        $this->execute(array('script' => 'window.$(".house-account-transactions tr td:contains('.$this->room_revenue['name'].')").closest("tr").find(".void-transaction").click(); return false', 'args' => array()));
+      /*  $el = $this->elementFromResponseValue($el);
+        $el->click();*/
 
         $this->waitForElement("#void_ha_transaction .btn-void", 15000, 'jQ')->click();
         sleep(5);
@@ -60,12 +61,13 @@ class room_revenue extends test_restrict {
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
 
 
-        $this->execute(array('script' => "$('#ha_add_room_revenue_box .fees_and_taxes_tpl .dropup button').click(); return false;", 'args' => array()));
+        $this->execute(array('script' => "window.$('#ha_add_room_revenue_box .fees_and_taxes_tpl .dropup button').click(); return false;", 'args' => array()));
         for ($i = 0; $i < 6; $i++) {
-            $this->execute(array('script' => "return $('#ha_add_room_revenue_box .fees_and_taxes_tpl li a')[".$i."].click();", 'args' => array()));
+            $this->execute(array('script' => "window.$('#ha_add_room_revenue_box .fees_and_taxes_tpl li a')[".$i."].click(); return false;", 'args' => array()));
         }
 
-        $this->waitForElement("#ha_add_room_revenue_box .add_room_revenue", 15000, 'jQ')->click();
+        $this->execute(array('script' => "window.$('#ha_add_room_revenue_box .add_room_revenue').click(); return false;", 'args' => array()));
+        // $this->waitForElement("#ha_add_room_revenue_box .add_room_revenue", 15000, 'jQ')->click();
         sleep(5);
     }
 
@@ -75,7 +77,8 @@ class room_revenue extends test_restrict {
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->clear();
         $this->waitForElement("#ha_add_room_revenue_box [name='amount']", 15000, 'jQ')->value($this->room_revenue['value']);
 
-        $this->waitForElement("#ha_add_room_revenue_box .add_room_revenue", 15000, 'css')->click();
+        $this->execute(array('script' => "window.$('#ha_add_room_revenue_box .add_room_revenue').click(); return false;", 'args' => array()));
+
         sleep(10);
     }
 
