@@ -43,17 +43,17 @@ class add_interval_for_ma extends base_rates{
         $i=2;
         foreach($rate_obj as $key => $el) {
             print_r("+++++++++++++++++");
-            $avail = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td['.$i.']/input[1]', 15000, 'xpath');
+            $avail = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td['.$i.']/input[1]', 15000, 'xpath');
             $test->assertEquals($avail->value(), $el->avail);
-            $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td['.$i.']/input[2]', 15000, 'xpath');
+            $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td['.$i.']/input[2]', 15000, 'xpath');
             $test->assertEquals($rate->value(), $el->rate);
-            $min = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td['.$i.']/input[3]', 15000, 'xpath');
+            $min = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td['.$i.']/input[3]', 15000, 'xpath');
             $test->assertEquals($min->value(), $el->min_los);
-            $max = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td['.$i.']/input[4]', 15000, 'xpath');
+            $max = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td['.$i.']/input[4]', 15000, 'xpath');
             $test->assertEquals($max->value(), $el->max_los);
-            $arrival = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/div[2]/input', 15000, 'xpath');
+            $arrival = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/div[2]/input', 15000, 'xpath');
             $test->assertEquals($this->isChecked($arrival), 1);
-            $depart = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/div[3]/input', 15000, 'xpath');
+            $depart = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/div[3]/input', 15000, 'xpath');
             $test->assertEquals($this->isChecked($depart), 1);
             print_r("+++++++++++++++++");
             $i++;
