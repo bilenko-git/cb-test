@@ -58,7 +58,7 @@ class change_rate_on_one_day extends base_rates{
         $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
         $el->click();
         $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
 
         $test->assertEquals($rate->value(), $this->price);
         $this->delRate();
@@ -66,7 +66,7 @@ class change_rate_on_one_day extends base_rates{
         $el = $this->waitForElement('.menu-item-availability a', 15000, 'css');
         $el->click();
         $this->waitForElement('.availTableWrapper', 15000, 'css');
-        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[8]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
+        $rate = $this->waitForElement('/html/body/div[2]/div/div/div/div[9]/div[3]/table/tbody/tr[1]/td[2]/input[2]', 15000, 'xpath');
         $test->assertEquals($rate->value(), '0');
     }
 
