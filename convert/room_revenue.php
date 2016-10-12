@@ -251,6 +251,7 @@ class room_revenue extends test_restrict {
             $this->assertEquals($total, $tax_or_fee['total']);
         }
         sleep(3);
+        $this->waitForElement("#rs-totals-container button", 15000, 'jQ')->click();
     }
 
     private $room_types = array(
