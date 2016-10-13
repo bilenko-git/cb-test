@@ -32,13 +32,14 @@ class additional_payment_methods extends test_restrict
         $this->waitForElement('#layout .payment-options-tabs', 15000, 'css');
         $this->waitForElement('#layout .payment-options-tabs li:eq(3) a', 15000, 'jQ')->click();
         $this->waitForElement('#layout .add_payment_methods', 15000, 'css')->click();
+        $this->waitForElement('[name=new_payment_method_name]', 15000, 'jQ')->value('custom_se_payment');
         //$this->byJQ('.modal_additional_payment_methods #new_payment_method_name')->value($this->payment_method_name['name']);
         $this->waitForElement('.modal_additional_payment_methods .modal-footer .btn-primary', 15000, 'jQ')->click();
 
         $this->betLoaderWaiting();
 
-        $this->waitForElement('#layout .table_additional_payment_methods tbody tr', 15000, 'css');
-        $this->payment_method_name =  $this->byJQ('#layout .table_additional_payment_methods tbody tr:last .name_method')->text();
+       // $this->waitForElement('#layout .table_additional_payment_methods tbody tr', 15000, 'css');
+        $this->payment_method_name =  'custom_se_payment'; //$this->byJQ('#layout .table_additional_payment_methods tbody tr:last .name_method')->text();
 
       /*  if ($record == $this->payment_method_name['name']) {
 
@@ -116,7 +117,7 @@ class additional_payment_methods extends test_restrict
         $this->waitForElement('#layout .payment-options-tabs li:eq(3) a', 15000, 'jQ')->click();
 
         $this->assertEquals($this->payment_method_name,$this->waitForElement('.name_method:visible:last', 1500, 'jQ')->text());
-        $this->waitForElement('.table_additional_payment_methods tr:visible:last td:last i', 15000, 'jQ')->click();
+        $this->waitForElement('.additional-payment-methods-table td:last i', 15000, 'jQ')->click();
         $this->waitForElement('#modal_additional_payment_method_delete', 15000, 'jQ');
         $this->waitForElement('#modal_additional_payment_method_delete .btn_delete', 15000, 'jQ')->click();
         $this->betLoaderWaiting();
