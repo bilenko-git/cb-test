@@ -11,7 +11,10 @@ trait Inventory {
 
         $this->url($this->_prepareUrl($this->inventory_url));
         $this->waitForLocation($this->_prepareUrl($this->inventory_url));
-        $this->waitForElement('.add-room-type-btn', 15000, 'css')->click();
+        sleep(2);
+        $this->execute(array('script' => "window.$('.add-room-type-btn').click(); return false;", 'args' => array()));
+
+      //  $this->waitForElement('.add-room-type-btn', 15000, 'jQ')->click();
         $el = $this->waitForElement('[name^=\'room_type_title_langs\']', 15000, 'jQ');
         $el->click();
         $el->value($room_type['name']);
@@ -36,15 +39,10 @@ trait Inventory {
         $this->waitForLocation($this->_prepareUrl($this->inventory_url));
 
         if ($room_type) {
-            $cnt = $this->execute(array(
-                'script' => 'return $(\'.nav-tabs a:contains(' . $room_type['name'] . ')\').length;',
-                'args' => array()
-            ));
-            for($i = 0; $i < $cnt; $i++) {
-                $this->waitForElement('.nav-tabs a:contains(' . $room_type['name'] . ')', 15000, 'jQ')->click();
-                $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
-                $this->waitForElement('.modal-apply-modification .btn_ok', 15000, 'jQ')->click();
-            }
+            $this->waitForElement('.nav-tabs a:contains(' . $room_type['name'] . ')', 15000, 'jQ')->click();
+            $this->waitForElement('.nav-tabs li .remove-tab', 15000, 'jQ')->click();
+            $this->waitForElement('.modal-apply-modification .btn_ok', 15000, 'jQ')->click();
+            sleep(2);
         }
 
         if(!$room_type || $cnt > 0)
