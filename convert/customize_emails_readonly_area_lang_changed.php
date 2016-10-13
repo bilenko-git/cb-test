@@ -35,6 +35,10 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
             $this->change_language($lang);
             $this->checkReadOnlySectionLang($lang);
         }
+        $this->execute(array(
+            'script' => "window.$('html, body').animate({scrollTop: '0'}, 0);",
+            'args' => array()
+        ));
         $this->waitForElement('.dd.ddcommon', 5000, 'jQ', true)->click();
         sleep(1);
         $this->execute(array(
@@ -82,7 +86,20 @@ class customize_emails_readonly_area_lang_changed extends test_restrict
             'script' => "window.$('.ddChild').scrollTop($('li[title=\'".$lang['id']."\']').position().top);",
             'args' => array()
         ));
-        $this->waitForElement('li[title="'.$lang['id'].'"]')->click();
+        $el = $this->waitForElement('li[title="'.$lang['id'].'"]');
+        if (!$el){
+            $this->execute(array(
+                'script' => "window.$('html, body').animate({scrollTop: '0'}, 0);",
+                'args' => array()
+            ));
+            $this->waitForElement('.dd.ddcommon', 5000, 'jQ', true)->click();
+            $this->execute(array(
+                'script' => "window.$('.ddChild').scrollTop($('li[title=\'".$lang['id']."\']').position().top);",
+                'args' => array()
+            ));
+            $el = $this->waitForElement('li[title="'.$lang['id'].'"]');
+        }
+        $el->click();
     }
 
     public function checkReadOnlySectionLang($lang){
