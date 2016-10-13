@@ -45,7 +45,6 @@ trait Inventory {
             sleep(2);
         }
 
-        if(!$room_type || $cnt > 0)
-            $this->save();
+        $this->save();
     }
 }
