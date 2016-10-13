@@ -66,6 +66,7 @@ trait Packages {
     }
 
     public function packages_add_package_range($range, $is_derived) {
+        // wee have same method in pacckage common file
         $this->waitForElement('.btn.date_range', 15000)->click();
 
         $form = $this->waitForElement('.portlet.add_interval', 10000);
@@ -76,12 +77,15 @@ trait Packages {
                 if(!in_array($selector, $skip)) {
                     if(strpos($selector, 'date') !== FALSE){
                         $value = $this->convertDateToSiteFormat($value);
+                        print_r($value.'~~~~~~~~~~~~~~~~~~~');
                     }
 
                     $input = $form->byName($selector);
                     $input->click();
-                    $form->click();
+                    //$form->click();
+                    $input->clear();
                     $input->value($value);
+                    $form->click();
                 }
             }
 
@@ -98,7 +102,6 @@ trait Packages {
                 if (empty($rm_type['room_type_capacity'])) unset($rm_types[$index]);
             }
 
-
             // TODO:   $rm_type_index = rand(0, 1000) % count($rm_types);????????
             //  $rm_type_index = rand(0, 1000) % count($rm_types);
             $rm_type = $rm_types[0];
@@ -109,7 +112,9 @@ trait Packages {
             echo "rm_type_id = ".$rm_type_id.PHP_EOL;
             $avail_button = $this->waitForElement('[name=\'available_room_types\'] + div > button', 15000, 'jQ');
             $avail_button->click();//open
-            $room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\'] + label', 16000, 'jQ')->click();
+            //$room_type_checkbox = $this->waitForElement('[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\']', 16000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("[data-name=\'selectItemavailable_room_types\'][value=\''.$rm_type_id.'\']").click(); return true;','args' => array()));
+
             $avail_button->click();//close
             $form->click();
 
@@ -128,7 +133,9 @@ trait Packages {
                 }
             }
 
-            $this->waitForElement('.save_add_interval', 5000, 'jQ')->click();
+            $this->execute(array('script' => 'window.$("#layout .save_add_interval").click(); return true;','args' => array()));
+
+            //  $this->waitForElement('#layout .save_add_interval', 5000, 'jQ')->click();
         } else {
             $this->fail('room type id can not be selected');
         }
@@ -137,12 +144,16 @@ trait Packages {
     }
 
     public function packages_upload_package_photo() {
-        $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload');
+        $upload_button = $this->waitForElement('#layout .package-uploader > .myimg_upload', 10000, 'jQ');
         $upload_button->click();
+
         $modal = $this->waitForElement('#photo_upload_modal', 7000);
+
         $this->uploadFileToElement('body > input[type=\'file\']', __DIR__ .'/../files/cloudbeds-logo-250x39.png');
+
         $btns = $this->waitForElement('#photo_upload_modal .btn.done', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
         $btns->click();//click Done
+
         $btns = $this->waitForElement('#photo_upload_modal .save-uploader', 30000);//$modal->elements($this->using('css selector')->value('.btn.done'));
         $btns->click();//click Save & Continue;
     }

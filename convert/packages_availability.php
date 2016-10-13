@@ -741,6 +741,7 @@ class packages_availability extends base_rates{
     }
 
     public function addPackageRange($range, $is_derived) {
+        // wee have same method in pacckage common file
         $this->waitForElement('.btn.date_range', 15000)->click();
 
         $form = $this->waitForElement('.portlet.add_interval', 10000);
